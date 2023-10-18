@@ -27,5 +27,12 @@ class AppServiceProvider extends ServiceProvider
     {
 //        $footer_setting = FooterSetting::all();
 //        View::hasMacro('footer_setting', $footer_setting);
+//        View::composer(['profile', 'homepage'], function ($view) {
+//            $view->with('NAME_VIEW_SHARE', 'Trương thanh hùng');
+//        });
+
     }
+
+
+
 }

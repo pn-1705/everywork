@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\City;
+use App\Models\DanhMucNganhNghe;
+use App\Models\Job;
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use function back;
 use function redirect;
 use function view;
@@ -15,35 +21,35 @@ class UserController extends Controller
 {
     public function quen_mk_view()
     {
-    	if(Session('id')==null) {
-    		return view('user.pages.quen_mk');
-    	} else {
-    		return redirect()->intended('/');
-    	}
+        if (Session('id') == null) {
+            return view('user.pages.quen_mk');
+        } else {
+            return redirect()->intended('/');
+        }
     }
 
     public function doi_mk_view()
     {
-    	if(Session('id')==null) {
-    		return redirect()->intended('/login');
-    	} else {
-    		$result = DB::table('nguoidung')->where('id', Session('id'))->first();
-    		return view('user.pages.doi_mk', ['email'=>$result->email]);
-    	}
+        if (Session('id') == null) {
+            return redirect()->intended('/login');
+        } else {
+            $result = DB::table('nguoidung')->where('id', Session('id'))->first();
+            return view('user.pages.doi_mk', ['email' => $result->email]);
+        }
     }
 
     public function doi_mk(Request $rq)
-    {        
+    {
         // kiểm tra mật khẩu cũ
-        if(Session()->get('id') != null) {
+        if (Session()->get('id') != null) {
             $result = DB::table('nguoidung')->where('email', $rq->email)->first();
-            if(md5($rq->password_old) != $result->password) {
-                return view('user.pages.doi_mk', ['error'=>'Mật khẩu cũ không đúng', 'email'=>$rq->email]);
+            if (md5($rq->password_old) != $result->password) {
+                return view('user.pages.doi_mk', ['error' => 'Mật khẩu cũ không đúng', 'email' => $rq->email]);
             }
         }
         // kiểm tra mật khẩu mới
-        if($rq->password != $rq->password_kt) {
-            return view('user.pages.doi_mk', ['error'=>'Mật khẩu xác nhận không đúng', 'email'=>$rq->email]);
+        if ($rq->password != $rq->password_kt) {
+            return view('user.pages.doi_mk', ['error' => 'Mật khẩu xác nhận không đúng', 'email' => $rq->email]);
         } else {
             $password = md5($rq->password);
             $updated = DB::update('update nguoidung set password = ? where email = ?', [$password, $rq->email]);
@@ -53,43 +59,43 @@ class UserController extends Controller
 
     public function user_inf()
     {
-        if(Session()->get('id') == null)
+        if (Session()->get('id') == null)
             return redirect()->intended('/login');
         else {
             $result = DB::table('nguoidung')->where('id', Session()->get('id'))->first();
-            return view('user.pages.information', ['user'=>$result]);
+            return view('user.pages.information', ['user' => $result]);
         }
     }
 
     public function user_inf_edid(Request $rq)
-    {        
+    {
         DB::table('nguoidung')
-                ->where('id', Session()->get('id'))
-                ->update([  'Ho' => $rq->ho,
-                            'Ten' => $rq->ten,
-                            'SDT' => $rq->sdt,
-                            'GioiTinh' => $rq->gt,
-                            'id_tinh' => $rq->id_tinh,
-                            'DiaChi' => $rq->dia_chi
-                        ]);
+            ->where('id', Session()->get('id'))
+            ->update(['Ho' => $rq->ho,
+                'Ten' => $rq->ten,
+                'SDT' => $rq->sdt,
+                'GioiTinh' => $rq->gt,
+                'id_tinh' => $rq->id_tinh,
+                'DiaChi' => $rq->dia_chi
+            ]);
         return back()->with('mes', 'Sửa đổi thông tin thành công');
     }
 
     public function don_mua()
-    {        
-        if(Session()->get('id') == null)
+    {
+        if (Session()->get('id') == null)
             return redirect()->intended('/login');
         else {
             $result = DB::table('hoadon')
-                        ->where('MaND', Session()->get('id'))
-                        ->orderBy('id', 'desc')
-                        ->get();
-            return view('user.pages.don_mua', ['don_mua'=>$result]);
+                ->where('MaND', Session()->get('id'))
+                ->orderBy('id', 'desc')
+                ->get();
+            return view('user.pages.don_mua', ['don_mua' => $result]);
         }
     }
 
     public function in_don_hang($id_hd)
-    {        
+    {
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($this->in_don_hang_noi_dung($id_hd));
         return $pdf->stream();
@@ -101,26 +107,103 @@ class UserController extends Controller
         $van_chuyen = $nguoi_dung->id_tinh = 15 ? 20000 : 35000;
 
         $sp_thanh_toan = DB::table('chitiethoadon')->where('MaHD', $id_hd)->get();
-        $san_pham=array();
+        $san_pham = array();
         $gia = 0;
         $i = 0;
         foreach ($sp_thanh_toan as $value) {
             $sp = DB::table('sanpham')->where('id', $value->MaSP)->first();
             $khuyen_mai = DB::table('khuyenmai')->where('id', $sp->KM_id)->first();
             $sl = $value->SoLuong;
-            $gia += $sp->DonGia*$sl;
-            
+            $gia += $sp->DonGia * $sl;
+
 
             $san_pham[$i]['ten'] = $sp->TenSP;
             $san_pham[$i]['DonGia'] = $sp->DonGia;
             $san_pham[$i]['so_luong'] = $sl;
-            if($khuyen_mai->don_vi == 'VNĐ') {
-                $san_pham[$i]['khuyen_mai'] = $khuyen_mai->GiaTriKM*$sl;
+            if ($khuyen_mai->don_vi == 'VNĐ') {
+                $san_pham[$i]['khuyen_mai'] = $khuyen_mai->GiaTriKM * $sl;
             } else {
-                $san_pham[$i]['khuyen_mai'] = ($sp->DonGia*$khuyen_mai->GiaTriKM/100)*$sl;
+                $san_pham[$i]['khuyen_mai'] = ($sp->DonGia * $khuyen_mai->GiaTriKM / 100) * $sl;
             }
-            $i++;    
+            $i++;
         }
-        return view('user.pages.xuat_hoa_don', ['id_hd'=>$id_hd, 'nguoi_dung'=>$nguoi_dung, 'san_pham'=>$san_pham, 'gia'=>$gia, 'van_chuyen'=>$van_chuyen]);
+        return view('user.pages.xuat_hoa_don', ['id_hd' => $id_hd, 'nguoi_dung' => $nguoi_dung, 'san_pham' => $san_pham, 'gia' => $gia, 'van_chuyen' => $van_chuyen]);
+    }
+
+    //mới
+    public function vieclam_page()
+    {
+        $city = City::all()->where('trangthai', 1);
+        $work = DanhMucNganhNghe::all()->where('trangthai', 1);
+
+
+        $jobs = DB::table('table_jobs')
+            ->join('table_danhmucnganhnghe', 'table_jobs.id_nganhnghe', '=', 'table_danhmucnganhnghe.id')
+            ->join('table_capbac', 'table_jobs.id_capbac', '=', 'table_capbac.id')
+            ->join('table_salary', 'table_jobs.id_mucluong', '=', 'table_salary.id')
+            ->join('table_nhatuyendung', 'table_jobs.id_nhatuyendung', '=', 'table_nhatuyendung.id')
+            ->where('table_jobs.trangthai', 1)
+            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.tenkhongdau', 'table_nhatuyendung.ten', 'table_salary.luong')
+            ->get();
+//        dd($jobs);
+        return view('user.pages.user.vieclam')->with('danhmucnganhnghe', $work)->with('city', $city)->with('jobs', $jobs);
+    }
+
+    public function viewDetailJob($tencongviec)
+    {
+//        dd($id);
+        //$job = Job::find($tencongviec)->get();
+        $city = City::all()->where('trangthai', 1);
+        $work = DanhMucNganhNghe::all()->where('trangthai', 1);
+
+
+        $jobs = DB::table('table_jobs')->where('table_jobs.trangthai', 1)
+            ->join('table_danhmucnganhnghe', 'table_jobs.id_nganhnghe', '=', 'table_danhmucnganhnghe.id')
+            ->join('table_capbac', 'table_jobs.id_capbac', '=', 'table_capbac.id')
+            ->join('table_salary', 'table_jobs.id_mucluong', '=', 'table_salary.id')
+            ->join('table_nhatuyendung', 'table_jobs.id_nhatuyendung', '=', 'table_nhatuyendung.id')
+            ->get();
+//        dd($jobs);
+        return view('user.pages.user.viewDetailJob')/*->with('danhmucnganhnghe', $work)->with('city', $city)->with('jobs', $jobs)*/ ;
+    }
+
+    public function viewInformation()
+    {
+        if (isset(Auth::user()->id)) {
+            $user = Auth::user();
+//            dd($user);
+            return view('user.pages.user.information')->with('info', $user);
+        } else {
+            return redirect()->intended('login');
+        }
+    }
+
+    public function updateInformation(Request $request)
+    {
+//            dd(Carbon::now()->toDateTimeString());
+        $user = Auth::user();
+        if ($user) {
+            if ($request->has('fileAvatar')) {
+                $file = $request->fileAvatar;
+                $extension = $request->fileAvatar->extension();
+                $filename = time() . '-avatar.' . $extension;
+                $file->move(public_path('avatar'), $filename);
+                $user->avatar = $filename;
+            }
+            $user->ten = $request->ten;
+            $user->phone = $request->phone;
+            $user->diachi = $request->diachi;
+            $user->ngaysinh = $request->ngaysinh;
+            $user->gioitinh = $request->gioitinh;
+            $user->updated_at = Carbon::now()->toDateTimeString();
+
+            $user->save();
+        }
+        return view('user.pages.user.information');
+    }
+
+    public function home_page()
+    {
+        return view('user.layout');
     }
 }

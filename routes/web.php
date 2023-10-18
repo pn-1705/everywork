@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -13,19 +14,47 @@ use Laravel\Socialite\Facades\Socialite;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', 'User\HomeController@index')->name('user.index');
+Route::get('/', 'User\UserController@home_page')->name('user.pages.home');
+Route::get('/home', 'User\UserController@home_page')->name('user.pages.home');
+
 
 //Route::get('/user/inf', 'User\UserController@user_inf')->name('user.inf');
 //Route::post('/user/inf/edid', 'User\UserController@user_inf_edid')->name('user_inf_edid');
 //Route::get('/user/don_mua', 'User\UserController@don_mua')->name('don_mua');
 
-Route::get('/login', 'User\LoginController@load_login_page')->name('user.pages.login_page');
-Route::post('/login', 'User\LoginController@user_login')->name('login');
+Route::get('/login', 'User\LoginController@view_loginpage')->name('user.pages.login_page');
+Route::post('/post_login', 'User\LoginController@post_login')->name('user.post_login');
+Route::get('/logout', 'User\LoginController@logout')->name('logout');
 
-Route::get('/dang_ki', 'User\LoginController@user_dang_ki_view')->name('dang_ki_view');
-Route::post('/dang_ki', 'User\LoginController@user_dang_ki')->name('dang_ki');
+Route::get('/viec-lam', 'User\UserController@vieclam_page')->name('user.pages.viec-lam');
+Route::get('/viec-lam/{id}', 'User\UserController@viewDetailJob')->name('user.pages.viewDetailJob');
 
-Route::get('/logout', 'User\LoginController@user_logout')->name('logout');
+Route::post('/post_register', 'User\LoginController@post_register')->name('user.post_register');
+Route::get('/active/{token}', 'User\LoginController@active_acount')->name('user.active_acount');
+Route::get('/testMail', 'User\LoginController@sendMail')/*->name('user.post_register')*/;
+Route::get('auth/google', 'User\LoginController@redirectToGoogle')->name('login-by-google');
+Route::get('auth/google/callback', 'User\LoginController@handleGoogleCallback');
+
+Route::get('/register', 'User\LoginController@get_register')->name('user.pages.register_page');
+Route::post('/register', 'User\LoginController@post_register')->name('user.post_register');
+
+
+//Ứng viên tìm việc làm
+Route::group(['middleware' => 'checkUserRole', 'prefix' => 'user'], function () {
+    Route::get('/thong-tin-ca-nhan', 'User\UserController@viewInformation')->name('information');
+    Route::post('/update_information', 'User\UserController@updateInformation')->name('update_information');
+});
+
+// Nhà tuyển dụng
+
+Route::group(['middleware' => 'checkEmployerRole', 'prefix' => 'employer'], function () {
+    Route::get('/hrcentral', 'User\EmployerController@view_hrcentral')->name('employer.view_hrcentral');
+    Route::get('/postJob', 'User\EmployerController@view_postJob')->name('employer.view_postJob');
+    Route::post('/postJob', 'User\EmployerController@postJob')->name('employer.postJob');
+});
+
+
+
 
 Route::get('/quen_mk/view', 'User\UserController@quen_mk_view')->name('quen_mk_view');
 Route::get('/doi_mk', 'User\UserController@doi_mk_view')->name('doi_mk_view');
@@ -63,72 +92,73 @@ Route::get('/admin', 'Admin\LoginController@index')->name('admin.login');
 Route::get('/admin/login', 'Admin\LoginController@index')->name('admin.login');
 Route::post('/admin/login', 'Admin\LoginController@login')->name('admin.login');
 
-Route::group(['middleware' => 'checklogin'/*, 'namespace' => 'admin'*/], function () {
-    Route::get('/admin/dashboard', 'Admin\HomeController@dashboard')->name('admin.dashboard');
-    Route::get('/admin/logout', 'Admin\LoginController@logout')->name('admin.logout');
+Route::group(['middleware' => 'checklogin', 'prefix' => 'admin'], function () {
+    Route::get('/dashboard', 'Admin\HomeController@dashboard')->name('admin.dashboard');
+    Route::get('/logout', 'Admin\LoginController@logout')->name('admin.logout');
 
-    Route::get('/admin/product', ['as' => 'admin.product.index', 'uses' => 'Admin\ProductController@index']);
-    Route::get('/admin/product/add', ['as' => 'admin.product.add', 'uses' => 'Admin\ProductController@addProduct']);
-    Route::post('/admin/product/add', ['as' => 'admin.product.save', 'uses' => 'Admin\ProductController@addProductPost']);
-    Route::get('/admin/product/edit/{id}', ['as' => 'admin.product.edit', 'uses' => 'Admin\ProductController@edit']);
-    Route::post('/admin/product/edit/{id}', ['as' => 'admin.product.edit', 'uses' => 'Admin\ProductController@update']);
-    Route::get('/admin/product/destroy/{id}', ['as' => 'admin.product.getDestroy', 'uses' => 'Admin\ProductController@destroy']);
-    Route::get('/admin/product/{id}', ['as' => 'admin.product', 'uses' => 'Admin\ProductController@cate_product']);
-    Route::get('/admin/product/active/{id}', ['as' => 'admin.product.active', 'uses' => 'Admin\ProductController@active']);
+    Route::get('/product', ['as' => 'admin.product.index', 'uses' => 'Admin\ProductController@index']);
+    Route::get('/product/add', ['as' => 'admin.product.add', 'uses' => 'Admin\ProductController@addProduct']);
+    Route::post('/product/add', ['as' => 'admin.product.save', 'uses' => 'Admin\ProductController@addProductPost']);
+    Route::get('/product/edit/{id}', ['as' => 'admin.product.edit', 'uses' => 'Admin\ProductController@edit']);
+    Route::post('/product/edit/{id}', ['as' => 'admin.product.edit', 'uses' => 'Admin\ProductController@update']);
+    Route::get('/product/destroy/{id}', ['as' => 'admin.product.getDestroy', 'uses' => 'Admin\ProductController@destroy']);
+    Route::get('/product/{id}', ['as' => 'admin.product', 'uses' => 'Admin\ProductController@cate_product']);
+    Route::get('/product/active/{id}', ['as' => 'admin.product.active', 'uses' => 'Admin\ProductController@active']);
 
 
-    Route::get('/admin/category', ['as' => 'admin.category.index', 'uses' => 'Admin\CateController@index']);
-    Route::get('/admin/category/add', ['as' => 'admin.category.add', 'uses' => 'Admin\CateController@addCate']);
-    Route::post('/admin/category/add', ['as' => 'admin.category.save', 'uses' => 'Admin\CateController@addCatePost']);
-    Route::get('/admin/category/edit/{id}', ['as' => 'admin.category.edit', 'uses' => 'Admin\CateController@edit']);
-    Route::post('/admin/category/edit/{id}', ['as' => 'admin.category.edit', 'uses' => 'Admin\CateController@update']);
-    Route::get('/admin/category/destroy/{id}', ['as' => 'admin.category.getDestroy', 'uses' => 'Admin\CateController@destroy']);
+    Route::get('/category', ['as' => 'admin.category.index', 'uses' => 'Admin\CateController@index']);
+    Route::get('/category/add', ['as' => 'admin.category.add', 'uses' => 'Admin\CateController@addCate']);
+    Route::post('/category/add', ['as' => 'admin.category.save', 'uses' => 'Admin\CateController@addCatePost']);
+    Route::get('/category/edit/{id}', ['as' => 'admin.category.edit', 'uses' => 'Admin\CateController@edit']);
+    Route::post('/category/edit/{id}', ['as' => 'admin.category.edit', 'uses' => 'Admin\CateController@update']);
+    Route::get('/category/destroy/{id}', ['as' => 'admin.category.getDestroy', 'uses' => 'Admin\CateController@destroy']);
 
-    Route::get('/admin/brand', ['as' => 'admin.brand.index', 'uses' => 'Admin\BrandController@index']);
-    Route::get('/admin/brand/add', ['as' => 'admin.brand.add', 'uses' => 'Admin\BrandController@addBrand']);
-    Route::post('/admin/brand/add', ['as' => 'admin.brand.save', 'uses' => 'Admin\BrandController@addBrandPost']);
-    Route::get('/admin/brand/edit/{id}', ['as' => 'admin.brand.edit', 'uses' => 'Admin\BrandController@edit']);
-    Route::post('/admin/brand/edit/{id}', ['as' => 'admin.brand.edit', 'uses' => 'Admin\BrandController@update']);
-    Route::get('/admin/brand/destroy/{id}', ['as' => 'admin.brand.getDestroy', 'uses' => 'Admin\BrandController@destroy']);
+    Route::get('/brand', ['as' => 'admin.brand.index', 'uses' => 'Admin\BrandController@index']);
+    Route::get('/brand/add', ['as' => 'admin.brand.add', 'uses' => 'Admin\BrandController@addBrand']);
+    Route::post('/brand/add', ['as' => 'admin.brand.save', 'uses' => 'Admin\BrandController@addBrandPost']);
+    Route::get('/brand/edit/{id}', ['as' => 'admin.brand.edit', 'uses' => 'Admin\BrandController@edit']);
+    Route::post('/brand/edit/{id}', ['as' => 'admin.brand.edit', 'uses' => 'Admin\BrandController@update']);
+    Route::get('/brand/destroy/{id}', ['as' => 'admin.brand.getDestroy', 'uses' => 'Admin\BrandController@destroy']);
 
     //khuyến mãi
-    Route::get('/admin/discount', ['as' => 'admin.discount.index', 'uses' => 'Admin\DiscountController@index']);
-    Route::get('/admin/discount/add', ['as' => 'admin.discount.add', 'uses' => 'Admin\DiscountController@addDiscount']);
-    Route::post('/admin/discount/add', ['as' => 'admin.discount.save', 'uses' => 'Admin\DiscountController@addDiscountPost']);
-    Route::get('/admin/discount/edit/{id}', ['as' => 'admin.discount.edit', 'uses' => 'Admin\DiscountController@edit']);
-    Route::post('/admin/discount/edit/{id}', ['as' => 'admin.discount.edit', 'uses' => 'Admin\DiscountController@update']);
-    Route::get('/admin/discount/destroy/{id}', ['as' => 'admin.discount.getDestroy', 'uses' => 'Admin\DiscountController@destroy']);
+    Route::get('/discount', ['as' => 'admin.discount.index', 'uses' => 'Admin\DiscountController@index']);
+    Route::get('/discount/add', ['as' => 'admin.discount.add', 'uses' => 'Admin\DiscountController@addDiscount']);
+    Route::post('/discount/add', ['as' => 'admin.discount.save', 'uses' => 'Admin\DiscountController@addDiscountPost']);
+    Route::get('/discount/edit/{id}', ['as' => 'admin.discount.edit', 'uses' => 'Admin\DiscountController@edit']);
+    Route::post('/discount/edit/{id}', ['as' => 'admin.discount.edit', 'uses' => 'Admin\DiscountController@update']);
+    Route::get('/discount/destroy/{id}', ['as' => 'admin.discount.getDestroy', 'uses' => 'Admin\DiscountController@destroy']);
 
-    Route::get('/admin/order', ['as' => 'admin.order.index', 'uses' => 'Admin\OrderController@index']);
-    Route::get('/admin/order/add', ['as' => 'admin.order.add', 'uses' => 'Admin\OrderController@addOrder']);
+    Route::get('/order', ['as' => 'admin.order.index', 'uses' => 'Admin\OrderController@index']);
+    Route::get('/order/add', ['as' => 'admin.order.add', 'uses' => 'Admin\OrderController@addOrder']);
 //    Route::post('/admin/order/add', ['as' => 'admin.order.save', 'uses' => 'Admin\OrderController@addOrderPost']);
-    Route::get('/admin/order/detail/{id}', ['as' => 'admin.order.detail', 'uses' => 'Admin\OrderController@detail']);
-    Route::get('/admin/order/edit/{id}', ['as' => 'admin.order.edit', 'uses' => 'Admin\OrderController@edit']);
-    Route::post('/admin/order/edit/{id}', ['as' => 'admin.order.edit', 'uses' => 'Admin\OrderController@update']);
+    Route::get('/order/detail/{id}', ['as' => 'admin.order.detail', 'uses' => 'Admin\OrderController@detail']);
+    Route::get('/order/edit/{id}', ['as' => 'admin.order.edit', 'uses' => 'Admin\OrderController@edit']);
+    Route::post('/order/edit/{id}', ['as' => 'admin.order.edit', 'uses' => 'Admin\OrderController@update']);
 //    Route::get('/admin/order/detail/destroy/{id}', ['as' => 'admin.order.getDestroy', 'uses' => 'Admin\OrderController@destroy']);
-    Route::get('/admin/order/action/{id}', ['as' => 'admin.order.action', 'uses' => 'Admin\OrderController@action']);
-    Route::get('/admin/order/cancel/{id}', ['as' => 'admin.order.cancel', 'uses' => 'Admin\OrderController@cancel']);
-    Route::get('/admin/order/returns/{id}', ['as' => 'admin.order.returns', 'uses' => 'Admin\OrderController@returns']);
-    Route::get('/admin/order/del_product/{MaSP}/{MaHD}', ['as' => 'admin.order.getDestroy', 'uses' => 'Admin\OrderController@destroy']);
-    Route::get('/admin/order/detail/{MaSP}/{MaHD}/{sl}', 'Admin\OrderController@change_sl');
+    Route::get('/order/action/{id}', ['as' => 'admin.order.action', 'uses' => 'Admin\OrderController@action']);
+    Route::get('/order/cancel/{id}', ['as' => 'admin.order.cancel', 'uses' => 'Admin\OrderController@cancel']);
+    Route::get('/order/returns/{id}', ['as' => 'admin.order.returns', 'uses' => 'Admin\OrderController@returns']);
+    Route::get('/order/del_product/{MaSP}/{MaHD}', ['as' => 'admin.order.getDestroy', 'uses' => 'Admin\OrderController@destroy']);
+    Route::get('/order/detail/{MaSP}/{MaHD}/{sl}', 'Admin\OrderController@change_sl');
 
 //
-    Route::get('/admin/user', ['as' => 'admin.user.index', 'uses' => 'Admin\UserController@index']);
-    Route::get('/admin/user/add', ['as' => 'admin.user.add', 'uses' => 'Admin\UserController@addUser']);
-    Route::post('/admin/user/add', ['as' => 'admin.user.save', 'uses' => 'Admin\UserController@addUserPost']);
-    Route::get('/admin/user/edit/{id}', ['as' => 'admin.user.edit', 'uses' => 'Admin\UserController@edit']);
-    Route::post('/admin/user/edit/{id}', ['as' => 'admin.user.edit', 'uses' => 'Admin\UserController@update']);
-    Route::get('/admin/user/destroy/{id}', ['as' => 'admin.user.getDestroy', 'uses' => 'Admin\UserController@destroy']);
+    Route::get('/user', ['as' => 'admin.user.index', 'uses' => 'Admin\UserController@index']);
+    Route::get('/user/add', ['as' => 'admin.user.add', 'uses' => 'Admin\UserController@addUser']);
+    Route::post('/user/add', ['as' => 'admin.user.save', 'uses' => 'Admin\UserController@addUserPost']);
+    Route::get('/user/edit/{id}', ['as' => 'admin.user.edit', 'uses' => 'Admin\UserController@edit']);
+    Route::post('/user/edit/{id}', ['as' => 'admin.user.edit', 'uses' => 'Admin\UserController@update']);
+    Route::get('/user/destroy/{id}', ['as' => 'admin.user.getDestroy', 'uses' => 'Admin\UserController@destroy']);
 });
-Route::get('chinh-sach-rieng-tu', function () {
-    return '<h1>Chính sách riêng tư</h1>';
-});
-Route::get('auth/facebook', function () {
-    return Socialite::driver('facebook')->redirect();
-});
-Route::get('auth/facebook/callback', function () {
-    return 'Callback Login Facebook';
-});
+
+//Login facebook
+Route::get('/login-facebook','User\LoginController@login_facebook');
+Route::get('/callback','User\LoginController@callback_facebook');
+
+//Lấy danh mục nghề
+Route::get('/danhmuc','Admin\CateController@lay_cate');
+Route::get('/city','Admin\CateController@lay_city');
+
+
 
 
 

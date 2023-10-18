@@ -54,30 +54,53 @@
                         </div>
                     </div>
                     <div class="col-md-6">
+                        @if(session('no'))
+                            <div style="margin: 0px; padding: 0.5rem 1.25rem" class="alert alert-danger">
+                                {{session('no')}}
+                            </div>
+                        @endif
+                        @if(session('yes'))
+                            <div style="margin: 0px; padding: 0.5rem 1.25rem" class="alert alert-success">
+                                {{session('yes')}}
+                            </div>
+                        @endif
                         <div class="main-form">
                             <ul class="list-tabs">
-                                <li class="active"> <a href="javascript:void(0);" title="Đăng nhập">Đăng nhập</a></li>
-                                <li> <a href="https://careerbuilder.vn/vi/jobseekers/register" title="Đăng ký">Đăng ký</a></li>
+                                <li class="active"> <a href="{{ route('user.pages.login_page') }}" title="Đăng nhập">Đăng nhập</a></li>
+                                <li> <a href="{{ route('user.pages.register_page') }}" title="Đăng ký">Đăng ký</a></li>
                             </ul>
                             <div class="choose-follow">
-                                <p>Đăng nhập bằng</p>
                                 <ul class="list-follow">
                                     <li><a class="fb" href="javascript:void(0);" onclick="popupapi('facebook','aHR0cHM6Ly9jYXJlZXJidWlsZGVyLnZuL3ZpL2pvYnNlZWtlcnMvbG9naW5mYWNlYm9vaw==');"><em class="bi bi-facebook"></em>Facebook</a></li>
-                                    <li><a class="gg" href="javascript:void(0);" onclick="popupapi('google','aHR0cHM6Ly9jYXJlZXJidWlsZGVyLnZuL3ZpL2pvYnNlZWtlcnMvbG9naW5nb29nbGU=');"><em class="bi bi-google"></em>Google</a></li>
+                                    <li><a class="gg" href="{{ route('login-by-google') }}" onclick="popupapi('google','aHR0cHM6Ly9jYXJlZXJidWlsZGVyLnZuL3ZpL2pvYnNlZWtlcnMvbG9naW5nb29nbGU=');"><em class="bi bi-google"></em>Google</a></li>
                                 </ul>
                             </div>
                             <div class="or-line"><span>hoặc </span></div>
                             <div class="form-login">
-                                <form name="frmLogin" id="frmLogin" method="POST" action="https://careerbuilder.vn/vi/jobseekers/login" autocomplete="off">
+                                <form name="frmLogin" method="POST" action="{{ route('user.post_login') }}">
+                                    @csrf
+{{--                                    <div class="">--}}
+
+{{--                                        <?php--}}
+{{--                                        $message = session()->get('error');--}}
+{{--                                        if ($message) {--}}
+{{--                                            echo '<span class="text-danger">' . $message . '</span>';--}}
+{{--                                            Session::put('error', null);--}}
+{{--                                        }--}}
+{{--                                        ?>--}}
+{{--                                    </div>--}}
+                                    @if(session('error'))
+                                        <div style="margin: 0px; padding: 0.5rem 1.25rem" class="alert alert-danger">
+                                            {{session('error')}}
+                                        </div>
+                                    @endif
                                     <div class="form-group form-text">
-                                        <input type="text" id="username" name="username" value=""  onkeyup="this.setAttribute('value', this.value);" autocomplete="off">
+                                        <input type="text" id="email" name="email" value="" onkeyup="this.setAttribute('value', this.value);">
                                         <label for="">Vui lòng nhập email</label>
-                                        <span class="error_username"></span>
                                     </div>
                                     <div class="form-group form-text toggle-password">
-                                        <input type="password" name="password" id="password" onkeyup="this.setAttribute('value', this.value);" value="" autocomplete="off">
+                                        <input type="password" name="password" id="password" value="" onkeyup="this.setAttribute('value', this.value);">
                                         <label for="">Vui lòng nhập mật khẩu</label>
-                                        <span class="error_password"></span>
                                         <div class="showhide-password eyess" ></div>
                                     </div>
                                     <div class="form-group form-checkbox">

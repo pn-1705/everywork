@@ -20,6 +20,7 @@
     <link href="{{url('public/frontend')}}/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
     <link href="{{url('public/frontend')}}/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="{{url('public/frontend')}}/css/style.css" rel="stylesheet">
+    <link href="{{url('public/frontend')}}/css/global.css" rel="stylesheet">
 
     <!-- =======================================================
     * Template Name: BizLand

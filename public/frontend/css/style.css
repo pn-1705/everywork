@@ -278,11 +278,10 @@ h6 {
 .navbar .dropdown ul {
     display: block;
     position: absolute;
-    left: 28px;
     top: calc(100% + 30px);
     margin: 0;
     padding: 10px 0;
-    z-index: 99;
+    z-index: 1000;
     opacity: 0;
     visibility: hidden;
     background: #fff;
@@ -1073,6 +1072,8 @@ section {
     }
 }
 
+/*Job*/
+
 /*--------------------------------------------------------------
 # Portfolio
 --------------------------------------------------------------*/
@@ -1185,7 +1186,6 @@ section {
 # Portfolio Details
 --------------------------------------------------------------*/
 .portfolio-details {
-    padding-top: 40px;
 }
 
 .portfolio-details .portfolio-details-slider img {
