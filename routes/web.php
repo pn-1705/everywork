@@ -50,7 +50,8 @@ Route::group(['middleware' => 'checkUserRole', 'prefix' => 'user'], function () 
 Route::group(['middleware' => 'checkEmployerRole', 'prefix' => 'employer'], function () {
     Route::get('/hrcentral', 'User\EmployerController@view_hrcentral')->name('employer.view_hrcentral');
     Route::get('/postJob', 'User\EmployerController@view_postJob')->name('employer.view_postJob');
-    Route::post('/postJob', 'User\EmployerController@postJob')->name('employer.postJob');
+    Route::post('/', 'User\EmployerController@postJob')->name('employer.postJob');
+    Route::get('/hrcentral/viewjob/{id}', 'User\EmployerController@viewDetailJob')->name('employer.view_detailJob');
 });
 
 
