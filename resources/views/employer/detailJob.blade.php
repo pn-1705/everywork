@@ -154,12 +154,54 @@
                                             <h4 class="detail-title">Phúc lợi</h4>
                                             <div class="full-content">
                                                 <ul>
-                                                    <li> Chế độ bảo hiểm</li>
-                                                    <li> Du Lịch</li>
-                                                    <li> Chế độ thưởng</li>
-                                                    <li> Chăm sóc sức khỏe</li>
-                                                    <li> Đào tạo</li>
-                                                    <li> Tăng lương</li>
+                                                    <?php $list_benefits = \App\Models\Benefit::all()->where('id_phucloi', $job->phucloi)->first() ?>
+                                                    @if($list_benefits != null)
+                                                        @if($list_benefits -> chedobaohiem == 1)
+                                                            <li>Chế độ bảo hiểm</li>
+                                                        @endif
+                                                        @if($list_benefits -> dulich == 1)
+                                                            <li>Du lịch</li>
+                                                        @endif
+                                                        @if($list_benefits -> chedothuong == 1)
+                                                            <li>Chế độ thưởng</li>
+                                                        @endif
+                                                        @if($list_benefits -> chamsocsuckhoe == 1)
+                                                            <li>Chăm sóc sức khỏe</li>
+                                                        @endif
+                                                        @if($list_benefits -> daotao == 1)
+                                                            <li>Đào tạo</li>
+                                                        @endif
+                                                        @if($list_benefits -> tangluong == 1)
+                                                            <li>Tăng lương</li>
+                                                        @endif
+                                                        @if($list_benefits -> laptop == 1)
+                                                            <li>Laptop</li>
+                                                        @endif
+                                                        @if($list_benefits -> phucap == 1)
+                                                            <li>Phụ cấp</li>
+                                                        @endif
+                                                        @if($list_benefits -> xeduadon == 1)
+                                                            <li>Xe đưa đón</li>
+                                                        @endif
+                                                        @if($list_benefits -> dulichnuocngoai == 1)
+                                                            <li>Du lịch nước ngoài</li>
+                                                        @endif
+                                                        @if($list_benefits -> dongphuc == 1)
+                                                            <li>Đồng phục</li>
+                                                        @endif
+                                                        @if($list_benefits -> congtacphi == 1)
+                                                            <li>Công tác phí</li>
+                                                        @endif
+                                                        @if($list_benefits -> phucapthuongnien == 1)
+                                                            <li>Phụ cấp thường niên</li>
+                                                        @endif
+                                                        @if($list_benefits -> nghiphepnam	 == 1)
+                                                            <li>Nghĩ phép năm</li>
+                                                        @endif
+                                                        @if($list_benefits -> clbthethao == 1)
+                                                            <li>CLB thể thao</li>
+                                                        @endif
+                                                    @endif
                                                 </ul>
                                             </div>
                                             <h4 class="detail-title">Mô tả công việc</h4>

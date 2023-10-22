@@ -163,10 +163,13 @@
                                                                title="Chi tiết"><em
                                                                     class="material-icons">visibility </em></a></li>
                                                         <li>
-                                                            <a href="" title="Nhân bản"><em class="material-icons">content_copy </em>
+                                                            <a href="{{ route('employer.duplicatedJob', $list ->id) }}"
+                                                               title="Nhân bản"><em
+                                                                    class="material-icons">content_copy </em>
                                                             </a></li>
                                                         <li>
-                                                            <a href="" title="Sửa"><em
+                                                            <a href="{{ route('employer.view_updateJob', $list->id) }}"
+                                                               title="Sửa"><em
                                                                     class="material-icons">created</em></a>
                                                         </li>
                                                         <li class="end">

@@ -32,7 +32,8 @@
                                         <div class="col-lg-6">
                                             <div class="form-group form-text">
                                                 <input type="text" class="keyword form-text"
-                                                       name="tencongviec" value="" onblur="loadTagKey()"
+                                                       name="tencongviec" value="{{ $job -> tencongviec }}"
+                                                       onblur="loadTagKey()"
                                                        placeholder="Chức danh tuyển dụng" autocomplete="off">
                                                 @error('tencongviec')
                                                 <span class="form-error">{{ $message }}</span>
@@ -61,7 +62,11 @@
                                                     $listJobs = DanhMucNganhNghe::all()->where('trangthai', 1)
                                                     ?>
                                                     @foreach($listJobs as $jobs)
-                                                        <option value="{{$jobs->id}}">{{$jobs->tendaydu}}</option>
+                                                        <option
+                                                            @if($jobs->id == $job -> id)
+                                                            selected
+                                                            @endif
+                                                            value="{{$jobs->id}}">{{$jobs->tendaydu}}</option>
                                                     @endforeach
                                                 </select>
                                                 <span class="form-error"></span>
@@ -85,6 +90,9 @@
                                                             ?>
                                                             @foreach($listCitys as $jobs)
                                                                 <option
+                                                                    @if($jobs->id == $job -> noilamviec)
+                                                                    selected
+                                                                    @endif
                                                                     value="{{$jobs->id}}">{{$jobs->tendaydu}}</option>
                                                             @endforeach
                                                         </select>
@@ -98,6 +106,7 @@
                                                         <label>Địa chỉ làm việc <font
                                                                 style="color: red">*</font></label>
                                                         <input type="text" name="diachilamviec"
+                                                               value="{{ $job -> diachilamviec }}"
                                                                placeholder="Đia chỉ công ty, chi nhánh, nơi làm việc...">
                                                         @error('diachilamviec')
                                                         <span class="form-error">{{ $message }}</span>
@@ -110,7 +119,8 @@
 
                                     <div class="form-group">
                                         <label>Mô Tả Công Việc <font style="color: red">*</font></label>
-                                        <textarea cols="80" rows="5" name="mota" class=""></textarea>
+                                        <textarea cols="80" rows="5" name="mota"
+                                                  class="">{{ $job -> mota }}</textarea>
                                         @error('mota')
                                         <span class="form-error">{{ $message }}</span>
                                         @enderror
@@ -120,7 +130,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Yêu cầu công việc <font style="color: red">*</font></label>
-                                        <textarea cols="80" rows="5" name="yeucau" class=""></textarea>
+                                        <textarea cols="80" rows="5" name="yeucau"
+                                                  class="">{{ $job -> yeucau }}</textarea>
                                         @error('yeucau')
                                         <span class="form-error">{{ $message }}</span>
                                         @enderror
@@ -134,18 +145,31 @@
                                             <div class="form-salary d-flex align-center">
                                                 <div class="form-group">
                                                     <select name="donvitien">
-                                                        <option value="vnd">VNĐ</option>
-                                                        <option value="usd">USD</option>
+                                                        <option
+                                                            @if($job -> donvitien == 'vnd')
+                                                            selected
+                                                            @endif
+                                                            value="vnd">VNĐ
+                                                        </option>
+
+                                                        <option
+                                                            @if($job -> donvitien == 'usd')
+                                                            selected
+                                                            @endif
+                                                            value="usd">USD
+                                                        </option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group form-text">
                                                     <input type="text" name="minluong"
-                                                           maxlength="12" value="" onblur="checkAlertSalary();"
+                                                           maxlength="12" value="{{ $job -> minluong }}"
+                                                           onblur="checkAlertSalary();"
                                                            placeholder="Tối Thiểu *">
                                                 </div>
                                                 <div class="form-group form-text">
                                                     <input type="text" name="maxluong" id="salary_to" maxlength="12"
-                                                           value="" onblur="checkAlertSalary();" placeholder="Tối Đa *">
+                                                           value="{{ $job -> maxluong }}" onblur="checkAlertSalary();"
+                                                           placeholder="Tối Đa *">
                                                 </div>
                                                 <span class="form-error" id="error_salary"
                                                       style="width: 100%;max-width: none;flex: 1;"></span>
@@ -157,10 +181,23 @@
                                             <label for="">Hình thức <font style="color: red">*</font></label>
                                             <div class="form-group">
                                                 <select name="hinhthuc">
-                                                    <option value="1">Nhân viên chính thức</option>
-                                                    <option value="2">Bán thời gian</option>
-                                                    <option value="3">Thời vụ - Nghề tự do</option>
-                                                    <option value="4">Thực tập</option>
+                                                    <option
+                                                        {{ $job->hinhthuc == 1 ? 'selected' : '' }}
+                                                        value="1">Nhân viên chính thức
+                                                    </option>
+                                                    <option
+                                                        {{ $job->hinhthuc == 2 ? 'selected' : '' }}
+
+                                                        value="2">Bán thời gian
+                                                    </option>
+                                                    <option
+                                                        {{ $job->hinhthuc == 3 ? 'selected' : '' }}
+                                                        value="3">Thời vụ - Nghề tự do
+                                                    </option>
+                                                    <option
+                                                        {{ $job->hinhthuc == 4 ? 'selected' : '' }}
+                                                        value="4">Thực tập
+                                                    </option>
                                                 </select>
                                             </div>
                                             <span class="form-error" id="error_salary"
@@ -173,7 +210,8 @@
                                                 <label>Hạn nhận hồ sơ <font style="color: red">*</font></label>
                                                 <input type="date" name="hannhanhoso"
                                                        min="{{ \Carbon\Carbon::now()->toDateString() }}"
-                                                       class="dates_cus_select_postjob required" value="">
+                                                       class="dates_cus_select_postjob required"
+                                                       value="{{ $job -> hannhanhoso }}">
                                                 @error('hannhanhoso')
                                                 <span class="form-error">{{ $message }}</span>
                                                 @enderror                                            </div>
@@ -183,12 +221,12 @@
                                 <h2 class="title-application">Phúc lợi</h2>
                                 <div class="checkbox-wrap">
                                     <div class="row">
-                                        <?php $listBenefits = \App\Models\BenefitName::all() ?>
+                                        <?php $listBenefits = \App\Models\Benefit::all() ?>
                                         @foreach($listBenefits as $list)
                                             <div class="col-sm-6 col-lg-3">
                                                 <div class="form-group form-checkbox">
-                                                    <input type="checkbox" class="" name="{{ 'benefit' .$list -> id }}"
-                                                           value="1">
+                                                    <input type="checkbox" class="" name="{{ $list -> tenkhongdau }}"
+                                                           value="{{ $list->id }}" checked="checked">
                                                     <label for="BENEFIT_ID_2"> <em
                                                             class="fa fa-medkit"></em>{{ $list -> ten }}</label>
                                                 </div>
@@ -216,16 +254,19 @@
                                             </div>
                                             <div class="d-flex gender-wrap">
                                                 <div class="form-group form-radio">
-                                                    <input type="radio" id="rnamnu" name="gioitinh" value="0"
-                                                           checked="checked">
+                                                    <input type="radio" name="gioitinh" value="0"
+                                                        {{ $job->gioitinh == 0 ? 'checked' : '' }}>
                                                     <label for="rnamnu">Nam/Nữ</label>
                                                 </div>
                                                 <div class="form-group form-radio">
-                                                    <input type="radio" id="rnam" name="gioitinh" value="1">
+                                                    <input type="radio" name="gioitinh" value="1"
+                                                        {{ $job->gioitinh == 1 ? 'checked' : '' }}>
                                                     <label for="rnam">Nam</label>
                                                 </div>
                                                 <div class="form-group form-radio">
-                                                    <input type="radio" id="rnu" name="gioitinh" value="2">
+                                                    <input type="radio" name="gioitinh" value="2"
+                                                        {{ $job->gioitinh == 2 ? 'checked' : '' }}>
+
                                                     <label for="rnu">Nữ</label>
                                                 </div>
                                             </div>
@@ -239,11 +280,13 @@
                                             <div class="d-flex form-age align-center">
                                                 <div class="form-group form-text">
                                                     <label>Từ</label>
-                                                    <input type="number" maxlength="2" name="minold" id="JOB_FROMAGE">
+                                                    <input value="{{$job->minold}}" type="number" maxlength="2"
+                                                           name="minold" id="JOB_FROMAGE">
                                                 </div>
                                                 <div class="form-group form-text">
                                                     <label>Đến</label>
-                                                    <input type="number" maxlength="2" name="maxold" id="JOB_TOAGE">
+                                                    <input value="{{$job->maxold}}" type="number" maxlength="2"
+                                                           name="maxold" id="JOB_TOAGE">
                                                 </div>
                                             </div>
                                         </div>
@@ -254,8 +297,12 @@
                                                 <label>Kinh nghiệm <font style="color: red">*</font></label>
                                                 <select name="kinhnghiem" id="JOB_ISEXPERIENCE"
                                                         onchange="Experience(this.value)">
-                                                    <option value="0">Không yêu cầu kinh nghiệm</option>
-                                                    <option value="1">Có kinh nghiệm</option>
+                                                    <option {{ $job->kinhnghiem == 0 ? 'selected' : '' }}
+                                                            value="0">Không yêu cầu kinh nghiệm
+                                                    </option>
+                                                    <option {{ $job->kinhnghiem == 1 ? 'selected' : '' }} value="1">Có
+                                                        kinh nghiệm
+                                                    </option>
                                                 </select>
                                                 <span class="form-error"></span>
                                             </div>
@@ -314,13 +361,13 @@
                                             <div class="form-group">
                                                 <label>Bằng cấp</label>
                                                 <select name="bangcap" id="DEGREE_ID">
-                                                    <option value="1">Không yêu cầu bằng cấp</option>
-                                                    <option value="2">Trung học</option>
-                                                    <option value="3">Trung cấp</option>
-                                                    <option value="4">Cao đẳng</option>
-                                                    <option value="5">Đại học</option>
-                                                    <option value="6">Sau đại học</option>
-                                                    <option value="7">Khác</option>
+                                                    <option value="0">Không yêu cầu bằng cấp</option>
+                                                    <option value="1">Trung học</option>
+                                                    <option value="2">Trung cấp</option>
+                                                    <option value="3">Cao đẳng</option>
+                                                    <option value="4">Đại học</option>
+                                                    <option value="5">Sau đại học</option>
+                                                    <option value="6">Khác</option>
                                                 </select>
                                             </div>
                                         </div>
