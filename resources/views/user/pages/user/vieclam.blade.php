@@ -6,120 +6,131 @@
 @section('content')
     @include("user.elements.page-heading-tool")
     <body class="search-result-list-page">
-    <main>
-        <section class="search-result-list">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-custom-xxl-9">
+    <section class="search-result-list">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-custom-xxl-9">
 
-                        <div class="job-found">
-                            <div class="job-found-amout">
-                                <h1>19,467 việc làm</h1>
-                            </div>
-                            {{--                            <div class="job-found-sort"><span class="sort-title dropdown">Sắp xếp theo<em--}}
-                            {{--                                        class="mdi mdi-chevron-down"></em>--}}
-                            {{--	<div class="dropdown-menu">--}}
-                            {{--		<ul>--}}
-                            {{--						<li> <a title="Cập nhật" class="active"--}}
-                            {{--                                href="https://careerbuilder.vn/viec-lam/tat-ca-viec-lam-sortdv-vi.html">Cập nhật</a></li>--}}
-                            {{--			<li><a title="Mức lương"--}}
-                            {{--                   href="https://careerbuilder.vn/viec-lam/tat-ca-viec-lam-sortlg-vi.html">Mức lương</a></li>--}}
-                            {{--		</ul>--}}
-                            {{--	</div></span></div>--}}
+                    <div class="job-found">
+                        <div class="job-found-amout">
+                            <em>{{ \App\Models\Job::where('trangthai' , 1)->count() }} việc làm</em>
                         </div>
-                        <div class="main-slide">
-                            <div class="jobs-side-list" id="jobs-side-list-content">
-                                @foreach($jobs as $job)
-                                    <div class="job-item " id="job-item-35BE058D">
-                                        <div class="figure">
-                                            <div class="image">
-                                                <a href="{{ route("user.pages.viewDetailJob",  $job->tenkhongdau ) }}"
-                                                   title="{{$job->ten}}">
-                                                    <img class="lazy-img"
-                                                         src="https://images.careerbuilder.vn/employer_folders/lot9/249599/155x155/1755324852b043a23851660829-002.jpg"
-                                                         alt="{{$job->ten}}" style="">
+                        {{--                            <div class="job-found-sort"><span class="sort-title dropdown">Sắp xếp theo<em--}}
+                        {{--                                        class="mdi mdi-chevron-down"></em>--}}
+                        {{--	<div class="dropdown-menu">--}}
+                        {{--		<ul>--}}
+                        {{--						<li> <a title="Cập nhật" class="active"--}}
+                        {{--                                href="https://careerbuilder.vn/viec-lam/tat-ca-viec-lam-sortdv-vi.html">Cập nhật</a></li>--}}
+                        {{--			<li><a title="Mức lương"--}}
+                        {{--                   href="https://careerbuilder.vn/viec-lam/tat-ca-viec-lam-sortlg-vi.html">Mức lương</a></li>--}}
+                        {{--		</ul>--}}
+                        {{--	</div></span></div>--}}
+                    </div>
+                    <div class="main-slide">
+                        <div class="jobs-side-list" id="jobs-side-list-content">
+                            @foreach($jobs as $job)
+                                <div class="job-item " id="job-item-35BE058D">
+                                    <div class="figure">
+                                        <div class="image">
+                                            <a href="{{ route("user.pages.viewDetailJob",  $job->tenkhongdau ) }}"
+                                               title="{{$job->ten}}">
+                                                <img class="lazy-img"
+                                                     src="{{ asset('public/avatar/'. $job -> avt) }}"
+                                                     alt="{{$job->ten}}" style="">
+                                            </a>
+                                        </div>
+                                        <div class="figcaption">
+                                            <div class="title ">
+                                                <h2>
+                                                    <a class="job_link" data-id="35BE058D"
+                                                       href="{{ route("user.pages.viewDetailJob",  $job->tenkhongdau ) }}"
+                                                       target="_blank" title="{{$job-> tencongviec}}">
+                                                        {{$job-> tencongviec}}
+                                                        <span class="new"><font color="ff0000">(Mới)</font></span>
+                                                    </a>
+                                                </h2>
+                                            </div>
+                                            <div class="caption">
+                                                <a class="company-name" target="_blank"
+                                                   href=""
+                                                   title="{{$job->ten}}">{{$job->ten}}</a>
+                                                <a class="job_link" href="">
+                                                    <div class="c-salary">
+                                                        <p><i class="bi bi-currency-dollar"></i> Lương:
+                                                            @if($job -> minluong == null and $job -> maxluong == null)
+                                                                Thỏa thuận
+                                                            @else
+                                                                @if($job -> minluong)
+                                                                    {{'Từ '.$job -> minluong}}
+                                                                @endif
+                                                                @if($job -> maxluong)
+                                                                    {{' Đến '.$job -> maxluong}}
+                                                                @endif
+                                                            @endif
+                                                            <em class="text-uppercase">{{$job -> donvitien}}</em>
+                                                        </p></div>
+                                                    <div class="c-location">
+                                                        <p><i class="bi bi-geo-alt-fill"></i>{{ $job -> tendaydu }}</p>
+                                                    </div>
+                                                    <div class="c-expire-date">
+                                                        <p><i class="bi bi-clock-fill"></i> Hạn
+                                                            nộp: {{ $job -> hannhanhoso }}</p>
+                                                    </div>
+                                                    <div class="welfare">
+                                                        <p><i class="bi bi-lungs"></i> Chế độ bảo hiểm</p>
+                                                    </div>
                                                 </a>
                                             </div>
-                                            <div class="figcaption">
-                                                <div class="title ">
-                                                    <h2>
-                                                        <a class="job_link" data-id="35BE058D"
-                                                           href="https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-giam-doc.35BE058D.html"
-                                                           target="_blank" title="{{$job-> tencongviec}}">
-                                                            {{$job-> tencongviec}}
-                                                            <span class="new"><font color="ff0000">(Mới)</font></span>
-                                                        </a>
-                                                    </h2>
-                                                </div>
-                                                <div class="caption">
-                                                    <a class="company-name" target="_blank"
-                                                       href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-tnhh-co-dien-lanh-eep-viet-nam.35A8B7FF.html"
-                                                       title="{{$job->ten}}">{{$job->ten}}</a>
-                                                    <a class="job_link" href="">
-                                                        <div class="c-salary">
-                                                            <p><i class="bi bi-currency-dollar"></i> Lương: {{$job -> luong}}
-                                                                VND</p></div>
-                                                        <div class="c-location">
-                                                            <p><i class="bi bi-geo-alt-fill"></i> Hà Nội</p>
-                                                        </div>
-                                                        <div class="c-expire-date">
-                                                            <p><i class="bi bi-clock-fill"></i> Hạn nộp: 31-10-2023</p>
-                                                        </div>
-                                                        <div class="welfare">
-                                                            <p><i class="bi bi-lungs"></i> Chế độ bảo hiểm</p>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="c-bottom-right-icon">
-                                                    <a tabindex="0" role="button"
-                                                       class="toollips save-job chk_save_35BE058D "
-                                                       data-id="35BE058D" onclick="popuplogin()">
-                                                        <i class="bi bi-heart"></i>
-                                                        <span class="text">Lưu việc làm</span>
-                                                    </a>
-                                                    <div class="c-time">
-                                                        <p><i class="bi bi-calendar-date"></i>
-                                                            Cập nhật:&nbsp;<time>14-10-2023</time>
-                                                        </p>
-                                                    </div>
+                                            <div class="c-bottom-right-icon">
+                                                <a tabindex="0" role="button"
+                                                   class="toollips save-job chk_save_35BE058D "
+                                                   data-id="35BE058D" onclick="popuplogin()">
+                                                    <i class="mdi mdi-heart-outline"></i>
+                                                    <span class="text">Lưu việc làm</span>
+                                                </a>
+                                                <div class="c-time">
+                                                    <p><em class="mdi mdi-calendar"></em>
+                                                        Cập nhật:&nbsp;<time>{{ $job -> updated_at }}</time>
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                @endforeach
+                                </div>
+                            @endforeach
 
-                                <script>
-                                    var dataGetJobs = {
-                                        'dataOne': 'a:0:{}',
-                                        'dataTwo': 'a:0:{}',
-                                    };
+                            <script>
+                                var dataGetJobs = {
+                                    'dataOne': 'a:0:{}',
+                                    'dataTwo': 'a:0:{}',
+                                };
 
-                                    var objText = {
-                                        'lastChance': 'Cơ hội ứng tuyển chỉ còn',
-                                        'Expire': 'Hạn nộp',
-                                        'today': 'Hôm nay',
-                                        'day': 'ngày',
-                                        'days': 'ngày'
-                                    };
+                                var objText = {
+                                    'lastChance': 'Cơ hội ứng tuyển chỉ còn',
+                                    'Expire': 'Hạn nộp',
+                                    'today': 'Hôm nay',
+                                    'day': 'ngày',
+                                    'days': 'ngày'
+                                };
 
-                                    $(window).on('load', function () {
-                                        $.ajax({
-                                            url: DOMAIN_KV + '/search-jobs',
-                                            type: "post",
-                                            dataType: "json",
-                                            data: dataGetJobs,
-                                            success: function (result) {
-                                                if (result.data.length > 0) {
-                                                    var htmlListJob = result.data.map((item) => {
-                                                        var strBenefit = '';
-                                                        if (item.BENEFIT_NAME.length > 0) {
-                                                            var strBenefit = '<ul class="welfare">';
-                                                            strBenefit += item.BENEFIT_NAME.slice(0, 3).map((ite, ind) => {
-                                                                return `<li><span class="fa ${item.BENEFIT_ICON[ind]}"></span>${ite}</li>`;
-                                                            }).join('');
-                                                            strBenefit += '</ul>';
-                                                        }
-                                                        var str_premium_icon_item = (item.JOB_PREMIUM_ICON_ITEM == 1) ? `<div class="premium-icon"><img src="./img/premium.png" alt="premium"></div>` : '';
+                                $(window).on('load', function () {
+                                    $.ajax({
+                                        url: DOMAIN_KV + '/search-jobs',
+                                        type: "post",
+                                        dataType: "json",
+                                        data: dataGetJobs,
+                                        success: function (result) {
+                                            if (result.data.length > 0) {
+                                                var htmlListJob = result.data.map((item) => {
+                                                    var strBenefit = '';
+                                                    if (item.BENEFIT_NAME.length > 0) {
+                                                        var strBenefit = '<ul class="welfare">';
+                                                        strBenefit += item.BENEFIT_NAME.slice(0, 3).map((ite, ind) => {
+                                                            return `<li><span class="fa ${item.BENEFIT_ICON[ind]}"></span>${ite}</li>`;
+                                                        }).join('');
+                                                        strBenefit += '</ul>';
+                                                    }
+                                                    var str_premium_icon_item = (item.JOB_PREMIUM_ICON_ITEM == 1) ? `<div class="premium-icon"><img src="./img/premium.png" alt="premium"></div>` : '';
                                                         var str_video_company = (item.EMP_VIDEO != '' && item.EMP_VIDEO != undefined) ? `<li><a class="play-video" title="${item.EMP_NAME}" href="${item.EMP_VIDEO}" data-fancybox=""><i class="mdi mdi-play-circle-outline"></i><span class="text">Xem video</span></a></li>` : '';
                                                         if (memberLogin == 'yes') {
                                                             var str_save_job_item = `<li>
@@ -322,15 +333,15 @@
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
     </body>
     <style>
         .search-result-list .job-item .figure .title {
-             margin-top: -15px;
+            margin-top: -15px;
         }
+
         .job_link div p {
             margin: 0px;
         }

@@ -6,21 +6,26 @@
         <div class="main-wrap">
             <div class="left-wrap">
                 <ul class="list-menu">
-                    <li><a href="https://careerbuilder.vn/vi/employers/dashboard" title="Dashboard">Dashboard</a></li>
-                    <li class="active"><a href="https://careerbuilder.vn/vi/employers/hrcentral/posting"
-                                          title="Quản Lý Đăng Tuyển">Quản Lý Đăng Tuyển</a></li>
-                    <li><a href="https://careerbuilder.vn/vi/employers/hrcentral/manageresume" class="active"
-                           title="Quản Lý  Ứng Viên">Quản Lý Ứng Viên</a></li>
-                    <li class=""><a href="https://careerbuilder.vn/vi/employers/hrcentral/search-history"
-                                    title="Lịch Sử Tìm Kiếm">Lịch Sử Tìm Kiếm</a></li>
-                    <li><a href="https://careerbuilder.vn/vi/employers/hrcentral/reports/orders_available"
-                           title="Đơn Hàng ">Đơn Hàng </a></li>
-                    <li><a href="https://careerbuilder.vn/vi/employers/hrcentral/emailcontentmanagement"
-                           title="Cấu Hình Email"> Cấu Hình Email </a></li>
-                    <li>
-                        <a href="https://careerbuilder.vn/vi/employers/hrcentral/accounts" title=" Tài Khoản"> Tài
-                            Khoản</a>
+                    <li><a href="#">Dashboard</a></li>
+                    <li class="{{ Route::is('employer.view_hrcentral') ? 'active' : ''}} ">
+                        <a href="{{ route('employer.view_hrcentral') }}"
+                           title="Quản Lý Đăng Tuyển">Quản Lý Đăng Tuyển</a>
                     </li>
+                    <li class="{{ Route::is('employer.manageresume') ? 'active' : ''}} ">
+                        <a href="{{ route('employer.manageresume') }}" class="active"
+                           title="Quản Lý  Ứng Viên">Quản Lý Ứng Viên</a>
+                    </li>
+                    <li class="{{ Route::is('employer.view_company_info') ? 'active' : ''}} ">
+                        <a href="{{ route('employer.view_company_info') }}"
+                           title="Lịch Sử Tìm Kiếm">Thông Tin Công Ty</a>
+                    </li>
+                    <li class="{{ Route::is('employer.view_account') ? 'active' : ''}} ">
+                        <a href="{{ route('employer.view_account') }}"
+                           title="Đơn Hàng ">Thông Tin Tài Khoản</a>
+                    </li>
+                    <li>
+                        <a href="https://careerbuilder.vn/vi/employers/hrcentral/emailcontentmanagement"
+                           title="Cấu Hình Email"> Cấu Hình Email </a></li>
                     <li><a href="https://careerbuilder.vn/vi/employers/careerbuilder-rewards" target="_blank"
                            title="CBRewards">CBRewards</a></li>
                 </ul>

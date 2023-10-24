@@ -138,12 +138,12 @@ class UserController extends Controller
 
 
         $jobs = DB::table('table_jobs')
-            ->join('table_danhmucnganhnghe', 'table_jobs.id_nganhnghe', '=', 'table_danhmucnganhnghe.id')
-            ->join('table_capbac', 'table_jobs.id_capbac', '=', 'table_capbac.id')
-            ->join('table_salary', 'table_jobs.id_mucluong', '=', 'table_salary.id')
-            ->join('table_nhatuyendung', 'table_jobs.id_nhatuyendung', '=', 'table_nhatuyendung.id')
+            ->leftJoin('table_danhmucnganhnghe', 'table_jobs.id_nganhnghe', '=', 'table_danhmucnganhnghe.id')
+            ->leftJoin('table_ranks', 'table_jobs.capbac', '=', 'table_ranks.id')
+            ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
+            ->leftJoin('table_city', 'table_jobs.noilamviec', '=', 'table_city.id')
             ->where('table_jobs.trangthai', 1)
-            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.tenkhongdau', 'table_nhatuyendung.ten', 'table_salary.luong')
+            ->select('table_jobs.*', 'table_employers.ten', 'table_city.tendaydu', 'table_employers.avt')
             ->get();
 //        dd($jobs);
         return view('user.pages.user.vieclam')->with('danhmucnganhnghe', $work)->with('city', $city)->with('jobs', $jobs);
@@ -159,9 +159,8 @@ class UserController extends Controller
 
         $jobs = DB::table('table_jobs')->where('table_jobs.trangthai', 1)
             ->join('table_danhmucnganhnghe', 'table_jobs.id_nganhnghe', '=', 'table_danhmucnganhnghe.id')
-            ->join('table_capbac', 'table_jobs.id_capbac', '=', 'table_capbac.id')
-            ->join('table_salary', 'table_jobs.id_mucluong', '=', 'table_salary.id')
-            ->join('table_nhatuyendung', 'table_jobs.id_nhatuyendung', '=', 'table_nhatuyendung.id')
+            ->join('table_ranks', 'table_jobs.capbac', '=', 'table_ranks.id')
+            ->join('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
             ->get();
 //        dd($jobs);
         return view('user.pages.user.viewDetailJob')/*->with('danhmucnganhnghe', $work)->with('city', $city)->with('jobs', $jobs)*/ ;

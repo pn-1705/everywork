@@ -5,8 +5,10 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Requests\JobRequest;
 use App\Models\Benefit;
+use App\Models\Employer;
 use App\Models\Job;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -56,13 +58,13 @@ class EmployerController extends Controller
         $newJob->id_nhatuyendung = Auth::id();
         $newJob->trangthai = 1;
         $newJob->tenkhongdau = $this->un_unicode($request->tencongviec);
-        $newJob->created_at = Carbon::now();
-        $newJob->updated_at = Carbon::now();
+        $newJob->created_at = Carbon::now('Asia/Ho_Chi_Minh');
+        $newJob->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
 
         $newJob->save();
 
         $newBenefit = new Benefit();
-        $newBenefit->id_phucloi = $phucloi;
+        $newBenefit->id = $phucloi;
         $newBenefit->chedobaohiem = $request->benefit1;
         $newBenefit->dulich = $request->benefit2;
         $newBenefit->chedothuong = $request->benefit3;
@@ -78,13 +80,13 @@ class EmployerController extends Controller
         $newBenefit->phucapthuongnien = $request->benefit13;
         $newBenefit->nghiphepnam = $request->benefit14;
         $newBenefit->clbthethao = $request->benefit15;
-        $newJob->created_at = Carbon::now();
-        $newJob->updated_at = Carbon::now();
+        $newJob->created_at = Carbon::now('Asia/Ho_Chi_Minh');
+        $newJob->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
 
         $newBenefit->save();
 
 
-        return view('employer.hrcentral', $this->getDataJob());
+        return redirect()->route('employer.view_hrcentral')->with($this->getDataJob());
     }
 
     public function viewDetailJob($id)
@@ -106,9 +108,18 @@ class EmployerController extends Controller
         unset($job['id']);
 //        dd($job['tencongviec']);
         $job['tencongviec'] = $job['tencongviec'] . ' (Nhân bản)';
+
+        $id_phucloi = time();
+        $phucloi = Benefit::all()
+            ->where('id', $job['phucloi'])->first()->getOriginal();
+        $phucloi['id'] = $id_phucloi;
+//        dd($phucloi);
+        Benefit::create($phucloi);
+
+        $job['phucloi'] = $id_phucloi;
         Job::create($job);
 
-        return redirect()->back()->with($this->getDataJob());
+        return redirect()->route('employer.view_hrcentral')->with($this->getDataJob());
     }
 
     public function view_updateJob($id)
@@ -121,10 +132,11 @@ class EmployerController extends Controller
         return view('employer.editJob', $data);
     }
 
-    public function updateJob(JobRequest $request)
+    public function updateJob($id, JobRequest $request)
     {
-        $newJob = new Job();
 
+        $newJob = Job::find($id);
+//        dd($newJob);
         $newJob->tencongviec = $request->tencongviec;
         $newJob->id_nganhnghe = $request->id_nganhnghe;
         $newJob->noilamviec = $request->noilamviec;
@@ -147,42 +159,119 @@ class EmployerController extends Controller
         $newJob->workforhome = $request->wfh;
         $newJob->link_youtube = $request->link_youtube;
         $newJob->img_banner = $request->img_banner;
-        $newJob->id_nhatuyendung = Auth::id();
         $newJob->trangthai = 1;
         $newJob->tenkhongdau = $this->un_unicode($request->tencongviec);
-        $newJob->created_at = Carbon::now();
-        $newJob->updated_at = Carbon::now();
+//        $newJob->created_at = Carbon::now();
+        $newJob->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
 
-        $newJob->save();
+        $newJob->update();
 
-        return view('employer.hrcentral', $this->getDataJob());
+        $newBenefit = Benefit::find($newJob->phucloi);
+
+        $newBenefit->chedobaohiem = $request->chedobaohiem;
+        $newBenefit->dulich = $request->dulich;
+        $newBenefit->chedothuong = $request->chedothuong;
+        $newBenefit->chamsocsuckhoe = $request->chamsocsuckhoe;
+        $newBenefit->daotao = $request->daotao;
+        $newBenefit->tangluong = $request->tangluong;
+        $newBenefit->laptop = $request->laptop;
+        $newBenefit->phucap = $request->phucap;
+        $newBenefit->xeduadon = $request->xeduadon;
+        $newBenefit->dulichnuocngoai = $request->dulichnuocngoai;
+        $newBenefit->dongphuc = $request->dongphuc;
+        $newBenefit->congtacphi = $request->congtacphi;
+        $newBenefit->phucapthuongnien = $request->phucapthuongnien;
+        $newBenefit->nghiphepnam = $request->nghiphepnam;
+        $newBenefit->clbthethao = $request->clbthethao;
+//        $newJob->created_at = Carbon::now();
+        $newJob->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
+
+        $newBenefit->update();
+
+        return redirect()->route('employer.view_hrcentral')->with($this->getDataJob());
     }
 
     public function getDataJob()
     {
         $listJobs = DB::table('table_jobs')
-            ->leftJoin('table_benefits', 'table_jobs.phucloi', '=', 'table_benefits.id_phucloi')
+            ->leftJoin('table_benefits', 'table_jobs.phucloi', '=', 'table_benefits.id')
+            ->select('table_benefits.*', 'table_jobs.*')
             ->where('id_nhatuyendung', Auth::id())
             ->where('hannhanhoso', '>=', Carbon::now()->toDateString())
             ->where('trangthai', 1)
+            ->orderBy('tencongviec')
             ->get(); //Việc làm đang đăng
 //        dd($listJobs);
         $listJobsWait = DB::table('table_jobs')
-            ->leftJoin('table_benefits', 'table_jobs.phucloi', '=', 'table_benefits.id_phucloi')
+            ->leftJoin('table_benefits', 'table_jobs.phucloi', '=', 'table_benefits.id')
+            ->select('table_benefits.*', 'table_jobs.*')
             ->where('id_nhatuyendung', Auth::id())
-            ->where('trangthai', 0)->get(); //Việc làm dừng đăng (nháp)
+            ->where('trangthai', 0)
+            ->orderBy('tencongviec')
+            ->get(); //Việc làm dừng đăng (nháp)
 //                dd($listJobsWait);
 
         $listJobsExp = DB::table('table_jobs')
-            ->leftjoin('table_benefits', 'table_jobs.phucloi', '=', 'table_benefits.id_phucloi')
+            ->leftjoin('table_benefits', 'table_jobs.phucloi', '=', 'table_benefits.id')
+            ->select('table_benefits.*', 'table_jobs.*')
             ->where('id_nhatuyendung', Auth::id())
             ->where('hannhanhoso', '<', Carbon::now()->toDateString())
-            ->orderByDesc('tencongviec')->get(); //Việc làm hết hạn
+            ->orderBy('tencongviec')->get(); //Việc làm hết hạn
         $data['listJobs'] = $listJobs;
         $data['listJobsExp'] = $listJobsExp;
         $data['listJobsWait'] = $listJobsWait;
 
         return ($data);
+    }
+
+    public function view_company_info()
+    {
+        $info = Employer::where('id', Auth::id())->first();
+//        dd($info);
+        $data['info'] = $info;
+        return view('employer.company_info', $data);
+    }
+
+    public function post_company_info(Request $request)
+    {
+        $employer = Employer::find(Auth::id());
+
+        $avt_old = $employer->avt;
+        $banner_old = $employer->banner;
+
+        if ($employer) {
+            if ($request->has('avt')) {
+                $file = $request->avt;
+                $extension = $request->avt->extension();
+                $filename = time() . '-avatar.' . $extension;
+                $file->move(public_path('avatar'), $filename);
+                $employer->avt = $filename;
+                File::delete('public/avatar/' . $avt_old);
+
+            }
+            if ($request->has('banner')) {
+                $file = $request->banner;
+                $extension = $request->banner->extension();
+                $filename = time() . '-banner.' . $extension;
+                $file->move(public_path('banner'), $filename);
+                $employer->banner = $filename;
+                File::delete('public/banner/' . $banner_old);
+            }
+            $employer->ten = $request->ten;
+            $employer->loaihinhhoatdong = $request->loaihinhhoatdong;
+            $employer->website = $request->website;
+            $employer->masothue = $request->masothue;
+            $employer->thongtin = $request->thongtin;
+            $employer->thongdiep = $request->thongdiep;
+            $employer->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
+
+            $employer->update();
+        }
+
+        $info = Employer::where('id', Auth::id())->first();
+//        dd($info);
+        $data['info'] = $info;
+        return back()->with($data);
     }
 
     public function un_unicode($istring)
@@ -214,4 +303,8 @@ class EmployerController extends Controller
         return $istring;
     }
 
+    public function removePhoto($originalFileName)
+    {
+        File::delete($this->uploadFolder . $originalFileName);
+    }
 }

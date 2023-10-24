@@ -8,788 +8,180 @@
     <section class="manage-job-posting-post-jobs cb-section bg-manage">
         <div class="container">
             <div class="box-manage-job-posting">
-                <div class="heading-manage">
-                    <div class="left-heading">
-                        <h1 class="title-manage">Chỉnh Sửa Tin Tuyển Dụng</h1>
-                    </div>
-                </div>
-                <form method="post" action="{{ route('employer.updateJob', $job ->id) }}">
-                    @csrf
-                    <div class="main-tabslet">
-                        <ul class="tabslet-tab">
-                            <li id="t1" class="tablinks active" data-electronic="tab-1"><a href="#">Thông Tin
-                                    Tuyển Dụng</a></li>
-                            <li id="t2" class="tablinks" data-electronic="tab-2"><a href="#">Yêu cầu</a></li>
-                            <li id="t3" class="tablinks" data-electronic="tab-3"><a href="#">Media</a>
-                            </li>
-                        </ul>
 
-                        <div class="tabslet-content active" id="tab-1">
-                            <div class="main-application-information">
-                                <h2 class="title-application">Thông tin tuyển dụng</h2>
-                                <div class="form-wrap">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-group form-text">
-                                                <input type="text" class="keyword form-text"
-                                                       name="tencongviec" value="{{ $job -> tencongviec }}"
-                                                       onblur="loadTagKey()"
-                                                       placeholder="Chức danh tuyển dụng" autocomplete="off">
-                                                @error('tencongviec')
-                                                <span class="form-error">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="noti mt-20"><em class="material-icons">info</em>
-                                                <div class="toolip">
-                                                    Lưu ý: Chức danh nên mô tả chính xác vị trí tuyển dụng cần tuyển.
-                                                    Đây là một phần quan trọng thu hút người tìm việc ứng tuyển và hệ
-                                                    thống gợi ý hồ sơ phù hợp.
-                                                </div>
-                                            </div>
+                <div class="main-tabslet" data-toggle="tabslet">
+                    <form name="editCompany" id="editCompany" action="{{ route('employer.post_company_info') }}"
+                          method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="main-application-information">
+                            <h2 class="title-application">THÔNG TIN CÔNG TY</h2>
+                            <div class="form-wrap">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group form-text form-input-label">
+                                            <input type="text" name="ten" value="{{ $info -> ten }}" maxlength="350"
+                                                   onkeyup="this.setAttribute('value', this.value);">
+                                            <label>Tên công ty <font style="color: red">*</font></label>
+                                            <span class="error error_EMP_NAME"> </span>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>
-                                                    Ngành nghề <font style="color: red">*</font>
-                                                </label>
-                                                <select name="id_nganhnghe">
-                                                    <?php
-                                                    use App\Models\DanhMucNganhNghe;
-                                                    $listJobs = DanhMucNganhNghe::all()->where('trangthai', 1)
-                                                    ?>
-                                                    @foreach($listJobs as $jobs)
-                                                        <option
-                                                            @if($jobs->id == $job -> id_nganhnghe)
-                                                            selected
-                                                            @endif
-                                                            value="{{$jobs->id}}">{{$jobs->tendaydu}}</option>
-                                                    @endforeach
-                                                </select>
-                                                <span class="form-error"></span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div id="post_job_location">
-                                        <div class="item_post_job_location">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label>
-                                                            Nơi làm việc <font style="color: red">*</font>
-                                                        </label>
-                                                        <select name="noilamviec" class="">
-                                                            <?php
-                                                            use App\Models\City;
-                                                            $listCitys = City::all()->where('trangthai', 1)
-                                                            ?>
-                                                            @foreach($listCitys as $jobs)
-                                                                <option
-                                                                    @if($jobs->id == $job -> noilamviec)
-                                                                    selected
-                                                                    @endif
-                                                                    value="{{$jobs->id}}">{{$jobs->tendaydu}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                        <span class="form-error"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label>Địa chỉ làm việc <font
-                                                                style="color: red">*</font></label>
-                                                        <input type="text" name="diachilamviec"
-                                                               value="{{ $job -> diachilamviec }}"
-                                                               placeholder="Đia chỉ công ty, chi nhánh, nơi làm việc...">
-                                                        @error('diachilamviec')
-                                                        <span class="form-error">{{ $message }}</span>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label>Mô Tả Công Việc <font style="color: red">*</font></label>
-                                        <textarea cols="80" rows="5" name="mota"
-                                                  class="">{{ $job -> mota }}</textarea>
-                                        @error('mota')
-                                        <span class="form-error">{{ $message }}</span>
-                                        @enderror
-                                        <div class="note">
-                                            <p>Nhỏ hơn 10 000 kí tự</p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Yêu cầu công việc <font style="color: red">*</font></label>
-                                        <textarea cols="80" rows="5" name="yeucau"
-                                                  class="">{{ $job -> yeucau }}</textarea>
-                                        @error('yeucau')
-                                        <span class="form-error">{{ $message }}</span>
-                                        @enderror
-                                        <div class="note">
-                                            <p>Nhỏ hơn 10 000 kí tự</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <label for="">Mức lương <font style="color: red">*</font></label>
-                                            <div class="form-salary d-flex align-center">
-                                                <div class="form-group">
-                                                    <select name="donvitien">
-                                                        <option
-                                                            @if($job -> donvitien == 'vnd')
-                                                            selected
-                                                            @endif
-                                                            value="vnd">VNĐ
-                                                        </option>
-
-                                                        <option
-                                                            @if($job -> donvitien == 'usd')
-                                                            selected
-                                                            @endif
-                                                            value="usd">USD
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group form-text">
-                                                    <input type="text" name="minluong"
-                                                           maxlength="12" value="{{ $job -> minluong }}"
-                                                           onblur="checkAlertSalary();"
-                                                           placeholder="Tối Thiểu *">
-                                                </div>
-                                                <div class="form-group form-text">
-                                                    <input type="text" name="maxluong" id="salary_to" maxlength="12"
-                                                           value="{{ $job -> maxluong }}" onblur="checkAlertSalary();"
-                                                           placeholder="Tối Đa *">
-                                                </div>
-                                                <span class="form-error" id="error_salary"
-                                                      style="width: 100%;max-width: none;flex: 1;"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <label for="">Hình thức <font style="color: red">*</font></label>
-                                            <div class="form-group">
-                                                <select name="hinhthuc">
-                                                    <option
-                                                        {{ $job->hinhthuc == 1 ? 'selected' : '' }}
-                                                        value="1">Nhân viên chính thức
-                                                    </option>
-                                                    <option
-                                                        {{ $job->hinhthuc == 2 ? 'selected' : '' }}
-
-                                                        value="2">Bán thời gian
-                                                    </option>
-                                                    <option
-                                                        {{ $job->hinhthuc == 3 ? 'selected' : '' }}
-                                                        value="3">Thời vụ - Nghề tự do
-                                                    </option>
-                                                    <option
-                                                        {{ $job->hinhthuc == 4 ? 'selected' : '' }}
-                                                        value="4">Thực tập
-                                                    </option>
-                                                </select>
-                                            </div>
-                                            <span class="form-error" id="error_salary"
-                                                  style="width: 100%; max-width: none;flex: 1;"></span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-3">
-                                            <div class="form-group form-date">
-                                                <label>Hạn nhận hồ sơ <font style="color: red">*</font></label>
-                                                <input type="date" name="hannhanhoso"
-                                                       min="{{ \Carbon\Carbon::now()->toDateString() }}"
-                                                       class="dates_cus_select_postjob required"
-                                                       value="{{ $job -> hannhanhoso }}">
-                                                @error('hannhanhoso')
-                                                <span class="form-error">{{ $message }}</span>
-                                                @enderror                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h2 class="title-application">Phúc lợi</h2>
-                                <div class="checkbox-wrap">
-                                    <div class="row">
-                                        <?php $listBenefits = \App\Models\BenefitName::all();
-                                        $benefitChecked = \App\Models\Benefit::all()->where('id', $job->phucloi)->first()
-                                        ?>
-                                        <div class="col-sm-6 col-lg-3">
-                                            <div class="form-group form-checkbox">
-                                                <input type="checkbox" class="" name="chedobaohiem"
-                                                       @if($benefitChecked['chedobaohiem'] == 1)
-                                                       checked
-                                                       @endif
-                                                       value="1">
-                                                <label for="BENEFIT_ID_2"> <em
-                                                        class="fa fa-medkit"></em>Chế độ bảo hiểm</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-lg-3">
-                                            <div class="form-group form-checkbox">
-                                                <input type="checkbox" class="" name="dulich"
-                                                       @if($benefitChecked['dulich'] == 1)
-                                                       checked
-                                                       @endif
-                                                       value="1">
-                                                <label for="BENEFIT_ID_2"> <em
-                                                        class="fa fa-medkit"></em>Du lịch</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-6 col-lg-3">
-                                            <div class="form-group form-checkbox">
-                                                <input type="checkbox" class="" name="chedothuong"
-                                                       @if($benefitChecked['chedothuong'] == 1)
-                                                       checked
-                                                       @endif value="1">
-                                                <label for="BENEFIT_ID_2"> <em class="fa fa-medkit"></em>Chế độ
-                                                    thưởng</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-lg-3">
-                                            <div class="form-group form-checkbox">
-                                                <input
-                                                    @if($benefitChecked['chamsocsuckhoe'] == 1)
-                                                    checked
-                                                    @endif
-                                                    type="checkbox" class="" name="chamsocsuckhoe" value="1">
-                                                <label for="BENEFIT_ID_2"> <em class="fa fa-medkit"></em>Chăm sóc sức
-                                                    khỏe</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-lg-3">
-                                            <div class="form-group form-checkbox">
-                                                <input
-                                                    @if($benefitChecked['daotao'] == 1)
-                                                    checked
-                                                    @endif
-                                                    type="checkbox" class="" name="daotao" value="1">
-                                                <label for="BENEFIT_ID_2"> <em class="fa fa-medkit"></em>Đào tạo</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-lg-3">
-                                            <div class="form-group form-checkbox">
-                                                <input
-                                                    @if($benefitChecked['tangluong'] == 1)
-                                                    checked
-                                                    @endif
-                                                    type="checkbox" class="" name="tangluong" value="1">
-                                                <label for="BENEFIT_ID_2"> <em class="fa fa-medkit"></em>Tăng
-                                                    lương</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-lg-3">
-                                            <div class="form-group form-checkbox">
-                                                <input
-                                                    @if($benefitChecked['laptop'] == 1)
-                                                    checked
-                                                    @endif
-                                                    type="checkbox" class="" name="laptop" value="1">
-                                                <label for="BENEFIT_ID_2"> <em class="fa fa-medkit"></em>Laptop</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-lg-3">
-                                            <div class="form-group form-checkbox">
-                                                <input
-                                                    @if($benefitChecked['phucap'] == 1)
-                                                    checked
-                                                    @endif
-                                                    type="checkbox" class="" name="phucap" value="1">
-                                                <label for="BENEFIT_ID_2"> <em class="fa fa-medkit"></em>Phụ cấp</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-lg-3">
-                                            <div class="form-group form-checkbox">
-                                                <input
-                                                    @if($benefitChecked['xeduadon'] == 1)
-                                                    checked
-                                                    @endif
-                                                    type="checkbox" class="" name="xeduadon" value="1">
-                                                <label for="BENEFIT_ID_2"> <em class="fa fa-medkit"></em>Xe đưa
-                                                    đón</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-lg-3">
-                                            <div class="form-group form-checkbox">
-                                                <input
-                                                    @if($benefitChecked['dulichnuocngoai'] == 1)
-                                                    checked
-                                                    @endif
-                                                    type="checkbox" class="" name="dulichnuocngoai" value="1">
-                                                <label for="BENEFIT_ID_2"> <em class="fa fa-medkit"></em>Du lịch nước
-                                                    ngoài</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-lg-3">
-                                            <div class="form-group form-checkbox">
-                                                <input
-                                                    @if($benefitChecked['dongphuc'] == 1)
-                                                    checked
-                                                    @endif
-                                                    type="checkbox" class="" name="dongphuc" value="1">
-                                                <label for="BENEFIT_ID_2"> <em class="fa fa-medkit"></em>Đồng
-                                                    phục</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-lg-3">
-                                            <div class="form-group form-checkbox">
-                                                <input
-                                                    @if($benefitChecked['congtacphi'] == 1)
-                                                    checked
-                                                    @endif
-                                                    type="checkbox" class="" name="congtacphi" value="1">
-                                                <label for="BENEFIT_ID_2"> <em class="fa fa-medkit"></em>Công tác
-                                                    phí</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-lg-3">
-                                            <div class="form-group form-checkbox">
-                                                <input
-                                                    @if($benefitChecked['phucapthamnien'] == 1)
-                                                    checked
-                                                    @endif
-                                                    type="checkbox" class="" name="phucapthamnien" value="1">
-                                                <label for="BENEFIT_ID_2"> <em class="fa fa-medkit"></em>Phụ cấp thâm
-                                                    niên</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-lg-3">
-                                            <div class="form-group form-checkbox">
-                                                <input
-                                                    @if($benefitChecked['nghiphepnam'] == 1)
-                                                    checked
-                                                    @endif
-                                                    type="checkbox" class="" name="nghiphepnam" value="1">
-                                                <label for="BENEFIT_ID_2"> <em class="fa fa-medkit"></em>Nghỉ phép
-                                                    năm</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-lg-3">
-                                            <div class="form-group form-checkbox">
-                                                <input
-                                                    @if($benefitChecked['clbthethao'] == 1)
-                                                    checked
-                                                    @endif
-                                                    type="checkbox" class="" name="clbthethao" value="1">
-                                                <label for="BENEFIT_ID_2"> <em class="fa fa-medkit"></em>CLB thể
-                                                    thao</label>
+                                    <div class="col-lg-6">
+                                        <div class="noti mt-20"><em class="material-icons">info</em>
+                                            <div class="toolip">
+                                                <p>Vui lòng nhập tối thiểu 3 ký tự!</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="form-group form-submit form-continue">
-                                    <button class="btn btn-secondary btn-submit" type="button"
-                                            onclick="Tab2();">
-                                        <bi class="bi bi-arrow-right"></bi>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tabslet-content" id="tab-2">
-                            <div class="main-application-information">
-                                <h2 class="title-application">Yêu cầu chung</h2>
-                                <div class="form-wrap">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <p class="title-label">Giới tính</p>
-                                            </div>
-                                            <div class="d-flex gender-wrap">
-                                                <div class="form-group form-radio">
-                                                    <input type="radio" name="gioitinh" value="0"
-                                                        {{ $job->gioitinh == 0 ? 'checked' : '' }}
-                                                    >
-                                                    <label for="rnamnu">Nam/Nữ</label>
-                                                </div>
-                                                <div class="form-group form-radio">
-                                                    <input type="radio" name="gioitinh" value="1"
-                                                        {{ $job->gioitinh == 1 ? 'checked' : '' }}
-                                                    >
-                                                    <label for="rnam">Nam</label>
-                                                </div>
-                                                <div class="form-group form-radio">
-                                                    <input type="radio" name="gioitinh" value="2"
-                                                        {{ $job->gioitinh == 2 ? 'checked' : '' }}>
-                                                    <label for="rnu">Nữ</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <p class="title-label">Tuổi</p>
-                                            </div>
-                                            <div class="d-flex form-age align-center">
-                                                <div class="form-group form-text">
-                                                    <label>Từ</label>
-                                                    <input value="{{$job->minold}}" type="number" maxlength="2"
-                                                           name="minold" id="JOB_FROMAGE">
-                                                </div>
-                                                <div class="form-group form-text">
-                                                    <label>Đến</label>
-                                                    <input value="{{$job->maxold}}" type="number" maxlength="2"
-                                                           name="maxold" id="JOB_TOAGE">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>Kinh nghiệm <font style="color: red">*</font></label>
-                                                <select name="kinhnghiem" id="JOB_ISEXPERIENCE"
-                                                        onchange="Experience(this.value)">
-                                                    <option {{ $job->kinhnghiem == 0 ? 'selected' : '' }}
-                                                            value="0">Không yêu cầu kinh nghiệm
-                                                    </option>
-                                                    <option {{ $job->kinhnghiem == 1 ? 'selected' : '' }} value="1">Có
-                                                        kinh nghiệm
-                                                    </option>
-                                                </select>
-                                                <span class="form-error"></span>
-                                            </div>
-                                        </div>
-                                        <script>
-                                            let sl = document.getElementById('JOB_ISEXPERIENCE');
-
-                                            function Experience($value) {
-                                                var d = document.getElementById("JOB_EXPERIENCE");
-                                                if ($value == 1) {
-                                                    d.className += " d-block";
-                                                } else {
-                                                    d.className -= " d-block";
-                                                    d.className += " col-lg-6";
-
-                                                }
-                                            }
-                                        </script>
-                                        <div class="col-lg-6" id="JOB_EXPERIENCE" style="display: none;">
-                                            <div class="form-group">
-                                                <p class="title-label">năm</p>
-                                            </div>
-                                            <div class="d-flex form-age align-center">
-                                                <div class="form-group form-text">
-                                                    <label>Từ</label>
-                                                    <input type="number" name="tu_nam" min="1">
-                                                </div>
-                                                <div class="form-group form-text">
-                                                    <label>Đến</label>
-                                                    <input type="number" name="den_nam" min="1">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>Cấp bậc <font style="color: red">*</font></label>
-                                                <select name="capbac" id="LEVEL_ID">
-                                                    <option value="1">Sinh viên/ Thực tập sinh</option>
-                                                    <option value="2">Mới tốt nghiệp</option>
-                                                    <option value="3">Nhân viên</option>
-                                                    <option value="4">Trưởng nhóm / Giám sát</option>
-                                                    <option value="5">Quản lý</option>
-                                                    <option value="6">Phó Giám đốc</option>
-                                                    <option value="7">Giám đốc</option>
-                                                    <option value="8">Tổng giám đốc</option>
-                                                    <option value="9">Chủ tịch / Phó Chủ tịch</option>
-                                                </select>
-                                                <span class="form-error"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label>Bằng cấp</label>
-                                                <select name="bangcap" id="DEGREE_ID">
-                                                    <option value="1">Không yêu cầu bằng cấp</option>
-                                                    <option value="2">Trung học</option>
-                                                    <option value="3">Trung cấp</option>
-                                                    <option value="4">Cao đẳng</option>
-                                                    <option value="5">Đại học</option>
-                                                    <option value="6">Sau đại học</option>
-                                                    <option value="7">Khác</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-group form-checkbox">
-                                                <input type="checkbox" value="1" name="wfh" id="JOB_WFH"
-                                                       class="input_margin">
-                                                <label for="JOB_WFH">Work from home</label>
-                                            </div>
-                                            <div class="form-group mt-0 form-note-workfromhome">
-                                                Tick chọn nếu vị trí tuyển dụng này cho phép ứng viên có thể chọn chế độ
-                                                làm việc tại nhà trong thời điểm hiện tại (Work from home) mà không nhất
-                                                thiết phải có mặt tại văn phòng công ty. Hệ thống sẽ phân loại và đánh
-                                                dấu đăng tuyển này vào danh mục tìm kiếm loại công việc là “Work from
-                                                Home”.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group form-submit form-continue">
-                                    <button class="btn btn-secondary btn-submit" type="button"
-                                            onclick="backTab1();">
-                                        <bi class="bi bi-arrow-left"></bi>
-                                    </button>
-                                    <button class="btn btn-secondary btn-submit" type="button"
-                                            onclick="toTab3();">
-                                        <bi class="bi bi-arrow-right"></bi>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tabslet-content" id="tab-3">
-                            <div class="main-application-information">
-                                <h2 class="title-application">Video và hình ảnh <span
-                                        class="txt_required mar_left10">(Không bắt buộc)</span>
-                                </h2>
-                                <div class="form-wrap video-wrap">
-                                    <div class="noti">
-                                        <p class="title-label">Video giới thiệu công việc</p>
-                                        <div class="toolip">
-                                            Nhập thêm video và hình ảnh giới thiệu về công ty sẽ thu hút ứng viên
-                                            nộp
-                                            đơn ứng tuyển.
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-group form-text">
-                                                <input type="text" placeholder="Link video youtube" id="strVideo"
-                                                       name="link_youtube" onblur="checkYoutubeValid(0);" value="">
-                                            </div>
-                                            <span class="error error_strVideo"> </span>
-                                        </div>
-                                    </div>
-                                    <div class="main-image">
+                                <div class="row">
+                                    <div class="col-lg-6">
                                         <div class="form-group">
-                                            <p class="title-label">Banner hình ảnh công việc</p>
-                                        </div>
-                                        <div class="list-image" id="list-image">
-                                            <div class="image-item">
-                                                <img
-                                                    src="https://images.careerbuilder.vn//employer_photo/305490/avt_kutech_1697429798.jpg"
-                                                    alt="Banner">
-                                            </div>
-                                        </div>
-                                        <div class="upload-img">
-                                            <input type="file" id="filephoto" name="img_banner"
-                                                   accept="image/jpeg, image/png, image/jpg">
-                                            <label for="filephoto"><em class="material-icons">folder_open</em>Tải
-                                                Ảnh từ máy tính</label>
-                                            <div class="noti"><em class="material-icons">info </em>
-                                                <div class="toolip">
-                                                    <div class="clear note2 pad_top8">- Hỗ trợ định dạng .jpg, .gif,
-                                                        .png; dung lượng mỗi ảnh không vượt quá 1mb
-                                                    </div>
-                                                    <div class="clear note2">- Chiều cao mỗi ảnh phải &gt;135px và
-                                                        &lt;
-                                                        1,500px
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <script>
-                                                let banner = document.getElementById("banner-job");
-                                                let ifile = document.getElementById("filephoto");
-
-                                                var input = document.getElementById('filephoto');
-                                                var file = input.files[0];
-                                                ifile.onchange = function () {
-                                                    confirm(file);
-                                                    banner.src = URL.createObjectURL(file);
-                                                }
-                                            </script>
+                                            <label>Loại hình hoạt động</label>
+                                            <select name="loaihinhhoatdong" id="company_type" class="width_160">
+                                                <option value="0">Vui lòng chọn</option>
+                                                <option value="6">100% vốn nước ngoài</option>
+                                                <option value="4">Cá nhân</option>
+                                                <option value="7">Công ty đa quốc gia</option>
+                                                <option value="2" selected="selected">Cổ phần</option>
+                                                <option value="5">Liên doanh</option>
+                                                <option value="1">Nhà nước</option>
+                                                <option value="3">Trách nhiệm hữu hạn</option>
+                                            </select>
+                                            <span class="error error_Company_type"> </span>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="form-group form-submit form-continue">
-                                    <button class="btn btn-secondary btn-submit" type="button"
-                                            onclick="Tab2();">
-                                        <bi class="bi bi-arrow-left"></bi>
-                                    </button>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group form-text form-input-label">
+                                            <input type="text" name="website" id="EMP_WEBSITE"
+                                                   value="{{ $info ->website }}" maxlength="100">
+                                            <label>Website công ty</label>
+                                            <span class="error error_EMP_WEBSITE"> </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group form-text form-input-label">
+                                            <input type="number" name="masothue" id="EMP_TAXID"
+                                                   value="{{ $info -> masothue }}" maxlength="100">
+                                            <label>Mã số thuế</label>
+                                            <span class="error error_EMP_TAXID"> </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="form-wrap logo-wrap">
+                                <div class="main-image">
+                                    <div class="form-group">
+                                        <p class="title-label">Logo</p>
+                                    </div>
+                                    <div class="list-image">
+                                        <div class="image-item" id="logo_path">
+                                            <img id="avt"
+                                                 src="{{ asset('public/avatar/'. $info -> avt) }}"
+                                                 width="95" height="50">
+                                        </div>
+                                    </div>
+                                    <div class="upload-img">
+                                        <input type="file" id="input_avatar" name="avt" value="">
+                                        <label for="input_avatar"><em class="material-icons">folder_open</em>Tải ảnh từ
+                                            máy tính</label>
+                                        <div class="noti"><em class="material-icons">info </em>
+                                            <div class="toolip">
+                                                <p>Định dạng: gif, jpg, png, kích thước đẹp nhất 240x160px</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-wrap banner-wrap">
+                                <div class="main-image">
+                                    <div class="form-group">
+                                        <p class="title-label">Cover/ Banner</p>
+                                    </div>
+                                    <div class="list-image">
+                                        <div class="image-item" id="image1_path">
+                                            <img id="banner" width="200px" height="42px"
+                                                 src="{{ asset('public/banner/'. $info -> banner) }}">
+                                        </div>
+                                    </div>
+                                    <script type="text/javascript">
+                                        window.onload = function () {
+                                            const input_avt = document.getElementById('input_avatar');
+                                            const image_avt = document.getElementById('avt');
+                                            const input_banner = document.getElementById('input_banner');
+                                            const image_banner = document.getElementById('banner');
+
+                                            input_avt.addEventListener('change', (e) => {
+                                                if (e.target.files.length) {
+                                                    const src = URL.createObjectURL(e.target.files[0]);
+                                                    image_avt.src = src;
+                                                }
+                                            });
+                                            input_banner.addEventListener('change', (e) => {
+                                                if (e.target.files.length) {
+                                                    const src = URL.createObjectURL(e.target.files[0]);
+                                                    image_banner.src = src;
+                                                }
+                                            });
+                                        }
+                                    </script>
+                                    <div class="upload-img">
+                                        <input type="file" name="banner" id="input_banner" value="">
+                                        <label for="input_banner"><em class="material-icons">folder_open</em>Tải ảnh từ
+                                            máy
+                                            tính</label>
+                                        <div class="noti"><em class="material-icons">info </em>
+                                            <div class="toolip">
+                                                <p>Định dạng: *.gif, *.jpg, *.png. Kích thước đẹp nhất 1410x290px</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-wrap">
+                                <div class="form-group form-editor" id="div_jobdesc">
+                                    <label>Giới thiệu về công ty <font style="color: red">*</font></label>
+                                    <textarea rows="8" name="thongtin" id="EMP_DESC" class="editor">{{ $info -> thongtin }}
+                                    </textarea>
+                                    <div class="note">
+                                        <p>Vui lòng không nhập email,số điện thoại và số lượng kí tự phải lớn hơn 10
+                                        </p>
+                                    </div>
+                                    <span class="error error_EMP_DESC"> </span>
+
+                                    <div class="note">
+                                        <p></p>
+                                    </div>
+                                </div>
+                                <div class="form-group form-editor" id="div_jobreq">
+                                    <label>Thông điệp từ công ty</label>
+                                    <textarea rows="8" name="thongdiep" id="EMP_DESC" class="editor">{{ $info -> thongtin }}
+                                    </textarea>
+                                    <div class="note">
+                                        <p>Vui lòng không nhập email,số điện thoại và số lượng kí tự phải lớn hơn 10
+                                        </p>
+                                    </div>
+                                    <span class="error error_EMP_MESSAGE"> </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group form-submit form-continue">
+                                <a class="btn-cancel btn-preview-account-user" href="javascript:;"
+                                   onclick="window.open('https://careerbuilder.vn/vi/nha-tuyen-dung/kutech.35A99252.html', '_blank'); return false;  ">
+                                    Xem lại</a>
+                                <button class="btn-gradient btn-submit" type="submit" id="update_info_company_form">Cập
+                                    nhật
+                                </button>
+                            </div>
                         </div>
-
-                    </div>
-                    <div class="right-heading form-group form-continue">
-                        {{--<button class="btn-gradient" type="submit">
-                            <bi class="bi bi-save"></bi>
-                            &nbsp; Lưu bản nháp
-                        </button>--}}
-                        <button class="btn-gradient" type="submit">
-                            <bi class="bi bi-upload"></bi>
-                            &nbsp;
-                            Cập nhật
-                        </button>
-                    </div>
-                </form>
-
+                    </form>
+                </div>
             </div>
         </div>
     </section>
-    <script>
-
-
-        function is_Filter_Form2() {
-            if (flagChangeInput == 1) {
-                is_Filter_Form_action(2);
-            } else {
-                goTab(3);
-            }
-        }
-
-        function is_Filter_Form3() {
-            if (checkValidLastDate()) {
-                is_Filter_Form_action(3);
-            } else {
-                var myElement = document.getElementById("JOB_LASTDATE");
-                var topPos = myElement.offsetTop;
-                document.getElementById("JOB_LASTDATE").scrollTop = topPos;
-                document.getElementById("JOB_LASTDATE").focus();
-            }
-        }
-
-        var tabLinks = document.querySelectorAll(".tablinks");
-        var tabContent = document.querySelectorAll(".tabslet-content");
-
-        tabLinks.forEach(function (el) {
-            el.addEventListener("click", openTabs);
-        });
-
-
-        function openTabs(el) {
-            var btn = el.currentTarget; // lắng nghe sự kiện và hiển thị các element
-            var electronic = btn.dataset.electronic; // lấy giá trị trong data-electronic
-            tabContent.forEach(function (el) {
-                el.classList.remove("active");
-            }); //lặp qua các tab content để remove class active
-
-            tabLinks.forEach(function (el) {
-                el.classList.remove("active");
-            }); //lặp qua các tab links để remove class active
-
-            document.querySelector("#" + electronic).classList.add("active");
-            // trả về phần tử đầu tiên có id="" được add class active
-
-            btn.classList.add("active");
-            // các button mà chúng ta click vào sẽ được add class active
-        }
-
-        function Tab2(el) {
-
-            tabContent.forEach(function (el) {
-                el.classList.remove("active");
-            }); //lặp qua các tab content để remove class active
-
-            tabLinks.forEach(function (el) {
-                el.classList.remove("active");
-            }); //lặp qua các tab links để remove class active
-
-            var q = document.getElementById("tab-2");
-            q.className += " active";
-            var d = document.getElementById("t2");
-            d.className += " active";
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
-        }
-
-        function toTab3(el) {
-
-            tabContent.forEach(function (el) {
-                el.classList.remove("active");
-            }); //lặp qua các tab content để remove class active
-
-            tabLinks.forEach(function (el) {
-                el.classList.remove("active");
-            }); //lặp qua các tab links để remove class active
-
-            var q = document.getElementById("tab-3");
-            q.className += " active";
-            var d = document.getElementById("t3");
-            d.className += " active";
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
-        }
-
-        function backTab1(el) {
-
-            tabContent.forEach(function (el) {
-                el.classList.remove("active");
-            }); //lặp qua các tab content để remove class active
-
-            tabLinks.forEach(function (el) {
-                el.classList.remove("active");
-            }); //lặp qua các tab links để remove class active
-
-            var q = document.getElementById("tab-1");
-            q.className += " active";
-            var d = document.getElementById("t1");
-            d.className += " active";
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
-        }
-    </script>
-
 @endsection
-<style>/*jquery.auto-complete.css*/
-    .autocomplete-suggestions {
-        text-align: left;
-        cursor: default;
-        border: 1px solid #ccc;
-        border-top: 0;
-        background: #fff;
-        box-shadow: -1px 1px 3px rgba(0, 0, 0, .1);
-        position: absolute;
-        display: none;
-        z-index: 9999;
-        max-height: 254px;
-        overflow: hidden;
-        overflow-y: auto;
-        box-sizing: border-box;
-    }
-
-    .autocomplete-suggestion {
-        position: relative;
-        padding: 0 .6em;
-        line-height: 23px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-size: 1.02em;
-        color: #333;
-    }
-
-    .autocomplete-suggestion b {
-        font-weight: normal;
-        color: #1f8dd6;
-    }
-
-    .autocomplete-suggestion.selected {
-        background: #f0f0f0;
-    }
-
-    /*manage-job-posting-post-jobs.css*/
-    @charset "UTF-8";
+<style>/*account-tool-company-profile.css*/
     .is-browser-IE header .main-menu .menu li:nth-child(2).dropdown .dropdown-menu {
         min-width: calc(100% + 110px);
     }
@@ -2014,7 +1406,7 @@
 
     .main-form-posting .form-wrap .form-group.form-select-chosen .chosen-container {
         width: 100% !important;
-        height: 40px !important;
+        min-height: 40px !important;
     }
 
     .main-form-posting .form-wrap .form-group.form-select-chosen .chosen-container .chosen-choices {
@@ -2682,9 +2074,8 @@
 
     .box-manage-job-posting .main-jobs-posting .table > table {
         width: 100%;
-        min-width: 1330px;
         height: 100%;
-        background: #ffffff;
+        background: #fff;
     }
 
     .box-manage-job-posting .main-jobs-posting .table > table th, .box-manage-job-posting .main-jobs-posting .table > table td {
@@ -2701,7 +2092,7 @@
     }
 
     .box-manage-job-posting .main-jobs-posting .table > table thead th {
-        padding: 12.5px 0;
+        padding: 10px;
         color: #182642;
         font-size: 14.5px;
         font-weight: 700;
@@ -2724,26 +2115,12 @@
     }
 
     .box-manage-job-posting .main-jobs-posting .table > table tbody td {
-        padding: 12.5px 0;
-        border-right: 1px solid rgba(255, 255, 255, 0);
-    }
-
-    .box-manage-job-posting .main-jobs-posting .table > table tbody td:first-child {
         padding: 10px;
+        border-right: 1px solid rgba(255, 255, 255, 0);
     }
 
     .box-manage-job-posting .main-jobs-posting .table > table tbody td:last-child {
         border-right: 1px solid #e6e6e6;
-    }
-
-    @media (min-width: 1200px) {
-        .box-manage-job-posting .main-jobs-posting .table > table tbody td {
-            padding: 16.5px 0;
-        }
-
-        .box-manage-job-posting .main-jobs-posting .table > table tbody td:first-child {
-            padding: 15px 10px;
-        }
     }
 
     .box-manage-job-posting .main-jobs-posting .table .title {
@@ -2880,7 +2257,6 @@
     }
 
     .box-manage-job-posting .main-jobs-posting .table .list-manipulation li em {
-        color: #2f4ba0;
         font-size: 20px;
         font-weight: 500;
     }
@@ -2893,16 +2269,6 @@
     .box-manage-job-posting .main-jobs-posting .table > table tbody tr:first-child .dropdown .dropdown-list, .box-manage-job-posting .main-jobs-posting .table > table tbody tr:nth-child(2) .dropdown .dropdown-list, .box-manage-job-posting .main-jobs-posting .table > table tbody tr:nth-child(3) .dropdown .dropdown-list, .box-manage-job-posting .main-jobs-posting .table > table tbody tr:nth-child(4) .dropdown .dropdown-list, .box-manage-job-posting .main-jobs-posting .table > table tbody tr:nth-child(5) .dropdown .dropdown-list {
         top: 100%;
         bottom: auto;
-    }
-
-    @media (max-width: 1200px) {
-        .box-manage-job-posting .main-jobs-posting .table {
-            overflow-x: auto;
-        }
-
-        .box-manage-job-posting .main-jobs-posting .table > table {
-            min-width: 1240px;
-        }
     }
 
     .box-manage-job-posting .tabslet-content {
@@ -3048,26 +2414,6 @@
         }
     }
 
-    .main-button-sticky {
-        -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        z-index: 500;
-        position: -webkit-sticky;
-        position: sticky;
-        bottom: 120px;
-        justify-content: space-between;
-        pointer-events: none;
-    }
-
-    @media (min-width: 1024px) {
-        .main-button-sticky {
-            bottom: 100px;
-        }
-    }
-
     .button-prev, .button-next {
         -webkit-box-pack: center;
         -ms-flex-pack: center;
@@ -3204,14 +2550,6 @@
         color: #ffffff;
     }
 
-    @media (min-width: 1200px) {
-        .main-pagination ul {
-            -webkit-box-pack: end;
-            -ms-flex-pack: end;
-            justify-content: flex-end;
-        }
-    }
-
     .manage-job-posting-post-jobs .box-manage-job-posting .heading-manage .left-heading {
         -ms-flex-wrap: wrap;
         display: -webkit-box;
@@ -3324,16 +2662,17 @@
         text-transform: none;
     }
 
+    .manage-job-posting-post-jobs .title-application.no-bg {
+        background: none;
+    }
+
+    .manage-job-posting-post-jobs .title-application.no-pad {
+        padding: 0;
+    }
+
     .manage-job-posting-post-jobs .noti {
         position: relative;
         cursor: pointer;
-    }
-
-    .manage-job-posting-post-jobs .noti > p {
-        align-items: center;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
     }
 
     .manage-job-posting-post-jobs .noti em {
@@ -3608,28 +2947,29 @@
     }
 
     .manage-job-posting-post-jobs .form-group input {
-        height: 40px;
+        height: 45px;
         border: none;
         border: none;
-        border: 1px solid #e5e5e5;
+        border-bottom: 1px solid #e5e5e5;
         color: #999999;
         font-size: 16px;
-        font-weight: 400;
-        padding: 0 15px;
-        border-radius: 5px;
+        font-weight: 500;
     }
 
     .manage-job-posting-post-jobs .form-group select {
-        height: 40px;
+        height: 45px;
         border: none;
         border: none;
-        border: 1px solid #e5e5e5;
+        border-bottom: 1px solid #e5e5e5;
         background-image: none;
         color: #172642;
         font-size: 16px;
         font-weight: 700;
-        padding: 0 15px;
-        border-radius: 5px;
+    }
+
+    .manage-job-posting-post-jobs .form-group select[disabled] {
+        border-color: #f7f7f7;
+        background: #f7f7f7;
     }
 
     .manage-job-posting-post-jobs .form-group textarea {
@@ -3683,7 +3023,7 @@
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
     }
 
     .manage-job-posting-post-jobs .form-group.form-checkbox input {
@@ -3773,6 +3113,45 @@
         display: -ms-flexbox;
         display: flex;
         margin-top: 20px;
+    }
+
+    .manage-job-posting-post-jobs .form-group.form-submit .btn-cancel {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-transition: 0.2s ease-in-out all;
+        -o-transition: 0.2s ease-in-out all;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: auto;
+        min-width: 160px;
+        height: 40px;
+        padding: 5px 15px;
+        border: 1px solid #5d677a;
+        border-radius: 5px;
+        background: #5d677a;
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 500;
+        text-align: center;
+        transition: 0.2s ease-in-out all;
+    }
+
+    .manage-job-posting-post-jobs .form-group.form-submit .btn-cancel:hover {
+        background: #ffffff;
+        color: #5d677a;
+    }
+
+    @media (max-width: 576px) {
+        .manage-job-posting-post-jobs .form-group.form-submit .btn-cancel {
+            min-width: 200px;
+            margin-right: auto;
+            margin-left: auto;
+        }
     }
 
     .manage-job-posting-post-jobs .form-group.form-submit .btn-submit-add {
@@ -3920,7 +3299,7 @@
     .manage-job-posting-post-jobs .form-group.form-select-chosen .chosen-container {
         -webkit-box-shadow: none !important;
         width: 100% !important;
-        height: 40px !important;
+        min-height: 40px !important;
         box-shadow: none !important;
     }
 
@@ -4057,6 +3436,30 @@
         color: #2f4ba0;
     }
 
+    .manage-job-posting-post-jobs .form-group.form-input-label {
+        position: relative;
+    }
+
+    .manage-job-posting-post-jobs .form-group.form-input-label label {
+        -webkit-transition: 0.5s;
+        -o-transition: 0.5s;
+        position: absolute;
+        top: 7px;
+        left: 0;
+        pointer-events: none;
+        transition: 0.5s;
+    }
+
+    .manage-job-posting-post-jobs .form-group.form-input-label input:focus ~ label, .manage-job-posting-post-jobs .form-group.form-input-label input:not([value=""]) ~ label {
+        top: -12px;
+        left: 0;
+        font-size: 14.5px;
+    }
+
+    .manage-job-posting-post-jobs .form-group.form-input-label input:focus ~ label span, .manage-job-posting-post-jobs .form-group.form-input-label input:not([value=""]) ~ label span {
+        font-size: 10px;
+    }
+
     .manage-job-posting-post-jobs .form-salary {
         -ms-flex-wrap: wrap;
         flex-wrap: wrap;
@@ -4104,6 +3507,11 @@
         color: #172642;
     }
 
+    .manage-job-posting-post-jobs .form-experience .form-group input[disabled] {
+        border-color: #f5f5f5;
+        background: #f5f5f5;
+    }
+
     .manage-job-posting-post-jobs .form-experience .form-group.form-text {
         -webkit-box-align: end;
         -ms-flex-align: end;
@@ -4121,12 +3529,66 @@
         color: #172642;
     }
 
+    .manage-job-posting-post-jobs .form-experience.form-work-experience .form-group.form-select, .manage-job-posting-post-jobs .form-experience.form-desired-salary .form-group.form-select {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .manage-job-posting-post-jobs .form-experience.form-work-experience .form-group.form-text, .manage-job-posting-post-jobs .form-experience.form-desired-salary .form-group.form-text {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 50%;
+        flex: 0 0 50%;
+        width: 50%;
+        max-width: 50%;
+        margin-top: 10px;
+    }
+
+    .manage-job-posting-post-jobs .form-experience.form-work-experience .form-group.form-text input, .manage-job-posting-post-jobs .form-experience.form-desired-salary .form-group.form-text input {
+        width: 100%;
+    }
+
+    @media (min-width: 768px) {
+        .manage-job-posting-post-jobs .form-experience.form-work-experience .form-group.form-select, .manage-job-posting-post-jobs .form-experience.form-desired-salary .form-group.form-select {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 50%;
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+
+        .manage-job-posting-post-jobs .form-experience.form-work-experience .form-group.form-text, .manage-job-posting-post-jobs .form-experience.form-desired-salary .form-group.form-text {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 25%;
+            flex: 0 0 25%;
+            max-width: 25%;
+        }
+    }
+
+    .manage-job-posting-post-jobs .form-experience.form-diploma .form-group {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    @media (min-width: 768px) {
+        .manage-job-posting-post-jobs .form-experience.form-diploma .form-group.form-text, .manage-job-posting-post-jobs .form-experience.form-diploma .form-group.form-select-chosen {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 50%;
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+    }
+
     .manage-job-posting-post-jobs .checkbox-wrap {
         padding: 0 15px;
     }
 
     .manage-job-posting-post-jobs .checkbox-wrap .row {
-        margin-bottom: -10px;
+        margin-bottom: 0;
     }
 
     .manage-job-posting-post-jobs .checkbox-wrap .row > * {
@@ -4173,6 +3635,22 @@
     @media (min-width: 1440px) {
         .manage-job-posting-post-jobs .gender-wrap .form-group.form-radio {
             margin-right: 120px;
+        }
+    }
+
+    .manage-job-posting-post-jobs .receiveemail-wrap .form-group.form-radio {
+        margin-right: 20px;
+    }
+
+    @media (min-width: 1024px) {
+        .manage-job-posting-post-jobs .receiveemail-wrap .form-group.form-radio {
+            margin-right: 30px;
+        }
+    }
+
+    @media (min-width: 1440px) {
+        .manage-job-posting-post-jobs .receiveemail-wrap .form-group.form-radio {
+            margin-right: 50px;
         }
     }
 
@@ -4234,9 +3712,9 @@
         min-width: 160px;
         height: 40px;
         padding: 5px 15px;
-        border: 1px solid #86cb49;
+        border: 1px solid #24ebc8;
         border-radius: 5px;
-        background: #86cb49;
+        background: #24ebc8;
         color: #ffffff;
         font-size: 15px;
         font-weight: 500;
@@ -4246,7 +3724,7 @@
 
     .manage-job-posting-post-jobs .btn-preview:hover {
         background: #ffffff;
-        color: #86cb49;
+        color: #24ebc8;
     }
 
     .manage-job-posting-post-jobs .list-image {
@@ -4268,8 +3746,8 @@
         position: relative;
         align-items: center;
         justify-content: center;
-        width: 190px;
-        height: 120px;
+        max-width: 190px;
+        max-height: 120px;
         margin-right: 10px;
         margin-bottom: 10px;
         overflow: hidden;
@@ -4310,11 +3788,12 @@
     .manage-job-posting-post-jobs .upload-img {
         -webkit-box-align: center;
         -ms-flex-align: center;
+        -ms-flex-wrap: wrap;
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
-        margin-top: 10px;
     }
 
     .manage-job-posting-post-jobs .upload-img input {
@@ -4333,6 +3812,7 @@
         justify-content: center;
         min-width: 170px;
         height: 30px;
+        margin-top: 10px;
         margin-right: 10px;
         padding: 5px 15px;
         border-radius: 5px;
@@ -4362,6 +3842,47 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    #preview_large {
+        width: 100%;
+        margin: 0
+    }
+
+    #CropBanner.fancybox-bootstrap {
+        width: 100% !important
+    }
+
+    #CropBanner #preview_large {
+        width: 100%;
+        height: 390px;
+        margin-bottom: 30px;
+        overflow: hidden
+    }
+
+    #CropBanner.fancybox-bootstrap .title_form {
+        padding: 10px 25px;
+        border-bottom: 1px solid #d3d3d3;
+        font-size: 22px;
+        font-weight: normal;
+        height: auto;
+        line-height: normal;
+        position: relative
+    }
+
+    #CropBanner.fancybox-bootstrap .msg_content {
+        padding: 20px;
+        font-size: 14px
+    }
+
+    #CropBanner .btn-primary, #CropBanner .btn-primary:hover {
+        background-color: #009b74
+    }
+
+    #CropBanner .btn-primary:hover {
+        box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.25) inset;
+        -webkit-box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.25) inset;
+        -moz-box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.25) inset
     }
 
     .manage-job-posting-post-jobs .other-information-wrap p {
@@ -4456,11 +3977,6 @@
         }
     }
 
-    .manage-job-posting-post-jobs .table {
-        width: 100%;
-        overflow-x: auto;
-    }
-
     .manage-job-posting-post-jobs .table p {
         margin-bottom: 15px;
         color: #182642;
@@ -4468,7 +3984,6 @@
 
     .manage-job-posting-post-jobs .table table {
         width: 100%;
-        min-width: 1000px;
     }
 
     .manage-job-posting-post-jobs .table table thead {
@@ -4477,10 +3992,10 @@
     }
 
     .manage-job-posting-post-jobs .table table thead th {
-        padding: 7.5px 10px;
+        padding: 10px;
         color: #182642;
-        font-size: 16px;
-        font-weight: 500;
+        font-size: 14.5px;
+        font-weight: 700;
         text-align: center;
         text-transform: uppercase;
     }
@@ -4489,18 +4004,12 @@
         text-align: left;
     }
 
-    @media (min-width: 1440px) {
-        .manage-job-posting-post-jobs .table table thead th:first-child {
-            padding-left: 50px;
-        }
-    }
-
     .manage-job-posting-post-jobs .table table tbody tr {
         border: 1px solid #e6e6e6;
     }
 
     .manage-job-posting-post-jobs .table table tbody td {
-        padding: 12px 10px;
+        padding: 10px;
         color: #999999;
         font-size: 14.5px;
         text-align: center;
@@ -4611,18 +4120,16 @@
         max-width: 100%;
     }
 
-    @media (max-width: 576px) {
-        .manage-job-posting-post-jobs .main-tabslet .tabslet-tab::-webkit-scrollbar {
-            height: 4px;
-        }
+    .manage-job-posting-post-jobs .main-tabslet .tabslet-tab::-webkit-scrollbar {
+        height: 4px;
+    }
 
-        .manage-job-posting-post-jobs .main-tabslet .tabslet-tab::-webkit-scrollbar-track {
-            background: #f9f9f9;
-        }
+    .manage-job-posting-post-jobs .main-tabslet .tabslet-tab::-webkit-scrollbar-track {
+        background: #f9f9f9;
+    }
 
-        .manage-job-posting-post-jobs .main-tabslet .tabslet-tab::-webkit-scrollbar-thumb {
-            background: #24ebc8;
-        }
+    .manage-job-posting-post-jobs .main-tabslet .tabslet-tab::-webkit-scrollbar-thumb {
+        background: #24ebc8;
     }
 
     .manage-job-posting-post-jobs .other-additional-wrap {
@@ -4685,6 +4192,574 @@
 
     .manage-job-posting-post-jobs .list-tag .tag-item .delete-tag em {
         font-size: 14.5px;
+    }
+
+    .manage-job-posting-post-jobs .application-content {
+        margin-top: 10px;
+    }
+
+    .manage-job-posting-post-jobs .application-content ul li {
+        position: relative;
+        padding-left: 20px;
+    }
+
+    .manage-job-posting-post-jobs .application-content ul li::before {
+        position: absolute;
+        top: 7px;
+        left: 0;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #cccccc;
+        content: "";
+    }
+
+    .manage-job-posting-post-jobs .tabslet-tab-detail {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        border-bottom: 1px solid #bed7ea;
+    }
+
+    .manage-job-posting-post-jobs .tabslet-tab-detail li {
+        margin-right: 20px;
+    }
+
+    .manage-job-posting-post-jobs .tabslet-tab-detail li:last-child {
+        margin-right: 0;
+    }
+
+    .manage-job-posting-post-jobs .tabslet-tab-detail li a {
+        -webkit-transition: 0.2s ease-in-out all;
+        -o-transition: 0.2s ease-in-out all;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        position: relative;
+        padding: 10px 0;
+        color: #182642;
+        font-size: 16px;
+        font-weight: 700;
+        transition: 0.2s ease-in-out all;
+    }
+
+    .manage-job-posting-post-jobs .tabslet-tab-detail li a::before {
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -webkit-transition: 0.2s ease-in-out all;
+        -o-transition: 0.2s ease-in-out all;
+        position: absolute;
+        bottom: -2px;
+        left: 50%;
+        width: 0;
+        height: 3px;
+        transform: translateX(-50%);
+        background: #2f4ba0;
+        content: "";
+        transition: 0.2s ease-in-out all;
+    }
+
+    .manage-job-posting-post-jobs .tabslet-tab-detail li:hover a, .manage-job-posting-post-jobs .tabslet-tab-detail li.active a {
+        color: #2f4ba0;
+    }
+
+    .manage-job-posting-post-jobs .tabslet-tab-detail li:hover a::before, .manage-job-posting-post-jobs .tabslet-tab-detail li.active a::before {
+        width: 100%;
+    }
+
+    @media (min-width: 1024px) {
+        .manage-job-posting-post-jobs .tabslet-tab-detail li {
+            margin-right: 30px;
+        }
+    }
+
+    @media (min-width: 1280px) {
+        .manage-job-posting-post-jobs .tabslet-tab-detail {
+            margin: 0 5px;
+        }
+
+        .manage-job-posting-post-jobs .tabslet-tab-detail li {
+            margin-right: 40px;
+        }
+    }
+
+    @media (min-width: 1440px) {
+        .manage-job-posting-post-jobs .tabslet-tab-detail li {
+            margin-right: 65px;
+        }
+    }
+
+    .manage-job-posting-post-jobs .main-application-information .application-content {
+        color: #182642;
+    }
+
+    .manage-job-posting-post-jobs .main-application-information .application-content a {
+        color: #2f4ba0;
+    }
+
+    .manage-job-posting-post-jobs .main-application-information .application-content a:hover {
+        text-decoration: underline;
+    }
+
+    .manage-job-posting-post-jobs .main-application-information .application-content.vendorid ul {
+        margin-top: 15px;
+    }
+
+    .manage-job-posting-post-jobs .main-application-information .application-content.vendorid ul li {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        padding-left: 0;
+    }
+
+    .manage-job-posting-post-jobs .main-application-information .application-content.vendorid ul li + li {
+        margin-top: 5px;
+    }
+
+    .manage-job-posting-post-jobs .main-application-information .application-content.vendorid ul li:before {
+        display: none;
+    }
+
+    .manage-job-posting-post-jobs .main-application-information .application-content.vendorid ul li p:first-child {
+        width: 110px;
+        min-width: 110px;
+        padding-right: 10px;
+    }
+
+    .manage-job-posting-post-jobs .main-application-information .form-wrap .form-group input {
+        color: #182642;
+        font-weight: 700;
+    }
+
+    .manage-job-posting-post-jobs .main-application-information .form-wrap.logo-wrap .main-image, .manage-job-posting-post-jobs .main-application-information .form-wrap.banner-wrap .main-image {
+        margin-top: 0;
+    }
+
+    .manage-job-posting-post-jobs .main-application-information .form-wrap.logo-wrap .main-image .list-image .image-item {
+        width: 100%;
+        max-width: 100px;
+        height: auto;
+    }
+
+    .manage-job-posting-post-jobs .main-application-information .form-wrap.banner-wrap .main-image .form-group .title-label .btn-view-banner-location {
+        padding-left: 10px;
+        color: #2f4ba0;
+        font-size: 14.5px;
+    }
+
+    .manage-job-posting-post-jobs .main-application-information .form-wrap.banner-wrap .main-image .list-image .image-item {
+        width: 100%;
+        max-width: 200px;
+        height: auto;
+    }
+
+    .manage-job-posting-post-jobs .main-application-information .form-wrap.video-wrap .noti > p {
+        color: #2f4ba0;
+        font-size: 14.5px;
+        display: flex;
+    }
+
+    .manage-job-posting-post-jobs .main-application-information .form-wrap.video-wrap .noted {
+        color: #182642;
+    }
+
+    .manage-job-posting-post-jobs .main-application-information.main-add-location {
+        display: none;
+    }
+
+    .manage-job-posting-post-jobs .main-application-information.main-add-location .title-application {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+
+    .manage-job-posting-post-jobs .main-application-information.main-add-location .image-maps {
+        display: block;
+        position: relative;
+        padding-top: 58.8235294118%;
+        overflow: hidden;
+        border: 1px solid #eeeeee;
+    }
+
+    .manage-job-posting-post-jobs .main-application-information.main-add-location .image-maps iframe {
+        -o-object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .manage-job-posting-post-jobs .main-application-information.main-add-location.active {
+        display: block;
+    }
+
+    .manage-job-posting-post-jobs .main-application-information.main-form-change-password .title-application {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+
+    .manage-job-posting-post-jobs .heading-resume-applied .left-heading {
+        -ms-flex-wrap: wrap;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .manage-job-posting-post-jobs .heading-resume-applied .left-heading > * {
+        margin-bottom: 20px;
+    }
+
+    .manage-job-posting-post-jobs .heading-resume-applied .left-heading .hor-var {
+        display: none;
+        margin-right: 15px;
+    }
+
+    .manage-job-posting-post-jobs .heading-resume-applied .left-heading .name {
+        margin-right: 15px;
+        color: #182642;
+        font-size: 14.5px;
+        font-weight: 500;
+    }
+
+    .manage-job-posting-post-jobs .heading-resume-applied .left-heading .list-check {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -ms-flex-wrap: wrap;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .manage-job-posting-post-jobs .heading-resume-applied .left-heading .list-check li {
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+
+    .manage-job-posting-post-jobs .heading-resume-applied .left-heading .list-check li a {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-transition: 0.2s ease-in-out all;
+        -o-transition: 0.2s ease-in-out all;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 100px;
+        height: 26px;
+        padding: 5px 15px;
+        border: 1px solid #2f4ba0;
+        border-radius: 5px;
+        color: #2f4ba0;
+        font-size: 14.5px;
+        font-weight: 500;
+        text-align: center;
+        text-decoration: none;
+        transition: 0.2s ease-in-out all;
+    }
+
+    .manage-job-posting-post-jobs .heading-resume-applied .left-heading .list-check li a:hover {
+        background-color: #2f4ba0;
+        color: #ffffff;
+    }
+
+    .manage-job-posting-post-jobs .heading-resume-applied .left-heading .list-check li a.btn-gradient {
+        -webkit-transition: 0.2s ease-in-out all;
+        -o-transition: 0.2s ease-in-out all;
+        background-image: -webkit-gradient(linear, left top, right top, from(#2f4ba0), color-stop(#1e9bd3), to(#2f4ba0));
+        background-image: -o-linear-gradient(left, #2f4ba0, #1e9bd3, #2f4ba0);
+        background-image: linear-gradient(to right, #2f4ba0, #1e9bd3, #2f4ba0);
+        color: #ffffff;
+        font-weight: 500;
+        transition: 0.2s ease-in-out all;
+    }
+
+    .manage-job-posting-post-jobs .heading-resume-applied .left-heading .list-check li a.btn-gradient:hover {
+        -webkit-transition: 0.2s ease-in-out all;
+        -o-transition: 0.2s ease-in-out all;
+        background-color: none;
+        background-position: 100% 0;
+        transition: 0.2s ease-in-out all;
+    }
+
+    .manage-job-posting-post-jobs .heading-resume-applied .left-heading .list-check li.view-posting-detail {
+        display: none;
+    }
+
+    .manage-job-posting-post-jobs .heading-resume-applied .left-heading .list-check li.view-posting-detail.active {
+        display: block;
+    }
+
+    .manage-job-posting-post-jobs .heading-resume-applied .left-heading .list-check li.view-posting-summary {
+        display: none;
+    }
+
+    .manage-job-posting-post-jobs .heading-resume-applied .left-heading .list-check li.view-posting-summary.active {
+        display: block;
+    }
+
+    @media (min-width: 1024px) {
+        .manage-job-posting-post-jobs .heading-resume-applied .left-heading .list-check {
+            margin-bottom: 10px;
+        }
+    }
+
+    .manage-job-posting-post-jobs .heading-resume-applied .right-heading {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -ms-flex-wrap: wrap;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        display: flex;
+        flex-wrap: wrap;
+        flex-wrap: wrap;
+        align-items: center;
+        align-items: center;
+    }
+
+    .manage-job-posting-post-jobs .heading-resume-applied .right-heading > * {
+        margin-bottom: 20px;
+    }
+
+    .manage-job-posting-post-jobs .heading-resume-applied .right-heading .to-display {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -ms-flex-wrap: wrap;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .manage-job-posting-post-jobs .heading-resume-applied .right-heading .name, .manage-job-posting-post-jobs .heading-resume-applied .right-heading .name-display {
+        margin-right: 10px;
+        margin-bottom: 10px;
+        color: #182642;
+        font-size: 14.5px;
+        font-weight: 500;
+    }
+
+    .manage-job-posting-post-jobs .heading-resume-applied .right-heading .form-display {
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+
+    .manage-job-posting-post-jobs .heading-resume-applied .right-heading .form-display select {
+        height: 28px;
+        padding: 3px 15px;
+        border: 1px solid #dddddd;
+        border-radius: 5px;
+        background: #ffffff;
+        color: #999999;
+        font-size: 14.5px;
+        font-weight: 500;
+    }
+
+    @media (min-width: 1024px) {
+        .manage-job-posting-post-jobs .heading-resume-applied {
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .manage-job-posting-post-jobs .heading-resume-applied .right-heading .to-display {
+            margin-bottom: 10px;
+        }
+
+        .manage-job-posting-post-jobs .heading-resume-applied .right-heading .to-display > * {
+            margin-bottom: 0;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .manage-job-posting-post-jobs .heading-resume-applied .left-heading .hor-var {
+            display: block;
+        }
+
+        .manage-job-posting-post-jobs .heading-resume-applied .left-heading .list-check li a {
+            min-width: 120px;
+        }
+    }
+
+    .manage-job-posting-post-jobs .tabslet-content-detail {
+        margin-top: 25px;
+    }
+
+    .manage-job-posting-post-jobs .tabslet-content-detail .content-detail-top .head .title {
+        color: #172642;
+        font-size: 16px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .manage-job-posting-post-jobs .tabslet-content-detail .content-detail-top .body {
+        margin-top: 15px;
+    }
+
+    .manage-job-posting-post-jobs .tabslet-content-detail .content-detail-top .body .brief-content {
+        color: #182642;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .manage-job-posting-post-jobs .content-detail-bottom .heading-resume-applied {
+        margin-top: 10px;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table::-webkit-scrollbar-thumb {
+        background: #00b2a3;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table > table thead th {
+        text-align: left;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table > table thead th:first-child {
+        text-align: center;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table > table thead th.text-left {
+        text-align: left;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table > table tbody td {
+        text-align: left;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table > table tbody td:first-child {
+        text-align: center;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table > table tbody td p {
+        color: #182642;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table > table tbody td a {
+        color: #2f4ba0;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table > table tbody td a:hover {
+        text-decoration: underline;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table > table tbody td .status em {
+        color: #999999;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table > table tbody td .status.active {
+        cursor: pointer;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table > table tbody td .status.active em {
+        color: #2f4ba0;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table > table tbody .form-radio-wrap {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        align-items: center;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table > table tbody .form-radio-wrap .form-group {
+        margin-right: 40px;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table > table tbody .form-radio-wrap .form-group label {
+        color: #182642;
+        font-size: 14.5px;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table > table tbody .form-radio-wrap .form-group:last-child {
+        margin-right: 0;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table.table-location > table thead th:last-child {
+        text-align: center;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table > table tbody td .list-manipulation li em {
+        color: #c6c6c6
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table > table tbody tr:hover td .list-manipulation li em {
+        color: #2f4ba0
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table.table-request > table th, .manage-job-posting-post-jobs .box-manage-job-posting .table.table-request > table td {
+        text-align: left;
+        vertical-align: top;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table.table-request > table th:first-child, .manage-job-posting-post-jobs .box-manage-job-posting .table.table-request > table td:first-child {
+        width: 100px;
+        text-align: center;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table.table-request > table th:nth-child(2), .manage-job-posting-post-jobs .box-manage-job-posting .table.table-request > table td:nth-child(2) {
+        width: 290px;
+    }
+
+    .manage-job-posting-post-jobs .box-manage-job-posting .table.table-request > table th:last-child, .manage-job-posting-post-jobs .box-manage-job-posting .table.table-request > table td:last-child {
+        text-align: center;
+    }
+
+    .manage-job-posting-post-jobs .tabslet-content-detail {
+        display: none;
+    }
+
+    .manage-job-posting-post-jobs .tabslet-content-detail.active {
+        display: block;
+    }
+
+    .manage-job-posting-post-jobs .form-filter-wrap {
+        margin-top: 15px;
+    }
+
+    .manage-job-posting-post-jobs .form-filter-wrap .form-group {
+        margin-right: 15px;
+    }
+
+    .manage-job-posting-post-jobs .main-form-posting.main-form-task-reports {
+        margin-top: 15px;
+    }
+
+    .manage-job-posting-post-jobs .main-form-posting.main-form-task-reports .form-wrap .form-group.form-select label {
+        margin-bottom: 10px;
+    }
+
+    .manage-job-posting-post-jobs .table.table-task-reports {
+        margin-top: 10px;
+        overflow-x: auto
+    }
+
+    .manage-job-posting-post-jobs .table.table-task-reports table tbody td time {
+        color: #182642;
     }
 
     .jobs-posting-modal {
@@ -4899,7 +4974,7 @@
 
     .jobs-posting-modal .form-wrap .form-group textarea {
         width: 100%;
-        height: 40px;
+        min-height: 40px;
         padding: 5px 0;
         padding: 5px;
         border: none;
@@ -5232,6 +5307,10 @@
     @media (min-width: 1200px) {
         .jobs-posting-modal.jobs-posting-2-modal, .jobs-posting-modal.jobs-posting-12-modal {
             padding-bottom: 40px;
+        }
+
+        .jobs-posting-modal.jobs-posting-2-modal .form-wrap .form-group.form-radio .group + .group, .jobs-posting-modal.jobs-posting-12-modal .form-wrap .form-group.form-radio .group + .group {
+            margin-top: 0;
         }
     }
 
@@ -5869,26 +5948,26 @@
         }
     }
 
-    .jobs-posting-modal.jobs-posting-10-modal, .jobs-posting-modal.jobs-posting-16-modal {
+    .jobs-posting-modal.jobs-posting-10-modal, .jobs-posting-modal.jobs-posting-16-modal, .jobs-posting-modal.jobs-posting-24-modal, .jobs-posting-modal.jobs-posting-25-modal {
         width: 530px;
         max-width: 100%;
         padding: 20px 40px;
         border: 1px solid #e0e0e0;
     }
 
-    .jobs-posting-modal.jobs-posting-10-modal .row, .jobs-posting-modal.jobs-posting-16-modal .row {
+    .jobs-posting-modal.jobs-posting-10-modal .row, .jobs-posting-modal.jobs-posting-16-modal .row, .jobs-posting-modal.jobs-posting-24-modal .row, .jobs-posting-modal.jobs-posting-25-modal .row {
         margin-bottom: 0;
     }
 
-    .jobs-posting-modal.jobs-posting-10-modal .row > *, .jobs-posting-modal.jobs-posting-16-modal .row > * {
+    .jobs-posting-modal.jobs-posting-10-modal .row > *, .jobs-posting-modal.jobs-posting-16-modal .row > *, .jobs-posting-modal.jobs-posting-24-modal .row > *, .jobs-posting-modal.jobs-posting-25-modal .row > * {
         margin-bottom: 15px;
     }
 
-    .jobs-posting-modal.jobs-posting-10-modal p, .jobs-posting-modal.jobs-posting-16-modal p {
+    .jobs-posting-modal.jobs-posting-10-modal p, .jobs-posting-modal.jobs-posting-16-modal p, .jobs-posting-modal.jobs-posting-24-modal p, .jobs-posting-modal.jobs-posting-25-modal p {
         color: #182642;
     }
 
-    .jobs-posting-modal.jobs-posting-10-modal .d-flex, .jobs-posting-modal.jobs-posting-16-modal .d-flex {
+    .jobs-posting-modal.jobs-posting-10-modal .d-flex, .jobs-posting-modal.jobs-posting-16-modal .d-flex, .jobs-posting-modal.jobs-posting-24-modal .d-flex, .jobs-posting-modal.jobs-posting-25-modal .d-flex {
         -webkit-box-align: center;
         -ms-flex-align: center;
         -webkit-box-pack: justify;
@@ -5901,7 +5980,7 @@
         margin-bottom: 15px;
     }
 
-    .jobs-posting-modal.jobs-posting-10-modal .d-flex p, .jobs-posting-modal.jobs-posting-16-modal .d-flex p {
+    .jobs-posting-modal.jobs-posting-10-modal .d-flex p, .jobs-posting-modal.jobs-posting-16-modal .d-flex p, .jobs-posting-modal.jobs-posting-24-modal .d-flex p, .jobs-posting-modal.jobs-posting-25-modal .d-flex p {
         width: -webkit-max-content;
         width: -moz-max-content;
         width: max-content;
@@ -5910,11 +5989,11 @@
         font-size: 16px;
     }
 
-    .jobs-posting-modal.jobs-posting-10-modal .d-flex select, .jobs-posting-modal.jobs-posting-16-modal .d-flex select {
+    .jobs-posting-modal.jobs-posting-10-modal .d-flex select, .jobs-posting-modal.jobs-posting-16-modal .d-flex select, .jobs-posting-modal.jobs-posting-24-modal .d-flex select, .jobs-posting-modal.jobs-posting-25-modal .d-flex select {
         width: 200px;
     }
 
-    .jobs-posting-modal.jobs-posting-10-modal .d-flex a, .jobs-posting-modal.jobs-posting-16-modal .d-flex a {
+    .jobs-posting-modal.jobs-posting-10-modal .d-flex a, .jobs-posting-modal.jobs-posting-16-modal .d-flex a, .jobs-posting-modal.jobs-posting-24-modal .d-flex a, .jobs-posting-modal.jobs-posting-25-modal .d-flex a {
         -webkit-box-pack: end;
         -ms-flex-pack: end;
         display: -webkit-box;
@@ -5925,49 +6004,49 @@
         font-size: 14.5px;
     }
 
-    .jobs-posting-modal.jobs-posting-10-modal .d-flex a:hover, .jobs-posting-modal.jobs-posting-16-modal .d-flex a:hover {
+    .jobs-posting-modal.jobs-posting-10-modal .d-flex a:hover, .jobs-posting-modal.jobs-posting-16-modal .d-flex a:hover, .jobs-posting-modal.jobs-posting-24-modal .d-flex a:hover, .jobs-posting-modal.jobs-posting-25-modal .d-flex a:hover {
         text-decoration: underline;
     }
 
-    .jobs-posting-modal.jobs-posting-10-modal .fancybox-close-small, .jobs-posting-modal.jobs-posting-16-modal .fancybox-close-small {
+    .jobs-posting-modal.jobs-posting-10-modal .fancybox-close-small, .jobs-posting-modal.jobs-posting-16-modal .fancybox-close-small, .jobs-posting-modal.jobs-posting-24-modal .fancybox-close-small, .jobs-posting-modal.jobs-posting-25-modal .fancybox-close-small {
         background: #2f4ba0;
         color: #ffffff;
     }
 
-    .jobs-posting-modal.jobs-posting-10-modal .modal-head, .jobs-posting-modal.jobs-posting-16-modal .modal-head {
+    .jobs-posting-modal.jobs-posting-10-modal .modal-head, .jobs-posting-modal.jobs-posting-16-modal .modal-head, .jobs-posting-modal.jobs-posting-24-modal .modal-head, .jobs-posting-modal.jobs-posting-25-modal .modal-head {
         border-bottom: 1px solid #efefef;
     }
 
-    .jobs-posting-modal.jobs-posting-10-modal .modal-head .title, .jobs-posting-modal.jobs-posting-16-modal .modal-head .title {
+    .jobs-posting-modal.jobs-posting-10-modal .modal-head .title, .jobs-posting-modal.jobs-posting-16-modal .modal-head .title, .jobs-posting-modal.jobs-posting-24-modal .modal-head .title, .jobs-posting-modal.jobs-posting-25-modal .modal-head .title {
         color: #172642;
         font-size: 18px;
         font-weight: 900;
         text-transform: uppercase;
     }
 
-    .jobs-posting-modal.jobs-posting-10-modal .modal-body, .jobs-posting-modal.jobs-posting-16-modal .modal-body {
+    .jobs-posting-modal.jobs-posting-10-modal .modal-body, .jobs-posting-modal.jobs-posting-16-modal .modal-body, .jobs-posting-modal.jobs-posting-24-modal .modal-body, .jobs-posting-modal.jobs-posting-25-modal .modal-body {
         padding: 20px 0;
         padding-bottom: 0px;
         text-align: left;
     }
 
-    .jobs-posting-modal.jobs-posting-10-modal .modal-body .form-group, .jobs-posting-modal.jobs-posting-16-modal .modal-body .form-group {
+    .jobs-posting-modal.jobs-posting-10-modal .modal-body .form-group, .jobs-posting-modal.jobs-posting-16-modal .modal-body .form-group, .jobs-posting-modal.jobs-posting-24-modal .modal-body .form-group, .jobs-posting-modal.jobs-posting-25-modal .modal-body .form-group {
         margin-top: 10px;
     }
 
     @media (max-width: 1440px) {
-        .jobs-posting-modal.jobs-posting-10-modal, .jobs-posting-modal.jobs-posting-16-modal {
+        .jobs-posting-modal.jobs-posting-10-modal, .jobs-posting-modal.jobs-posting-16-modal, .jobs-posting-modal.jobs-posting-24-modal, .jobs-posting-modal.jobs-posting-25-modal {
             padding-bottom: 15px;
         }
 
-        .jobs-posting-modal.jobs-posting-10-modal .modal-body, .jobs-posting-modal.jobs-posting-16-modal .modal-body {
+        .jobs-posting-modal.jobs-posting-10-modal .modal-body, .jobs-posting-modal.jobs-posting-16-modal .modal-body, .jobs-posting-modal.jobs-posting-24-modal .modal-body, .jobs-posting-modal.jobs-posting-25-modal .modal-body {
             padding-top: 10px;
             padding-bottom: 0;
         }
     }
 
     @media (max-width: 576px) {
-        .jobs-posting-modal.jobs-posting-10-modal, .jobs-posting-modal.jobs-posting-16-modal {
+        .jobs-posting-modal.jobs-posting-10-modal, .jobs-posting-modal.jobs-posting-16-modal, .jobs-posting-modal.jobs-posting-24-modal, .jobs-posting-modal.jobs-posting-25-modal {
             padding: 20px;
         }
     }
@@ -6014,7 +6093,7 @@
     }
 
     .jobs-posting-modal.jobs-posting-11-modal .modal-body .form-group textarea {
-        height: 50px;
+        min-height: 50px;
     }
 
     .jobs-posting-modal.jobs-posting-11-modal .modal-body .form-group.form-radio {
@@ -6086,15 +6165,12 @@
     .jobs-posting-modal.jobs-posting-13-modal .modal-body .form-radio .group {
         -webkit-box-pack: center;
         -ms-flex-pack: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
         -webkit-box-flex: 0;
         -ms-flex: 0 0 100%;
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
         flex: 0 0 100%;
-        align-items: center;
         justify-content: center;
         width: 100%;
         max-width: 100%;
@@ -6111,6 +6187,7 @@
 
     .jobs-posting-modal.jobs-posting-13-modal .modal-body .form-radio .group label {
         width: 100%;
+        padding-left: 0;
         color: #5d677a;
         font-size: 14.5px;
         font-size: 16px;
@@ -6132,6 +6209,17 @@
 
     .jobs-posting-modal.jobs-posting-13-modal .modal-body .form-radio .group .right input {
         width: 100%;
+        height: 40px;
+    }
+
+    .jobs-posting-modal.jobs-posting-13-modal .modal-body .form-radio .group .right span {
+        display: block;
+        width: 100%;
+        margin-top: 5px;
+        color: red;
+        font-size: 12px;
+        font-style: italic;
+        text-align: left;
     }
 
     .jobs-posting-modal.jobs-posting-13-modal .modal-body .form-radio .group .right .form-checkbox {
@@ -6144,11 +6232,12 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        margin-top: 15px;
+        margin-top: 12px;
     }
 
     .jobs-posting-modal.jobs-posting-13-modal .modal-body .form-radio .group .right .form-checkbox input {
         width: 15px;
+        height: 15px;
     }
 
     .jobs-posting-modal.jobs-posting-13-modal .modal-body .form-radio .group .right .form-checkbox label {
@@ -6179,7 +6268,15 @@
         .jobs-posting-modal.jobs-posting-13-modal .modal-body .form-radio {
             -webkit-box-pack: justify;
             -ms-flex-pack: justify;
+            -webkit-box-align: start;
+            -ms-flex-align: start;
+            align-items: flex-start;
             justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .jobs-posting-modal.jobs-posting-13-modal .modal-body .form-radio .group + .group {
+            margin-top: 0;
         }
     }
 
@@ -6226,6 +6323,10 @@
         font-size: 14.5px;
         font-weight: 500;
         text-align: center;
+    }
+
+    .jobs-posting-modal.jobs-posting-13-modal .modal-body .table table tbody .td-input-checkbox {
+        padding: 10px 5px;
     }
 
     .jobs-posting-modal.jobs-posting-13-modal .modal-body .table table tbody tr {
@@ -6516,7 +6617,7 @@
     }
 
     .jobs-posting-modal.jobs-posting-16-modal .form-wrap .form-group textarea {
-        height: 150px;
+        min-height: 150px;
     }
 
     .jobs-posting-modal.jobs-posting-17-modal {
@@ -6823,6 +6924,884 @@
         }
     }
 
+    .jobs-posting-modal.jobs-posting-21-modal {
+        width: 930px;
+        max-width: 100%;
+        padding: 20px 40px;
+    }
+
+    .jobs-posting-modal.jobs-posting-21-modal .fancybox-close-small {
+        background: #2f4ba0;
+        color: #ffffff;
+    }
+
+    .jobs-posting-modal.jobs-posting-21-modal .modal-head {
+        border-bottom: 1px solid #efefef;
+    }
+
+    .jobs-posting-modal.jobs-posting-21-modal .modal-head .title {
+        color: #172642;
+        font-size: 18px;
+        font-weight: 900;
+        text-transform: uppercase;
+    }
+
+    .jobs-posting-modal.jobs-posting-21-modal .modal-body {
+        padding: 20px 0;
+        text-align: left;
+    }
+
+    .jobs-posting-modal.jobs-posting-21-modal .modal-body .content {
+        color: #182642;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .jobs-posting-modal.jobs-posting-21-modal .modal-body .content span {
+        color: #2f4ba0;
+        font-size: 14.5px;
+    }
+
+    .jobs-posting-modal.jobs-posting-21-modal .modal-body .table {
+        margin-top: 15px;
+    }
+
+    .jobs-posting-modal.jobs-posting-21-modal .modal-body .table table {
+        width: 100%;
+        border: 1px solid #e5e5e5;
+    }
+
+    .jobs-posting-modal.jobs-posting-21-modal .modal-body .table table thead {
+        background: #e6e6e6;
+    }
+
+    .jobs-posting-modal.jobs-posting-21-modal .modal-body .table table thead th {
+        padding: 9px 0;
+        color: #172642;
+        font-size: 14.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .jobs-posting-modal.jobs-posting-21-modal .modal-body .table table thead th:first-child {
+        width: 45px;
+        padding: 10px;
+    }
+
+    .jobs-posting-modal.jobs-posting-21-modal .modal-body .table table tbody tr {
+        border-bottom: 1px solid #e5e5e5;
+        background: #ffffff;
+    }
+
+    .jobs-posting-modal.jobs-posting-21-modal .modal-body .table table tbody td {
+        padding: 10px 0;
+        color: #333333;
+        font-size: 14.5px;
+    }
+
+    .jobs-posting-modal.jobs-posting-21-modal .modal-body .table table tbody td:first-child {
+        padding: 10px;
+    }
+
+    @media (max-width: 1440px) {
+        .jobs-posting-modal.jobs-posting-21-modal .modal-body .table table tbody td {
+            font-size: 14.5px;
+        }
+    }
+
+    .jobs-posting-modal.jobs-posting-21-modal .modal-body .button {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .jobs-posting-modal.jobs-posting-21-modal .modal-body .button > * {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-transition: 0.2s ease-in-out all;
+        -o-transition: 0.2s ease-in-out all;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 140px;
+        height: 40px;
+        margin: 5px;
+        padding: 5px 15px;
+        border-radius: 5px;
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 700;
+        text-align: center;
+        transition: 0.2s ease-in-out all;
+    }
+
+    .jobs-posting-modal.jobs-posting-21-modal .modal-body .button .btn-cancel {
+        background: #6c757d;
+    }
+
+    .jobs-posting-modal.jobs-posting-21-modal .modal-body .button .btn-gradient {
+        background-image: -webkit-gradient(linear, left top, right top, from(#2f4ba0), color-stop(#1e9bd3), to(#2f4ba0));
+        background-image: -o-linear-gradient(left, #2f4ba0, #1e9bd3, #2f4ba0);
+        background-image: linear-gradient(to right, #2f4ba0, #1e9bd3, #2f4ba0);
+    }
+
+    @media (max-width: 1440px) {
+        .jobs-posting-modal.jobs-posting-21-modal {
+            padding-bottom: 15px;
+        }
+
+        .jobs-posting-modal.jobs-posting-21-modal .modal-body {
+            padding-top: 10px;
+            padding-bottom: 0;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .jobs-posting-modal.jobs-posting-21-modal {
+            padding: 20px;
+        }
+    }
+
+    .jobs-posting-modal.jobs-posting-22-modal {
+        width: 750px;
+        max-width: 100%;
+        padding: 20px 40px;
+    }
+
+    .jobs-posting-modal.jobs-posting-22-modal p {
+        color: #182642;
+    }
+
+    .jobs-posting-modal.jobs-posting-22-modal .fancybox-close-small {
+        background: #2f4ba0;
+        color: #ffffff;
+    }
+
+    .jobs-posting-modal.jobs-posting-22-modal .modal-head {
+        border-bottom: 1px solid #efefef;
+    }
+
+    .jobs-posting-modal.jobs-posting-22-modal .modal-head .title {
+        color: #172642;
+        font-size: 18px;
+        font-weight: 900;
+        text-transform: uppercase;
+    }
+
+    .jobs-posting-modal.jobs-posting-22-modal .modal-body {
+        padding: 20px 0;
+        padding-bottom: 0px;
+        text-align: left;
+    }
+
+    .jobs-posting-modal.jobs-posting-22-modal .modal-body .title {
+        padding-bottom: 15px;
+        border-bottom: 1px solid #efefef;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .jobs-posting-modal.jobs-posting-22-modal .modal-body .title strong {
+        display: inline-block;
+        min-width: 140px;
+        padding-right: 10px;
+    }
+
+    .jobs-posting-modal.jobs-posting-22-modal .modal-body .title span {
+        font-weight: 500;
+    }
+
+    .jobs-posting-modal.jobs-posting-22-modal .modal-body .full-content {
+        padding-top: 15px;
+    }
+
+    .jobs-posting-modal.jobs-posting-22-modal .modal-body .form-submit {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .jobs-posting-modal.jobs-posting-22-modal .modal-body .form-submit .btn-gradient {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-transition: 0.2s ease-in-out all;
+        -o-transition: 0.2s ease-in-out all;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 140px;
+        height: 40px;
+        margin-top: 20px;
+        padding: 5px 15px;
+        border-radius: 5px;
+        background-image: -webkit-gradient(linear, left top, right top, from(#2f4ba0), color-stop(#1e9bd3), to(#2f4ba0));
+        background-image: -o-linear-gradient(left, #2f4ba0, #1e9bd3, #2f4ba0);
+        background-image: linear-gradient(to right, #2f4ba0, #1e9bd3, #2f4ba0);
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 700;
+        text-align: center;
+        transition: 0.2s ease-in-out all;
+    }
+
+    @media (max-width: 1440px) {
+        .jobs-posting-modal.jobs-posting-22-modal {
+            padding-bottom: 15px;
+        }
+
+        .jobs-posting-modal.jobs-posting-22-modal .modal-body {
+            padding-top: 10px;
+            padding-bottom: 0;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .jobs-posting-modal.jobs-posting-22-modal {
+            padding: 20px;
+        }
+    }
+
+    .jobs-posting-modal.jobs-posting-23-modal {
+        width: 750px;
+        max-width: 100%;
+        padding: 20px 40px;
+    }
+
+    .jobs-posting-modal.jobs-posting-23-modal p {
+        color: #182642;
+    }
+
+    .jobs-posting-modal.jobs-posting-23-modal .fancybox-close-small {
+        background: #2f4ba0;
+        color: #ffffff;
+    }
+
+    .jobs-posting-modal.jobs-posting-23-modal .modal-head {
+        border-bottom: 1px solid #efefef;
+    }
+
+    .jobs-posting-modal.jobs-posting-23-modal .modal-head .title {
+        color: #172642;
+        font-size: 18px;
+        font-weight: 900;
+        text-transform: uppercase;
+    }
+
+    .jobs-posting-modal.jobs-posting-23-modal .modal-body {
+        padding: 20px 0;
+        padding-bottom: 0px;
+        text-align: left;
+    }
+
+    .jobs-posting-modal.jobs-posting-23-modal .modal-body .title {
+        padding-bottom: 15px;
+        border-bottom: 1px solid #efefef;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .jobs-posting-modal.jobs-posting-23-modal .modal-body .title strong {
+        display: inline-block;
+        min-width: 140px;
+        padding-right: 10px;
+    }
+
+    .jobs-posting-modal.jobs-posting-23-modal .modal-body .title span {
+        font-weight: 500;
+    }
+
+    .jobs-posting-modal.jobs-posting-23-modal .modal-body .full-content {
+        padding-top: 15px;
+    }
+
+    .jobs-posting-modal.jobs-posting-23-modal .modal-body .form-submit {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .jobs-posting-modal.jobs-posting-23-modal .modal-body .form-submit .btn-gradient {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-transition: 0.2s ease-in-out all;
+        -o-transition: 0.2s ease-in-out all;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 140px;
+        height: 40px;
+        margin-top: 20px;
+        padding: 5px 15px;
+        border-radius: 5px;
+        background-image: -webkit-gradient(linear, left top, right top, from(#2f4ba0), color-stop(#1e9bd3), to(#2f4ba0));
+        background-image: -o-linear-gradient(left, #2f4ba0, #1e9bd3, #2f4ba0);
+        background-image: linear-gradient(to right, #2f4ba0, #1e9bd3, #2f4ba0);
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 700;
+        text-align: center;
+        transition: 0.2s ease-in-out all;
+    }
+
+    @media (max-width: 1440px) {
+        .jobs-posting-modal.jobs-posting-23-modal {
+            padding-bottom: 15px;
+        }
+
+        .jobs-posting-modal.jobs-posting-23-modal .modal-body {
+            padding-top: 10px;
+            padding-bottom: 0;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .jobs-posting-modal.jobs-posting-23-modal {
+            padding: 20px;
+        }
+    }
+
+    .jobs-posting-modal.jobs-posting-24-modal .form-wrap .form-group textarea, .jobs-posting-modal.jobs-posting-25-modal .form-wrap .form-group textarea {
+        color: #182642;
+        font-size: 15px;
+    }
+
+    .jobs-posting-modal.jobs-posting-25-modal .form-wrap .form-group textarea {
+        min-height: 200px;
+    }
+
+    .jobs-posting-modal.jobs-posting-26-modal, .jobs-posting-modal.jobs-posting-27-modal, .jobs-posting-modal.jobs-posting-31-modal {
+        width: 530px;
+        max-width: 100%;
+        padding: 20px 40px;
+    }
+
+    .jobs-posting-modal.jobs-posting-26-modal p, .jobs-posting-modal.jobs-posting-27-modal p, .jobs-posting-modal.jobs-posting-31-modal p {
+        color: #182642;
+    }
+
+    .jobs-posting-modal.jobs-posting-26-modal .fancybox-close-small, .jobs-posting-modal.jobs-posting-27-modal .fancybox-close-small, .jobs-posting-modal.jobs-posting-31-modal .fancybox-close-small {
+        background: #2f4ba0;
+        color: #ffffff;
+    }
+
+    .jobs-posting-modal.jobs-posting-26-modal .modal-head, .jobs-posting-modal.jobs-posting-27-modal .modal-head, .jobs-posting-modal.jobs-posting-31-modal .modal-head {
+        border-bottom: 1px solid #efefef;
+    }
+
+    .jobs-posting-modal.jobs-posting-26-modal .modal-head .title, .jobs-posting-modal.jobs-posting-27-modal .modal-head .title, .jobs-posting-modal.jobs-posting-31-modal .modal-head .title {
+        color: #172642;
+        font-size: 18px;
+        font-weight: 900;
+        text-transform: uppercase;
+    }
+
+    .jobs-posting-modal.jobs-posting-26-modal .modal-body, .jobs-posting-modal.jobs-posting-27-modal .modal-body, .jobs-posting-modal.jobs-posting-31-modal .modal-body {
+        padding: 20px 0;
+        padding-bottom: 0px;
+        text-align: left;
+    }
+
+    .jobs-posting-modal.jobs-posting-26-modal .modal-body .row, .jobs-posting-modal.jobs-posting-27-modal .modal-body .row, .jobs-posting-modal.jobs-posting-31-modal .modal-body .row {
+        margin-bottom: -20px;
+    }
+
+    .jobs-posting-modal.jobs-posting-26-modal .modal-body .row > *, .jobs-posting-modal.jobs-posting-27-modal .modal-body .row > *, .jobs-posting-modal.jobs-posting-31-modal .modal-body .row > * {
+        margin-bottom: 20px;
+    }
+
+    .jobs-posting-modal.jobs-posting-26-modal .form-group.form-input-label, .jobs-posting-modal.jobs-posting-27-modal .form-group.form-input-label, .jobs-posting-modal.jobs-posting-31-modal .form-group.form-input-label {
+        position: relative;
+    }
+
+    .jobs-posting-modal.jobs-posting-26-modal .form-group.form-input-label label, .jobs-posting-modal.jobs-posting-27-modal .form-group.form-input-label label, .jobs-posting-modal.jobs-posting-31-modal .form-group.form-input-label label {
+        -webkit-transition: 0.5s;
+        -o-transition: 0.5s;
+        position: absolute;
+        top: 7px;
+        left: 0;
+        color: #999999;
+        pointer-events: none;
+        transition: 0.5s;
+    }
+
+    .jobs-posting-modal.jobs-posting-26-modal .form-group.form-input-label input, .jobs-posting-modal.jobs-posting-27-modal .form-group.form-input-label input, .jobs-posting-modal.jobs-posting-31-modal .form-group.form-input-label input {
+        height: 40px;
+        color: #172642;
+        font-weight: 700;
+    }
+
+    .jobs-posting-modal.jobs-posting-26-modal .form-group.form-input-label input:focus ~ label, .jobs-posting-modal.jobs-posting-26-modal .form-group.form-input-label input:not([value=""]) ~ label, .jobs-posting-modal.jobs-posting-27-modal .form-group.form-input-label input:focus ~ label, .jobs-posting-modal.jobs-posting-27-modal .form-group.form-input-label input:not([value=""]) ~ label, .jobs-posting-modal.jobs-posting-31-modal .form-group.form-input-label input:focus ~ label, .jobs-posting-modal.jobs-posting-31-modal .form-group.form-input-label input:not([value=""]) ~ label {
+        top: -15px;
+        left: 0;
+        font-size: 14.5px;
+    }
+
+    .jobs-posting-modal.jobs-posting-26-modal .form-group.form-input-label input:focus ~ label span, .jobs-posting-modal.jobs-posting-26-modal .form-group.form-input-label input:not([value=""]) ~ label span, .jobs-posting-modal.jobs-posting-27-modal .form-group.form-input-label input:focus ~ label span, .jobs-posting-modal.jobs-posting-27-modal .form-group.form-input-label input:not([value=""]) ~ label span, .jobs-posting-modal.jobs-posting-31-modal .form-group.form-input-label input:focus ~ label span, .jobs-posting-modal.jobs-posting-31-modal .form-group.form-input-label input:not([value=""]) ~ label span {
+        font-size: 10px;
+    }
+
+    .jobs-posting-modal.jobs-posting-26-modal .form-group.form-input-label .noted, .jobs-posting-modal.jobs-posting-27-modal .form-group.form-input-label .noted, .jobs-posting-modal.jobs-posting-31-modal .form-group.form-input-label .noted {
+        color: #999999;
+        font-size: 14.5px;
+        font-weight: 500;
+    }
+
+    .jobs-posting-modal.jobs-posting-26-modal .form-group.form-checkbox, .jobs-posting-modal.jobs-posting-27-modal .form-group.form-checkbox, .jobs-posting-modal.jobs-posting-31-modal .form-group.form-checkbox {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+    }
+
+    .jobs-posting-modal.jobs-posting-26-modal .form-group.form-checkbox input, .jobs-posting-modal.jobs-posting-27-modal .form-group.form-checkbox input, .jobs-posting-modal.jobs-posting-31-modal .form-group.form-checkbox input {
+        width: 15px;
+        min-width: 15px;
+        height: 15px;
+    }
+
+    .jobs-posting-modal.jobs-posting-26-modal .form-group.form-checkbox label, .jobs-posting-modal.jobs-posting-27-modal .form-group.form-checkbox label, .jobs-posting-modal.jobs-posting-31-modal .form-group.form-checkbox label {
+        padding-left: 15px;
+        cursor: pointer;
+    }
+
+    .jobs-posting-modal.jobs-posting-26-modal .form-group.form-submit, .jobs-posting-modal.jobs-posting-27-modal .form-group.form-submit, .jobs-posting-modal.jobs-posting-31-modal .form-group.form-submit {
+        margin-top: 15px;
+    }
+
+    @media (max-width: 1440px) {
+        .jobs-posting-modal.jobs-posting-26-modal, .jobs-posting-modal.jobs-posting-27-modal, .jobs-posting-modal.jobs-posting-31-modal {
+            padding-bottom: 15px;
+        }
+
+        .jobs-posting-modal.jobs-posting-26-modal .modal-body, .jobs-posting-modal.jobs-posting-27-modal .modal-body, .jobs-posting-modal.jobs-posting-31-modal .modal-body {
+            padding-top: 10px;
+            padding-bottom: 0;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .jobs-posting-modal.jobs-posting-26-modal, .jobs-posting-modal.jobs-posting-27-modal, .jobs-posting-modal.jobs-posting-31-modal {
+            padding: 20px;
+        }
+    }
+
+    .jobs-posting-modal.jobs-posting-alerts-modal {
+        width: 700px;
+        max-width: 100%;
+        padding: 20px 40px;
+    }
+
+    .jobs-posting-modal.jobs-posting-alerts-modal .fancybox-close-small {
+        background: #2f4ba0;
+        color: #ffffff;
+    }
+
+    .jobs-posting-modal.jobs-posting-alerts-modal .modal-head {
+        border-bottom: 1px solid #efefef;
+    }
+
+    .jobs-posting-modal.jobs-posting-alerts-modal .modal-head .title {
+        color: #172642;
+        font-size: 18px;
+        font-weight: 900;
+        text-transform: uppercase;
+    }
+
+    .jobs-posting-modal.jobs-posting-alerts-modal .modal-body {
+        padding: 20px 0;
+        text-align: left;
+    }
+
+    @media (max-width: 1440px) {
+        .jobs-posting-modal.jobs-posting-alerts-modal {
+            padding-bottom: 15px;
+        }
+
+        .jobs-posting-modal.jobs-posting-alerts-modal .modal-body {
+            padding-top: 10px;
+            padding-bottom: 0;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .jobs-posting-modal.jobs-posting-alerts-modal {
+            padding: 20px;
+        }
+    }
+
+    .jobs-posting-modal.jobs-posting-alerts-1-modal {
+        max-width: 490px;
+    }
+
+    .jobs-posting-modal.jobs-posting-alerts-1-modal .modal-body .content {
+        color: #182642;
+        text-align: center;
+    }
+
+    .jobs-posting-modal.jobs-posting-alerts-1-modal .modal-body .button .btn-gradient {
+        background-image: -webkit-gradient(linear, left top, right top, from(#2f4ba0), color-stop(#1e9bd3), to(#2f4ba0));
+        background-image: -o-linear-gradient(left, #2f4ba0, #1e9bd3, #2f4ba0);
+        background-image: linear-gradient(to right, #2f4ba0, #1e9bd3, #2f4ba0);
+    }
+
+    .jobs-posting-modal.jobs-posting-alerts-2-modal {
+        max-width: 490px;
+    }
+
+    .jobs-posting-modal.jobs-posting-alerts-2-modal .modal-body .content {
+        color: #182642;
+        text-align: center;
+    }
+
+    .jobs-posting-modal.jobs-posting-alerts-2-modal .modal-body .button {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .jobs-posting-modal.jobs-posting-alerts-2-modal .modal-body .button > * {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-transition: 0.2s ease-in-out all;
+        -o-transition: 0.2s ease-in-out all;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 140px;
+        height: 40px;
+        margin: 5px;
+        padding: 5px 15px;
+        border-radius: 5px;
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 700;
+        text-align: center;
+        transition: 0.2s ease-in-out all;
+    }
+
+    .jobs-posting-modal.jobs-posting-alerts-2-modal .modal-body .button .btn-cancel {
+        background: #6c757d;
+    }
+
+    .jobs-posting-modal.jobs-posting-alerts-2-modal .modal-body .button .btn-gradient {
+        background-image: -webkit-gradient(linear, left top, right top, from(#2f4ba0), color-stop(#1e9bd3), to(#2f4ba0));
+        background-image: -o-linear-gradient(left, #2f4ba0, #1e9bd3, #2f4ba0);
+        background-image: linear-gradient(to right, #2f4ba0, #1e9bd3, #2f4ba0);
+    }
+
+    .jobs-posting-modal.jobs-posting-28-modal {
+        width: 930px;
+        max-width: 100%;
+        padding: 20px 40px;
+    }
+
+    .jobs-posting-modal.jobs-posting-28-modal .fancybox-close-small {
+        background: #2f4ba0;
+        color: #ffffff;
+    }
+
+    .jobs-posting-modal.jobs-posting-28-modal .modal-head {
+        border-bottom: 1px solid #efefef;
+    }
+
+    .jobs-posting-modal.jobs-posting-28-modal .modal-head .title {
+        color: #172642;
+        font-size: 18px;
+        font-weight: 900;
+        text-transform: uppercase;
+    }
+
+    .jobs-posting-modal.jobs-posting-28-modal .modal-body {
+        padding: 20px 0;
+        text-align: left;
+    }
+
+    .jobs-posting-modal.jobs-posting-28-modal .modal-body .content {
+        color: #182642;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .jobs-posting-modal.jobs-posting-28-modal .modal-body .content span {
+        color: #2f4ba0;
+        font-size: 14.5px;
+    }
+
+    .jobs-posting-modal.jobs-posting-28-modal .modal-body .table {
+        margin-top: 15px;
+    }
+
+    .jobs-posting-modal.jobs-posting-28-modal .modal-body .table table {
+        width: 100%;
+        border: 1px solid #e5e5e5;
+    }
+
+    .jobs-posting-modal.jobs-posting-28-modal .modal-body .table table thead {
+        background: #e6e6e6;
+    }
+
+    .jobs-posting-modal.jobs-posting-28-modal .modal-body .table table thead th {
+        padding: 9px 0;
+        color: #172642;
+        font-size: 14.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .jobs-posting-modal.jobs-posting-28-modal .modal-body .table table thead th:first-child {
+        width: 55px;
+        padding: 10px;
+    }
+
+    .jobs-posting-modal.jobs-posting-28-modal .modal-body .table table tbody tr {
+        border-bottom: 1px solid #e5e5e5;
+        background: #ffffff;
+    }
+
+    .jobs-posting-modal.jobs-posting-28-modal .modal-body .table table tbody td {
+        padding: 10px 0;
+        color: #333333;
+        font-size: 14.5px;
+    }
+
+    .jobs-posting-modal.jobs-posting-28-modal .modal-body .table table tbody td:first-child {
+        padding: 10px;
+    }
+
+    @media (max-width: 1440px) {
+        .jobs-posting-modal.jobs-posting-28-modal .modal-body .table table tbody td {
+            font-size: 14.5px;
+        }
+    }
+
+    .jobs-posting-modal.jobs-posting-28-modal .modal-body .button {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .jobs-posting-modal.jobs-posting-28-modal .modal-body .button > * {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-transition: 0.2s ease-in-out all;
+        -o-transition: 0.2s ease-in-out all;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 140px;
+        height: 40px;
+        margin: 5px;
+        padding: 5px 15px;
+        border-radius: 5px;
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 700;
+        text-align: center;
+        transition: 0.2s ease-in-out all;
+    }
+
+    .jobs-posting-modal.jobs-posting-28-modal .modal-body .button .btn-cancel {
+        background: #6c757d;
+    }
+
+    .jobs-posting-modal.jobs-posting-28-modal .modal-body .button .btn-gradient {
+        background-image: -webkit-gradient(linear, left top, right top, from(#2f4ba0), color-stop(#1e9bd3), to(#2f4ba0));
+        background-image: -o-linear-gradient(left, #2f4ba0, #1e9bd3, #2f4ba0);
+        background-image: linear-gradient(to right, #2f4ba0, #1e9bd3, #2f4ba0);
+    }
+
+    @media (max-width: 1440px) {
+        .jobs-posting-modal.jobs-posting-28-modal {
+            padding-bottom: 15px;
+        }
+
+        .jobs-posting-modal.jobs-posting-28-modal .modal-body {
+            padding-top: 10px;
+            padding-bottom: 0;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .jobs-posting-modal.jobs-posting-28-modal {
+            padding: 20px;
+        }
+    }
+
+    .jobs-posting-modal.jobs-posting-29-modal, .jobs-posting-modal.jobs-posting-30-modal {
+        width: 580px;
+        max-width: 100%;
+        padding: 20px 40px;
+    }
+
+    .jobs-posting-modal.jobs-posting-29-modal .fancybox-close-small, .jobs-posting-modal.jobs-posting-30-modal .fancybox-close-small {
+        background: #2f4ba0;
+        color: #ffffff;
+    }
+
+    .jobs-posting-modal.jobs-posting-29-modal .modal-head, .jobs-posting-modal.jobs-posting-30-modal .modal-head {
+        border-bottom: 1px solid #efefef;
+    }
+
+    .jobs-posting-modal.jobs-posting-29-modal .modal-head .title, .jobs-posting-modal.jobs-posting-30-modal .modal-head .title {
+        color: #172642;
+        font-size: 18px;
+        font-weight: 900;
+        text-transform: uppercase;
+    }
+
+    .jobs-posting-modal.jobs-posting-29-modal .modal-body, .jobs-posting-modal.jobs-posting-30-modal .modal-body {
+        padding: 20px 0;
+        text-align: left;
+    }
+
+    .jobs-posting-modal.jobs-posting-29-modal .modal-body .content .image img, .jobs-posting-modal.jobs-posting-30-modal .modal-body .content .image img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    @media (max-width: 1440px) {
+        .jobs-posting-modal.jobs-posting-29-modal, .jobs-posting-modal.jobs-posting-30-modal {
+            padding-bottom: 15px;
+        }
+
+        .jobs-posting-modal.jobs-posting-29-modal .modal-body, .jobs-posting-modal.jobs-posting-30-modal .modal-body {
+            padding-top: 10px;
+            padding-bottom: 0;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .jobs-posting-modal.jobs-posting-29-modal, .jobs-posting-modal.jobs-posting-30-modal {
+            padding: 20px;
+        }
+    }
+
+    .jobs-posting-modal.jobs-posting-32-modal {
+        width: 930px;
+        max-width: 100%;
+        padding: 20px 40px;
+        padding-bottom: 50px;
+    }
+
+    .jobs-posting-modal.jobs-posting-32-modal p {
+        color: #182642;
+    }
+
+    .jobs-posting-modal.jobs-posting-32-modal .fancybox-close-small {
+        background: #2f4ba0;
+        color: #ffffff;
+    }
+
+    .jobs-posting-modal.jobs-posting-32-modal .modal-head {
+        border-bottom: 1px solid #efefef;
+    }
+
+    .jobs-posting-modal.jobs-posting-32-modal .modal-head .title {
+        color: #172642;
+        font-size: 18px;
+        font-weight: 900;
+        text-transform: uppercase;
+    }
+
+    .jobs-posting-modal.jobs-posting-32-modal .modal-body {
+        padding: 20px 0;
+        padding-bottom: 0px;
+        text-align: left;
+    }
+
+    .jobs-posting-modal.jobs-posting-32-modal .modal-body .row {
+        margin-bottom: -20px;
+    }
+
+    .jobs-posting-modal.jobs-posting-32-modal .modal-body .row > * {
+        margin-bottom: 20px;
+    }
+
+    .jobs-posting-modal.jobs-posting-32-modal .modal-body .content .image {
+        display: block;
+        position: relative;
+        margin-top: 25px;
+        padding-top: 58.8235294118%;
+        overflow: hidden;
+        border: 1px solid #eeeeee;
+    }
+
+    .jobs-posting-modal.jobs-posting-32-modal .modal-body .content .image iframe {
+        -o-object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    @media (max-width: 1440px) {
+        .jobs-posting-modal.jobs-posting-32-modal {
+            padding-bottom: 15px;
+        }
+
+        .jobs-posting-modal.jobs-posting-32-modal .modal-body {
+            padding-top: 10px;
+            padding-bottom: 0;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .jobs-posting-modal.jobs-posting-32-modal {
+            padding: 20px;
+        }
+    }
+
     .flip-view-modal {
         width: 1230px;
         max-width: 100%;
@@ -6904,6 +7883,156 @@
         color: #2f4ba0;
         font-size: 14.5px;
         font-weight: 700;
+    }
+
+    .flip-view-modal .view-info {
+        display: none;
+    }
+
+    .flip-view-modal .view-info .info-list {
+        margin-top: 20px;
+    }
+
+    .flip-view-modal .view-info .info-list li {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+    }
+
+    .flip-view-modal .view-info .info-list li p {
+        color: #182642;
+        font-size: 16px;
+    }
+
+    .flip-view-modal .view-info .info-list li p:first-child {
+        width: 160px;
+        min-width: 160px;
+        padding-right: 10px;
+    }
+
+    .flip-view-modal .view-info .info-list li .name {
+        color: #2f4ba0;
+    }
+
+    @media (min-width: 1024px) {
+        .flip-view-modal .view-info .info-list {
+            margin-top: 25px;
+        }
+    }
+
+    .flip-view-modal .view-info .doc-success {
+        margin-top: 10px;
+        color: #182642;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .flip-view-modal .view-info .doc-success em {
+        padding-right: 5px;
+        color: #24ebc8;
+        font-size: 20px;
+        line-height: 1;
+    }
+
+    .flip-view-modal .view-info .form-wrap {
+        -webkit-box-align: end;
+        -ms-flex-align: end;
+        -ms-flex-wrap: wrap;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        max-width: 555px;
+        margin-top: 10px;
+    }
+
+    .flip-view-modal .view-info .form-wrap .form-group label {
+        width: 100%;
+        margin-bottom: 3px;
+        color: #182642;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .flip-view-modal .view-info .form-wrap .form-group input {
+        width: 100%;
+        height: 40px;
+        border: none;
+        border-bottom: 1px solid #e5e5e5;
+        color: #182642;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .flip-view-modal .view-info .form-wrap .form-group input::-webkit-input-placeholder {
+        color: #999999;
+    }
+
+    .flip-view-modal .view-info .form-wrap .form-group input::-moz-placeholder {
+        color: #999999;
+    }
+
+    .flip-view-modal .view-info .form-wrap .form-group input:-ms-input-placeholder {
+        color: #999999;
+    }
+
+    .flip-view-modal .view-info .form-wrap .form-group input::-ms-input-placeholder {
+        color: #999999;
+    }
+
+    .flip-view-modal .view-info .form-wrap .form-group input::placeholder {
+        color: #999999;
+    }
+
+    .flip-view-modal .view-info .form-wrap .form-text {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 calc(100% - 140px);
+        flex: 0 0 calc(100% - 140px);
+        width: 100%;
+        max-width: calc(100% - 140px);
+        padding-right: 10px;
+    }
+
+    .flip-view-modal .view-info .form-wrap .form-submit {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 140px;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        flex: 0 0 140px;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 140px;
+        height: 100%;
+    }
+
+    .flip-view-modal .view-info .form-wrap .form-submit .btn-submit {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 40px;
+        padding: 5px 15px;
+        border-radius: 5px;
+        background-image: -webkit-gradient(linear, left top, right top, from(#2f4ba0), color-stop(#1e9bd3), to(#2f4ba0));
+        background-image: -o-linear-gradient(left, #2f4ba0, #1e9bd3, #2f4ba0);
+        background-image: linear-gradient(to right, #2f4ba0, #1e9bd3, #2f4ba0);
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 500;
+        text-align: center;
     }
 
     .flip-view-modal .flip-view-head {
@@ -7083,6 +8212,10 @@
         font-size: 14.5px;
         font-weight: 500;
         line-height: 1.3;
+    }
+
+    .flip-view-modal .flip-view-body .info-right.active {
+        display: none;
     }
 
     @media (min-width: 768px) {
@@ -7316,6 +8449,31 @@
         font-size: 16px;
     }
 
+    .flip-view-modal .flip-view-modal-right .tag-list {
+        margin-top: 10px;
+    }
+
+    .flip-view-modal .flip-view-modal-right .tag-list .tag-item {
+        display: inline-block;
+        margin-top: 3px;
+        margin-right: 3px;
+        padding: 2px 4px;
+        border-radius: 3px;
+        background: #f1f1f1;
+    }
+
+    .flip-view-modal .flip-view-modal-right .tag-list .tag-item .tag-name {
+        color: #2f4ba0;
+    }
+
+    .flip-view-modal .flip-view-modal-right .tag-list .tag-item .tag-name:hover {
+        text-decoration: underline;
+    }
+
+    .flip-view-modal .flip-view-modal-right .tag-list .tag-item .btn-delete em {
+        color: red;
+    }
+
     @media (min-width: 1280px) {
         .flip-view-modal .flip-view-modal-right {
             margin-top: 60px;
@@ -7437,887 +8595,4 @@
         font-weight: 700;
     }
 
-    .manage-job-posting-post-jobs .note {
-        margin-top: 10px;
-        justify-content: space-between;
-    }
-
-    .manage-job-posting-post-jobs .note p {
-        color: #999999;
-        font-size: 14.5px;
-        font-weight: 500;
-    }
-
-    .manage-job-posting-post-jobs .note, .manage-job-posting-post-jobs .note-right {
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -ms-flex-wrap: wrap;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-    }
-
-    .manage-job-posting-post-jobs .note-right p {
-        color: #FF0000;
-        margin-right: 10px;
-    }
-
-    .manage-job-posting-post-jobs .note-right a {
-        border: 1px solid #2f4ba0;
-        border-radius: 20px;
-        padding: 5px 20px;
-        color: #2f4ba0;
-        transition: all .4s;
-        font-size: 14.5px;
-    }
-
-    .manage-job-posting-post-jobs .note-right a:hover {
-        color: #fff;
-        background: #2f4ba0;
-    }
-
-    @media (max-width: 767px) {
-        .manage-job-posting-post-jobs .note, .manage-job-posting-post-jobs .note-right {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .manage-job-posting-post-jobs .note-right a {
-            margin-top: 5px;
-        }
-    }
-
-    .salary-suggest .box-title * {
-        font-weight: 700;
-        font-size: 16px;
-    }
-
-    .salary-suggest .box-title {
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -ms-flex-wrap: wrap;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        margin-bottom: 15px;
-    }
-
-    .salary-suggest .box-title p {
-        color: #000;
-        font-style: italic;
-        margin-right: 10px;
-    }
-
-    .salary-suggest .box-title a {
-        color: #fff;
-        background: #dd1830;
-        padding: 0 15px;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    .salary-suggest .box-title a:hover {
-        color: #fff;
-    }
-
-    .box-suggest {
-        padding-top: 12px;
-    }
-
-    @media (max-width: 576px) {
-        .salary-suggest .box-title {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .salary-suggest .box-title > a {
-            margin-top: 5px;
-        }
-    }
-
-    .mdi-dots-horizontal:before {
-        content: '\f1d8';
-    }
-
-    .mdi-triangle:before {
-        content: '\f536';
-    }
-
-    .chart-title {
-        margin-bottom: 15px;
-    }
-
-    .chart-title h3 {
-        font-size: 20px;
-        color: #464545;
-    }
-
-    .chart-title h3 span {
-        color: #073A4B;
-    }
-
-    .chart-title > span {
-        color: #464545;
-    }
-
-    .chart-title span em {
-        margin-right: 5px;
-    }
-
-    .chart-title .title-row {
-        justify-content: space-between;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        margin-top: 5px;
-    }
-
-    .chart-title .title-row a {
-        border-bottom: 1px solid #2f4ba0;
-    }
-
-    .chart-title .title-row a:hover {
-        border-bottom-color: #0056b3;
-    }
-
-    .block-chart-1 {
-        margin-bottom: 20px;
-    }
-
-    .block-chart-1 > .row {
-        align-items: center;
-        padding-bottom: 5px;
-    }
-
-    .block-chart > .row {
-        margin-left: -50px;
-        margin-right: -50px;
-    }
-
-    .block-chart > .row > [class*="col-"] {
-        padding: 0 50px;
-    }
-
-    .progress-salary {
-        padding-top: 100px;
-        margin-bottom: 50px;
-    }
-
-    .progress-salary .list-progress {
-        display: flex;
-        flex-wrap: wrap;
-        background: #fff;
-        height: 15px;
-        width: 100%;
-    }
-
-    .list-progress .square {
-        height: 15px;
-        position: relative;
-        z-index: 1;
-    }
-
-    .list-progress .square > span {
-        color: #000;
-        position: absolute;
-    }
-
-    .list-progress .square-min {
-        background: #EE3959;
-    }
-
-    .list-progress .square-min.active .numb {
-        left: -30px;
-    }
-
-    .list-progress .square-min.active .numb-1 {
-        left: auto;
-        right: -20px;
-    }
-
-    .list-progress .square .text {
-        left: 0;
-        top: 25px;
-        font-size: 14.5px;
-    }
-
-    .list-progress .square .numb {
-        left: 0;
-        top: -25px;
-        font-size: 14.5px;
-    }
-
-    .list-progress .square .numb-1 {
-        left: auto;
-        right: -30px;
-    }
-
-    .list-progress .square-real {
-        background: #E8C80D;
-    }
-
-    .list-progress .square-real:after {
-        content: '';
-        width: 2px;
-        height: 100%;
-        background: #fff;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-1px);
-    }
-
-    .list-progress .square-real .text {
-        left: 50%;
-        transform: translateX(-50%);
-        white-space: nowrap;
-    }
-
-    .list-progress .square-real .numb {
-        left: auto;
-        right: -30px;
-    }
-
-    .list-progress .square-max {
-        background: #00B2A3;
-    }
-
-    .list-progress .square-max .text, .list-progress .square-max .numb {
-        left: auto;
-        right: 0;
-    }
-
-    .list-progress .square-max.active .numb {
-        right: -20px;
-    }
-
-    .avg {
-        position: absolute;
-        bottom: 50px;
-        left: 50%;
-        transform: translateX(-70%);
-    }
-
-    .box-avg-number {
-        box-shadow: 0 0 8px 0 #ccc;
-        display: block;
-        position: relative;
-        width: 145px;
-    }
-
-    .box-avg-number:before {
-        content: "";
-        width: 14px;
-        height: 14px;
-        position: absolute;
-        bottom: -7px;
-        left: 50%;
-        margin-left: -7px;
-        background: #fff;
-        transform: rotate(45deg);
-        box-shadow: 0 0 8px 0 #ccc;
-    }
-
-    .box-avg-number.active-1:before {
-        left: 17px;
-    }
-
-    .box-avg-number.active-2:before {
-        left: auto;
-        right: 17px;
-        margin-left: auto;
-        margin-right: -7px;
-    }
-
-    .box-avg-number .avg-content {
-        background: #fff;
-        position: relative;
-    }
-
-    .avg-content {
-        color: #000;
-        text-align: center;
-    }
-
-    .avg-content .top {
-        border-bottom: 2px solid #767676;
-        padding: 3px 5px;
-    }
-
-    .mdi-triangle {
-        font-size: 14.5px;
-    }
-
-    .mdi-triangle.down:before {
-        transform: rotate(180deg);
-    }
-
-    .avg-content .bot {
-        padding: 3px 5px;
-        display: flex;
-        align-items: center;
-        font-size: 14.5px;
-    }
-
-    .avg-content .bot img {
-        margin: 0 5px;
-    }
-
-    .avg-content .bot span.numb {
-        color: #ED4770;
-    }
-
-    .chart-1-ct > p {
-        color: #000;
-    }
-
-    .chart-1-ct > p span {
-        color: #ED4770;
-    }
-
-    .progress-salary.active .list-progress .square-min .text-full, .progress-salary .square-min .text-short, .progress-salary .square-real .text-short {
-        display: none;
-    }
-
-    .progress-salary.active .list-progress .square-min .text-short {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        top: 30px;
-    }
-
-    .progress-salary .toolip {
-        padding: 3px 5px;
-    }
-
-    .progress-salary .toolip:before, .progress-salary .toolip:after {
-        left: 7px;
-    }
-
-    .square-real.active .text-full {
-        display: none;
-    }
-
-    .square-real.active .text-short {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        top: 30px;
-    }
-
-    @media (max-width: 1440px) {
-        .progress-salary .list-progress .square-real .text-full {
-            display: none;
-        }
-
-        .progress-salary .list-progress .square-real .text-short {
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            top: 30px;
-        }
-    }
-
-    @media (max-width: 767px) {
-        .progress-salary .list-progress .square-min .text-full {
-            display: none;
-        }
-
-        .progress-salary .list-progress .square-min .text-short {
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            top: 30px;
-        }
-    }
-
-    @media (max-width: 1024px) {
-        .toollips:hover {
-            visibility: visible;
-        }
-
-        .toollips:hover .toolip {
-            opacity: 1;
-        }
-
-        .toollips:hover .toolip:after {
-            opacity: 1;
-        }
-
-        .toollips:hover .toolip::before {
-            opacity: 1;
-        }
-
-        .toollips .toolip {
-            display: block;
-        }
-    }
-
-    @media (max-width: 767px) {
-        .progress-salary .list-progress .square-real .text-full {
-            display: none;
-        }
-
-        .progress-salary .list-progress .square-real .text-short {
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            top: 30px;
-        }
-
-        .progress-salary .list-progress .square-real .toolip:before, .progress-salary .list-progress .square-real .toolip:after {
-            left: 7px;
-        }
-    }
-
-    .list-progress .square-out {
-        background: #767676;
-    }
-
-    .list-progress .square-out.left {
-        border-radius: 10px 0 0 10px;
-    }
-
-    .list-progress .square-out.right {
-        border-radius: 0 10px 10px 0;
-    }
-
-    .list-progress .square-out .avg {
-        transform: none;
-    }
-
-    .list-progress .square-out.left .avg {
-        left: 0;
-    }
-
-    .list-progress .square-out.left .avg .box-avg-number:before {
-        margin-left: 0;
-        left: 10px;
-    }
-
-    .list-progress .square-out.right .avg {
-        right: 0;
-        left: auto;
-    }
-
-    .list-progress .square-out.right .avg .box-avg-number:before {
-        margin-left: 0;
-        left: auto;
-        right: 10px;
-    }
-
-    .section-description .text-ct span {
-        font-size: 16px;
-    }
-
-    .full-text {
-        display: none;
-    }
-
-    @media (max-width: 1440px) {
-        .chart-title h3, .head-job-title h3, .job-alert .box-desc h3, .section-description h2, .cb-title * {
-            font-size: 1.6rem !important;
-        }
-    }
-
-    @media (max-width: 1200px) {
-        .chart-title h3, .head-job-title h3, .job-alert .box-desc h3, .section-description h2, .cb-title * {
-            font-size: 1.5rem !important;
-        }
-
-        .section-tags .cb-title > span {
-            font-size: 16px !important;
-        }
-
-        .section-description .text-ct span {
-            font-size: 14.5px;
-        }
-    }
-
-    @media (max-width: 1200px) {
-        .list-job .job-item .job-desc h4 a {
-            font-size: 18px;
-        }
-    }
-
-    @media (max-width: 576px) {
-        .job-alert .box-input {
-            flex-direction: column;
-        }
-
-        .job-alert .box-input .form-submit button {
-            margin-top: 10px;
-        }
-
-        .box-avg-number {
-            width: 110px;
-        }
-
-        .avg-content .bot {
-            padding: 3px;
-        }
-
-        .avg-content .bot *, .list-progress .square .text, .list-progress .square > span {
-            font-size: 12px !important;
-        }
-
-        .list-progress .square .numb-1, .list-progress .square-real .numb {
-            right: -20px;
-        }
-
-        .list-progress .square-min .numb {
-            left: -25px;
-        }
-
-        .list-progress .square-min .numb-1 {
-            left: auto;
-            right: -25px;
-        }
-    }
-
-    .section-description {
-        margin-bottom: 40px;
-    }
-
-    .section-description h2 {
-        font-size: 1.6rem;
-        color: #464545;
-        margin-bottom: 5px;
-    }
-
-    .section-description h2 span {
-        color: #073A4B;
-    }
-
-    .statistic-area {
-        justify-content: flex-start;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        flex-wrap: wrap;
-        width: 100%;
-        margin-top: 15px;
-        align-items: flex-end;
-    }
-
-    .statistic-area .item span {
-        margin-right: 10px;
-        color: #000;
-        font-weight: 500;
-    }
-
-    .statistic-area .item strong {
-        font-weight: 700;
-        color: #000;
-        line-height: 1;
-    }
-
-    .statistic-area .item-1 span {
-        color: #E8C80D;
-    }
-
-    .statistic-area .item-1 strong {
-        font-size: 40px;
-    }
-
-    .statistic-area .item-2 .row-data-2 span {
-        color: #EE3959;
-    }
-
-    .statistic-area .item-2 .row-data span, .statistic-area .item-3 .row-data span {
-        width: 120px;
-        display: inline-block;
-    }
-
-    .statistic-area .item-3 .row-data-2 span {
-        color: #00B2A3;
-    }
-
-    .statistic-area .item:not(:last-child) {
-        margin-right: 60px;
-    }
-
-    .block-chart-2 {
-        margin-top: 20px;
-    }
-
-    .chart-3-ct {
-        -ms-flex-wrap: wrap;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        align-items: center;
-        padding-top: 30px;
-    }
-
-    .chart-3-ct .main-chart {
-        -webkit-box-flex: 0;
-        -ms-flex: 0 0 calc(100% - 220px);
-        position: relative;
-        flex: 0 0 calc(100% - 220px);
-        width: calc(100% - 220px);
-        max-width: calc(100% - 220px);
-    }
-
-    .chart-3-ct .statistic {
-        -webkit-box-flex: 0;
-        -ms-flex: 0 0 220px;
-        position: relative;
-        flex: 0 0 220px;
-        width: 220px;
-        max-width: 220px;
-        color: #000;
-    }
-
-    .chart-3-ct .statistic ul li:not(:last-child) {
-        margin-bottom: 15px;
-    }
-
-    .chart-3-ct .statistic .item p {
-        -webkit-box-flex: 0;
-        -ms-flex: 0 0 150px;
-        position: relative;
-        flex: 0 0 150px;
-        width: 150px;
-        max-width: 150px;
-        display: flex;
-        justify-content: flex-end;
-        padding-right: 20px;
-    }
-
-    .chart-3-ct .statistic .item .salary-number {
-        font-weight: bold;
-        color: #2F4BA0;
-    }
-
-    .chart-3-ct .statistic .item span em {
-        font-size: 14.5px;
-    }
-
-    .chart-3-ct .statistic .item.down span em:before {
-        transform: rotate(180deg);
-    }
-
-    .chart-3-ct .statistic .item.down span em {
-        color: #ED4770;
-    }
-
-    .chart-3-ct .statistic .item.up span em {
-        color: #00B2A3;
-    }
-
-    .chart-3 .desc {
-        margin-top: 20px;
-    }
-
-    .chart-3 .desc span {
-        color: #000;
-        font-size: 16px;
-    }
-
-    .chart-3 .desc span span {
-        font-weight: 600;
-    }
-
-    @media (max-width: 1440px) {
-        .chart-3-ct {
-            flex-wrap: wrap;
-        }
-
-        .chart-3-ct .statistic, .chart-3-ct .main-chart {
-            -webkit-box-flex: 0;
-            -ms-flex: 0 0 100%;
-            position: relative;
-            flex: 0 0 100%;
-            width: 100%;
-            max-width: 100%;
-        }
-
-        .chart-3-ct .statistic {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-    }
-
-    @media screen and (min-width: 1200px) and (max-width: 1440px) {
-        .statistic-area .item {
-            margin: 0 !important;
-            flex: 0 0 50%;
-            max-width: 50%;
-        }
-
-        .statistic-area .item-1 strong {
-            font-size: 25px;
-        }
-
-        .statistic-area .item-1 {
-            flex: 0 0 100%;
-            max-width: 100%;
-            margin-bottom: 20px !important;
-            text-align: center;
-        }
-
-        .statistic-area .item-2 {
-            text-align: right;
-            padding-right: 30px;
-        }
-
-        .statistic-area .item-3 {
-            text-align: left;
-            padding-left: 30px;
-        }
-
-        .chart-1-ct > p {
-            text-align: center;
-        }
-    }
-
-    @media screen and (min-width: 640px) and (max-width: 1440px) {
-        .chart-3-ct .statistic ul {
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .chart-3-ct .statistic ul li {
-            flex: 0 0 50%;
-            max-width: 50%;
-            text-align: right;
-        }
-
-        .chart-3-ct .statistic ul li:nth-child(odd) .item {
-            justify-content: flex-end;
-            padding-right: 20px;
-        }
-
-        .chart-3-ct .statistic ul li:nth-child(even) .item {
-            justify-content: flex-start;
-            margin-left: -20px;
-        }
-    }
-
-    @media (max-width: 1200px) {
-        .chart-3 .desc span, .section-description .text-ct span {
-            font-size: 14.5px;
-        }
-    }
-
-    @media (max-width: 992px) {
-        .statistic-area .item:not(:last-child) {
-            margin-right: 25px;
-        }
-
-        .statistic-area .item-2 .row-data span, .statistic-area .item-3 .row-data span {
-            width: 150px;
-        }
-
-        .statistic-area .item-1 strong {
-            font-size: 30px;
-        }
-    }
-
-    @media (max-width: 767px) {
-        .statistic-area {
-            flex-direction: row;
-        }
-
-        .statistic-area .item {
-            margin: 0 !important;
-            flex: 0 0 50%;
-            max-width: 50%;
-        }
-
-        .statistic-area .item-1 strong {
-            font-size: 25px;
-        }
-
-        .statistic-area .item-1 {
-            flex: 0 0 100%;
-            max-width: 100%;
-            margin-bottom: 20px !important;
-            text-align: center;
-            width: 100%;
-        }
-
-        .statistic-area .item-2 {
-            text-align: right;
-            padding-right: 10px;
-        }
-
-        .statistic-area .item-3 {
-            text-align: left;
-            padding-left: 10px;
-        }
-
-        .chart-1-ct > p {
-            text-align: center;
-        }
-
-        .statistic-area .item-2 .row-data span, .statistic-area .item-3 .row-data span {
-            width: 100px;
-        }
-    }
-
-    @media (max-width: 640px) {
-        .chart-3-ct .statistic ul {
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .chart-3-ct .statistic ul li {
-            flex: 0 0 50%;
-            max-width: 50%;
-            text-align: right;
-        }
-
-        .chart-3-ct .statistic ul li:nth-child(odd) .item {
-            justify-content: flex-end;
-            padding-right: 10px;
-        }
-
-        .chart-3-ct .statistic ul li:nth-child(even) .item {
-            justify-content: flex-start;
-            text-align: left;
-            margin-left: 20px;
-        }
-
-        .chart-3-ct .statistic ul li .item {
-            display: block;
-        }
-
-        .chart-3-ct .statistic ul li .item > * {
-            display: inline-block !important;
-            width: auto;
-            max-width: inherit;
-        }
-
-        .chart-3-ct .statistic ul li .item p {
-            padding-right: 5px;
-        }
-
-        .chart-3-ct .statistic ul li:not(:first-child) .item p {
-            width: 60px;
-        }
-    }
-
-    @media (max-width: 576px) {
-        .chart-3-ct {
-            padding-top: 15px;
-        }
-    }
-
-    .salaryOnPostJob .noti .toolip {
-        left: auto;
-        right: 0;
-        top: 30px
-    }
-
 </style>
-

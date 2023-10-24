@@ -18,7 +18,8 @@
                                     </h2>
 
                                 </div>
-                                <div class="right-heading"><a href="#" target="_blank" class="support">
+                                <div class="right-heading"><a href="{{ route('employer.view_updateJob', $job -> id) }}"
+                                                              class="support">
                                         <bi class="bi bi-pencil-fill"></bi>
                                         &nbsp; Chỉnh sửa tin tuyển dụng</a>
                                 </div>

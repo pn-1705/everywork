@@ -93,12 +93,6 @@ class LoginController extends Controller
 
     public function post_register(RegisterRequest $request)
     {
-//        $value = $request->email;
-//        $pattern = '/@([\w.-]++)\z/';
-//        return filter_var($value, FILTER_VALIDATE_EMAIL) &&
-//            preg_match($pattern, $value, $matches) &&
-//            (checkdnsrr($matches[1], 'MX') || checkdnsrr($matches[1], 'A') || checkdnsrr($matches[1], 'AAAA'));
-
         $data = $request->only('email', 'id_nhomquyen');
 
         $id = DB::table('table_user')->max('id');
@@ -118,7 +112,6 @@ class LoginController extends Controller
             return redirect()->route('user.pages.register_page')->with('yes', 'Đăng kí thành công! Vui lòng kiểm tra email để hoàn tất!');
         }
         return view('user.pages.login');
-
     }
 
     public function active_acount($token)
@@ -131,7 +124,6 @@ class LoginController extends Controller
         } else {
             return redirect()->route('user.pages.register_page')->with('no', 'Đăng kí thất bại!');
         }
-
     }
 
     public function sendMail()
