@@ -13,8 +13,9 @@
 
 <!-- ======= Hero Section ======= -->
 {{--@include("user.elements.banner")--}}
-
-@yield('content')
+<main>
+    @yield('content')
+</main>
 
 <!-- ======= Footer ======= -->
 

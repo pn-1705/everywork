@@ -13,7 +13,7 @@
                         <h1 class="title-manage">Tạo Tin Tuyển Dụng</h1>
                     </div>
                 </div>
-                <form method="post" action="{{ route('employer.postJob') }}">
+                <form method="post" action="{{ route('employer.postJob') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="main-tabslet">
                         <ul class="tabslet-tab">
@@ -384,14 +384,13 @@
                                         </div>
                                         <div class="list-image" id="list-image">
                                             <div class="image-item">
-                                                <img
-                                                    src="https://images.careerbuilder.vn//employer_photo/305490/avt_kutech_1697429798.jpg"
+                                                <img id="banner"
+                                                    src=""
                                                     alt="Banner">
                                             </div>
                                         </div>
                                         <div class="upload-img">
-                                            <input type="file" id="filephoto" name="img_banner"
-                                                   accept="image/jpeg, image/png, image/jpg">
+                                            <input type="file" id="filephoto" name="img_banner">
                                             <label for="filephoto"><em class="material-icons">folder_open</em>Tải
                                                 Ảnh từ máy tính</label>
                                             <div class="noti"><em class="material-icons">info </em>
@@ -405,15 +404,17 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <script>
-                                                let banner = document.getElementById("banner-job");
-                                                let ifile = document.getElementById("filephoto");
+                                            <script type="text/javascript">
+                                                window.onload = function () {
+                                                    const input_banner = document.getElementById('filephoto');
+                                                    const image_banner = document.getElementById('banner');
 
-                                                var input = document.getElementById('filephoto');
-                                                var file = input.files[0];
-                                                ifile.onchange = function () {
-                                                    confirm(file);
-                                                    banner.src = URL.createObjectURL(file);
+                                                    input_banner.addEventListener('change', (e) => {
+                                                        if (e.target.files.length) {
+                                                            const src = URL.createObjectURL(e.target.files[0]);
+                                                            image_banner.src = src;
+                                                        }
+                                                    });
                                                 }
                                             </script>
                                         </div>

@@ -1,4 +1,4 @@
-<section id="topbar" class="d-flex align-items-center">
+<section id="topbar" class="d-flex align-items-center fixed-top" style="height: 20px">
     <div class="container d-flex justify-content-center justify-content-md-between">
         <?php use Illuminate\Support\Facades\DB;
         $footer_setting = \App\Models\FooterSetting::all();

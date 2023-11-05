@@ -26,9 +26,6 @@ Route::get('/login', 'User\LoginController@view_loginpage')->name('user.pages.lo
 Route::post('/post_login', 'User\LoginController@post_login')->name('user.post_login');
 Route::get('/logout', 'User\LoginController@logout')->name('logout');
 
-Route::get('/viec-lam', 'User\UserController@vieclam_page')->name('user.pages.viec-lam');
-Route::get('/viec-lam/{id}', 'User\UserController@viewDetailJob')->name('user.pages.viewDetailJob');
-
 Route::post('/post_register', 'User\LoginController@post_register')->name('user.post_register');
 Route::get('/active/{token}', 'User\LoginController@active_acount')->name('user.active_acount');
 Route::get('/testMail', 'User\LoginController@sendMail')/*->name('user.post_register')*/;
@@ -39,10 +36,19 @@ Route::get('/register', 'User\LoginController@get_register')->name('user.pages.r
 Route::post('/register', 'User\LoginController@post_register')->name('user.post_register');
 
 
+Route::get('/viec-lam', 'User\UserController@vieclam_page')->name('user.pages.viec-lam');
+Route::get('/viec-lam/search', 'User\UserController@filterJobs')->name('filterJobs');
+Route::get('/viec-lam/{id}', 'User\UserController@viewDetailJob')->name('user.pages.viewDetailJob');
+
+//Typeahead
+Route::get('autocomplete', 'User\UserController@autocompleteSearch')->name('autocompleteSearch');
+
+
 //Ứng viên tìm việc làm
 Route::group(['middleware' => 'checkUserRole', 'prefix' => 'user'], function () {
     Route::get('/thong-tin-ca-nhan', 'User\UserController@viewInformation')->name('information');
     Route::post('/update_information', 'User\UserController@updateInformation')->name('update_information');
+
 });
 
 // Nhà tuyển dụng
@@ -50,7 +56,7 @@ Route::group(['middleware' => 'checkUserRole', 'prefix' => 'user'], function () 
 Route::group(['middleware' => 'checkEmployerRole', 'prefix' => 'employer'], function () {
     Route::get('/hrcentral', 'User\EmployerController@view_hrcentral')->name('employer.view_hrcentral');
     Route::get('/postJob', 'User\EmployerController@view_postJob')->name('employer.view_postJob');
-    Route::post('/', 'User\EmployerController@postJob')->name('employer.postJob');
+    Route::post('/postJob', 'User\EmployerController@postJob')->name('employer.postJob');
     Route::get('/hrcentral/update/{id}', 'User\EmployerController@view_updateJob')->name('employer.view_updateJob');
     Route::post('/hrcentral/update/{id}', 'User\EmployerController@updateJob')->name('employer.updateJob');
     Route::get('/hrcentral/viewjob/{id}', 'User\EmployerController@viewDetailJob')->name('employer.view_detailJob');
@@ -59,6 +65,9 @@ Route::group(['middleware' => 'checkEmployerRole', 'prefix' => 'employer'], func
     Route::get('/company_info', 'User\EmployerController@view_company_info')->name('employer.view_company_info');
     Route::post('/', 'User\EmployerController@post_company_info')->name('employer.post_company_info');
     Route::get('/account', 'User\EmployerController@view_account')->name('employer.view_account');
+    Route::post('/account', 'User\EmployerController@post_account')->name('employer.post_account');
+    Route::get('/changepassword', 'User\EmployerController@changepassword')->name('employer.changepassword');
+    Route::post('/changepassword', 'User\EmployerController@post_changepassword')->name('employer.post_changepassword');
     Route::get('/manageresume', 'User\EmployerController@manageresume')->name('employer.manageresume');
 });
 

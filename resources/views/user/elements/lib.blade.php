@@ -2,12 +2,17 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>BizLand Bootstrap Template - Index</title>
+    <title>@yield('pageTitle') | EveryWork</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="{{url('public/frontend')}}/img/favicon.png" rel="icon">
+    <?php use Illuminate\Support\Facades\DB;
+    $footer_setting = \App\Models\FooterSetting::all();
+    ?>
+    @foreach($footer_setting as $footer_setting)
+    <link href="{{url('public/logo/'. $footer_setting->logo)}}" rel="icon">
+    @endforeach
     <link href="{{url('public/frontend')}}/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->

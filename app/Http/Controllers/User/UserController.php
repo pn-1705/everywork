@@ -133,23 +133,86 @@ class UserController extends Controller
     //mới
     public function vieclam_page()
     {
-        $city = City::all()->where('trangthai', 1);
-        $work = DanhMucNganhNghe::all()->where('trangthai', 1);
-
-
         $jobs = DB::table('table_jobs')
             ->leftJoin('table_danhmucnganhnghe', 'table_jobs.id_nganhnghe', '=', 'table_danhmucnganhnghe.id')
             ->leftJoin('table_ranks', 'table_jobs.capbac', '=', 'table_ranks.id')
             ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
             ->leftJoin('table_city', 'table_jobs.noilamviec', '=', 'table_city.id')
             ->where('table_jobs.trangthai', 1)
-            ->select('table_jobs.*', 'table_employers.ten', 'table_city.tendaydu', 'table_employers.avt')
-            ->get();
-//        dd($jobs);
-        return view('user.pages.user.vieclam')->with('danhmucnganhnghe', $work)->with('city', $city)->with('jobs', $jobs);
+            ->select('table_jobs.*', 'table_employers.ten', 'table_city.tendaydu', 'table_employers.avt');
+
+        $totalJobs = $jobs -> count();
+        $jobs = $jobs->paginate(20)->withQueryString();
+
+        $data['jobs'] = $jobs;
+        $data['totalJobs'] = $totalJobs;
+
+        return view('user.pages.user.vieclam', $data);
     }
 
-    public function viewDetailJob($tencongviec)
+    public function filterJobs(Request $request)
+    {
+//        dd($request -> all());
+        $jobs = DB::table('table_jobs')
+            ->leftJoin('table_danhmucnganhnghe', 'table_jobs.id_nganhnghe', '=', 'table_danhmucnganhnghe.id')
+            ->leftJoin('table_ranks', 'table_jobs.capbac', '=', 'table_ranks.id')
+            ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
+            ->leftJoin('table_city', 'table_jobs.noilamviec', '=', 'table_city.id')
+            ->where('table_jobs.trangthai', 1)
+            ->select('table_jobs.*', 'table_employers.ten', 'table_city.tendaydu', 'table_city.tenkhongdau', 'table_employers.avt',
+                'table_danhmucnganhnghe.tenkhongdau');
+
+        if ($request->keySearch != null) {
+            $jobs->where('table_jobs.tencongviec', 'like', '%' . $request->keySearch . '%');
+        }
+        if ($request->career != 0) {
+            $jobs->where('table_danhmucnganhnghe.tenkhongdau', $request->career);
+        }
+        if ($request->location != 0) {
+            $jobs->where('table_city.tenkhongdau', $request->location);
+        }
+        $salary = $request->salary;
+        if ($request->salary != 0) {
+            $jobs->where('table_jobs.minluong', '>=', $salary);
+        }
+        if ($request->level != 0) {
+            $jobs->where('table_jobs.capbac', '=', $request->level);
+        }
+
+        $days = strtotime('-' . $request->days . ' day', strtotime(Carbon::now('Asia/Ho_Chi_Minh')));
+        $days = date ( 'Y-m-j' , $days );
+        if ($request->days != 0) {
+            $jobs->where('table_jobs.created_at', '<=', $days);
+        }
+        if ($request->job_type != 0) {
+            $jobs->where('table_jobs.hinhthuc', '=', $request->job_type);
+        }
+
+        $totalJobs = $jobs -> count();
+        $jobs = $jobs->paginate(20)->withQueryString();
+        $data['jobs'] = $jobs;
+        $data['totalJobs'] = $totalJobs;
+
+        $keySearch = $request -> keySearch;
+        $career = $request -> career;
+        $location = $request -> location;
+        $salary = $request -> salary;
+        $level = $request -> level;
+        $days = $request -> days;
+        $job_type = $request -> job_type;
+        $data['keySearch'] = $keySearch;
+        $data['career'] = $career;
+        $data['location'] = $location;
+        $data['salary'] = $salary;
+        $data['level'] = $level;
+        $data['days'] = $days;
+        $data['job_type'] = $job_type;
+
+
+        return view('user.pages.user.vieclam', $data);
+    }
+
+    public function viewDetailJob($id)
     {
 //        dd($id);
         //$job = Job::find($tencongviec)->get();
@@ -157,13 +220,22 @@ class UserController extends Controller
         $work = DanhMucNganhNghe::all()->where('trangthai', 1);
 
 
-        $jobs = DB::table('table_jobs')->where('table_jobs.trangthai', 1)
-            ->join('table_danhmucnganhnghe', 'table_jobs.id_nganhnghe', '=', 'table_danhmucnganhnghe.id')
-            ->join('table_ranks', 'table_jobs.capbac', '=', 'table_ranks.id')
-            ->join('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
-            ->get();
+        $job = DB::table('table_jobs')
+            ->leftJoin('table_danhmucnganhnghe', 'table_jobs.id_nganhnghe', '=', 'table_danhmucnganhnghe.id')
+            ->leftJoin('table_ranks', 'table_jobs.capbac', '=', 'table_ranks.id')
+            ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
+            ->leftJoin('table_city', 'table_jobs.noilamviec', '=', 'table_city.id')
+            ->where('table_jobs.trangthai', 1)
+            ->where('table_jobs.id', $id)
+            ->select('table_jobs.*', 'table_employers.*', 'table_danhmucnganhnghe.tendaydu')
+            ->get()
+            ->first();
+        $data['job'] = $job;
+//        dd($job);
+
+//        $data = ['job']
 //        dd($jobs);
-        return view('user.pages.user.viewDetailJob')/*->with('danhmucnganhnghe', $work)->with('city', $city)->with('jobs', $jobs)*/ ;
+        return view('user.pages.user.viewDetailJob', $data);
     }
 
     public function viewInformation()
@@ -198,11 +270,21 @@ class UserController extends Controller
 
             $user->save();
         }
-        return view('user.pages.user.information');
+        return redirect()->route('information')->with('succes', 'Cập nhật thông tin thành công !');
+
     }
 
     public function home_page()
     {
-        return view('user.layout');
+        return view('user.pages.user.home');
+    }
+
+    public function autocompleteSearch(Request $request)
+    {
+        $data = Job::select('tencongviec')
+            ->where('tencongviec', 'like', '%' . $request->get('q') . '%')
+            ->get();
+//        dd($data);
+        return response()->json($data);
     }
 }

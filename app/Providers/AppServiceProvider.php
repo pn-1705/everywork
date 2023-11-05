@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\FooterSetting;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View;
 
@@ -30,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
 //        View::composer(['profile', 'homepage'], function ($view) {
 //            $view->with('NAME_VIEW_SHARE', 'Trương thanh hùng');
 //        });
-
+        Paginator::useBootstrap();
     }
 
 

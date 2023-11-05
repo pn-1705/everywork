@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class FooterSetting extends Model
 {
-    protected $fillable = ['name', 'phone', 'slogan', 'address', 'email'];
+    protected $table = 'table_settings';
+    protected $fillable = ['logo','name', 'phone', 'slogan', 'address', 'email'];
     use HasFactory;
 }

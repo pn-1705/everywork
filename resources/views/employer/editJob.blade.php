@@ -13,7 +13,7 @@
                         <h1 class="title-manage">Chỉnh Sửa Tin Tuyển Dụng</h1>
                     </div>
                 </div>
-                <form method="post" action="{{ route('employer.updateJob', $job ->id) }}">
+                <form method="post" action="{{ route('employer.updateJob', $job ->id) }}" enctype="multipart/form-data">
                     @csrf
                     <div class="main-tabslet">
                         <ul class="tabslet-tab">
@@ -585,8 +585,8 @@
                                         </div>
                                         <div class="list-image" id="list-image">
                                             <div class="image-item">
-                                                <img
-                                                    src="https://images.careerbuilder.vn//employer_photo/305490/avt_kutech_1697429798.jpg"
+                                                <img id="banner"
+                                                    src="{{ asset('public/banner_job/'. $job -> img_banner) }}"
                                                     alt="Banner">
                                             </div>
                                         </div>
@@ -607,14 +607,16 @@
                                                 </div>
                                             </div>
                                             <script>
-                                                let banner = document.getElementById("banner-job");
-                                                let ifile = document.getElementById("filephoto");
+                                                window.onload = function () {
+                                                    const input_banner = document.getElementById('filephoto');
+                                                    const image_banner = document.getElementById('banner');
 
-                                                var input = document.getElementById('filephoto');
-                                                var file = input.files[0];
-                                                ifile.onchange = function () {
-                                                    confirm(file);
-                                                    banner.src = URL.createObjectURL(file);
+                                                    input_banner.addEventListener('change', (e) => {
+                                                        if (e.target.files.length) {
+                                                            const src = URL.createObjectURL(e.target.files[0]);
+                                                            image_banner.src = src;
+                                                        }
+                                                    });
                                                 }
                                             </script>
                                         </div>

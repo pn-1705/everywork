@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\User;
 
 
+use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\JobRequest;
 use App\Models\Benefit;
 use App\Models\Employer;
 use App\Models\Job;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Intervention\Image\Facades\Image;
 
 class EmployerController extends Controller
 {
@@ -27,8 +30,6 @@ class EmployerController extends Controller
 
     public function postJob(JobRequest $request)
     {
-//        dd($request -> benefit1);
-
         $newJob = new Job();
 
         $newJob->tencongviec = $request->tencongviec;
@@ -54,7 +55,14 @@ class EmployerController extends Controller
         $newJob->bangcap = $request->bangcap;
         $newJob->workforhome = $request->wfh;
         $newJob->link_youtube = $request->link_youtube;
-        $newJob->img_banner = $request->img_banner;
+
+        if ($request->has('img_banner')) {
+            $file = $request->img_banner;
+            $extension = $request->img_banner->extension();
+            $filename = time() . '-banner-job.' . $extension;
+            $file->move(public_path('banner_job'), $filename);
+            $newJob->img_banner = $filename;
+        }
         $newJob->id_nhatuyendung = Auth::id();
         $newJob->trangthai = 1;
         $newJob->tenkhongdau = $this->un_unicode($request->tencongviec);
@@ -108,7 +116,7 @@ class EmployerController extends Controller
         unset($job['id']);
 //        dd($job['tencongviec']);
         $job['tencongviec'] = $job['tencongviec'] . ' (Nhân bản)';
-
+        $job['created_at']= Carbon::now('Asia/Ho_Chi_Minh');
         $id_phucloi = time();
         $phucloi = Benefit::all()
             ->where('id', $job['phucloi'])->first()->getOriginal();
@@ -158,7 +166,17 @@ class EmployerController extends Controller
         $newJob->bangcap = $request->bangcap;
         $newJob->workforhome = $request->wfh;
         $newJob->link_youtube = $request->link_youtube;
-        $newJob->img_banner = $request->img_banner;
+
+        $banner_old = $newJob->img_banner;
+        if ($request->has('img_banner')) {
+            $file = $request->img_banner;
+            $extension = $request->img_banner->extension();
+            $filename = time() . '-img_banner.' . $extension;
+            $file->move(public_path('banner_job'), $filename);
+            File::delete('public/banner_job/' . $banner_old);
+            $newJob->img_banner = $filename;
+        }
+
         $newJob->trangthai = 1;
         $newJob->tenkhongdau = $this->un_unicode($request->tencongviec);
 //        $newJob->created_at = Carbon::now();
@@ -199,16 +217,17 @@ class EmployerController extends Controller
             ->where('id_nhatuyendung', Auth::id())
             ->where('hannhanhoso', '>=', Carbon::now()->toDateString())
             ->where('trangthai', 1)
-            ->orderBy('tencongviec')
-            ->get(); //Việc làm đang đăng
+            ->orderBy('tencongviec')->paginate(10)->withQueryString();
+//            ->get();
+        //Việc làm đang đăng
 //        dd($listJobs);
         $listJobsWait = DB::table('table_jobs')
             ->leftJoin('table_benefits', 'table_jobs.phucloi', '=', 'table_benefits.id')
             ->select('table_benefits.*', 'table_jobs.*')
             ->where('id_nhatuyendung', Auth::id())
             ->where('trangthai', 0)
-            ->orderBy('tencongviec')
-            ->get(); //Việc làm dừng đăng (nháp)
+            ->orderBy('tencongviec')->paginate(10)->withQueryString();
+//            ->get(); //Việc làm dừng đăng (nháp)
 //                dd($listJobsWait);
 
         $listJobsExp = DB::table('table_jobs')
@@ -216,7 +235,8 @@ class EmployerController extends Controller
             ->select('table_benefits.*', 'table_jobs.*')
             ->where('id_nhatuyendung', Auth::id())
             ->where('hannhanhoso', '<', Carbon::now()->toDateString())
-            ->orderBy('tencongviec')->get(); //Việc làm hết hạn
+            ->orderBy('tencongviec')->paginate(10)->withQueryString();
+//        ->get(); //Việc làm hết hạn
         $data['listJobs'] = $listJobs;
         $data['listJobsExp'] = $listJobsExp;
         $data['listJobsWait'] = $listJobsWait;
@@ -274,6 +294,40 @@ class EmployerController extends Controller
         return back()->with($data);
     }
 
+    public function view_account()
+    {
+        $employer = User::find(Auth::id());
+//        dd($employer);
+        $data['employer'] = $employer;
+        return view('employer.account_info', $data);
+    }
+    public function post_account(Request $request)
+    {
+//        dd($request);
+        $employer = User::find(Auth::id());
+//        dd($employer);
+        $employer -> ten = $request -> ten;
+        $employer -> diachi = $request -> diachi;
+        $employer -> city = $request -> city;
+        $employer -> phone = $request -> phone;
+        $employer -> save();
+        $data['employer'] = $employer;
+        return redirect()->route('employer.view_account') -> with('succes', 'Cập nhật thông tin thành công !');
+    }
+    public function changepassword(Request $request)
+    {
+        $employer = User::find(Auth::id());
+        $data['employer'] = $employer;
+        return view('employer.changepassword', $data);
+    }
+    public function post_changepassword(ChangePasswordRequest $request)
+    {
+        $employer = User::find(Auth::id());
+//        dd($employer);
+        $employer -> password = bcrypt($request -> newpass);
+        $employer -> save();
+        return redirect()->route('employer.changepassword') -> with('succes', 'Đổi mật khẩu thành công !');
+    }
     public function un_unicode($istring)
     {
         $istring = strtolower($istring); //chuyển chữ hoa thành chữ thường
@@ -301,10 +355,5 @@ class EmployerController extends Controller
         $istring = str_replace('  ', ' ', $istring);
         $istring = str_replace(' ', '-', $istring);
         return $istring;
-    }
-
-    public function removePhoto($originalFileName)
-    {
-        File::delete($this->uploadFolder . $originalFileName);
     }
 }

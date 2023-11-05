@@ -1,185 +1,137 @@
 @extends('user.layout')
 
-@section('pageTitle', 'Thông tin công ty')
+@section('title', 'Việc làm')
+
+
 @section('content')
     @include("employer.elements.employer-heading-tool")
     <section class="manage-job-posting-post-jobs cb-section bg-manage" style="margin-top: -20px">
         <div class="container">
             <div class="box-manage-job-posting">
+                <div class="heading-manage">
+                    <div class="left-heading">
+                        <h1 class="title-manage"> Thông Tin Tài Khoản</h1>
+                    </div>
 
+                    <div class="right-heading"><a class="support" href="https://careerbuilder.vn/vi/employers/faq"
+                                                  target="_blank">Hướng dẫn </a></div>
+                </div>
                 <div class="main-tabslet" data-toggle="tabslet">
-                    <form name="editCompany" id="editCompany" action="{{ route('employer.post_company_info') }}"
-                          method="post" enctype="multipart/form-data">
-                        @csrf
-                        <div class="main-application-information">
-                            <h2 class="title-application">THÔNG TIN CÔNG TY</h2>
-                            <div class="form-wrap">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group form-text form-input-label">
-                                            <input type="text" name="ten" value="{{ $info -> ten }}" maxlength="350"
-                                                   onkeyup="this.setAttribute('value', this.value);">
-                                            <label>Tên công ty <font style="color: red">*</font></label>
-                                            <span class="error error_EMP_NAME"> </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="noti mt-20"><em class="material-icons">info</em>
-                                            <div class="toolip">
-                                                <p>Vui lòng nhập tối thiểu 3 ký tự!</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>Loại hình hoạt động</label>
-                                            <select name="loaihinhhoatdong" id="company_type" class="width_160">
-                                                <option value="0">Vui lòng chọn</option>
-                                                <option value="6">100% vốn nước ngoài</option>
-                                                <option value="4">Cá nhân</option>
-                                                <option value="7">Công ty đa quốc gia</option>
-                                                <option value="2" selected="selected">Cổ phần</option>
-                                                <option value="5">Liên doanh</option>
-                                                <option value="1">Nhà nước</option>
-                                                <option value="3">Trách nhiệm hữu hạn</option>
-                                            </select>
-                                            <span class="error error_Company_type"> </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group form-text form-input-label">
-                                            <input type="text" name="website" id="EMP_WEBSITE"
-                                                   value="{{ $info ->website }}" maxlength="100">
-                                            <label>Website công ty</label>
-                                            <span class="error error_EMP_WEBSITE"> </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group form-text form-input-label">
-                                            <input type="number" name="masothue" id="EMP_TAXID"
-                                                   value="{{ $info -> masothue }}" maxlength="100">
-                                            <label>Mã số thuế</label>
-                                            <span class="error error_EMP_TAXID"> </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-wrap logo-wrap">
-                                <div class="main-image">
-                                    <div class="form-group">
-                                        <p class="title-label">Logo</p>
-                                    </div>
-                                    <div class="list-image">
-                                        <div class="image-item" id="logo_path">
-                                            <img id="avt"
-                                                 src="{{ asset('public/avatar/'. $info -> avt) }}"
-                                                 width="95" height="50">
-                                        </div>
-                                    </div>
-                                    <div class="upload-img">
-                                        <input type="file" id="input_avatar" name="avt" accept="image/png, image/jpeg, image/jpg">
-                                        <label for="input_avatar"><em class="material-icons">folder_open</em>Tải ảnh từ
-                                            máy tính</label>
-                                        <div class="noti"><em class="material-icons">info </em>
-                                            <div class="toolip">
-                                                <p>Định dạng: gif, jpg, png, kích thước đẹp nhất 240x160px</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-wrap banner-wrap">
-                                <div class="main-image">
-                                    <div class="form-group">
-                                        <p class="title-label">Cover/ Banner</p>
-                                    </div>
-                                    <div class="list-image">
-                                        <div class="image-item" id="image1_path">
-                                            <img id="banner" width="200px" height="42px"
-                                                 src="{{ asset('public/banner/'. $info -> banner) }}">
-                                        </div>
-                                    </div>
-                                    <script type="text/javascript">
-                                        window.onload = function () {
-                                            const input_avt = document.getElementById('input_avatar');
-                                            const image_avt = document.getElementById('avt');
-                                            const input_banner = document.getElementById('input_banner');
-                                            const image_banner = document.getElementById('banner');
 
-                                            input_avt.addEventListener('change', (e) => {
-                                                if (e.target.files.length) {
-                                                    const src = URL.createObjectURL(e.target.files[0]);
-                                                    image_avt.src = src;
-                                                }
-                                            });
-                                            input_banner.addEventListener('change', (e) => {
-                                                if (e.target.files.length) {
-                                                    const src = URL.createObjectURL(e.target.files[0]);
-                                                    image_banner.src = src;
-                                                }
-                                            });
-                                        }
-                                    </script>
-                                    <div class="upload-img">
-                                        <input type="file" name="banner" id="input_banner" value="" accept="image/png, image/jpeg, image/jpg">
-                                        <label for="input_banner"><em class="material-icons">folder_open</em>Tải ảnh từ
-                                            máy
-                                            tính</label>
-                                        <div class="noti"><em class="material-icons">info </em>
-                                            <div class="toolip">
-                                                <p>Định dạng: *.gif, *.jpg, *.png. Kích thước đẹp nhất 1410x290px</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-wrap">
-                                <div class="form-group form-editor" id="div_jobdesc">
-                                    <label>Giới thiệu về công ty <font style="color: red">*</font></label>
-                                    <textarea rows="8" name="thongtin" id="EMP_DESC" class="editor">{{ $info -> thongtin }}
-                                    </textarea>
-                                    <div class="note">
-                                        <p>Vui lòng không nhập email,số điện thoại và số lượng kí tự phải lớn hơn 10
-                                        </p>
-                                    </div>
-                                    <span class="error error_EMP_DESC"> </span>
-
-                                    <div class="note">
-                                        <p></p>
-                                    </div>
-                                </div>
-                                <div class="form-group form-editor" id="div_jobreq">
-                                    <label>Thông điệp từ công ty</label>
-                                    <textarea rows="8" name="thongdiep" id="EMP_DESC" class="editor">{{ $info -> thongtin }}
-                                    </textarea>
-                                    <div class="note">
-                                        <p>Vui lòng không nhập email,số điện thoại và số lượng kí tự phải lớn hơn 10
-                                        </p>
-                                    </div>
-                                    <span class="error error_EMP_MESSAGE"> </span>
-                                </div>
-                            </div>
-
-                            <div class="form-group form-submit form-continue">
-                                <a class="btn-cancel btn-preview-account-user" href="javascript:;"
-                                   onclick="window.open('https://careerbuilder.vn/vi/nha-tuyen-dung/kutech.35A99252.html', '_blank'); return false;  ">
-                                    Xem lại</a>
-                                <button class="btn-gradient btn-submit" type="submit" id="update_info_company_form">Cập
-                                    nhật
-                                </button>
-                            </div>
+                    <ul class="tabslet-tab">
+                        <li><a href="https://careerbuilder.vn/vi/employers/hrcentral/accounts/1"
+                               alt="Quản lý user"><span>Quản lý user</span></a></li>
+                        <li class="{{ Route::is('employer.view_account') ? 'active' : ''}}"><a
+                                href="{{ route('employer.view_account') }}" alt="Thông tin liên hệ"><span>Thông tin liên hệ</span></a>
+                        </li>
+                        <li class="{{ Route::is('employer.changepassword') ? 'active' : ''}}"><a
+                                href="{{ route('employer.changepassword') }}"
+                                alt="Đổi mật khẩu"><span>Đổi mật khẩu</span></a></li>
+                    </ul>
+                    @if(session('succes'))
+                        <div style="margin: 0px; padding: 0.5rem 1.25rem" class="alert alert-success">
+                            {{session('succes')}}
                         </div>
-                    </form>
+                    @endif
+                    <div class="tabslet-content  active " id="tab-3">
+
+                        <form name="editFrm" action="{{ route('employer.post_account') }}" method="post">
+                            @csrf
+                            <div class="main-applicatio n-information">
+                                <h2 class="title-application no-bg no-pad">
+                                    CHỈNH SỬA THÔNG TIN LIÊN HỆ</h2>
+                                <h2 class="title-application">Thông tin liên hệ</h2>
+                                <div class="form-wrap">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group form-text form-input-label">
+                                                <input type="text" name="ten" value="{{ $employer -> ten }}"
+                                                       maxlength="70" onkeyup="this.setAttribute('value', this.value);">
+                                                <label>Họ và tên <font style="color: red">*</font></label>
+                                                <span class="error error_EMP_CONTACT">
+                                                                                                        </span>
+                                                <div class="note">
+                                                    <p>Tối thiểu 3 ký tự</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group form-text form-input-label">
+                                                <input readonly type="text" name="EMP_EMAIL" id="EMP_EMAIL"
+                                                       value="{{ $employer -> email }}" maxlength="150"
+                                                       onkeyup="this.setAttribute('value', this.value);">
+                                                <label>Email liên hệ </label>
+                                                <span class="error error_EMP_EMAIL"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h2 class="title-application">Địa chỉ liên hệ</h2>
+                                <div class="form-wrap">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group form-text form-input-label">
+                                                <input type="text" name="diachi" value="{{ $employer -> diachi }}"
+                                                       maxlength="700"
+                                                       onkeyup="this.setAttribute('value', this.value);">
+                                                <label>Địa chỉ <font style="color: red">*</font></label>
+                                                <span class="error error_EMP_ADDRESS">
+                                                    </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Tỉnh/TP <font style="color: red">*</font></label>
+                                                <div id="listlocation">
+
+                                                    <select name="city" class="width_160">
+                                                        <?php
+                                                        use App\Models\City;
+                                                        $listCitys = City::all()->where('trangthai', 1)
+                                                        ?>
+                                                        @foreach($listCitys as $list)
+                                                            <option
+                                                                @if($list->id == $employer -> city)
+                                                                selected
+                                                                @endif
+                                                                value="{{$list->id}}">{{$list->tendaydu}}</option>
+                                                        @endforeach
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group form-text form-input-label">
+                                                <input type="text" name="phone" value="{{ $employer -> phone }}"
+                                                       maxlength="50" onkeyup="this.setAttribute('value', this.value);">
+                                                <label>Điện thoại <font style="color: red">*</font></label>
+                                                <span class="error error_EMP_TEL"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-submit form-continue">
+                                    <button class="btn-gradient btn-submit btn-change-password" type="submit">Cập nhật
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 @endsection
 <style>/*account-tool-company-profile.css*/
+    @charset "UTF-8";
     .is-browser-IE header .main-menu .menu li:nth-child(2).dropdown .dropdown-menu {
         min-width: calc(100% + 110px);
     }

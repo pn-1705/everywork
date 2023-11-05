@@ -1,11 +1,9 @@
 @extends('user.layout')
 
-@section('title', 'Việc làm')
-
-
+@section('pageTitle', 'Quản lý tuyển dụng')
 @section('content')
     @include("employer.elements.employer-heading-tool")
-    <section class="manage-job-posting-active-jobs cb-section bg-manage">
+    <section class="manage-job-posting-active-jobs cb-section bg-manage" style="margin-top: -20px">
         <div class="container">
             <div class="box-manage-job-posting">
                 <div class="heading-manage">
@@ -152,10 +150,10 @@
                                                     </div>
                                                 </td>
                                                 <td>{{ $list-> tencongviec }}</td>
-                                                <td>{{ $list-> created_at }}</td>
+                                                <td>{{  date('Y-m-d', strtotime($list-> created_at)) }}</td>
                                                 <td>{{ $list-> hannhanhoso }}</td>
-                                                <td>{{ $list-> hannhanhoso }}</td>
-                                                <td>{{ $list-> hannhanhoso }}</td>
+                                                <td>10</td>
+                                                <td>5</td>
                                                 <td>
                                                     <ul class="list-manipulation">
                                                         <li>
@@ -184,6 +182,7 @@
                                         @endforeach
                                         </tbody>
                                     </table>
+                                    {!! $listJobs->links() !!}
                                 </div>
                             </div>
                         </div>
@@ -279,6 +278,8 @@
                                         @endforeach
                                         </tbody>
                                     </table>
+                                    {!! $listJobsWait->links() !!}
+
                                 </div>
                             </div>
                         </div>
@@ -354,6 +355,7 @@
                                         @endforeach
                                         </tbody>
                                     </table>
+                                    {!! $listJobsExp->links() !!}
                                 </div>
                             </div>
                         </div>
@@ -389,6 +391,55 @@
             // các button mà chúng ta click vào sẽ được add class active
         }
     </script>
+    <style>
+        .pagination{
+            display: flex;
+            justify-content: flex-end;
+        }
+        .pagination li.active span, .pagination li:hover a {
+            border-color: #106eea;
+            background: #106eea;
+            color: #fff;
+        }
+
+        .pagination li.page-item {
+        }
+
+        .pagination li.page-item span {
+
+        }
+        .pagination li a, .pagination li span {
+            /* -webkit-box-align: center; */
+            -ms-flex-align: center;
+            /* -webkit-box-pack: center; */
+            -ms-flex-pack: center;
+            /* display: -webkit-box; */
+            display: -ms-flexbox;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border: 1px solid #e5e5e5;
+            border-radius: 50%;
+            background: #fff;
+            color: #5d677a;
+            font-size: 14.5px;
+            line-height: 1;
+            text-decoration: none;
+            opacity: 1;
+        }
+        .page-item:first-child .page-link {
+            border-radius: 50%;
+        }.page-item:last-child .page-link {
+             border-radius: 50%;
+         }
+
+        .pagination li a {
+            color: #565454;
+        }
+    </style>
+
 @endsection
 
 

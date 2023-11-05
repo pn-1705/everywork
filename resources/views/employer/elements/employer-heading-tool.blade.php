@@ -5881,7 +5881,7 @@
         z-index: 500;
         position: -webkit-sticky;
         position: sticky;
-        top: 80px;
+        top: 100px;
         border-bottom: 1px solid #e6e6e7;
         background: #ffffff;
     }
