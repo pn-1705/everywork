@@ -17,7 +17,8 @@
                        href="{{ route('user.pages.home') }}">Home</a></li>
                 <li><a class="nav-link scrollto {{ Route::is('user.pages.viec-lam') ? 'active' : '' }}"
                        href="{{ route('user.pages.viec-lam') }}">Tìm việc làm</a></li>
-                <li><a class="nav-link scrollto" href="#services">Services</a></li>
+                <li><a class="nav-link scrollto {{ Route::is('pages.nha-tuyen-dung') ? 'active' : '' }}"
+                       href="{{ route('pages.nha-tuyen-dung') }}">Nhà tuyển dụng</a></li>
                 <li><a class="nav-link scrollto " href="#portfolio">Portfolio</a></li>
                 <li><a class="nav-link scrollto" href="#team">Team</a></li>
                 <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>

@@ -40,6 +40,10 @@ Route::get('/viec-lam', 'User\UserController@vieclam_page')->name('user.pages.vi
 Route::get('/viec-lam/search', 'User\UserController@filterJobs')->name('filterJobs');
 Route::get('/viec-lam/{id}', 'User\UserController@viewDetailJob')->name('user.pages.viewDetailJob');
 
+//Nhà tuyển dụng hàng đầu
+Route::get('/nha-tuyen-dung-hang-dau', 'User\UserController@nhatuyendung_page')->name('pages.nha-tuyen-dung');
+Route::get('/nha-tuyen-dung/{ten}', 'User\UserController@nhatuyendung_view')->name('pages.nha-tuyen-dung.detail');
+
 //Typeahead
 Route::get('autocomplete', 'User\UserController@autocompleteSearch')->name('autocompleteSearch');
 

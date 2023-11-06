@@ -29,7 +29,7 @@
                     <div class="main-slide">
                         <div class="jobs-side-list" id="jobs-side-list-content">
                             <style>
-                                .job-item:hover{
+                                .job-item:hover {
                                     background: #eef4fc;
                                     transition: 0.4s ease-in-out all;
                                 }
@@ -58,13 +58,18 @@
                                                        href="{{ route("user.pages.viewDetailJob",  $job->id ) }}"
                                                        title="{{$job-> tencongviec}}">
                                                         {{$job-> tencongviec}}
-                                                        <span class="new"><font color="ff0000">(Mới)</font></span>
+                                                        <?php
+                                                        $today = \Carbon\Carbon::now('Asia/Ho_Chi_Minh')
+                                                        ?>
+                                                        @if(strtotime ( '+3 day' , strtotime ( $job -> created_at ) ) >= strtotime($today))
+                                                            <span class="new"><font color="ff0000">(Mới)</font></span>
+                                                        @endif
                                                     </a>
                                                 </h2>
                                             </div>
                                             <div class="caption">
                                                 <a class="company-name"
-                                                   href=""
+                                                   href="{{ route('pages.nha-tuyen-dung.detail',$job -> id_nhatuyendung) }}"
                                                    title="{{$job->ten}}">{{$job->ten}}</a>
                                                 <a class="job_link"
                                                    href="{{ route("user.pages.viewDetailJob",  $job->id ) }}">
@@ -100,7 +105,8 @@
                                                 </a>
                                                 <div class="c-time">
                                                     <p><em class="mdi mdi-calendar"></em>
-                                                        Cập nhật:&nbsp;{{ date('d-m-Y', strtotime($job -> updated_at)) }}
+                                                        Cập
+                                                        nhật:&nbsp;{{ date('d-m-Y', strtotime($job -> updated_at)) }}
                                                     </p>
                                                 </div>
                                             </div>

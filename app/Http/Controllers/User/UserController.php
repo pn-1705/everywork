@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Models\City;
 use App\Models\DanhMucNganhNghe;
+use App\Models\Employer;
 use App\Models\Job;
 use App\Models\Role;
 use App\Models\User;
@@ -286,5 +287,25 @@ class UserController extends Controller
             ->get();
 //        dd($data);
         return response()->json($data);
+    }
+
+    public function nhatuyendung_page()
+    {
+        return view('user.pages.employer.index');
+    }
+    public function nhatuyendung_view($id)
+    {
+        $employer = Employer::find($id);
+        $jobOfEmployer = DB::table('table_jobs')
+            ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
+            ->leftJoin('table_city', 'table_jobs.noilamviec', '=', 'table_city.id')
+            ->where('table_jobs.trangthai', 1)
+            ->where('table_jobs.id_nhatuyendung', $id)
+            ->select('table_jobs.*', 'table_employers.ten', 'table_city.tendaydu', 'table_employers.avt')
+            ->paginate(5)->withQueryString();;
+//                dd($jobOfEmployer);
+        $data['employer'] = $employer;
+        $data['jobOfEmployer'] = $jobOfEmployer;
+        return view('user.pages.employer.viewDetailEmployer', $data);
     }
 }
