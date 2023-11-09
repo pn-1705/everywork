@@ -26,6 +26,12 @@
     <link href="{{url('public/frontend')}}/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="{{url('public/frontend')}}/css/style.css" rel="stylesheet">
     <link href="{{url('public/frontend')}}/css/global.css" rel="stylesheet">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <!-- =======================================================
     * Template Name: BizLand

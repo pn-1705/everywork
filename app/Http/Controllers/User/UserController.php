@@ -142,7 +142,7 @@ class UserController extends Controller
             ->where('table_jobs.trangthai', 1)
             ->select('table_jobs.*', 'table_employers.ten', 'table_city.tendaydu', 'table_employers.avt');
 
-        $totalJobs = $jobs -> count();
+        $totalJobs = $jobs->count();
         $jobs = $jobs->paginate(20)->withQueryString();
 
         $data['jobs'] = $jobs;
@@ -181,7 +181,7 @@ class UserController extends Controller
         }
 
         $days = strtotime('-' . $request->days . ' day', strtotime(Carbon::now('Asia/Ho_Chi_Minh')));
-        $days = date ( 'Y-m-j' , $days );
+        $days = date('Y-m-j', $days);
         if ($request->days != 0) {
             $jobs->where('table_jobs.created_at', '<=', $days);
         }
@@ -189,18 +189,18 @@ class UserController extends Controller
             $jobs->where('table_jobs.hinhthuc', '=', $request->job_type);
         }
 
-        $totalJobs = $jobs -> count();
+        $totalJobs = $jobs->count();
         $jobs = $jobs->paginate(20)->withQueryString();
         $data['jobs'] = $jobs;
         $data['totalJobs'] = $totalJobs;
 
-        $keySearch = $request -> keySearch;
-        $career = $request -> career;
-        $location = $request -> location;
-        $salary = $request -> salary;
-        $level = $request -> level;
-        $days = $request -> days;
-        $job_type = $request -> job_type;
+        $keySearch = $request->keySearch;
+        $career = $request->career;
+        $location = $request->location;
+        $salary = $request->salary;
+        $level = $request->level;
+        $days = $request->days;
+        $job_type = $request->job_type;
         $data['keySearch'] = $keySearch;
         $data['career'] = $career;
         $data['location'] = $location;
@@ -277,7 +277,16 @@ class UserController extends Controller
 
     public function home_page()
     {
-        return view('user.pages.user.home');
+
+        $jobHot = DB::table('table_jobs')
+            ->select('table_jobs.id_nganhnghe', 'table_danhmucnganhnghe.tenkhongdau', 'table_danhmucnganhnghe.tendaydu', DB::raw('count(*) as total'))
+            ->groupBy('id_nganhnghe', 'table_danhmucnganhnghe.tenkhongdau', 'table_danhmucnganhnghe.tendaydu')
+            ->join('table_danhmucnganhnghe', 'table_danhmucnganhnghe.id', '=', 'table_jobs.id_nganhnghe')
+            ->orderBy('total', 'desc')
+            ->take(10)
+            ->get();
+        $data['jobHot'] = $jobHot;
+        return view('user.pages.user.home', $data);
     }
 
     public function autocompleteSearch(Request $request)
@@ -293,6 +302,7 @@ class UserController extends Controller
     {
         return view('user.pages.employer.index');
     }
+
     public function nhatuyendung_view($id)
     {
         $employer = Employer::find($id);
