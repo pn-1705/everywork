@@ -1,6 +1,6 @@
 @extends('user.layout')
 
-@section('pageTitle', 'Quản lý tài khoản')
+@section('pageTitle', 'Việc làm đã lưu')
 
 <style>
     /*jquery.auto-complete.css*/
@@ -17382,91 +17382,78 @@
         @include("user.elements.default-sidebar")
         <div class="content-inner">
             <div class="container-fluid">
-                <div class="my-account-wrap">
-                    <div class="cb-title">
-                        <h2>Quản lý tài khoản</h2>
-                    </div>
-                    <div class="row">
-                        <div class="col-6 update-password">
-                            <div class="title-form">
-                                <h3>Thay đổi mật khẩu</h3>
+                <div class="applied-jobs-wrap">
+                    <div class="widget widget-10">
+                        <div class="widget-head">
+                            <div class="cb-title-h3">
+                                <h3>Việc làm đã nộp</h3>
                             </div>
-                            <form action="" id="frmPassowrd" name="frmPassowrd" method="post">
-                                <div class="main-form">
-                                    <div class="form-group form-text toggle-password">
-                                        <input type="password" name="old_password" id="old_password" value="">
-                                        <label>Nhập mật khẩu cũ</label>
-                                        <span class="error_old_password"></span>
-                                        <div class="showhide-password eyess"></div>
-                                    </div>
-                                    <div class="form-group form-text toggle-password">
-                                        <input type="password" name="new_password" id="new_password" value="">
-                                        <label>Nhập mật khẩu mới</label>
-                                        <span class="error_new_password"></span>
-                                        <div class="showhide-password eyess"></div>
-                                    </div>
-                                    <div class="form-group form-text toggle-password">
-                                        <input type="password" name="confirm_password" id="confirm_password" value="">
-                                        <label>Xác nhận mật khẩu mới</label>
-                                        <span class="error_confirm_password"></span>
-                                        <div class="showhide-password eyess"></div>
-                                    </div>
-                                    <div class="list-button">
-                                        <div class="form-group form-submit">
-                                            <button class="btn-gradient" type="submit">Cập nhật</button>
-                                        </div>
-                                        <div class="form-group form-cancel">
-                                            <button class="btn-gradient" type="reset">Bỏ qua</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
                         </div>
-                        <div class="col-6 update-email">
-                            <div class="title-form">
-                                <h3>Thay đổi địa chỉ Email</h3>
+                        <div class="widget-body">
+                            <div class="content">
+                                <p>Bạn đã ứng tuyển vào các vị trí tuyển dụng trong 6 tháng gần nhất</p>
+                                <div class="list-hidden"><a href="https://careerbuilder.vn/vi/jobseekers/mykiemviec/jobappliedhidden">Danh Sách Việc Làm Đã Ẩn</a></div>
                             </div>
-                            <form id="frmEmail" name="frmEmail" method="post"
-                                  action="https://careerbuilder.vn/vi/jobseekers/member/email">
-                                <div class="main-form">
-                                    <div class="form-group form-text">
-                                        <input type="text" value="nhavophong3@gmail.com" readonly="">
-                                        <label>Email cũ</label>
-                                    </div>
-                                    <div class="form-group form-text">
-                                        <input type="text" name="new_email" id="new_email" value="">
-                                        <label>Nhập email mới</label>
-                                        <span class="error_new_email"></span>
-                                    </div>
-                                    <div class="list-button">
-                                        <div class="form-group form-submit">
-                                            <button class="btn-gradient" type="submit">Cập nhật</button>
-                                        </div>
-                                        <div class="form-group form-cancel">
-                                            <button class="btn-gradient" type="reset">Bỏ qua</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                            <div class="table">
+                                <form name="frmJobapplied" id="frmJobapplied" method="post" action="">
+                                    <input type="hidden" name="intIsHide" id="intIsHide" value="1">
+                                    <input type="hidden" name="jobapplied_id" id="jobapplied_id">
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th class="title">Chức danh</th>
+                                            <th>Trạng thái</th>
+                                            <th>Ngày nộp</th>
+                                            <th>Hồ sơ ứng tuyển</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class="job">
+                                                <div class="name">
+                                                    <div class="figure">
+                                                        <div class="image"><a href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-co-phan-vacxin-viet-nam.35A7F2D2.html"><img src="https://images.careerbuilder.vn/employer_folders/lot2/199122/72x45/135153logovacxin.jpg" alt="Công Ty Cổ Phần Vacxin Việt Nam" title="Công Ty Cổ Phần Vacxin Việt Nam"> </a></div>
+                                                        <div class="figcaption">
+                                                            <h3>
+                                                                <a href="https://careerbuilder.vn/vi/tim-viec-lam/quang-tri-chuyen-vien-it-kiem-bao-tri.35BE1017.html">
+                                                                    [Quảng Trị] Chuyên Viên IT Kiêm Bảo Trì
+                                                                </a>
+                                                            </h3>
+                                                            <p class="company-name">
+                                                                <a href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-co-phan-vacxin-viet-nam.35A7F2D2.html" title="Công Ty Cổ Phần Vacxin Việt Nam">Công Ty Cổ Phần Vacxin Việt Nam</a>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td class="date">
+                                                <p class="mb-show">Ngày nộp: </p>
+                                                <time>10/11/2023</time>
+                                            </td>
+                                            <td class="curriculum-vitae">
+                                                <p>                                           [Quảng Trị] Chuyên Viên IT Kiêm Bảo Trì
+                                                </p>
+                                            </td>
+                                            <td class="action">
+                                                <ul class="list-action">
+                                                    <li class="button-hidden"><a href="javascript:void(0);" onclick="checkHiddenJobapplied('360D3296_36ED7583_35BE1017',1);return false;">
+                                                            <em class="material-icons">visibility_off</em><span>Ẩn
+                        </span></a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        </tbody>
 
-                        <div class="col-6 update-email">
-                            <div class="title-form">
-                                <h3>Xóa tài khoản</h3>
-                            </div>
-                            <div>
-                                Nếu bạn muốn xóa tài khoản của mình khỏi CareerBuilder, hãy ấn <a tabindex="0"
-                                                                                                  role="button"
-                                                                                                  style="cursor: pointer;color:red"
-                                                                                                  class="btn-delete"
-                                                                                                  id="btn-delete">vào
-                                    đây</a>
-                            </div>
-                        </div>
+                                    </table>
+                                    <div class="main-pagination">  </div>
+                                </form>
+                            </div>                    </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div>        </div>
     </div>
 @endsection
 <style>/*jquery.alerts.css*/

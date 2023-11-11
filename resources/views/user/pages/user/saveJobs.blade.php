@@ -1,6 +1,6 @@
 @extends('user.layout')
 
-@section('pageTitle', 'Quản lý tài khoản')
+@section('pageTitle', 'Việc làm đã lưu')
 
 <style>
     /*jquery.auto-complete.css*/
@@ -17382,87 +17382,66 @@
         @include("user.elements.default-sidebar")
         <div class="content-inner">
             <div class="container-fluid">
-                <div class="my-account-wrap">
-                    <div class="cb-title">
-                        <h2>Quản lý tài khoản</h2>
-                    </div>
-                    <div class="row">
-                        <div class="col-6 update-password">
-                            <div class="title-form">
-                                <h3>Thay đổi mật khẩu</h3>
+                <div class="saved-jobs-wrap">
+                    <div class="widget widget-10">
+                        <div class="widget-head">
+                            <div class="cb-title-h3">
+                                <h3>Việc làm đã lưu</h3>
                             </div>
-                            <form action="" id="frmPassowrd" name="frmPassowrd" method="post">
-                                <div class="main-form">
-                                    <div class="form-group form-text toggle-password">
-                                        <input type="password" name="old_password" id="old_password" value="">
-                                        <label>Nhập mật khẩu cũ</label>
-                                        <span class="error_old_password"></span>
-                                        <div class="showhide-password eyess"></div>
-                                    </div>
-                                    <div class="form-group form-text toggle-password">
-                                        <input type="password" name="new_password" id="new_password" value="">
-                                        <label>Nhập mật khẩu mới</label>
-                                        <span class="error_new_password"></span>
-                                        <div class="showhide-password eyess"></div>
-                                    </div>
-                                    <div class="form-group form-text toggle-password">
-                                        <input type="password" name="confirm_password" id="confirm_password" value="">
-                                        <label>Xác nhận mật khẩu mới</label>
-                                        <span class="error_confirm_password"></span>
-                                        <div class="showhide-password eyess"></div>
-                                    </div>
-                                    <div class="list-button">
-                                        <div class="form-group form-submit">
-                                            <button class="btn-gradient" type="submit">Cập nhật</button>
-                                        </div>
-                                        <div class="form-group form-cancel">
-                                            <button class="btn-gradient" type="reset">Bỏ qua</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
                         </div>
-                        <div class="col-6 update-email">
-                            <div class="title-form">
-                                <h3>Thay đổi địa chỉ Email</h3>
-                            </div>
-                            <form id="frmEmail" name="frmEmail" method="post"
-                                  action="https://careerbuilder.vn/vi/jobseekers/member/email">
-                                <div class="main-form">
-                                    <div class="form-group form-text">
-                                        <input type="text" value="nhavophong3@gmail.com" readonly="">
-                                        <label>Email cũ</label>
-                                    </div>
-                                    <div class="form-group form-text">
-                                        <input type="text" name="new_email" id="new_email" value="">
-                                        <label>Nhập email mới</label>
-                                        <span class="error_new_email"></span>
-                                    </div>
-                                    <div class="list-button">
-                                        <div class="form-group form-submit">
-                                            <button class="btn-gradient" type="submit">Cập nhật</button>
-                                        </div>
-                                        <div class="form-group form-cancel">
-                                            <button class="btn-gradient" type="reset">Bỏ qua</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                        <div class="widget-body">
+                                <form name="frmJobsaved" id="frmJobsaved" method="post" action="">
+                                    <input type="hidden" name="jobsaved_id" id="jobsaved_id" value="0">
+                                    <div class="table">
+                                        <table>
+                                            <thead>
+                                            <tr>
+                                                <th class="job-name">Tên công việc</th>
+                                                <th>Địa điểm</th>
+                                                <th>Trạng thái</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($jobs as $job)
 
-                        <div class="col-6 update-email">
-                            <div class="title-form">
-                                <h3>Xóa tài khoản</h3>
-                            </div>
-                            <div>
-                                Nếu bạn muốn xóa tài khoản của mình khỏi CareerBuilder, hãy ấn <a tabindex="0"
-                                                                                                  role="button"
-                                                                                                  style="cursor: pointer;color:red"
-                                                                                                  class="btn-delete"
-                                                                                                  id="btn-delete">vào
-                                    đây</a>
-                            </div>
+                                                <tr>
+                                                <td class="job">
+                                                    <div class="name">
+                                                        <div class="figure">
+                                                            <div class="image"><a href="{{ route('user.pages.viewDetailJob', $job -> idJob) }}"><img src="{{ asset('public/banner_job/'. $job -> img_banner) }}"
+                                                                                                   alt="{{$job->tencongviec}}" title="{{$job->tencongviec}}">  </a></div>
+                                                            <div class="figcaption">
+                                                                <h3><a href="{{ route('user.pages.viewDetailJob', $job -> idJob) }}">{{ $job -> tencongviec }}</a></h3>
+                                                                <p class="company-name"><a href="{{ route('pages.nha-tuyen-dung.detail', $job -> id_nhatuyendung) }}" title="{{ $job -> ten }}">{{ $job -> ten }}</a></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="location">
+                                                    <p>{{ $job -> tendaydu }}</p>
+                                                </td>
+                                                <td class="action">
+                                                    <ul class="list-action">
+                                                        <li class="apply-now-btn"><a class="btn-gradient" href="https://careerbuilder.vn/vi/tim-viec-lam/nhan-vien-chuyen-vien-khach-hang-doanh-nghiep-vi-mo-quang-tri.35BEF2DA.html">Ứng Tuyển</a></li>
+                                                        <li class="delete"><a href="{{ route('xoa-viec-lam-da-luu', $job -> idJob) }}"> <em class="material-icons">highlight_off</em><span>Xóa</span></a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="main-pagination">
+                                    </div>
+                                </form>
                         </div>
+                    </div>
+                </div>
+                <div class="remove-modal" style="display: none">
+                    <div class="modal-body">
+                        <div class="icon"><img src="./img/icon-error.png" alt=""></div>
+                        <p>Đã xóa thành công</p><a class="btn-close-modal" href="javascript:;"> <em class="material-icons">highlight_off</em></a>
                     </div>
                 </div>
             </div>
@@ -20744,9 +20723,8 @@
         justify-content: center;
         padding: 5px 10px;
         border-radius: 5px;
-        background-image: -webkit-gradient(linear, right top, left top, from(#00b2a3), color-stop(#00b2a3), to(#00b2a3));
-        background-image: -o-linear-gradient(right, #42ecce, #00b2a3, #42ecce);
-        background-image: linear-gradient(to left, #42ecce, #00b2a3, #42ecce);
+        background-image: -o-linear-gradient(right, #0c84ff, #0a72dc, #3899fc);
+        background-image: linear-gradient(to left, #0c84ff, #0a72dc, #3899fc);
         color: #fff;
         font-size: 13px;
         font-weight: 700;

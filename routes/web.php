@@ -50,10 +50,15 @@ Route::get('autocomplete', 'User\UserController@autocompleteSearch')->name('auto
 
 //Ứng viên tìm việc làm
 Route::group(['middleware' => 'checkUserRole', 'prefix' => 'user'], function () {
-    Route::get('/thong-tin-ca-nhan', 'User\UserController@viewInformation')->name('information');
+    Route::get('/infomation', 'User\UserController@viewInformation')->name('information');
     Route::post('/update_information', 'User\UserController@updateInformation')->name('update_information');
+    Route::get('/jobsaved', 'User\UserController@view_jobsaved')->name('viec-lam-da-luu');
+    Route::get('/delete_jobsaved/{id}', 'User\UserController@delete_jobsaved')->name('xoa-viec-lam-da-luu');
+    Route::get('/jobapplied', 'User\UserController@view_jobapplied')->name('viec-lam-da-nop');
 
 });
+//Lưu việc làm
+Route::get('/saveJob/{id}/{type}', 'User\UserController@saveJob');
 
 // Nhà tuyển dụng
 

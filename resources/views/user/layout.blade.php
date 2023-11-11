@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <?php use Illuminate\Support\Facades\DB;
+    $footer_setting = \App\Models\FooterSetting::all();
+    ?>
+    @foreach($footer_setting as $st)
+        <link href="{{url('public/logo/'. $st->logo)}}" rel="icon">
+    @endforeach
     @include("user.elements.lib")
 </head>
 <body>

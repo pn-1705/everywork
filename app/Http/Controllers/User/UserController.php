@@ -134,6 +134,7 @@ class UserController extends Controller
     //mới
     public function vieclam_page()
     {
+//        dd(Auth::check());
         $jobs = DB::table('table_jobs')
             ->leftJoin('table_danhmucnganhnghe', 'table_jobs.id_nganhnghe', '=', 'table_danhmucnganhnghe.id')
             ->leftJoin('table_ranks', 'table_jobs.capbac', '=', 'table_ranks.id')
@@ -147,6 +148,13 @@ class UserController extends Controller
 
         $data['jobs'] = $jobs;
         $data['totalJobs'] = $totalJobs;
+
+        if (isset(Auth::user()->id)){
+            $idAccount = Auth::user()->id;
+            $jobSaved = DB::table('table_savejobs')->where('idAccount', $idAccount)->get();
+            $data['jobSaved'] = $jobSaved;
+//            dd($jobSaved);
+        }
 
         return view('user.pages.user.vieclam', $data);
     }
@@ -228,11 +236,17 @@ class UserController extends Controller
             ->leftJoin('table_city', 'table_jobs.noilamviec', '=', 'table_city.id')
             ->where('table_jobs.trangthai', 1)
             ->where('table_jobs.id', $id)
-            ->select('table_jobs.*', 'table_employers.*', 'table_danhmucnganhnghe.tendaydu')
+            ->select('table_jobs.*', 'table_employers.*', 'table_danhmucnganhnghe.tendaydu', 'table_jobs.id as idJob')
             ->get()
             ->first();
         $data['job'] = $job;
 //        dd($job);
+        if (isset(Auth::user()->id)){
+            $idAccount = Auth::user()->id;
+            $jobSaved = DB::table('table_savejobs')->where('idAccount', $idAccount)->get();
+            $data['jobSaved'] = $jobSaved;
+//            dd($jobSaved);
+        }
 
 //        $data = ['job']
 //        dd($jobs);
@@ -272,7 +286,68 @@ class UserController extends Controller
             $user->save();
         }
         return redirect()->route('information')->with('succes', 'Cập nhật thông tin thành công !');
+    }
 
+    public function saveJob($idJob, $type)
+    {
+
+        if (isset(Auth::user()->id)) {
+            $idAccount = Auth::user()->id;
+            if ($type == 0) {
+                DB::table('table_savejobs')->insert(
+                    array(
+                        'idJob' => $idJob,
+                        'idAccount' => $idAccount
+                    )
+                );
+            } elseif ($type == 1) {
+                DB::table('table_savejobs')
+                    ->where('idJob', $idJob)
+                    ->where('idAccount', $idAccount)
+                    ->delete();
+            }
+
+        } else {
+            return redirect()->intended('login');
+        }
+    }
+
+    public function view_jobsaved()
+    {
+        if (isset(Auth::user()->id)) {
+            $jobs = DB::table('table_savejobs')
+                ->where('idAccount', Auth::user()->id)
+                ->join('table_jobs', 'table_jobs.id', '=', 'table_savejobs.idJob')
+                ->join('table_employers', 'table_employers.id', '=', 'table_jobs.id_nhatuyendung')
+                ->join('table_city', 'table_city.id', '=', 'table_jobs.noilamviec')
+                ->get();
+//            dd($jobs);
+            $data['jobs'] = $jobs;
+            return view('user.pages.user.saveJobs', $data);
+        } else {
+            return redirect()->intended('login');
+        }
+    }public function delete_jobsaved($id)
+    {
+        if (isset(Auth::user()->id)) {
+            DB::table('table_savejobs')
+                ->where('idJob', $id)
+                ->delete();
+            return redirect()->back();
+        } else {
+            return redirect()->intended('login');
+        }
+    }
+
+    public function view_jobapplied()
+    {
+        if (isset(Auth::user()->id)) {
+            $user = Auth::user();
+//            dd($user);
+            return view('user.pages.user.applyJobs')->with('info', $user);
+        } else {
+            return redirect()->intended('login');
+        }
     }
 
     public function home_page()

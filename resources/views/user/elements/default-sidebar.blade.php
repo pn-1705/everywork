@@ -2,17 +2,17 @@
     <nav class="side-navbar">
         <div class="head-nav">
             <div class="my-cb-center">
-                <h2>My CareerBuilder Center</h2>
+                <h2>Quản lí tài khoản</h2>
             </div>
             <ul class="list-unstyled">
                 <li> <a href="https://careerbuilder.vn/vi/jobseekers/dashboard" title="Quản lý hồ sơ"> <em class="material-icons">color_lens</em><span>Quản lý hồ sơ</span></a></li>
                 <li style="display:none"> <a href="https://careerbuilder.vn/vi/jobseekers/cv-hay/my-profile"> <em class="material-icons">person</em><span>Hồ sơ Careerbuilder</span></a></li>
                 <li> <a href="https://careerbuilder.vn/vi/jobseekers/mykiemviec/my-profile"> <em class="material-icons">person</em><span>Hồ sơ Careerbuilder</span></a></li>
                 <li> <a href="https://careerbuilder.vn/vi/jobseekers/mykiemviec/changetemplate"> <em class="material-icons">portrait</em><span>Chỉnh mẫu hồ sơ</span></a></li>
-                <li><a class="collapse " href="javascript:;"><em class="material-icons">edit</em><span>Việc làm của tôi</span></a>
-                    <ul class="list-unstyled collapse">
-                        <li><a href="https://careerbuilder.vn/vi/jobseekers/mykiemviec/jobsaved">Việc làm đã lưu</a></li>
-                        <li><a href="https://careerbuilder.vn/vi/jobseekers/mykiemviec/jobapplied">Việc làm đã nộp</a></li>
+                <li><a class="collapse {{ Route::is('viec-lam-da-luu') ? 'active' : "" }}{{ Route::is('viec-lam-da-nop') ? 'active' : "" }}" href="javascript:;"><em class="material-icons">edit</em><span>Việc làm của tôi</span></a>
+                    <ul class="list-unstyled collapse {{ Route::is('viec-lam-da-luu') ? 'd-block' : "" }}{{ Route::is('viec-lam-da-nop') ? 'd-block' : "" }}">
+                        <li><a class="{{ Route::is('viec-lam-da-luu') ? 'active' : "" }}" href="{{ route('viec-lam-da-luu') }}">Việc làm đã lưu</a></li>
+                        <li><a class="{{ Route::is('viec-lam-da-nop') ? 'active' : "" }}" href="{{ route('viec-lam-da-nop') }}">Việc làm đã nộp</a></li>
                     </ul>
                 </li>
                 <li> <a href="https://careerbuilder.vn/vi/jobseekers/jobalert"><em class="material-icons">notifications</em><span>Thông Báo Việc Làm</span></a></li>
@@ -25,9 +25,9 @@
                     </ul>
                 </li>
                 <li> <a href="https://careerbuilder.vn/vi/jobseekers/mykiemviec/notify" title="Xem tất cả thông báo"> <em class="material-icons">textsms</em><span>Xem tất cả thông báo</span></a></li>
-                <li> <a class="collapse active" href="javascript:;"><em class="material-icons">settings</em><span>Cài đặt</span></a>
-                    <ul class="list-unstyled collapse" style="display:block">
-                        <li> <a href="https://careerbuilder.vn/vi/jobseekers/member/myaccount" class="active" title="Tài Khoản">Tài Khoản</a></li>
+                <li> <a class="collapse {{ Route::is('information') ? 'active' : "" }} " href="javascript:;"><em class="material-icons">settings</em><span>Cài đặt</span></a>
+                    <ul class="list-unstyled collapse {{ Route::is('information') ? 'd-block' : "" }}">
+                        <li> <a href="{{ route('information') }}" class="{{ Route::is('information') ? 'active' : "" }}" title="Tài Khoản">Tài Khoản</a></li>
                         <li> <a href="https://careerbuilder.vn/vi/jobseekers/member/emailmanagement" title="Cài Đặt Thông Báo">Cài Đặt Thông Báo</a></li>
                     </ul>
                 </li>

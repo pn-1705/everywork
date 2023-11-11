@@ -4,6 +4,7 @@
 
 @section('content')
     @include("user.elements.page-heading-tool")
+    {{--    @include("user.elements.loginRequired")--}}
     <body class="search-result-list-page" style="">
     <section class="search-result-list" style="padding: 30px 0 0 0;">
         <div class="container">
@@ -97,12 +98,22 @@
                                                 </a>
                                             </div>
                                             <div class="c-bottom-right-icon">
+
                                                 <a tabindex="0" role="button"
-                                                   class="toollips save-job chk_save_35BE058D "
-                                                   data-id="35BE058D" onclick="popuplogin()">
+                                                   class="toollips save-job chk_save_{{$job ->id}}
+                                                   @if(isset(Auth::user()->id))
+                                                       @foreach ($jobSaved as $list)
+                                                           @if($list -> idJob == $job ->id)
+                                                               saved
+                                                           @endif
+                                                       @endforeach
+                                                   @endif
+                                                       "
+                                                   data-id="{{ $job -> id }}" onclick="savejob1({{$job -> id}})">
                                                     <i class="mdi mdi-heart-outline"></i>
                                                     <span class="text">Lưu việc làm</span>
                                                 </a>
+
                                                 <div class="c-time">
                                                     <p><em class="mdi mdi-calendar"></em>
                                                         Cập
@@ -110,6 +121,52 @@
                                                     </p>
                                                 </div>
                                             </div>
+                                            <input id="loginCheck" type="number" hidden
+                                                   @if(isset(Auth::user()->id))
+                                                   value="1"
+                                                   @else
+                                                   value="0"
+                                                @endif>
+                                            <script>
+                                                //check Saved
+                                                if ($(".save-job").hasClass('saved')) {
+                                                    $(".saved").find('.text').html(language.job_chk_save_jobs_saved);
+                                                    $(".saved").find('.toolip p').html(language.job_chk_save_jobs_saved);
+                                                }
+
+                                                function savejob1(job_id) {
+                                                    var loginCheck = document.getElementById('loginCheck').value;
+                                                    if (loginCheck == 1) {
+                                                        if ($(".chk_save_" + job_id).hasClass('saved')) {
+                                                            var type = 1;
+
+                                                        } else {
+                                                            var type = 0;
+                                                        }
+                                                        $.ajax({
+                                                            url: '{{url('saveJob/' )}}' + '/' + job_id + '/' + type,
+                                                            method: 'GET',
+
+                                                            // data: {job_id:job_id},
+                                                            // dataType: 'json',
+                                                            success: function () {
+                                                                if (type == 0) {
+                                                                    $(".chk_save_" + job_id).find('.text').html(language.job_chk_save_jobs_saved);
+                                                                    $(".chk_save_" + job_id).find('.toolip p').html(language.job_chk_save_jobs_saved);
+                                                                    $(".chk_save_" + job_id).addClass('saved');
+                                                                } else if (type == 1) {
+                                                                    $(".chk_save_" + job_id).find('.text').html(language.job_chk_save_jobs_save);
+                                                                    $(".chk_save_" + job_id).find('.toolip p').html(language.job_chk_save_jobs_save);
+                                                                    $(".chk_save_" + job_id).removeClass('saved');
+                                                                }
+                                                            }
+                                                        });
+                                                    } else {
+                                                        swal("Vui lòng đăng nhập để thực hiện chức năng này!");
+                                                    }
+
+                                                }
+                                            </script>
                                         </div>
                                     </div>
                                 </div>
@@ -169,7 +226,8 @@
                                     <a href="https://careerbuilder.vn/viec-lam/Kế-toán-trưởng-k-vi.html"
                                        title="Kế toán trưởng">
                                         Kế toán trưởng
-                                    </a>
+                                    </a><script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
                                 </li>
                                 <li>
                                     <a href="https://careerbuilder.vn/viec-lam/assistant-k-vi.html"
@@ -207,6 +265,10 @@
     </section>
     </body>
     <style>
+        a.saved {
+            color: #7e7a7a;
+        }
+
         .pagination li.active span, .pagination li:hover a {
             border-color: #106eea;
             background: #106eea;
@@ -273,7 +335,7 @@
             color: #008563;
         }
 
-        .job_link .c-location, .job_link .c-expire-date, .c-bottom-right-icon a, .c-time {
+        .job_link .c-location, .job_link .c-expire-date, .c-time {
             color: #3f4144;
         }
 
