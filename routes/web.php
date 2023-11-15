@@ -55,10 +55,10 @@ Route::group(['middleware' => 'checkUserRole', 'prefix' => 'user'], function () 
     Route::get('/jobsaved', 'User\UserController@view_jobsaved')->name('viec-lam-da-luu');
     Route::get('/delete_jobsaved/{id}', 'User\UserController@delete_jobsaved')->name('xoa-viec-lam-da-luu');
     Route::get('/jobapplied', 'User\UserController@view_jobapplied')->name('viec-lam-da-nop');
-
 });
 //Lưu việc làm
 Route::get('/saveJob/{id}/{type}', 'User\UserController@saveJob');
+Route::post('/applyJob/{id}', 'User\UserController@applyJob')->name('nop-don-ung-tuyen');
 
 // Nhà tuyển dụng
 

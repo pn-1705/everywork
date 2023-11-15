@@ -18,5 +18,6 @@ class UserRoleMiddleware
                 return redirect()->route("user.pages.home");
             }
         }
+        return redirect()->route("user.pages.home");
     }
 }

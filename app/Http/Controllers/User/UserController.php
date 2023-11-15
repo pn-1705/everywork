@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Requests\ApplyJobRequest;
 use App\Models\City;
 use App\Models\DanhMucNganhNghe;
 use App\Models\Employer;
@@ -217,6 +218,13 @@ class UserController extends Controller
         $data['days'] = $days;
         $data['job_type'] = $job_type;
 
+        if (isset(Auth::user()->id)){
+            $idAccount = Auth::user()->id;
+            $jobSaved = DB::table('table_savejobs')->where('idAccount', $idAccount)->get();
+            $data['jobSaved'] = $jobSaved;
+//            dd($jobSaved);
+        }
+
 
         return view('user.pages.user.vieclam', $data);
     }
@@ -310,6 +318,27 @@ class UserController extends Controller
         } else {
             return redirect()->intended('login');
         }
+        return redirect()->intended('login');
+    }
+
+    public function applyJob($id, ApplyJobRequest $request){
+
+        $idAccount = Auth::id();
+        $idJob = $id;
+        $letter = $request -> letter;
+        $created_at = Carbon::now('Asia/Ho_Chi_Minh');
+        $updated_at = Carbon::now('Asia/Ho_Chi_Minh');
+
+//        DB::table('table_applyforjobs')->insert(
+//            ['idAccount' => $idAccount,
+//            'idJob' => $idJob,
+//            'idCV' => 0,
+//            'letter' => $letter,
+//            'created_at' => $created_at,
+//            'updated_at' => $updated_at
+//            ]
+//        );
+        return redirect()->back()->with('alert', 'Hoàn tất');
     }
 
     public function view_jobsaved()

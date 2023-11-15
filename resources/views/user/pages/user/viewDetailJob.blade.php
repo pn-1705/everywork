@@ -4,11 +4,20 @@
 
 @section('content')
     {{--    @include("user.elements.page-heading-tool")--}}
-    <section class="search-result-list-detail template-2">
+    <section class="search-result-list-detail template-2" style="padding-top: 30px">
         <div class="container">
             <div class="row no-gutters">
+
                 <div class="col-12 mb-15">
-                    <section class="apply-now-banner  ">
+                    @if(session('alert'))
+                        <div class="alert alert-warning" id="applied-alert" role="alert">
+                            Bạn đã nộp đơn cho công việc này.
+                            Xem
+                            <a href="{{ route('viec-lam-da-nop') }}">các công việc đã ứng tuyển</a>
+                        </div>
+                    @endif
+
+                    <div class="apply-now-banner">
                         <div class="image"><img src="{{ asset('public/banner/'. $job -> banner) }}"
                                                 alt="CÔNG TY TNHH HISENSE VIETNAM">
                         </div>
@@ -19,13 +28,13 @@
                                    href="{{--{{ route() }}--}}">{{ $job -> ten }}</a>
                             </div>
                             <div class="apply-type">
-                                <div class="apply-now-btn "><a tabindex="0" role="button"
-                                                               class="btn-gradient btnApplyClick"> Nộp Đơn Ứng
-                                        Tuyển </a>
+                                <div class="apply-now-btn ">
+                                    <a tabindex="0" role="button" onclick="openFormApply()"
+                                                               class="btn-gradient btnApplyClick"> Nộp Đơn Ứng Tuyển </a>
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </div>
                 </div>
                 <div class="col-lg-7 col-custom-xxl-9">
                     <div class="tabs">
@@ -858,8 +867,157 @@
                     </div>
                     <div class="apply-now-right">
                         <div class="apply-now-btn">
-                            <a tabindex="0" role="button" class="btn-gradient btnApplyClick"> Nộp Đơn Ứng Tuyển </a>
+                            <a tabindex="0" onclick="openFormApply()"
+                               role="button" class="btn-gradient btnApplyClick"> Nộp Đơn Ứng Tuyển </a>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="react-turbolinks-modals" data-turbolinks-permanent>
+        <div id="applyModal" tabindex="-1" class="modal fade show" aria-labelledby="applyModalLabel"
+             data-keyboard="true"
+             style="display: none;padding-right: 15px; background-color: rgba(0,0,0,.5);" aria-modal="true"
+             role="dialog">
+            <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header d-flex align-items-center px-lg-4 bg-light">
+                        <div class="modal-title text-truncate h5" id="applyModalLabel"><span
+                                class="font-weight-normal mr-2">Nộp đơn</span>
+                            <strong class="font-weight-bold">{{ $job -> tencongviec }}</strong>
+                        </div>
+                        <button onclick="hideApplyJob()" type="button" class="close p-0 m-0" data-dismiss="modal"
+                                aria-label="Close"><i
+                                aria-hidden="true" class="bi bi-x-square"></i></button>
+                    </div>
+                    <div class="modal-body p-lg-4">
+                        <form action="{{ route('nop-don-ung-tuyen', $job -> idJob) }}" method="post">
+                            @csrf
+                            <div><p style="font-weight: bold">
+                                <?php if (isset(Auth::user()->id)) {
+                                    echo Auth::user()->ten;
+                                }
+                                ?>
+
+                                <p class="m-0 text-muted"><?php if (isset(Auth::user()->id)) {
+                                        echo Auth::user()->email;
+                                    }
+                                    ?></p>
+                            </div>
+                            <div class="mt-5">
+                                <div class="mb-3"><h6 style="font-weight: bold" class="apply-title">Hồ sơ xin việc*</h6>
+                                </div>
+
+                                <div class="px-4 py-3 rounded" style="background-color: rgba(0, 105, 219, 0.08);">
+                                    <p class="text-center m-1">Chọn hồ sơ</p>
+                                    <div class="dropdown w-100">
+                                        <button
+                                            class="btn btn-primary border rounded-pill font-weight-bold w-100 position-relative border-primary"
+                                            type="button" id="clResumeButton" data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false">Từ CareerLink<i
+                                                class="lni lni-chevron-down icon-0-2-20"></i></button>
+                                        <div class="dropdown-menu w-100 shadow p-2" aria-labelledby="clResumeButton"
+                                             style="">
+                                            <button type="button"
+                                                    class="dropdown-item btn text-truncate px-3 py-2 rounded">
+                                                <i class="lni lni-remove-file mr-3 text-secondary"></i>[INTERN PHP] VO
+                                                PHONG
+                                                NHA .pdf
+                                            </button>
+                                            <button disabled="" type="button"
+                                                    class="dropdown-item d-flex align-items-center btn text-muted disabled px-3 py-2 rounded">
+                                                <i class="lni lni-remove-file mr-3 text-secondary"></i><span
+                                                    class="text-truncate mr-3">cccccc</span><span
+                                                    class="badge bg-secondary text-white">Từ chối</span></button>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item px-3 d-flex align-items-center text-primary"
+                                               data-turbolinks="false" href="/nguoi-tim-viec/ho-so"><i
+                                                    class="lni lni-plus mr-2"></i>Tạo hồ sơ xin việc mới</a></div>
+                                    </div>
+                                    <input required id="fileCV" name="fileCV" accept=".pdf,.doc,.docx,.xls" type="file"
+                                           class="d-none">
+                                    <label for="fileCV"
+                                           class="btn bg-white rounded-pill mt-2 border-primary font-weight-bold w-100"
+                                           type="button"><i class="bi bi-upload"></i> Từ máy tính
+                                    </label>
+{{--                                    @error('fileCV')--}}
+                                    <span id="al_fileCV" class="text-danger"></span>
+{{--                                    @enderror--}}
+
+                                    <script>
+                                        function myFunction() {
+                                            var inpObj = document.getElementById("fileCV");
+                                            if (!inpObj.checkValidity()) {
+                                                $('#al_fileCV').removeClass('d-none');
+                                                document.getElementById("al_fileCV")
+                                                    .innerHTML = inpObj.validationMessage;
+                                            }
+                                        }
+                                    </script>
+
+                                    <div id="div-file" style="padding-top: 10px"
+                                         class="d-none upload-application-container media rounded-lg overflow-hidden type-docx">
+                                        <div class="media-body">
+                                            <a href="blob:https://www.careerlink.vn/81f6d7b6-48b4-4153-8e7f-4a8a334a3e2a"
+                                               target="_blank">
+                                                <h5 id="nameFileCV" class="mb-1 text-break">DoAn_BanBaoCao-1-3
+                                                    (4).docx</h5>
+                                                <script>
+                                                    const fileCV = document.getElementById('fileCV');
+
+                                                    window.onload = function () {
+                                                        fileCV.addEventListener('change', (e) => {
+                                                            $('#div-file').removeClass('d-none');
+
+                                                            var filename = fileCV.files[0].name;
+                                                            $('#nameFileCV').html(filename);
+
+                                                            $('#al_fileCV').addClass('d-none');
+
+                                                        });
+                                                    }
+
+                                                    function delCV() {
+                                                        fileCV.value = null;
+                                                        $('#div-file').addClass('d-none');
+                                                    }
+                                                </script>
+                                            </a>
+                                            <p class="text-secondary mb-0">Tải lên từ máy tính của bạn</p>
+                                            <p class="text-secondary mb-0">Kích thước: 2.7 MB</p>
+                                        </div>
+                                        <button onclick="delCV()" type="button" class="btn text-danger p-0 ml-auto">
+                                            <i
+                                                class="bi bi-x-circle"></i> Bỏ chọn
+                                        </button>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-secondary mt-2">File: doc, docx, xls, pdf (tối đa 3MB).<br><span>Nhà tuyển dụng yêu cầu hồ sơ: <span
+                                        class="text-danger">Tiếng Việt</span></span></p>
+                            <h6 class="m-0 apply-title mt-4 mb-3">Thư xin việc
+                                <span class="text-muted small ml-2"> (Không bắt buộc)</span>
+                            </h6>
+                            <div class="dropdown mt-2">
+                                <div class="align-items-center border py-2 px-3 rounded" data-toggle="dropdown"
+                                     aria-expanded="false" data-display="static"
+                                     style="background-color: rgba(0, 105, 219, 0.08);">
+                                    <textarea maxlength="5000" name="letter_content" id="letter_content"
+                                              style="width: 100%; height: 100%; border-radius: 3px"></textarea>
+                                    <div class="notice">
+                                        <p>Vui lòng không nhập quá 5000 ký tự</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <button onclick="myFunction()" type="submit" class="btn btn-primary w-100 mt-4 py-2 font-weight-bold"
+                                    style="height: 60px; font-size: 18px;">Nộp đơn ngay
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -882,8 +1040,6 @@
             mso-border-shadow: yes;
         }
 
-    </style>
-    <style>/*jquery.fancybox.css*/
         body.compensate-for-scrollbar {
             overflow: hidden;
         }
@@ -13894,7 +14050,6 @@
         }
     });
 
-
     function savejob1(job_id) {
         var loginCheck = document.getElementById('loginCheck').value;
         if (loginCheck == 1) {
@@ -13928,5 +14083,23 @@
 
     }
 </script>
+<script>
+    function openFormApply() {
+
+        if($('#loginCheck').val() == 1){
+            $('#applyModal').addClass('d-block');
+            $('body').addClass('overflow-hidden');
+        }else{
+            swal("Vui lòng đăng nhập để thực hiện chức năng này!");
+        };
+
+    }
+
+    function hideApplyJob() {
+        $('#applyModal').removeClass('d-block');
+        $('body').removeClass('overflow-hidden');
+    }
+</script>
+{{--    href="{{ route('nop-don-ung-tuyen', $job ->idJob) }}"--}}
 
 

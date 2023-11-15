@@ -60,7 +60,7 @@
                         <?php
                         //                        $info = Auth::user()->ten;
                         if (isset(Auth::user()->id)) {
-                            echo Auth::user()->email;
+                            echo Auth::user()->ten;
                             echo '<i class="bi bi-chevron-down"></i></a>';
                         } else
                             echo 'Đăng nhập';
