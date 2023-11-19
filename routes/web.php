@@ -55,6 +55,11 @@ Route::group(['middleware' => 'checkUserRole', 'prefix' => 'user'], function () 
     Route::get('/jobsaved', 'User\UserController@view_jobsaved')->name('viec-lam-da-luu');
     Route::get('/delete_jobsaved/{id}', 'User\UserController@delete_jobsaved')->name('xoa-viec-lam-da-luu');
     Route::get('/jobapplied', 'User\UserController@view_jobapplied')->name('viec-lam-da-nop');
+    Route::get('/profile', 'User\UserController@view_profile')->name('profile');
+    Route::get('/CV', 'User\UserController@view_CV')->name('CV');
+    Route::post('/uploadCV', 'User\UserController@upload_CV')->name('tai-len-ho-so');
+    Route::get('/deleteCV/{id}', 'User\UserController@delete_CV')->name('xoa-CV');
+
 });
 //Lưu việc làm
 Route::get('/saveJob/{id}/{type}', 'User\UserController@saveJob');

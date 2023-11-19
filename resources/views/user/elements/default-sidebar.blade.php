@@ -5,10 +5,8 @@
                 <h2>Quản lí tài khoản</h2>
             </div>
             <ul class="list-unstyled">
-                <li> <a href="https://careerbuilder.vn/vi/jobseekers/dashboard" title="Quản lý hồ sơ"> <em class="material-icons">color_lens</em><span>Quản lý hồ sơ</span></a></li>
-                <li style="display:none"> <a href="https://careerbuilder.vn/vi/jobseekers/cv-hay/my-profile"> <em class="material-icons">person</em><span>Hồ sơ Careerbuilder</span></a></li>
-                <li> <a href="https://careerbuilder.vn/vi/jobseekers/mykiemviec/my-profile"> <em class="material-icons">person</em><span>Hồ sơ Careerbuilder</span></a></li>
-                <li> <a href="https://careerbuilder.vn/vi/jobseekers/mykiemviec/changetemplate"> <em class="material-icons">portrait</em><span>Chỉnh mẫu hồ sơ</span></a></li>
+                <li> <a class="{{ Route::is('profile') ? 'active' : "" }}" href="{{ route('profile') }}" title="Quản lý hồ sơ"> <em class="material-icons">color_lens</em><span>Quản lý hồ sơ</span></a></li>
+                <li> <a class="{{ Route::is('CV') ? 'active' : "" }}" href="{{ route('CV') }}"> <em class="material-icons">portrait</em><span>Quản lí CV</span></a></li>
                 <li><a class="collapse {{ Route::is('viec-lam-da-luu') ? 'active' : "" }}{{ Route::is('viec-lam-da-nop') ? 'active' : "" }}" href="javascript:;"><em class="material-icons">edit</em><span>Việc làm của tôi</span></a>
                     <ul class="list-unstyled collapse {{ Route::is('viec-lam-da-luu') ? 'd-block' : "" }}{{ Route::is('viec-lam-da-nop') ? 'd-block' : "" }}">
                         <li><a class="{{ Route::is('viec-lam-da-luu') ? 'active' : "" }}" href="{{ route('viec-lam-da-luu') }}">Việc làm đã lưu</a></li>

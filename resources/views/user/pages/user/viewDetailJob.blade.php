@@ -365,7 +365,6 @@
                                     <div class="list-item">
                                         <div class="item item-1">
                                             <a tabindex="0" role="button">
-                                                <img src="images/icon-cv.png">
                                                 <span>
                     </span></a><a href="https://careerbuilder.vn/cv-hay" target="_blank">Thiết kế CV Ứng Tuyển</a>
 
@@ -848,7 +847,7 @@
                                     <div id="captchaim" style="float:left" class="form-group"><img width="150"
                                                                                                    height="50"
                                                                                                    alt="captcha"
-                                                                                                   src="https://images.careerbuilder.vn/rws/captcha/ea1058da8d429e7a2e59352b67109fe4.png"
+                                                                                                   src=""
                                                                                                    class="img_code"><input
                                             type="hidden" name="key_captcha" id="key_captcha"
                                             value="ea1058da8d429e7a2e59352b67109fe4"></div>
@@ -911,44 +910,38 @@
 
                                 <div class="px-4 py-3 rounded" style="background-color: rgba(0, 105, 219, 0.08);">
                                     <p class="text-center m-1">Chọn hồ sơ</p>
-                                    <div class="dropdown w-100">
-                                        <button
-                                            class="btn btn-primary border rounded-pill font-weight-bold w-100 position-relative border-primary"
-                                            type="button" id="clResumeButton" data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false">Từ CareerLink<i
-                                                class="lni lni-chevron-down icon-0-2-20"></i></button>
-                                        <div class="dropdown-menu w-100 shadow p-2" aria-labelledby="clResumeButton"
-                                             style="">
-                                            <button type="button"
-                                                    class="dropdown-item btn text-truncate px-3 py-2 rounded">
-                                                <i class="lni lni-remove-file mr-3 text-secondary"></i>[INTERN PHP] VO
-                                                PHONG
-                                                NHA .pdf
-                                            </button>
-                                            <button disabled="" type="button"
-                                                    class="dropdown-item d-flex align-items-center btn text-muted disabled px-3 py-2 rounded">
-                                                <i class="lni lni-remove-file mr-3 text-secondary"></i><span
-                                                    class="text-truncate mr-3">cccccc</span><span
-                                                    class="badge bg-secondary text-white">Từ chối</span></button>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item px-3 d-flex align-items-center text-primary"
-                                               data-turbolinks="false" href="/nguoi-tim-viec/ho-so"><i
-                                                    class="lni lni-plus mr-2"></i>Tạo hồ sơ xin việc mới</a></div>
+                                    <div class="w-100">
+                                        <select name="fileCV_select" id="fileCV_select" style="appearance: none;"
+                                            class="btn border rounded-pill font-weight-bold w-100 position-relative border-primary"
+                                            >
+                                            <option value="0">Hồ sơ đã tải lên</option>
+                                            @if($myCV != null)
+                                                @foreach($myCV as $cv)
+                                                    <option value="{{$cv -> idCV}}">{{ $cv -> nameCV }}</option>
+                                                @endforeach
+                                            @else
+                                                Chưa có hồ sơ được tải lên
+                                            @endif
+                                        </select>
+
                                     </div>
-                                    <input required id="fileCV" name="fileCV" accept=".pdf,.doc,.docx,.xls" type="file"
-                                           class="d-none">
+                                    <input id="fileCV" name="fileCV" accept=".pdf,.doc,.docx,.xls" type="file" class="d-none"
+                                           >
+                                    <input required id="typeCV" name="typeCV" class="d-none"
+                                           >
                                     <label for="fileCV"
                                            class="btn bg-white rounded-pill mt-2 border-primary font-weight-bold w-100"
                                            type="button"><i class="bi bi-upload"></i> Từ máy tính
                                     </label>
-{{--                                    @error('fileCV')--}}
-                                    <span id="al_fileCV" class="text-danger"></span>
+{{--                                    @error('typeCV')--}}
+                                    <span id="al_fileCV" class="text-danger">
+                                    </span>
 {{--                                    @enderror--}}
 
                                     <script>
                                         function myFunction() {
-                                            var inpObj = document.getElementById("fileCV");
+                                            var inpObj = document.getElementById("typeCV");
+
                                             if (!inpObj.checkValidity()) {
                                                 $('#al_fileCV').removeClass('d-none');
                                                 document.getElementById("al_fileCV")
@@ -962,10 +955,10 @@
                                         <div class="media-body">
                                             <a href="blob:https://www.careerlink.vn/81f6d7b6-48b4-4153-8e7f-4a8a334a3e2a"
                                                target="_blank">
-                                                <h5 id="nameFileCV" class="mb-1 text-break">DoAn_BanBaoCao-1-3
-                                                    (4).docx</h5>
+                                                <h5 id="nameFileCV" class="mb-1 text-break"></h5>
                                                 <script>
                                                     const fileCV = document.getElementById('fileCV');
+                                                    const fileCV_select = document.getElementById('fileCV_select');
 
                                                     window.onload = function () {
                                                         fileCV.addEventListener('change', (e) => {
@@ -975,13 +968,34 @@
                                                             $('#nameFileCV').html(filename);
 
                                                             $('#al_fileCV').addClass('d-none');
+                                                            $('#fileCV_select').val(0).change();
+                                                            $('#typeCV').val(1);
 
+                                                        });
+                                                        fileCV_select.addEventListener('change', (e) => {
+                                                            $('#div-file').removeClass('d-none');
+                                                            filename = $('#fileCV_select').find(":selected").text();
+                                                            // alert(filename);
+                                                            id_filename = $('#fileCV_select').find(":selected").val();
+                                                            if(id_filename == 0){
+                                                                fileCV.value = null;
+                                                                $('#div-file').addClass('d-none');
+                                                                $('#typeCV').val(null);
+
+                                                            }else{
+                                                                $('#div-file').removeClass('d-none');
+                                                                $('#nameFileCV').html(filename);
+                                                                $('#al_fileCV').addClass('d-none');
+                                                                $('#typeCV').val(0);
+                                                            }
                                                         });
                                                     }
 
                                                     function delCV() {
                                                         fileCV.value = null;
                                                         $('#div-file').addClass('d-none');
+                                                        $('#fileCV_select').val(0).change();
+                                                        $('#typeCV').val(null);
                                                     }
                                                 </script>
                                             </a>
@@ -1869,9 +1883,6 @@
                 max-width: calc(100% - 10px);
             }
         }
-
-    </style>
-    <style>/*common-job-detail.css*/
         #job-detail-template .search-result {
             padding-top: 0
         }
@@ -2310,8 +2321,6 @@
             margin: 0 10px 0 0;
         }
 
-    </style>
-    <style>/*percircle.css*/
         .percircle {
             position: relative;
             font-size: 120px;
@@ -3086,8 +3095,6 @@
             border-radius: 8px;
         }
 
-    </style>
-    <style>/*chosen.css*/
         .chosen-container {
             position: relative;
             display: inline-block;
@@ -14082,8 +14089,6 @@
         }
 
     }
-</script>
-<script>
     function openFormApply() {
 
         if($('#loginCheck').val() == 1){

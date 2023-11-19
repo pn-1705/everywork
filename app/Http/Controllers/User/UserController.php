@@ -7,17 +7,15 @@ use App\Models\City;
 use App\Models\DanhMucNganhNghe;
 use App\Models\Employer;
 use App\Models\Job;
-use App\Models\Role;
-use App\Models\User;
+
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\File;
 use function back;
 use function redirect;
 use function view;
-use PDF;
 
 class UserController extends Controller
 {
@@ -150,7 +148,7 @@ class UserController extends Controller
         $data['jobs'] = $jobs;
         $data['totalJobs'] = $totalJobs;
 
-        if (isset(Auth::user()->id)){
+        if (isset(Auth::user()->id)) {
             $idAccount = Auth::user()->id;
             $jobSaved = DB::table('table_savejobs')->where('idAccount', $idAccount)->get();
             $data['jobSaved'] = $jobSaved;
@@ -218,7 +216,7 @@ class UserController extends Controller
         $data['days'] = $days;
         $data['job_type'] = $job_type;
 
-        if (isset(Auth::user()->id)){
+        if (isset(Auth::user()->id)) {
             $idAccount = Auth::user()->id;
             $jobSaved = DB::table('table_savejobs')->where('idAccount', $idAccount)->get();
             $data['jobSaved'] = $jobSaved;
@@ -247,12 +245,17 @@ class UserController extends Controller
             ->select('table_jobs.*', 'table_employers.*', 'table_danhmucnganhnghe.tendaydu', 'table_jobs.id as idJob')
             ->get()
             ->first();
+
+
         $data['job'] = $job;
 //        dd($job);
-        if (isset(Auth::user()->id)){
+        if (isset(Auth::user()->id)) {
             $idAccount = Auth::user()->id;
             $jobSaved = DB::table('table_savejobs')->where('idAccount', $idAccount)->get();
             $data['jobSaved'] = $jobSaved;
+
+            $myCV = DB::table('table_cv')->where('idAccount', Auth::id())->get();
+            $data['myCV'] = $myCV;
 //            dd($jobSaved);
         }
 
@@ -321,23 +324,27 @@ class UserController extends Controller
         return redirect()->intended('login');
     }
 
-    public function applyJob($id, ApplyJobRequest $request){
-
+    public function applyJob($id, ApplyJobRequest $request)
+    {
+//        dd($request->all());
         $idAccount = Auth::id();
         $idJob = $id;
-        $letter = $request -> letter;
+        $idCV = $request -> fileCV_select;
+        $fileCV = $request -> fileCV;
+        $letter = $request->letter;
         $created_at = Carbon::now('Asia/Ho_Chi_Minh');
         $updated_at = Carbon::now('Asia/Ho_Chi_Minh');
 
-//        DB::table('table_applyforjobs')->insert(
-//            ['idAccount' => $idAccount,
-//            'idJob' => $idJob,
-//            'idCV' => 0,
-//            'letter' => $letter,
-//            'created_at' => $created_at,
-//            'updated_at' => $updated_at
-//            ]
-//        );
+        DB::table('table_applyforjobs')->insert(
+            ['idAccount' => $idAccount,
+            'idJob' => $idJob,
+            'idCV' => $idCV,
+            'fileCV' => $fileCV,
+            'letter' => $letter,
+            'created_at' => $created_at,
+            'updated_at' => $updated_at
+            ]
+        );
         return redirect()->back()->with('alert', 'Hoàn tất');
     }
 
@@ -356,7 +363,9 @@ class UserController extends Controller
         } else {
             return redirect()->intended('login');
         }
-    }public function delete_jobsaved($id)
+    }
+
+    public function delete_jobsaved($id)
     {
         if (isset(Auth::user()->id)) {
             DB::table('table_savejobs')
@@ -374,6 +383,77 @@ class UserController extends Controller
             $user = Auth::user();
 //            dd($user);
             return view('user.pages.user.applyJobs')->with('info', $user);
+        } else {
+            return redirect()->intended('login');
+        }
+    }
+
+    public function view_profile()
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+//            dd($user);
+            return view('user.pages.user.applyJobs')->with('info', $user);
+        } else {
+            return redirect()->intended('login');
+        }
+    }
+
+    public function view_CV()
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            $cv = DB::table('table_CV')->where('idAccount', '=', Auth::id())->get();
+//            dd($user);
+            return view('user.pages.user.CV')->with('cv', $cv);
+        } else {
+            return redirect()->intended('login');
+        }
+    }
+
+    public function upload_CV(Request $request)
+    {
+//        dd($request->all());
+        if (Auth::check()) {
+            $idAccount = Auth::id();
+            $cv = DB::table('table_CV')->where('idAccount', '=', Auth::id())->get();
+
+            if ($request->has('fileCV')) {
+                $file = $request->fileCV;
+                $extension = $request->fileCV->extension();
+                $filename = time() . '-CV-'. $idAccount. '.' . $extension;
+                $file->move(public_path('CV'), $filename);
+            }
+            DB::table('table_CV')->insert(
+                array(
+                    'fileCV' => $filename,
+                    'idAccount' => $idAccount,
+                    'nameCV' => $file->getClientOriginalName(),
+                    'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
+                    'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')
+                )
+            );
+//            dd($user);
+            return redirect()->back()->with('cv', $cv);
+        } else {
+            return redirect()->intended('login');
+        }
+    }public function delete_CV($id)
+    {
+//        dd($request->all());
+        if (Auth::check()) {
+            $old_CV = DB::table('table_CV')
+                ->where('idCV', $id)->select('fileCV')->first();
+            File::delete('public/CV/' . $old_CV -> fileCV);
+
+            DB::table('table_CV')
+                ->where('idCV', $id)
+                ->delete();
+
+            $idAccount = Auth::id();
+            $cv = DB::table('table_CV')->where('idAccount', '=', Auth::id())->get();
+
+            return redirect()->back()->with('cv', $cv);
         } else {
             return redirect()->intended('login');
         }
