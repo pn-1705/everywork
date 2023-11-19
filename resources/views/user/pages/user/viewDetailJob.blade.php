@@ -912,15 +912,16 @@
                                     <p class="text-center m-1">Chọn hồ sơ</p>
                                     <div class="w-100">
                                         <select name="fileCV_select" id="fileCV_select" style="appearance: none;"
-                                            class="btn border rounded-pill font-weight-bold w-100 position-relative border-primary"
-                                            >
-                                            <option value="0">Hồ sơ đã tải lên</option>
-                                            @if($myCV != null)
-                                                @foreach($myCV as $cv)
-                                                    <option value="{{$cv -> idCV}}">{{ $cv -> nameCV }}</option>
-                                                @endforeach
-                                            @else
-                                                Chưa có hồ sơ được tải lên
+                                            class="btn border rounded-pill font-weight-bold w-100 position-relative border-primary">
+                                            @if(isset($myCV))
+                                                @if(count($myCV) != 0)
+                                                        <option value="0">Hồ sơ đã tải lên</option>
+                                                        @foreach($myCV as $cv)
+                                                            <option value="{{$cv -> idCV}}">{{ $cv -> nameCV }}</option>
+                                                        @endforeach
+                                                @else
+                                                        <option value="0">Chưa có hồ sơ được tải lên</option>
+                                                @endif
                                             @endif
                                         </select>
 

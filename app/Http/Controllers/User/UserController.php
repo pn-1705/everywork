@@ -255,6 +255,7 @@ class UserController extends Controller
             $data['jobSaved'] = $jobSaved;
 
             $myCV = DB::table('table_cv')->where('idAccount', Auth::id())->get();
+
             $data['myCV'] = $myCV;
 //            dd($jobSaved);
         }
@@ -329,20 +330,20 @@ class UserController extends Controller
 //        dd($request->all());
         $idAccount = Auth::id();
         $idJob = $id;
-        $idCV = $request -> fileCV_select;
-        $fileCV = $request -> fileCV;
+        $idCV = $request->fileCV_select;
+        $fileCV = $request->fileCV;
         $letter = $request->letter;
         $created_at = Carbon::now('Asia/Ho_Chi_Minh');
         $updated_at = Carbon::now('Asia/Ho_Chi_Minh');
 
         DB::table('table_applyforjobs')->insert(
             ['idAccount' => $idAccount,
-            'idJob' => $idJob,
-            'idCV' => $idCV,
-            'fileCV' => $fileCV,
-            'letter' => $letter,
-            'created_at' => $created_at,
-            'updated_at' => $updated_at
+                'idJob' => $idJob,
+                'idCV' => $idCV,
+                'fileCV' => $fileCV,
+                'letter' => $letter,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at
             ]
         );
         return redirect()->back()->with('alert', 'Hoàn tất');
@@ -421,7 +422,7 @@ class UserController extends Controller
             if ($request->has('fileCV')) {
                 $file = $request->fileCV;
                 $extension = $request->fileCV->extension();
-                $filename = time() . '-CV-'. $idAccount. '.' . $extension;
+                $filename = time() . '-CV-' . $idAccount . '.' . $extension;
                 $file->move(public_path('CV'), $filename);
             }
             DB::table('table_CV')->insert(
@@ -438,13 +439,15 @@ class UserController extends Controller
         } else {
             return redirect()->intended('login');
         }
-    }public function delete_CV($id)
+    }
+
+    public function delete_CV($id)
     {
 //        dd($request->all());
         if (Auth::check()) {
             $old_CV = DB::table('table_CV')
                 ->where('idCV', $id)->select('fileCV')->first();
-            File::delete('public/CV/' . $old_CV -> fileCV);
+            File::delete('public/CV/' . $old_CV->fileCV);
 
             DB::table('table_CV')
                 ->where('idCV', $id)
