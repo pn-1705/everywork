@@ -176,7 +176,7 @@ class LoginController extends Controller
             auth()->login($newUser, true);
         }
 
-        return redirect($this->redirectPath());
+        return redirect()-> route('user.pages.home');
     }
 
     public
