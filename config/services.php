@@ -33,7 +33,7 @@ return [
     'facebook' => [
         'client_id' => env('635501131901943'),
         'client_secret' => env('5b0863356272a48895e81c01fbae4695'),
-        'redirect' => 'http://localhost/phonestore/callback',
+        'redirect' => env('FACEBOOK_REDIRECT'),
     ],
 
     'google' => [

@@ -17430,7 +17430,7 @@
                                   action="https://careerbuilder.vn/vi/jobseekers/member/email">
                                 <div class="main-form">
                                     <div class="form-group form-text">
-                                        <input type="text" value="nhavophong3@gmail.com" readonly="">
+                                        <input type="text" value="" readonly="">
                                         <label>Email cũ</label>
                                     </div>
                                     <div class="form-group form-text">

@@ -183,8 +183,8 @@ Route::group(['middleware' => 'checklogin', 'prefix' => 'admin'], function () {
 });
 
 //Login facebook
-Route::get('/login-facebook','User\LoginController@login_facebook');
-Route::get('/callback','User\LoginController@callback_facebook');
+Route::get('/login-facebook','User\LoginController@login_facebook')->name('login-by-facebook');
+Route::get('auth/facebook/callback','User\LoginController@callback_facebook');
 
 //Lấy danh mục nghề
 Route::get('/danhmuc','Admin\CateController@lay_cate');

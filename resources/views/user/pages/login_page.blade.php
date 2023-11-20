@@ -71,7 +71,7 @@
                             </ul>
                             <div class="choose-follow">
                                 <ul class="list-follow">
-                                    <li><a class="fb" href="javascript:void(0);" onclick="popupapi('facebook','aHR0cHM6Ly9jYXJlZXJidWlsZGVyLnZuL3ZpL2pvYnNlZWtlcnMvbG9naW5mYWNlYm9vaw==');"><em class="bi bi-facebook"></em>Facebook</a></li>
+                                    <li><a class="fb" href="{{ route('login-by-facebook') }}" onclick="popupapi('facebook','aHR0cHM6Ly9jYXJlZXJidWlsZGVyLnZuL3ZpL2pvYnNlZWtlcnMvbG9naW5mYWNlYm9vaw==');"><em class="bi bi-facebook"></em>Facebook</a></li>
                                     <li><a class="gg" href="{{ route('login-by-google') }}"><em class="bi bi-google"></em>Google</a></li>
                                 </ul>
                             </div>

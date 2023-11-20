@@ -22,10 +22,10 @@ use function view;
 
 class LoginController extends Controller
 {
-//    public function login_facebook($driver)
-//    {
-//        return Socialite::driver('facebook')->redirect();
-//    }
+    public function login_facebook($driver)
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
 
     public function callback_facebook()
     {
