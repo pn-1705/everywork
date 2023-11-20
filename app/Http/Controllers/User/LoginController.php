@@ -118,7 +118,7 @@ class LoginController extends Controller
 //        $check = DB::table('table_user')->where('token', 123)->get();
 //        dd($check);
         if ($token) {
-            DB::table('table_user')->where('token', $token)->update(['token' => null, 'status' => 1]);
+            DB::table('table_user')->where('remember_token', $token)->update(['token' => null, 'status' => 1]);
             return redirect()->route('user.pages.login_page')->with('yes', 'Xác nhận tài khoản thành công! Bạn có thể đăng nhập.');
         } else {
             return redirect()->route('user.pages.register_page')->with('no', 'Đăng kí thất bại!');
