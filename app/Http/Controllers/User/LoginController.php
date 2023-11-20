@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\Social;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -165,7 +166,8 @@ class LoginController extends Controller
             $newUser->provider_id       = $user->getId();
             $newUser->ten              = $user->getName();
             $newUser->email             = $user->getEmail();
-            $newUser->updated_at = now();
+            $newUser->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
+            $newUser->created_at = Carbon::now('Asia/Ho_Chi_Minh');
             $newUser->avatar            = $user->getAvatar();
             $newUser->save();
 
