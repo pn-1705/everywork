@@ -98,7 +98,7 @@ class LoginController extends Controller
         $data['id'] = $id + 1;
 
         $token = strtoupper(Str::random(10));
-        $data['remember_token'] = $token;
+        $data['token'] = $token;
 
         $password_h = bcrypt($request->password);
         $data['password'] = $password_h;
@@ -106,7 +106,7 @@ class LoginController extends Controller
         if ($customer = User::create($data)) {
             Mail::send('user.pages.emails.active_account', compact('customer'), function ($email) use ($customer) {
                 $email->subject('EveryWork - Xác thực tài khoản !');
-                $email->to($customer->email, $customer->id_nhomquyen, $customer->id, $customer->remember_token);
+                $email->to($customer->email, $customer->id_nhomquyen, $customer->id, $customer->token);
             });
             return redirect()->route('user.pages.register_page')->with('yes', 'Đăng kí thành công! Vui lòng kiểm tra email để hoàn tất!');
         }
@@ -118,7 +118,7 @@ class LoginController extends Controller
 //        $check = DB::table('table_user')->where('token', 123)->get();
 //        dd($check);
         if ($token) {
-            DB::table('table_user')->where('remember_token', $token)->update(['token' => null, 'status' => 1]);
+            DB::table('table_user')->where('token', $token)->update(['token' => null, 'status' => 1]);
             return redirect()->route('user.pages.login_page')->with('yes', 'Xác nhận tài khoản thành công! Bạn có thể đăng nhập.');
         } else {
             return redirect()->route('user.pages.register_page')->with('no', 'Đăng kí thất bại!');
