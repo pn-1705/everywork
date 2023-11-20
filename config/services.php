@@ -35,10 +35,11 @@ return [
         'client_secret' => env('5b0863356272a48895e81c01fbae4695'),
         'redirect' => 'http://localhost/phonestore/callback',
     ],
+
     'google' => [
-        'client_id' => '707855964743-n12dfs7eero8njqij047ct0ij9at4ggv.apps.googleusercontent.com',
-        'client_secret' => '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',
-        'redirect' => 'http://localhost:8000/auth/google/callback',
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT'),
     ],
 
 ];

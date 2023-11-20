@@ -21,12 +21,10 @@ use function view;
 
 class LoginController extends Controller
 {
-    public function login_facebook()
-    {
+//    public function login_facebook($driver)
+//    {
 //        return Socialite::driver('facebook')->redirect();
-        return redirect('/')->with('message', 'Đăng nhập Admin thành công');
-
-    }
+//    }
 
     public function callback_facebook()
     {
@@ -151,29 +149,30 @@ class LoginController extends Controller
 
     public function handleGoogleCallback()
     {
-        return redirect()->intended('/');
+        try {
+            $user = Socialite::driver('google')->user();
+        } catch (\Exception $e) {
+            return redirect()->route('login');
+        }
 
-//        try {
-//            $user = Socialite::driver('google')->user();
-//            $finduser = User::where('id_google', $user->id)->first();
-//            if ($finduser) {
-//                Auth::login($finduser);
-//                return redirect()->intended('/');
-//            } else {
-//                return redirect()->intended('/');
-//
-////                $newUser = User::create([
-////                    'id' => 23,
-////                    'email' => $user->email,
-////                    'id_google' => $user->id,
-////                    'password' => encrypt('123456dummy')
-////                ]);
-////                Auth::login($newUser);
-////                return redirect()->intended('/');
-//            }
-//        } catch (Exception $e) {
-//            dd($e->getMessage());
-//        }
+        $existingUser = User::where('email', $user->getEmail())->first();
+
+        if ($existingUser) {
+            auth()->login($existingUser, true);
+        } else {
+            $newUser                    = new User;
+            $newUser->provider_name     = 'google';
+            $newUser->provider_id       = $user->getId();
+            $newUser->ten              = $user->getName();
+            $newUser->email             = $user->getEmail();
+            $newUser->updated = now();
+            $newUser->avatar            = $user->getAvatar();
+            $newUser->save();
+
+            auth()->login($newUser, true);
+        }
+
+        return redirect($this->redirectPath());
     }
 
     public
