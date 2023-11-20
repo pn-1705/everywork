@@ -78,10 +78,10 @@ class LoginController extends Controller
     public function post_login(LoginRequest $request)
     {
         $data = $request->only('email', 'password');
-        if(Auth::attempt($data)){
+        if (Auth::attempt($data)) {
             return redirect()->intended('/home');
         };
-            return back()->with('error', 'Tài khoản hoặc mật khẩu không đúng !');
+        return back()->with('error', 'Tài khoản hoặc mật khẩu không đúng !');
     }
 
     public function get_register()
@@ -118,7 +118,7 @@ class LoginController extends Controller
 //        $check = DB::table('table_user')->where('token', 123)->get();
 //        dd($check);
         if ($token) {
-            DB::table('table_user')->where('token', $token)->update(['token'=> null, 'status' => 1]);
+            DB::table('table_user')->where('token', $token)->update(['token' => null, 'status' => 1]);
             return redirect()->route('user.pages.login_page')->with('yes', 'Xác nhận tài khoản thành công! Bạn có thể đăng nhập.');
         } else {
             return redirect()->route('user.pages.register_page')->with('no', 'Đăng kí thất bại!');
@@ -157,18 +157,20 @@ class LoginController extends Controller
         }
 
         $existingUser = User::where('email', $user->getEmail())->first();
+        $id = DB::table('table_user')->max('id');
 
         if ($existingUser) {
             auth()->login($existingUser, true);
         } else {
-            $newUser                    = new User;
-            $newUser->provider_name     = 'google';
-            $newUser->provider_id       = $user->getId();
-            $newUser->ten              = $user->getName();
-            $newUser->email             = $user->getEmail();
+            $newUser = new User;
+            $newUser->id = $id + 1;
+            $newUser->provider_name = 'google';
+            $newUser->provider_id = $user->getId();
+            $newUser->ten = $user->getName();
+            $newUser->email = $user->getEmail();
             $newUser->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
             $newUser->created_at = Carbon::now('Asia/Ho_Chi_Minh');
-            $newUser->avatar            = $user->getAvatar();
+            $newUser->avatar = $user->getAvatar();
             $newUser->save();
 
             auth()->login($newUser, true);
