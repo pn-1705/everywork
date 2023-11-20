@@ -165,7 +165,7 @@ class LoginController extends Controller
             $newUser->provider_id       = $user->getId();
             $newUser->ten              = $user->getName();
             $newUser->email             = $user->getEmail();
-            $newUser->updated = now();
+            $newUser->updated_at = now();
             $newUser->avatar            = $user->getAvatar();
             $newUser->save();
 
