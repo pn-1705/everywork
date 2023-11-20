@@ -80,7 +80,7 @@ class LoginController extends Controller
         $data = $request->only('email', 'password');
         if (Auth::attempt($data)) {
             return redirect()->intended('/home');
-        };
+        }
         return back()->with('error', 'Tài khoản hoặc mật khẩu không đúng !');
     }
 
@@ -98,7 +98,7 @@ class LoginController extends Controller
         $data['id'] = $id + 1;
 
         $token = strtoupper(Str::random(10));
-        $data['token'] = $token;
+        $data['remember_token'] = $token;
 
         $password_h = bcrypt($request->password);
         $data['password'] = $password_h;
