@@ -175,7 +175,7 @@ class LoginController extends Controller
 
             auth()->login($newUser, true);
 
-            $data = ['email' => $user->getEmail()];
+            $data = ['email' => $user->getEmail(), 'password' => '123456@'];
             Auth::attempt($data);
         }
 
