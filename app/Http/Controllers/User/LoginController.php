@@ -22,7 +22,7 @@ use function view;
 
 class LoginController extends Controller
 {
-    public function login_facebook($driver)
+    public function login_facebook()
     {
         return Socialite::driver('facebook')->redirect();
     }
