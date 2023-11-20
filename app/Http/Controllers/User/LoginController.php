@@ -106,7 +106,7 @@ class LoginController extends Controller
         if ($customer = User::create($data)) {
             Mail::send('user.pages.emails.active_account', compact('customer'), function ($email) use ($customer) {
                 $email->subject('EveryWork - Xác thực tài khoản !');
-                $email->to($customer->email, $customer->id_nhomquyen, $customer->id, $customer->token);
+                $email->to($customer->email, $customer->id_nhomquyen, $customer->id, $customer->remember_token);
             });
             return redirect()->route('user.pages.register_page')->with('yes', 'Đăng kí thành công! Vui lòng kiểm tra email để hoàn tất!');
         }
@@ -174,6 +174,9 @@ class LoginController extends Controller
             $newUser->save();
 
             auth()->login($newUser, true);
+
+            $data = ['email' => $user->getEmail()];
+            Auth::attempt($data);
         }
 
         return redirect()-> route('user.pages.home');
