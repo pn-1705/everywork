@@ -105,9 +105,9 @@ class LoginController extends Controller
         $data['password'] = $password_h;
 
         if ($customer = User::create($data)) {
-            Mail::send('user.pages.emails.active_account', compact('customer'), function ($email) use ($customer) {
-                $email->subject('EveryWork - Xác thực tài khoản !');
-                $email->to($customer->email, $customer->id_nhomquyen, $customer->id, $customer->token);
+            Mail::send('user.pages.emails.createAccount', compact('customer'), function ($email) use ($customer) {
+                $email->subject('Thông báo tạo tài khoản thành công');
+                $email->to($customer->email, $customer->id_nhomquyen, $customer->id, $customer->token, $customer->ten);
             });
             return redirect()->route('user.pages.register_page')->with('yes', 'Đăng kí thành công! Vui lòng kiểm tra email để hoàn tất!');
         }
@@ -180,42 +180,6 @@ class LoginController extends Controller
             Auth::attempt($data);
         }
 
-        return redirect()-> route('user.pages.home');
-    }
-
-    public
-    function user_dang_ki_view()
-    {
-        if (Session()->get('id') != null)
-            return redirect()->intended('/');
-        else
-            return view('user.pages.dang_ki');
-    }
-
-    public
-    function user_dang_ki(Request $request)
-    {
-        $result = DB::table('nguoidung')->where('email', $request->email)->first();
-        if ($result) {
-            return view('user.pages.dang_ki', ['error' => 'Email đã tồn tại', 'ho' => $request->ho, 'ten' => $request->ten]);
-        } else if ($request->password != $request->password_kt) {
-            return view('user.pages.dang_ki', ['error' => 'Mật khẩu xác nhận không đúng', 'ho' => $request->ho, 'ten' => $request->ten, 'email' => $request->email]);
-        } else if ($request->ma_capcha != $request->ma_capcha_nhap) {
-            return view('user.pages.dang_ki', ['error' => 'Sai mã capcha', 'ho' => $request->ho, 'ten' => $request->ten, 'email' => $request->email]);
-        } else {
-            $data = $request->all();
-            $new = new User();
-            $new->Ho = $request->Ho;
-            $new->Ten = $request->Ten;
-            $new->GioiTinh = $request->GioiTinh;
-            $new->SDT = $request->SDT;
-            $new->email = $request->email;
-            $new->id_tinh = $request->id_tinh;
-            $new->password = md5($request->password);
-            $new->Quyen_id = 1;
-            $new->TrangThai = 1;
-            $new->save();
-            return redirect()->route("login_view")->with('add', 'Đăng kí thành công');
-        }
+        return redirect()-> route('profile');
     }
 }

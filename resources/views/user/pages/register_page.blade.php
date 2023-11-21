@@ -118,6 +118,13 @@
                                     </div>
                                     <div class="form-group form-text">
 
+                                        <input type="text" id="name" name="ten" value="" onkeyup="this.setAttribute('value', this.value);">
+                                        <label for="">Họ và tên</label>
+                                        @error('ten')
+                                        <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div><div class="form-group form-text">
+
                                         <input type="text" id="email" name="email" value="" onkeyup="this.setAttribute('value', this.value);">
                                         <label for="">Email</label>
                                         @error('email')
