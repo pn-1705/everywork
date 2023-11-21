@@ -108,7 +108,7 @@
                                     </div>
                                     <div class="d-flex flex-row justify-content-sm-around">
                                         <div class="form-radio form-group">
-                                            <input  type="radio" id="role-uv" value="0" name="id_nhomquyen" checked>
+                                            <input type="radio" id="role-uv" value="0" name="id_nhomquyen" checked>
                                             <label style="padding-left: 30px" for="role-uv">Ứng viên</label>
                                         </div>
                                         <div class="form-radio form-group">
@@ -118,14 +118,17 @@
                                     </div>
                                     <div class="form-group form-text">
 
-                                        <input type="text" id="name" name="ten" value="" onkeyup="this.setAttribute('value', this.value);">
+                                        <input type="text" id="name" name="ten" value=""
+                                               onkeyup="this.setAttribute('value', this.value);">
                                         <label for="">Họ và tên</label>
                                         @error('ten')
                                         <div class="text-danger">{{ $message }}</div>
                                         @enderror
-                                    </div><div class="form-group form-text">
+                                    </div>
+                                    <div class="form-group form-text">
 
-                                        <input type="text" id="email" name="email" value="" onkeyup="this.setAttribute('value', this.value);">
+                                        <input type="text" id="email" name="email" value=""
+                                               onkeyup="this.setAttribute('value', this.value);">
                                         <label for="">Email</label>
                                         @error('email')
                                         <div class="text-danger">{{ $message }}</div>
@@ -133,17 +136,44 @@
                                     </div>
 
                                     <div class="form-group form-text toggle-password">
-                                        <input type="password" name="password" id="password" value="" onkeyup="this.setAttribute('value', this.value);">
+                                        <input type="password" name="password" id="password" value=""
+                                               onkeyup="this.setAttribute('value', this.value);">
                                         <label for="">Mật khẩu</label>
-                                        <div class="showhide-password eyess"></div>
+                                        <div  class="showhide-password eyess pass"
+                                             onclick="showhide_pass()"></div>
+                                        <script>
+                                            function showhide_pass() {
+                                                var input = document.getElementById("password");
+                                                if (input.type === "password") {
+                                                    input.type = "text";
+                                                    document.getElementsByClassName("pass")[0].classList.add("show");
+                                                } else {
+                                                    input.type = "password";
+                                                    document.getElementsByClassName("pass")[0].classList.remove("show");
+                                                }
+                                            }
+
+                                            function showhide_cfpass() {
+
+                                                var input1 = document.getElementById("cf_password");
+                                                if (input1.type === "password") {
+                                                    input1.type = "text";
+                                                    document.getElementsByClassName("cf_pass")[0].classList.add("show");
+                                                } else {
+                                                    input1.type = "password";
+                                                    document.getElementsByClassName("cf_pass")[0].classList.remove("show");
+                                                }
+                                            }
+                                        </script>
                                         @error('password')
                                         <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group form-text toggle-password">
-                                        <input type="password" name="confirm_password" id="password" value="" onkeyup="this.setAttribute('value', this.value);">
+                                        <input type="password" name="confirm_password" id="cf_password" value=""
+                                               onkeyup="this.setAttribute('value', this.value);">
                                         <label for="">Xác nhận mật khẩu</label>
-                                        <div class="showhide-password eyess"></div>
+                                        <div class="showhide-password eyess cf_pass" onclick="showhide_cfpass()"></div>
                                         @error('confirm_password')
                                         <div class="text-danger">{{ $message }}</div>
                                         @enderror
