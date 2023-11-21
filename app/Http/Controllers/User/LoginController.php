@@ -173,6 +173,8 @@ class LoginController extends Controller
             $newUser->provider_id = $user->getId();
             $newUser->ten = $user->getName();
             $newUser->email = $user->getEmail();
+            $password = strtoupper(Str::random(8));
+            $newUser->password = $password;
             $newUser->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
             $newUser->created_at = Carbon::now('Asia/Ho_Chi_Minh');
             $newUser->avatar = $user->getAvatar();
@@ -180,8 +182,14 @@ class LoginController extends Controller
 
             auth()->login($newUser, true);
 
-            $data = ['email' => $user->getEmail(), 'password' => '123456@'];
+            $data = ['email' => $user->getEmail(), 'password' => $password];
             Auth::attempt($data);
+
+            $customer = $newUser;
+            Mail::send('user.pages.emails.createAccount', compact('customer','password'), function ($email) use ($customer, $password) {
+                $email->subject('Thông báo tạo tài khoản thành công');
+                $email->to($customer->email, $customer->id_nhomquyen, $customer->id, $customer->token, $customer->ten, $password);
+            });
         }
 
         return redirect()-> route('profile');
