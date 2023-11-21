@@ -106,7 +106,7 @@ class LoginController extends Controller
         $data['password'] = $password_h;
 
         if ($customer = User::create($data)) {
-            Mail::send('user.pages.emails.createAccount', compact('customer'), function ($email) use ($customer, $password) {
+            Mail::send('user.pages.emails.createAccount', compact('customer','password'), function ($email) use ($customer, $password) {
                 $email->subject('Thông báo tạo tài khoản thành công');
                 $email->to($customer->email, $customer->id_nhomquyen, $customer->id, $customer->token, $customer->ten, $password);
             });
