@@ -174,7 +174,8 @@ class LoginController extends Controller
             $newUser->ten = $user->getName();
             $newUser->email = $user->getEmail();
             $password = strtoupper(Str::random(8));
-            $newUser->password = $password;
+            $password_h = bcrypt($password);
+            $newUser->password = $password_h;
             $newUser->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
             $newUser->created_at = Carbon::now('Asia/Ho_Chi_Minh');
             $newUser->avatar = $user->getAvatar();
