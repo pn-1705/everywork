@@ -3,7 +3,7 @@
         <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
             <tbody>
             <tr>
-                <td style="font-size:11px;background:#0c84ff;line-height:16px;padding:5px 0"
+                <td style="color:#fff1f0 font-size:11px;background:#0c84ff;line-height:16px;padding:5px 0"
                     align="center">Để email luôn được vào inbox, bạn vui lòng thêm <a rel="nofollow"
                                                                                                         href="mailto:support@careerbuilder.vn"
                                                                                                         style="text-decoration:underline;color:#ffffff"
@@ -28,7 +28,6 @@
                                             </a></td>
 
                                         <td style="color: red; text-align: right;">
-                                            <h3>Hotline: 0339354373</h3>
                                         </td>
 
                                     </tr>

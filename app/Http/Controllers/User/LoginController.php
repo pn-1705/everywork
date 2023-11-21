@@ -109,7 +109,7 @@ class LoginController extends Controller
                 $email->subject('Thông báo tạo tài khoản thành công');
                 $email->to($customer->email, $customer->id_nhomquyen, $customer->id, $customer->token, $customer->ten);
             });
-            return redirect()->route('user.pages.register_page')->with('yes', 'Đăng kí thành công! Vui lòng kiểm tra email để hoàn tất!');
+            return redirect()->route('profile')->with('yes', 'Đăng kí thành công! Chào mừng bạn đến với EveryWork!');
         }
         return view('user.pages.login');
     }
