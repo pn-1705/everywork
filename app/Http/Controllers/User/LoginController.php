@@ -106,9 +106,9 @@ class LoginController extends Controller
         $data['password'] = $password_h;
 
         if ($customer = User::create($data)) {
-            Mail::send('user.pages.emails.createAccount', compact('customer'), function ($email) use ($customer) {
+            Mail::send('user.pages.emails.createAccount', compact('customer'), function ($email) use ($customer, $password) {
                 $email->subject('Thông báo tạo tài khoản thành công');
-                $email->to($customer->email, $customer->id_nhomquyen, $customer->id, $customer->token, $customer->ten, $customer->password);
+                $email->to($customer->email, $customer->id_nhomquyen, $customer->id, $customer->token, $customer->ten, $password);
             });
             return redirect()->route('profile')->with('yes', 'Đăng kí thành công! Chào mừng bạn đến với EveryWork!');
         }
