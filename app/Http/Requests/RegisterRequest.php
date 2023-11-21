@@ -25,7 +25,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'ten' => ['required'],
-            'email' => ['required', 'unique:table_user', 'max:32', 'regex:/(.+)@(.+)\.(.+)/i'],
+            'email' => ['required', 'unique:table_user', 'regex:/(.+)@(.+)\.(.+)/i'],
             'password' => ['required', 'min:6', 'max:12'],
             'confirm_password' => ['required', 'same:password']
         ];
@@ -37,7 +37,6 @@ class RegisterRequest extends FormRequest
             'ten.required' => 'Vui lòng nhập Họ và tên !',
 
             'email.required' => 'Vui lòng nhập email !',
-            'email.max' => 'Vui lòng nhập không quá 32 kí tự !',
             'email.regex' => 'Email chưa đúng định dạng !',
             'email.unique' => 'Email này đã được đăng kí !',
 

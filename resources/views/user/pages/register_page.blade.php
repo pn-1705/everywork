@@ -1,6 +1,6 @@
 @extends('user.layout')
 
-@section('title', 'Đăng nhập')
+@section('pageTitle', 'Đăng ký')
 
 @section('content')
 

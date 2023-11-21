@@ -1,6 +1,6 @@
 @extends('user.layout')
 
-@section('title', 'Đăng nhập')
+@section('pageTitle', 'Đăng nhập')
 
 @section('content')
 
@@ -102,14 +102,13 @@
                                     <div class="form-group form-text toggle-password">
                                         <input type="password" name="password" id="password" value="" onkeyup="this.setAttribute('value', this.value);">
                                         <label for="">Vui lòng nhập mật khẩu</label>
-                                        <div class="showhide-password eyess" ></div>
+                                        <div class="showhide-password eyess show" ></div>
                                     </div>
                                     <div class="form-group form-checkbox">
                                         <input type="checkbox" name="chkSave"  value="1" id="chkSave">
                                         <label for="chkSave">Tự động đăng nhập</label>
                                     </div>
                                     <div class="form-group form-submit">
-                                        <input type="hidden" name="csrf_token" value= "fba45ec3fbcaa004f559051298d4ad697007bf205b3877151297b50de7733db4" />
                                         <button type="submit" id="submit_login" class="btn-gradient">Đăng nhập</button>
                                     </div>
                                 </form>
