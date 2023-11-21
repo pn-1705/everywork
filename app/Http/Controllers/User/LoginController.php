@@ -166,6 +166,7 @@ class LoginController extends Controller
 
         if ($existingUser) {
             auth()->login($existingUser, true);
+            dd(123);
         } else {
             $newUser = new User;
             $newUser->id = $id + 1;
