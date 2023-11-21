@@ -65,6 +65,7 @@
                             </div>
                         @endif
                         <div class="main-form">
+                            <p>Đăng nhập bằng</p>
                             <ul class="list-tabs">
                                 <li class="active"> <a href="{{ route('user.pages.login_page') }}" title="Đăng nhập">Đăng nhập</a></li>
                                 <li> <a href="{{ route('user.pages.register_page') }}" title="Đăng ký">Đăng ký</a></li>

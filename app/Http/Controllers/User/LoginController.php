@@ -66,7 +66,6 @@ class LoginController extends Controller
         }
     }
 
-
     public function view_loginpage()
     {
         if (isset(Auth::user()->id)) {
@@ -84,6 +83,8 @@ class LoginController extends Controller
         return back()->with('error', 'Tài khoản hoặc mật khẩu không đúng !');
     }
 
+
+    //Đăng kí tài khoản
     public function get_register()
     {
         return view('user.pages.register_page');
