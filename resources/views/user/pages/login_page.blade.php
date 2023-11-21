@@ -65,12 +65,12 @@
                             </div>
                         @endif
                         <div class="main-form">
-                            <p>Đăng nhập bằng</p>
                             <ul class="list-tabs">
                                 <li class="active"> <a href="{{ route('user.pages.login_page') }}" title="Đăng nhập">Đăng nhập</a></li>
                                 <li> <a href="{{ route('user.pages.register_page') }}" title="Đăng ký">Đăng ký</a></li>
                             </ul>
                             <div class="choose-follow">
+                                <p>Đăng nhập bằng</p>
                                 <ul class="list-follow">
                                     <li><a class="fb" href="{{ route('login-by-facebook') }}" onclick="popupapi('facebook','aHR0cHM6Ly9jYXJlZXJidWlsZGVyLnZuL3ZpL2pvYnNlZWtlcnMvbG9naW5mYWNlYm9vaw==');"><em class="bi bi-facebook"></em>Facebook</a></li>
                                     <li><a class="gg" href="{{ route('login-by-google') }}"><em class="bi bi-google"></em>Google</a></li>
