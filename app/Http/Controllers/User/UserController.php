@@ -280,6 +280,8 @@ class UserController extends Controller
     {
 //            dd(Carbon::now()->toDateTimeString());
         $user = Auth::user();
+        $avatar_old = Auth::user()->avatar;
+//        dd($avatar_old);
         if ($user) {
             if ($request->has('fileAvatar')) {
                 $file = $request->fileAvatar;
@@ -287,17 +289,20 @@ class UserController extends Controller
                 $filename = time() . '-avatar.' . $extension;
                 $file->move(public_path('avatar'), $filename);
                 $user->avatar = $filename;
+                File::delete('public/avatar/' . $avatar_old);
+
             }
             $user->ten = $request->ten;
             $user->phone = $request->phone;
             $user->diachi = $request->diachi;
+            $user->city = $request->city;
             $user->ngaysinh = $request->ngaysinh;
             $user->gioitinh = $request->gioitinh;
             $user->updated_at = Carbon::now()->toDateTimeString();
 
             $user->save();
         }
-        return redirect()->route('information')->with('succes', 'Cập nhật thông tin thành công !');
+        return redirect()->route('profile')->with('succes', 'Cập nhật thông tin thành công !');
     }
 
     public function saveJob($idJob, $type)
@@ -394,7 +399,7 @@ class UserController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
 //            dd($user);
-            return view('user.pages.user.applyJobs')->with('info', $user);
+            return view('user.pages.user.profile')->with('info', $user);
         } else {
             return redirect()->intended('login');
         }
