@@ -386,9 +386,15 @@ class UserController extends Controller
     public function view_jobapplied()
     {
         if (isset(Auth::user()->id)) {
-            $user = Auth::user();
-//            dd($user);
-            return view('user.pages.user.applyJobs')->with('info', $user);
+            $jobsApplied = DB::table('table_applyforjobs')
+                ->where('table_applyforjobs.idAccount', Auth::id())
+                ->join('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
+                ->leftJoin('table_cv', 'table_cv.idCV', '=', 'table_applyforjobs.idCV')
+                ->join('table_employers', 'table_employers.id', '=', 'table_jobs.id_nhatuyendung')
+                ->select('table_applyforjobs.*', 'table_employers.id as idEmployer', 'table_employers.ten','table_employers.avt', 'table_jobs.tencongviec', 'table_cv.nameCV')
+                ->get();
+//            dd($jobsApplied);
+            return view('user.pages.user.applyJobs')->with('jobsApplied', $jobsApplied);
         } else {
             return redirect()->intended('login');
         }

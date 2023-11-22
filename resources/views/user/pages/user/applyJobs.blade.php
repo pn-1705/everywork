@@ -1,6 +1,6 @@
 @extends('user.layout')
 
-@section('pageTitle', 'Việc làm đã lưu')
+@section('pageTitle', 'Việc làm đã ứng tuyển')
 
 <style>
     /*jquery.auto-complete.css*/
@@ -17386,13 +17386,15 @@
                     <div class="widget widget-10">
                         <div class="widget-head">
                             <div class="cb-title-h3">
-                                <h3>Việc làm đã nộp</h3>
+                                <h3>Việc làm đã ứng tuyển</h3>
                             </div>
                         </div>
                         <div class="widget-body">
                             <div class="content">
                                 <p>Bạn đã ứng tuyển vào các vị trí tuyển dụng trong 6 tháng gần nhất</p>
-                                <div class="list-hidden"><a href="https://careerbuilder.vn/vi/jobseekers/mykiemviec/jobappliedhidden">Danh Sách Việc Làm Đã Ẩn</a></div>
+                                <div class="list-hidden"><a
+                                        href="https://careerbuilder.vn/vi/jobseekers/mykiemviec/jobappliedhidden">Danh
+                                        Sách Việc Làm Đã Ẩn</a></div>
                             </div>
                             <div class="table">
                                 <form name="frmJobapplied" id="frmJobapplied" method="post" action="">
@@ -17409,51 +17411,78 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td class="job">
-                                                <div class="name">
-                                                    <div class="figure">
-                                                        <div class="image"><a href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-co-phan-vacxin-viet-nam.35A7F2D2.html"><img src="https://images.careerbuilder.vn/employer_folders/lot2/199122/72x45/135153logovacxin.jpg" alt="Công Ty Cổ Phần Vacxin Việt Nam" title="Công Ty Cổ Phần Vacxin Việt Nam"> </a></div>
-                                                        <div class="figcaption">
-                                                            <h3>
-                                                                <a href="https://careerbuilder.vn/vi/tim-viec-lam/quang-tri-chuyen-vien-it-kiem-bao-tri.35BE1017.html">
-                                                                    [Quảng Trị] Chuyên Viên IT Kiêm Bảo Trì
-                                                                </a>
-                                                            </h3>
-                                                            <p class="company-name">
-                                                                <a href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-co-phan-vacxin-viet-nam.35A7F2D2.html" title="Công Ty Cổ Phần Vacxin Việt Nam">Công Ty Cổ Phần Vacxin Việt Nam</a>
-                                                            </p>
+                                        @if (count($jobsApplied) == 0)
+                                            <tr class="record-tbl">
+                                                <td colspan="4"> Bạn chưa ứng tuyển việc làm nào !</td>
+                                            </tr>
+                                        @else
+                                            @foreach($jobsApplied as $list)
+                                                <tr>
+                                                    <td class="job">
+                                                        <div class="name">
+                                                            <div class="figure">
+                                                                <div class="image"><a
+                                                                        href="{{ route('pages.nha-tuyen-dung.detail',$list -> idEmployer) }}"><img
+                                                                            src="{{ asset('public/avatar/'. $list -> avt) }}"
+                                                                            alt="{{ $list -> ten }}"
+                                                                            title="{{ $list -> ten }}">
+                                                                    </a></div>
+                                                                <div class="figcaption">
+                                                                    <h3>
+                                                                        <a href="{{ route("user.pages.viewDetailJob",  $list->idJob ) }}">
+                                                                            {{ $list -> tencongviec }}
+                                                                        </a>
+                                                                    </h3>
+                                                                    <p class="company-name">
+                                                                        <a href="{{ route('pages.nha-tuyen-dung.detail',$list -> idEmployer) }}"
+                                                                           title="{{ $list -> ten }}">{{ $list -> ten }}</a>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                            </td>
-                                            <td class="date">
-                                                <p class="mb-show">Ngày nộp: </p>
-                                                <time>10/11/2023</time>
-                                            </td>
-                                            <td class="curriculum-vitae">
-                                                <p>                                           [Quảng Trị] Chuyên Viên IT Kiêm Bảo Trì
-                                                </p>
-                                            </td>
-                                            <td class="action">
-                                                <ul class="list-action">
-                                                    <li class="button-hidden"><a href="javascript:void(0);" onclick="checkHiddenJobapplied('360D3296_36ED7583_35BE1017',1);return false;">
-                                                            <em class="material-icons">visibility_off</em><span>Ẩn
+                                                    </td>
+                                                    <td>
+                                                        @if($list -> status == 0)<strong class="text-secondary">Đã nộp</strong>@endif
+                                                        @if($list -> status == 1)<strong class="text-success">Đã xem</strong>@endif
+                                                        @if($list -> status == 2)<strong class="text-primary">Mời phỏng vấn</strong>@endif
+                                                        @if($list -> status == 3)<strong class="text-danger">Không đạt</strong>@endif
+                                                    </td>
+                                                    <td class="date">
+                                                        <p class="mb-show">Ngày nộp: </p>
+                                                        <time>{{ $list -> created_at }}</time>
+                                                    </td>
+                                                    <td class="curriculum-vitae">
+                                                        <p>
+                                                            @if($list -> idCV == null)
+                                                                {{$list -> fileCV}}
+                                                            @else
+                                                                {{$list -> nameCV}}
+                                                            @endif
+                                                        </p>
+                                                    </td>
+                                                    <td class="action">
+                                                        <ul class="list-action">
+                                                            <li class="button-hidden"><a href="javascript:void(0);"
+                                                                                         onclick="checkHiddenJobapplied('360D3296_36ED7583_35BE1017',1);return false;">
+                                                                    <em class="material-icons">visibility_off</em><span>Ẩn
                         </span></a></li>
-                                                </ul>
-                                            </td>
-                                        </tr>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+
                                         </tbody>
 
                                     </table>
-                                    <div class="main-pagination">  </div>
+                                    <div class="main-pagination"></div>
                                 </form>
-                            </div>                    </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>        </div>
+            </div>
+        </div>
     </div>
 @endsection
 <style>/*jquery.alerts.css*/
