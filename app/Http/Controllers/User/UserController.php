@@ -246,6 +246,11 @@ class UserController extends Controller
             ->get()
             ->first();
 
+        $viewJob = Job::find($id);
+        if ($viewJob){
+            $viewJob -> views++;
+            $viewJob -> save();
+        }
 
         $data['job'] = $job;
 //        dd($job);

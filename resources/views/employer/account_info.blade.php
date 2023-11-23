@@ -1,6 +1,6 @@
 @extends('user.layout')
 
-@section('title', 'Việc làm')
+@section('pageTitle', 'Thông Tin Tài Khoản')
 
 
 @section('content')

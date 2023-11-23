@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <LINK REL="SHORTCUT ICON" HREF="{{asset('public/logo/logo.png')}}">
+
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>MONA Admin | Login</title>
+    <title>Đăng nhập | EveryWork Admin</title>
     @include('admin.elements.header-libs')
 </head>
 <body class="hold-transition login-page">
@@ -13,7 +15,7 @@
     <!-- /.login-logo -->
     <div class="card card-outline card-primary">
         <div class="card-header text-center">
-            <a href="#" class="h1"><b>MONA</b>SHOP</a>
+            <a href="#" class="h1"> <b>EveryWork.</b></a>
         </div>
         <div class="card-body">
             <div class="error">
@@ -51,19 +53,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-8">
-                        <div class="icheck-primary">
-                            <input type="checkbox" id="remember">
-                            <label for="remember">
-                                Remember Me
-                            </label>
-                        </div>
-                    </div>
+                <div class="row d-flex justify-content-center">
+
                     <!-- /.col -->
-                    <div class="col-4">
-                        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                    </div>
+                        <button type="submit" class="btn btn-primary">Đăng nhập</button>
                     <!-- /.col -->
                 </div>
             </form>

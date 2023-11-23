@@ -150,10 +150,10 @@
                                                     </div>
                                                 </td>
                                                 <td>{{ $list-> tencongviec }}</td>
-                                                <td>{{  date('Y-m-d', strtotime($list-> created_at)) }}</td>
-                                                <td>{{ $list-> hannhanhoso }}</td>
-                                                <td>10</td>
-                                                <td>5</td>
+                                                <td>{{ date('d-m-Y', strtotime($list-> created_at)) }}</td>
+                                                <td>{{ date('d-m-Y', strtotime($list-> hannhanhoso)) }}</td>
+                                                <td>{{ $list-> views }}</td>
+                                                <td>{{ $list-> danop }}</td>
                                                 <td>
                                                     <ul class="list-manipulation">
                                                         <li>
@@ -248,10 +248,10 @@
                                                     </div>
                                                 </td>
                                                 <td>{{ $list-> tencongviec }}</td>
-                                                <td>{{ $list-> created_at }}</td>
-                                                <td>{{ $list-> hannhanhoso }}</td>
-                                                <td>{{ $list-> hannhanhoso }}</td>
-                                                <td>{{ $list-> hannhanhoso }}</td>
+                                                <td>{{ date('d-m-Y', strtotime($list-> created_at)) }}</td>
+                                                <td>{{ date('d-m-Y', strtotime($list-> hannhanhoso)) }}</td>
+                                                <td>{{ $list-> views }}</td>
+                                                <td>{{ $list-> danop }}</td>
                                                 <td>
                                                     <ul class="list-manipulation">
 
@@ -345,10 +345,10 @@
                                                     </div>
                                                 </td>
                                                 <td>{{ $list-> tencongviec }}</td>
-                                                <td>{{ $list-> created_at }}</td>
-                                                <td>{{ $list-> hannhanhoso }}</td>
-                                                <td>{{ $list-> hannhanhoso }}</td>
-                                                <td>{{ $list-> hannhanhoso }}</td>
+                                                <td>{{ date('d-m-Y', strtotime($list-> created_at)) }}</td>
+                                                <td>{{ date('d-m-Y', strtotime($list-> hannhanhoso)) }}</td>
+                                                <td>{{ $list-> views }}</td>
+                                                <td>{{ $list-> danop }}</td>
                                                 <td>{{ $list-> id }}</td>
 
                                             </tr>
@@ -392,10 +392,11 @@
         }
     </script>
     <style>
-        .pagination{
+        .pagination {
             display: flex;
             justify-content: flex-end;
         }
+
         .pagination li.active span, .pagination li:hover a {
             border-color: #106eea;
             background: #106eea;
@@ -408,6 +409,7 @@
         .pagination li.page-item span {
 
         }
+
         .pagination li a, .pagination li span {
             /* -webkit-box-align: center; */
             -ms-flex-align: center;
@@ -429,11 +431,14 @@
             text-decoration: none;
             opacity: 1;
         }
+
         .page-item:first-child .page-link {
             border-radius: 50%;
-        }.page-item:last-child .page-link {
-             border-radius: 50%;
-         }
+        }
+
+        .page-item:last-child .page-link {
+            border-radius: 50%;
+        }
 
         .pagination li a {
             color: #565454;

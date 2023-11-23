@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CheckLoginMiddleware
 {
@@ -17,7 +18,7 @@ class CheckLoginMiddleware
     public function handle(Request $request, Closure $next)
     {
 //        dd(isset(session("username")));
-        if (session("id") == NULL)
+        if (Auth::user()->id_nhomquyen != 2)
         {
             return redirect()->route("admin.login");
         } else {

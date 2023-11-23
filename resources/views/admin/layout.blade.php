@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <LINK REL="SHORTCUT ICON" HREF="{{asset('public/backend/img/logo-title.jpg')}}">
+    <LINK REL="SHORTCUT ICON" HREF="{{asset('public/logo/logo.png')}}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TNT Admin | {{ $title ?? Dashboard }}</title>
+    <title>@yield('adminTitle') | EveryWork Admin</title>
 
     @include('admin.elements.header-libs')
     <!-- Google Font: Source Sans Pro -->

@@ -1,4 +1,5 @@
-@extends('admin.layout', ['title' => 'Dashboard'])
+@extends('admin.layout')
+@section('adminTitle', 'Dashboard')
 @section('content')
 
     @include('admin.elements.logo-load')

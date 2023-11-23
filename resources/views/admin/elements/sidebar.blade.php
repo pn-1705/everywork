@@ -2,12 +2,12 @@
     <!-- Brand Logo -->
     <a  href="http://localhost/phonestore/admin/dashboard" class="text-light brand-link text-center">
 {{--        <img src="{{asset('public/backend/img/logo.png')}}" alt="MONA" class="brand-image">--}}
-        <h2 style="border-radius: 10px" class="badge-light text-center animation__wobble font-weight-bold">TNT ADMIN</h2>
+        <h2 class=" text-center animation__wobble font-weight-bold">EveryWork</h2>
     </a>
 
 
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar" style="padding-top: 15px">
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
             <div>
@@ -20,12 +20,7 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>
-                                    <?php
-                                    $ho = Session::get('Ho');
-                                    $ten = Session::get('Ten');
-                                    $name = $ho . $ten;
-                                    echo $name;
-                                    ?>
+                                    {{ Auth::user()->ten }}
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>

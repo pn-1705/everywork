@@ -116,7 +116,7 @@ class EmployerController extends Controller
         unset($job['id']);
 //        dd($job['tencongviec']);
         $job['tencongviec'] = $job['tencongviec'] . ' (Nhân bản)';
-        $job['created_at']= Carbon::now('Asia/Ho_Chi_Minh');
+        $job['created_at'] = Carbon::now('Asia/Ho_Chi_Minh');
         $id_phucloi = time();
         $phucloi = Benefit::all()
             ->where('id', $job['phucloi'])->first()->getOriginal();
@@ -211,6 +211,7 @@ class EmployerController extends Controller
 
     public function getDataJob()
     {
+        //Việc làm đang đăng
         $listJobs = DB::table('table_jobs')
             ->leftJoin('table_benefits', 'table_jobs.phucloi', '=', 'table_benefits.id')
             ->select('table_benefits.*', 'table_jobs.*')
@@ -218,25 +219,35 @@ class EmployerController extends Controller
             ->where('hannhanhoso', '>=', Carbon::now()->toDateString())
             ->where('trangthai', 1)
             ->orderBy('tencongviec')->paginate(10)->withQueryString();
-//            ->get();
-        //Việc làm đang đăng
-//        dd($listJobs);
-        $listJobsWait = DB::table('table_jobs')
-            ->leftJoin('table_benefits', 'table_jobs.phucloi', '=', 'table_benefits.id')
-            ->select('table_benefits.*', 'table_jobs.*')
-            ->where('id_nhatuyendung', Auth::id())
-            ->where('trangthai', 0)
-            ->orderBy('tencongviec')->paginate(10)->withQueryString();
-//            ->get(); //Việc làm dừng đăng (nháp)
-//                dd($listJobsWait);
 
-        $listJobsExp = DB::table('table_jobs')
-            ->leftjoin('table_benefits', 'table_jobs.phucloi', '=', 'table_benefits.id')
-            ->select('table_benefits.*', 'table_jobs.*')
-            ->where('id_nhatuyendung', Auth::id())
-            ->where('hannhanhoso', '<', Carbon::now()->toDateString())
-            ->orderBy('tencongviec')->paginate(10)->withQueryString();
-//        ->get(); //Việc làm hết hạn
+        $listJobs = DB::table('table_applyforjobs')
+            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
+            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai')
+            ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
+            ->where('table_jobs.id_nhatuyendung', Auth::id())
+            ->where('hannhanhoso', '>=', Carbon::now()->toDateString())
+            ->where('trangthai', 1)
+            ->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+
+        //Việc làm chở chờ đăng (nháp)
+        $listJobsWait = DB::table('table_applyforjobs')
+            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
+            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai')
+            ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
+            ->where('table_jobs.id_nhatuyendung', Auth::id())
+            ->where('table_jobs.trangthai', 0)
+            ->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+
+        //Việc làm hết hạn
+        $listJobsExp = DB::table('table_applyforjobs')
+            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', DB::raw('count(table_applyforjobs.idJob) as danop'))
+            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views')
+            ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
+            ->where('table_jobs.id_nhatuyendung', Auth::id())
+            ->where('table_jobs.hannhanhoso', '<', Carbon::now()->toDateString())
+            ->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+//        dd($jobHot);
+
         $data['listJobs'] = $listJobs;
         $data['listJobsExp'] = $listJobsExp;
         $data['listJobsWait'] = $listJobsWait;
@@ -301,33 +312,37 @@ class EmployerController extends Controller
         $data['employer'] = $employer;
         return view('employer.account_info', $data);
     }
+
     public function post_account(Request $request)
     {
 //        dd($request);
         $employer = User::find(Auth::id());
 //        dd($employer);
-        $employer -> ten = $request -> ten;
-        $employer -> diachi = $request -> diachi;
-        $employer -> city = $request -> city;
-        $employer -> phone = $request -> phone;
-        $employer -> save();
+        $employer->ten = $request->ten;
+        $employer->diachi = $request->diachi;
+        $employer->city = $request->city;
+        $employer->phone = $request->phone;
+        $employer->save();
         $data['employer'] = $employer;
-        return redirect()->route('employer.view_account') -> with('succes', 'Cập nhật thông tin thành công !');
+        return redirect()->route('employer.view_account')->with('succes', 'Cập nhật thông tin thành công !');
     }
+
     public function changepassword(Request $request)
     {
         $employer = User::find(Auth::id());
         $data['employer'] = $employer;
         return view('employer.changepassword', $data);
     }
+
     public function post_changepassword(ChangePasswordRequest $request)
     {
         $employer = User::find(Auth::id());
 //        dd($employer);
-        $employer -> password = bcrypt($request -> newpass);
-        $employer -> save();
-        return redirect()->route('employer.changepassword') -> with('succes', 'Đổi mật khẩu thành công !');
+        $employer->password = bcrypt($request->newpass);
+        $employer->save();
+        return redirect()->route('employer.changepassword')->with('succes', 'Đổi mật khẩu thành công !');
     }
+
     public function un_unicode($istring)
     {
         $istring = strtolower($istring); //chuyển chữ hoa thành chữ thường
