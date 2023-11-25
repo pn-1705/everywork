@@ -1,4 +1,4 @@
-@extends('user.layout')
+@extends('employer.layout')
 
 @section('pageTitle', 'Quản lý tuyển dụng')
 @section('content')

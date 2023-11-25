@@ -4,7 +4,9 @@ namespace App\Http\Controllers\User;
 
 
 use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Requests\EmployerRegisterRequest;
 use App\Http\Requests\JobRequest;
+use App\Http\Requests\LoginRequest;
 use App\Models\Benefit;
 use App\Models\Employer;
 use App\Models\Job;
@@ -14,10 +16,113 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 class EmployerController extends Controller
 {
+    public function home()
+    {
+        return view('employer.home');
+    }
+
+    public function login()
+    {
+        if (Auth::check() == false || Auth::user()->id_nhomquyen == 0) {
+            return view('employer.login');
+        }
+        return redirect()->route('employer.home');
+
+    }
+
+    public function post_login(LoginRequest $request)
+    {
+        $users = DB::table('table_user')->where('id_nhomquyen', '=', 1)->get();
+        $accountStatus = 0;
+        $count = 0;
+        foreach ($users as $user) {
+            if (Hash::check($request->password, $user->password) && $request->email == $user->email) {
+                $count++;
+                $accountStatus = $user->status;
+            }
+        }
+        $data = $request->only('email', 'password');
+        if ($count == 1) {
+            if ($accountStatus == 1) {
+                if (Auth::attempt($data)) {
+                    return redirect()->route('employer.view_hrcentral');
+                }
+            } else {
+                return back()->with('activeAlert', 'Vui lòng kiểm tra email đã đăng kí để kích hoạt tài khoản !');
+            }
+        }
+        return back()->with('error', 'Tài khoản hoặc mật khẩu không đúng !');
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('employer.home');
+    }
+
+    public function register()
+    {
+        return view('employer.register');
+    }
+
+    public function post_register(EmployerRegisterRequest $request)
+    {
+//        dd($request-> all());
+
+        $id = DB::table('table_user')->max('id');
+        $data['id'] = $id + 1;
+
+        $token = strtoupper(Str::random(10));
+        $data['token'] = $token;
+        $data['ten'] = $request->name;
+        $data['phone'] = $request->phone;
+        $data['email'] = $request->email;
+        $data['id_nhomquyen'] = 1;
+        $password = $request->password;
+        $password_h = bcrypt($request->password);
+        $data['password'] = $password_h;
+//dd($data);
+
+        $dataEmployer['id'] = $id + 1;
+        $dataEmployer['ten'] = $request->company_name;
+        $dataEmployer['masothue'] = $request->taxid;
+        $dataEmployer['diachi'] = $request->company_address;
+        $dataEmployer['phone'] = $request->phone;
+        $dataEmployer['email'] = $request->email;
+        $dataEmployer['loaihinhhoatdong'] = $request->company_type;
+        $dataEmployer['id_user'] = $id + 1;
+
+
+        if ($customer = User::create($data)) {
+            Employer::create($dataEmployer);
+            Mail::send('employer.emails.active_account', compact('customer', 'password'), function ($email) use ($customer, $password) {
+                $email->subject('Thông báo tạo tài khoản thành công');
+                $email->to($customer->email, $customer->id_nhomquyen, $customer->id, $customer->token, $customer->ten, $password);
+            });
+
+            return view('employer.registersuccess');
+        }
+        return view('user.pages.login');
+    }
+
+    public function active_acount($token)
+    {
+//        $check = DB::table('table_user')->where('token', 123)->get();
+//        dd($check);
+        if (DB::table('table_user')->where('token', $token)->update(['token' => null, 'status' => 1])) {
+            return redirect()->route('employer.login')->with('yes', 'Xác nhận tài khoản thành công! Bạn có thể đăng nhập.');
+        } else {
+            return redirect()->route('employer.register')->with('no', 'Đăng kí thất bại!');
+        }
+    }
+
     public function view_hrcentral()
     {
         return view('employer.hrcentral', $this->getDataJob());

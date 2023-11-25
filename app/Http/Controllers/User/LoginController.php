@@ -68,10 +68,11 @@ class LoginController extends Controller
 
     public function view_loginpage()
     {
-        if (isset(Auth::user()->id)) {
-            return redirect()->intended('home');
+        if (Auth::check() == false || Auth::user()->id_nhomquyen == 1) {
+            return view('user.pages.login_page');
         }
-        return view('user.pages.login_page');
+        return redirect()->intended('home');
+
     }
 
     public function post_login(LoginRequest $request)

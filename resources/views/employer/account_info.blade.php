@@ -1,4 +1,4 @@
-@extends('user.layout')
+@extends('employer.layout')
 
 @section('pageTitle', 'Thông Tin Tài Khoản')
 

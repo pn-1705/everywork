@@ -66,6 +66,12 @@ Route::get('/saveJob/{id}/{type}', 'User\UserController@saveJob');
 Route::post('/applyJob/{id}', 'User\UserController@applyJob')->name('nop-don-ung-tuyen');
 
 // Nhà tuyển dụng
+Route::get('/employer', 'User\EmployerController@home')->name('employer.home');
+Route::get('/employer/login', 'User\EmployerController@login')->name('employer.login');
+Route::post('/employer/post_login', 'User\EmployerController@post_login')->name('employer.post_login');
+Route::get('/employer/register', 'User\EmployerController@register')->name('employer.register');
+Route::post('/employer/post_register', 'User\EmployerController@post_register')->name('employer.post_register');
+Route::get('/active/{token}', 'User\EmployerController@active_acount')->name('employer.active_acount');
 
 Route::group(['middleware' => 'checkEmployerRole', 'prefix' => 'employer'], function () {
     Route::get('/hrcentral', 'User\EmployerController@view_hrcentral')->name('employer.view_hrcentral');
@@ -83,6 +89,8 @@ Route::group(['middleware' => 'checkEmployerRole', 'prefix' => 'employer'], func
     Route::get('/changepassword', 'User\EmployerController@changepassword')->name('employer.changepassword');
     Route::post('/changepassword', 'User\EmployerController@post_changepassword')->name('employer.post_changepassword');
     Route::get('/manageresume', 'User\EmployerController@manageresume')->name('employer.manageresume');
+
+    Route::get('/logout', 'User\EmployerController@logout')->name('employer.logout');
 });
 
 

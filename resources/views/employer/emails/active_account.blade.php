@@ -46,22 +46,14 @@
                                     <tbody>
                                     <tr>
                                         <td style="font-family:arial;font-size:16px;font-weight:bold;color:rgb(51,51,51);padding-bottom:10px;text-align:justify">
-                                            Chào bạn {{$customer -> ten}}
+                                            Kích hoạt tài khoản mới tại EveryWork
                                         </td>
                                     </tr>
 
                                     <tr>
-                                        @if($customer->id_nhomquyen == 1)
-                                            <td style="font-family:arial;font-size:12px;color:rgb(51,51,51);padding-bottom:10px;text-align:justify">
-                                                Chúc mừng bạn đã đăng kí tài khoản thành công tại EveryWork:
-                                            </td>
-                                        @else
-                                            <td style="font-family:arial;font-size:12px;color:rgb(51,51,51);padding-bottom:10px;text-align:justify">
-                                                Xin chân thành cảm ơn bạn đã tạo tài khoản ứng viên tìm việc làm trên
-                                                EveryWork.
-                                            </td>
-                                        @endif
-
+                                        <td style="font-family:arial;font-size:12px;color:rgb(51,51,51);padding-bottom:10px;text-align:justify">
+                                            Bạn đã tạo thành công tài khoản nhà tuyển dụng trên EveryWork.
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td style="font-family:arial;font-size:12px;color:rgb(51,51,51);padding-bottom:10px;text-align:justify">
@@ -75,6 +67,22 @@
                                                 </li>
                                             </ul>
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-family:arial;font-size:12px;color:rgb(51,51,51);padding-bottom:10px;text-align:justify">
+                                            Vui lòng <a
+                                                href="{{route('employer.active_acount', $customer->token)}}"
+                                                target="_blank"
+                                            >click
+                                                vào đây</a> để hoàn tất quá trình tạo tài khoản và bắt đầu Đăng
+                                            Tuyển,
+                                            Tìm Hồ Sơ Ứng Viên cũng như sử dụng các dịch vụ khác.<br>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-family:arial;font-size:12px;color:rgb(51,51,51);padding-bottom:10px;text-align:justify">
+                                            <em>Lưu ý: Email kích hoạt này chỉ có giá trị trong vòng 3 ngày kể từ ngày
+                                                đăng ký.</em></td>
                                     </tr>
                                     <tr>
                                         <td style="font-family:arial;font-size:12px;color:rgb(51,51,51);padding-bottom:10px;text-align:justify">

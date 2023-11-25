@@ -24,7 +24,16 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'email' => ['required'],
+            'password' => ['required']
         ];
     }
+    public function messages()
+    {
+        return [
+            'email.required' => 'Không được để trống.',
+            'password.required' => 'Không được để trống.'
+        ];
+    }
+
 }

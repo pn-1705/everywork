@@ -1,4 +1,4 @@
-@extends('user.layout')
+@extends('employer.layout')
 
 @section('title', 'Việc làm')
 
