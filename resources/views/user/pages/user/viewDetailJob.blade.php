@@ -4,7 +4,7 @@
 
 @section('content')
     {{--    @include("user.elements.page-heading-tool")--}}
-    <section class="search-result-list-detail template-2" style="padding-top: 30px">
+    <section class="search-result-list-detail template-2" style="padding: 30px 0px">
         <div class="container">
             <div class="row no-gutters">
 
@@ -30,7 +30,7 @@
                             <div class="apply-type">
                                 <div class="apply-now-btn ">
                                     <a tabindex="0" role="button" onclick="openFormApply()"
-                                                               class="btn-gradient btnApplyClick"> Nộp Đơn Ứng Tuyển </a>
+                                       class="btn-gradient btnApplyClick"> Nộp Đơn Ứng Tuyển </a>
                                 </div>
                             </div>
                         </div>
@@ -98,7 +98,7 @@
                             </div>
                         </nav>
                         <div class="tab-content" id="tab-1" style="">
-                            <section class="job-detail-content">
+                            <section class="job-detail-content" style="padding: 0px;">
                                 <div class="bg-blue">
                                     <div class="row">
                                         <div class="col-lg-4 col-sm-6 item-blue">
@@ -121,7 +121,7 @@
                                                 <ul>
                                                     <li><strong><em class="mdi mdi-update"> </em>Ngày cập nhật</strong>
                                                         <p>
-                                                            {{ $job -> updated_at }}
+                                                            {{ date('d-m-Y', strtotime($job -> updated_at)) }}
                                                         </p>
                                                     </li>
                                                     <li><strong> <em class="mdi mdi-briefcase"></em>Ngành nghề</strong>
@@ -129,7 +129,8 @@
                                                             {{ $job -> tendaydu }}
                                                         </p>
                                                     </li>
-                                                    <li><strong><em class="mdi mdi-briefcase-edit"> </em>Hình
+                                                    <li>
+                                                        <strong><em class="mdi mdi-briefcase-edit"> </em>Hình
                                                             thức</strong>
                                                         <p
                                                             @if($job->hinhthuc != 1)
@@ -170,23 +171,27 @@
                                                                 Thỏa thuận
                                                             @else
                                                                 @if($job -> minluong)
-                                                                    {{'Từ '.$job -> minluong}}
+                                                                    {{$job -> minluong . ' Tr'}}
                                                                 @endif
-                                                                @if($job -> maxluong)
-                                                                    {{' Đến '.$job -> maxluong}}
+
+                                                                @if($job -> maxluong && $job -> minluong == null)
+                                                                    {{'Lên đến '.$job -> maxluong. ' Tr'}}
+                                                                @elseif($job -> maxluong)
+                                                                    {{' - '.$job -> maxluong. ' Tr'}}
                                                                 @endif
-                                                                {{$job -> donvitien}}
+                                                                {{strtoupper($job -> donvitien)}}
                                                             @endif
                                                         </p>
                                                     </li>
                                                     <li>
                                                         <strong><i class="fa fa-briefcase"></i>Kinh nghiệm</strong>
                                                         <p>
-                                                            @if($job->kinhnghiem == 0)
+                                                            @if($job->kinhnghiem == 0 )
                                                                 Không yêu cầu kinh nghiệm
                                                             @endif
-
-                                                            @if($job->kinhnghiem == 1)
+                                                            @if(($job->kinhnghiem == 1 && $job -> kn_tunam == null && $job -> kn_dennam == null))
+                                                                Có kinh nghiệm
+                                                            @elseif($job->kinhnghiem == 1)
                                                                 @if($job -> kn_tunam != null)
                                                                     {{'Từ '.$job -> kn_tunam}}
                                                                 @endif
@@ -207,7 +212,7 @@
                                                     </li>
                                                     <li><strong><i class="mdi mdi-calendar-check"></i>Hết hạn
                                                             nộp</strong>
-                                                        <p>{{ $job -> hannhanhoso }}</p>
+                                                        <p>{{ date('d-m-Y', strtotime($job -> hannhanhoso)) }}</p>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -224,103 +229,104 @@
                                             @if($benefitChecked['laptop'] == 0)
                                             style="display: none"
 
-                                            @endif> Laptop
+                                            @endif>
+                                            <span class="fa fa-laptop"></span>Laptop
                                         </li>
                                         <li
                                             @if($benefitChecked['chedobaohiem'] == 0)
                                             style="display: none"
 
-                                            @endif> Chế độ bảo hiểm
+                                            @endif> <span class="fa fa-medkit"></span>Chế độ bảo hiểm
                                         </li>
                                         <li
                                             @if($benefitChecked['dulich'] == 0)
                                             style="display: none"
 
-                                            @endif> Du Lịch
+                                            @endif><span class="fa fa-plane"></span> Du Lịch
                                         </li>
                                         <li
                                             @if($benefitChecked['phucap'] == 0)
                                             style="display: none"
 
-                                            @endif> Phụ cấp
+                                            @endif><span class="fa fa-money"></span> Phụ cấp
                                         </li>
                                         <li
                                             @if($benefitChecked['chedothuong'] == 0)
                                             style="display: none"
 
-                                            @endif> Chế độ thưởng
+                                            @endif> <span class="fa fa-usd"></span>Chế độ thưởng
                                         </li>
                                         <li
                                             @if($benefitChecked['chamsocsuckhoe'] == 0)
                                             style="display: none"
 
-                                            @endif> Chăm sóc sức khỏe
+                                            @endif><span class="fa fa-user-md"></span> Chăm sóc sức khỏe
                                         </li>
                                         <li
                                             @if($benefitChecked['daotao'] == 0)
                                             style="display: none"
-                                            @endif> Đào tạo
+                                            @endif> <span class="fa fa-graduation-cap"></span>Đào tạo
                                         </li>
                                         <li
                                             @if($benefitChecked['tangluong'] == 0)
                                             style="display: none"
 
-                                            @endif> Tăng lương
+                                            @endif> <span class="fa fa-line-chart"></span>Tăng lương
                                         </li>
                                         <li
                                             @if($benefitChecked['congtacphi'] == 0)
                                             style="display: none"
 
-                                            @endif> Công tác phí
+                                            @endif> <span class="fa fa-credit-card"></span>Công tác phí
                                         </li>
                                         <li
                                             @if($benefitChecked['nghiphepnam'] == 0)
                                             style="display: none"
 
-                                            @endif> Nghỉ phép năm
+                                            @endif> <span class="fa fa-briefcase"></span>Nghỉ phép năm
                                         </li>
                                         <li
                                             @if($benefitChecked['xeduadon'] == 0)
                                             style="display: none"
 
-                                            @endif> Xe đưa đón
+                                            @endif> <span class="fa fa-taxi"></span>Xe đưa đón
                                         </li>
                                         <li
                                             @if($benefitChecked['dulichnuocngoai'] == 0)
                                             style="display: none"
 
-                                            @endif> Du lịch nước ngoài
+                                            @endif><span class="fa fa-fighter-jet"></span> Du lịch nước ngoài
                                         </li>
                                         <li
                                             @if($benefitChecked['dongphuc'] == 0)
                                             style="display: none"
 
-                                            @endif> Đồng phục
+                                            @endif><span class="fa fa-black-tie"></span> Đồng phục
                                         </li>
                                         <li
                                             @if($benefitChecked['phucapthuongnien'] == 0)
                                             style="display: none"
 
-                                            @endif> Phụ cấp thường niên
+                                            @endif><span class="fa fa-money"></span> Phụ cấp thường niên
                                         </li>
                                         <li
                                             @if($benefitChecked['clbthethao'] == 0)
                                             style="display: none"
 
-                                            @endif> CLB thể thao
+                                            @endif> <span class="fa fa-heartbeat"></span>CLB thể thao
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="detail-row reset-bullet">
                                     <h2 class="detail-title">Mô tả Công việc</h2>
                                     <textarea style="width: 100%; border: none;" readonly
-                                              rows="8"> {{ $job ->mota }}</textarea>
+                                              rows="10"> {{ $job ->mota }}</textarea>
 
                                 </div>
                                 <div class="detail-row" reset-bullet="">
                                     <h2 class="detail-title">Yêu Cầu Công Việc</h2>
                                     <textarea style="width: 100%; border: none;" readonly
-                                              rows="8"> {{ $job ->yeucau }}</textarea>
+                                              rows="10"> {{ $job ->yeucau }}</textarea>
 
                                 </div>
                                 <div class="detail-row">
@@ -438,7 +444,7 @@
                         <div class="similar-jobs">
                             <p>Các công việc tương tự</p>
                         </div>
-                        <section class="jobs-side-list">
+                        <section class="jobs-side-list" style="padding: 0">
                             <div class="jobs-list">
                                 <div class="job-item">
                                     <div class="figure">
@@ -780,12 +786,14 @@
             <div class="job-detail-bottom-wrapper">
                 <div class="apply-now-content">
                     <input id="loginCheck" type="number" hidden
-                           @if(isset(Auth::user()->id))
+                           @if(isset(Auth::user()->id_nhomquyen))
+                           @if(Auth::user()->id_nhomquyen == 0)
                            value="1"
                            @else
                            value="0"
-                        @endif>
-
+                        @endif
+                        @endif
+                    >
                     <div class="job-desc">
                         <a tabindex="0" role="button" class="toollips save-job chk_save_{{$job ->idJob}}
                         @if(isset(Auth::user()->id))
@@ -912,32 +920,33 @@
                                     <p class="text-center m-1">Chọn hồ sơ</p>
                                     <div class="w-100">
                                         <select name="fileCV_select" id="fileCV_select" style="appearance: none;"
-                                            class="btn border rounded-pill font-weight-bold w-100 position-relative border-primary">
+                                                class="btn border rounded-pill font-weight-bold w-100 position-relative border-primary">
                                             @if(isset($myCV))
                                                 @if(count($myCV) != 0)
-                                                        <option value="0">Hồ sơ đã tải lên</option>
-                                                        @foreach($myCV as $cv)
-                                                            <option value="{{$cv -> idCV}}">{{ $cv -> nameCV }}</option>
-                                                        @endforeach
+                                                    <option value="0">Hồ sơ đã tải lên</option>
+                                                    @foreach($myCV as $cv)
+                                                        <option value="{{$cv -> idCV}}">{{ $cv -> nameCV }}</option>
+                                                    @endforeach
                                                 @else
-                                                        <option value="0">Chưa có hồ sơ được tải lên</option>
+                                                    <option value="0">Chưa có hồ sơ được tải lên</option>
                                                 @endif
                                             @endif
                                         </select>
 
                                     </div>
-                                    <input id="fileCV" name="fileCV" accept=".pdf,.doc,.docx,.xls" type="file" class="d-none"
-                                           >
+                                    <input id="fileCV" name="fileCV" accept=".pdf,.doc,.docx,.xls" type="file"
+                                           class="d-none"
+                                    >
                                     <input required id="typeCV" name="typeCV" class="d-none"
-                                           >
+                                    >
                                     <label for="fileCV"
                                            class="btn bg-white rounded-pill mt-2 border-primary font-weight-bold w-100"
                                            type="button"><i class="bi bi-upload"></i> Từ máy tính
                                     </label>
-{{--                                    @error('typeCV')--}}
+                                    {{--                                    @error('typeCV')--}}
                                     <span id="al_fileCV" class="text-danger">
                                     </span>
-{{--                                    @enderror--}}
+                                    {{--                                    @enderror--}}
 
                                     <script>
                                         function myFunction() {
@@ -978,12 +987,12 @@
                                                             filename = $('#fileCV_select').find(":selected").text();
                                                             // alert(filename);
                                                             id_filename = $('#fileCV_select').find(":selected").val();
-                                                            if(id_filename == 0){
+                                                            if (id_filename == 0) {
                                                                 fileCV.value = null;
                                                                 $('#div-file').addClass('d-none');
                                                                 $('#typeCV').val(null);
 
-                                                            }else{
+                                                            } else {
                                                                 $('#div-file').removeClass('d-none');
                                                                 $('#nameFileCV').html(filename);
                                                                 $('#al_fileCV').addClass('d-none');
@@ -1029,7 +1038,8 @@
                                 </div>
 
                             </div>
-                            <button onclick="myFunction()" type="submit" class="btn btn-primary w-100 mt-4 py-2 font-weight-bold"
+                            <button onclick="myFunction()" type="submit"
+                                    class="btn btn-primary w-100 mt-4 py-2 font-weight-bold"
                                     style="height: 60px; font-size: 18px;">Nộp đơn ngay
                             </button>
                         </form>
@@ -1884,6 +1894,7 @@
                 max-width: calc(100% - 10px);
             }
         }
+
         #job-detail-template .search-result {
             padding-top: 0
         }
@@ -14090,14 +14101,16 @@
         }
 
     }
+
     function openFormApply() {
 
-        if($('#loginCheck').val() == 1){
+        if ($('#loginCheck').val() == 1) {
             $('#applyModal').addClass('d-block');
             $('body').addClass('overflow-hidden');
-        }else{
+        } else {
             swal("Vui lòng đăng nhập để thực hiện chức năng này!");
-        };
+        }
+        ;
 
     }
 

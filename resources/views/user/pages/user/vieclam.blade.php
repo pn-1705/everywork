@@ -80,10 +80,13 @@
                                                                 Thỏa thuận
                                                             @else
                                                                 @if($job -> minluong)
-                                                                    {{'Từ '.$job -> minluong}}
+                                                                    {{$job -> minluong . ' Tr'}}
                                                                 @endif
-                                                                @if($job -> maxluong)
-                                                                    {{' Đến '.$job -> maxluong}}
+
+                                                                @if($job -> maxluong && $job -> minluong == null)
+                                                                    {{'Lên đến '.$job -> maxluong. ' Tr'}}
+                                                                @elseif($job -> maxluong)
+                                                                    {{' - '.$job -> maxluong. ' Tr'}}
                                                                 @endif
                                                                 {{strtoupper($job -> donvitien)}}
                                                             @endif
@@ -102,11 +105,11 @@
                                                 <a tabindex="0" role="button"
                                                    class="toollips save-job chk_save_{{$job ->id}}
                                                    @if(isset(Auth::user()->id))
-                                                       @foreach ($jobSaved as $list)
-                                                           @if($list -> idJob == $job ->id)
-                                                               saved
-                                                           @endif
-                                                       @endforeach
+                                                   @foreach ($jobSaved as $list)
+                                                   @if($list -> idJob == $job ->id)
+                                                       saved
+@endif
+                                                   @endforeach
                                                    @endif
                                                        "
                                                    data-id="{{ $job -> id }}" onclick="savejob1({{$job -> id}})">
@@ -122,11 +125,14 @@
                                                 </div>
                                             </div>
                                             <input id="loginCheck" type="number" hidden
-                                                   @if(isset(Auth::user()->id))
+                                                   @if(isset(Auth::user()->id_nhomquyen))
+                                                   @if(Auth::user()->id_nhomquyen == 0)
                                                    value="1"
                                                    @else
                                                    value="0"
-                                                @endif>
+                                                @endif
+                                                @endif
+                                            >
                                             <script>
                                                 //check Saved
                                                 if ($(".save-job").hasClass('saved')) {
@@ -226,7 +232,9 @@
                                     <a href="https://careerbuilder.vn/viec-lam/Kế-toán-trưởng-k-vi.html"
                                        title="Kế toán trưởng">
                                         Kế toán trưởng
-                                    </a><script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+                                    </a>
+                                    <script
+                                        src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
                                 </li>
                                 <li>
