@@ -168,7 +168,8 @@
                                                             }
                                                         });
                                                     } else {
-                                                        swal("Vui lòng đăng nhập để thực hiện chức năng này!");
+                                                        $('#loginRequiredForm').removeClass('d-none');
+                                                        $('body').addClass('overflow-hidden');
                                                     }
 
                                                 }
@@ -271,7 +272,47 @@
             </div>
         </div>
     </section>
+    <div id="loginRequiredForm" class="fancybox-stage d-none" style="position: fixed">
+        <div class="fancybox-slide fancybox-slide--html fancybox-slide--current fancybox-slide--complete" style="background-color: rgba(0,0,0,.4);">
+        <div class="login-modal fancybox-content" id="login-modal" style="display: inline-block;">
+  <div class="modal-title">
+    <p>Vui lòng đăng nhập để thực hiện chức năng này</p>
+  </div>
+  <div class="modal-body">
+  <p class="notes"></p>
+    <form method="POST" id="popup_login_form" action="https://careerbuilder.vn/vi/jobseekers/member/login" autocomplete="off">
+      <div class="row">
+        <div class="form-group col-12">
+          <input type="text" id="username" name="username" placeholder="Username / Email" autocomplete="off">
+        </div>
+        <div class="form-group col-8 toggle-password">
+          <input type="password" name="password" id="password" placeholder="Mật khẩu" autocomplete="off">
+          <div class="showhide-password eyess"></div>
+        </div>
+        <div class="form-group col-4">
+          <input type="hidden" name="csrf_token" value="e90745c2738bde172eeab3b66cadfd7d48df301a9e24824d169be77d8222c078">
+          <input type="hidden" name="apply_url" value="">
+          <button type="submit">Đăng nhập</button>
+        </div>
+      </div>
+
+    </form>
+    <div class="sign-in-by"><span>Đăng nhập bằng:</span>
+      <ul class="list-follow">
+        <li><a tabindex="0" role="button" class="fb" onclick="popupapi('facebook','aHR0cHM6Ly9jYXJlZXJidWlsZGVyLnZuL3ZpL2pvYnNlZWtlcnMvbG9naW5mYWNlYm9vaw==');"><em class="fa fa-facebook"></em>Facebook</a></li>
+        <li><a tabindex="0" role="button" class="gg" onclick="popupapi('google','aHR0cHM6Ly9jYXJlZXJidWlsZGVyLnZuL3ZpL2pvYnNlZWtlcnMvbG9naW5nb29nbGU=');"><em class="fa fa-google"></em>Google</a></li>
+      </ul>
+    </div>
+    <a class="register" href="https://careerbuilder.vn/vi/jobseekers/register" title="Đăng ký">Đăng ký </a><a class="forget-password" href="https://careerbuilder.vn/vi/jobseekers/forgotpassword" title="Quên mật khẩu?" rel="nofollow">Quên mật khẩu?</a>
+  </div>
+<button onclick="closeLoginRequiredForm()" type="button" data-fancybox-close="" class="fancybox-button fancybox-close-small" title="Close"><svg xmlns="http://www.w3.org/2000/svg" version="1" viewBox="0 0 24 24"><path d="M13 12l5-5-1-1-5 5-5-5-1 1 5 5-5 5 1 1 5-5 5 5 1-1z"></path></svg></button></div></div></div>
     </body>
+    <script>
+        function closeLoginRequiredForm(){
+            $('#loginRequiredForm').addClass('d-none');
+            $('body').removeClass('overflow-hidden');
+        }
+    </script>
     <style>
         a.saved {
             color: #7e7a7a;

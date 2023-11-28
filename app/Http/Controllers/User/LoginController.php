@@ -158,11 +158,18 @@ class LoginController extends Controller
     {
         try {
             $user = Socialite::driver('google')->user();
+            // dd($user);
         } catch (\Exception $e) {
-            return redirect()->route('login');
+            return redirect()->route('user.pages.login_page');
         }
 
         $existingUser = User::where('email', $user->getEmail())->first();
+        if(isset($existingUser -> id_nhomquyen)){
+            if($existingUser -> id_nhomquyen == 1){
+                return redirect()->route('user.pages.login_page')->with('yes', 'Email đã được nhà tuyển dụng đăng kí !');
+            }
+        }
+       
         $id = DB::table('table_user')->max('id');
 
         if ($existingUser) {
