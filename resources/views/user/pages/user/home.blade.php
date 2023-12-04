@@ -1764,6 +1764,7 @@
 
             .cb-box-find .container {
                 max-width: 100%;
+                padding-top: 30px;
             }
 
             .cb-box-find .main-box {
@@ -3803,149 +3804,26 @@
                         <div class="title">
                             <h1>Đón lấy thành công với <span> 19,920  cơ hội nghề nghiệp </span></h1>
                         </div>
-                        <form onsubmit="return false;">
+                        <form id="myForm" method="get" action="{{ route('filterJobs') }}">
+                            @csrf
                             <div class="main-form">
                                 <div class="row">
                                     <div class="form-group col-12 form-keyword">
                                         <label><span class="mdi mdi-magnify"></span></label>
-                                        <input type="search" class="prompt keyword" autofocus="" name="keyword"
+                                        <input type="search" class="prompt keyword" autofocus="" name="keySearch"
                                                id="keyword" placeholder="Chức danh, Kỹ năng, Tên công ty"
                                                autocomplete="off">
                                         <div class="cleartext"><em class="mdi mdi-close-circle"></em></div>
                                     </div>
                                 </div>
-                                <div class="advanced-search">
-                                    <div class="row">
-                                        <div class="form-group col-sm-6">
-                                            <label><span class="mdi mdi-map-marker"></span></label>
-                                            <select id="location" name="location"
-                                                    class="chosen-select chosen-select-max-three"
-                                                    data-placeholder="Tất cả địa điểm" multiple=""
-                                                    style="display: none;">
-                                                <option value="">Chọn địa điểm</option>
-                                                <option value="ha-noi_4">Hà Nội</option>
-                                                <option value="qatar_1055">Qatar</option>
-                                                <option value="quoc-te_1073">Quốc tế</option>
-                                                <option value="singapore_1040">Singapore</option>
-                                                <option value="kharkiv_1053">Kharkiv</option>
-                                            </select>
-                                            <div class="chosen-container chosen-container-multi" title=""
-                                                 id="location_chosen" style="width: 0px;">
-                                                <ul class="chosen-choices">
-                                                    <li class="search-choice"><span style="width: 0px;">Đà Nẵng</span><a
-                                                            class="search-choice-close" role="button"
-                                                            data-option-array-index="19"></a></li>
-                                                    <li class="search-field">
-                                                        <input class="chosen-search-input" type="search"
-                                                               autocomplete="off" value="Tất cả địa điểm"
-                                                               style="width: 25px;">
-                                                    </li>
-                                                </ul>
-                                                <div class="chosen-drop">
-                                                    <ul class="chosen-results"></ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-sm-6">
-                                            <label><span class="mdi mdi-menu"></span></label>
-                                            <select id="industry" name="industry"
-                                                    class="chosen-select chosen-select-max-three"
-                                                    data-placeholder="Tất cả ngành nghề" multiple=""
-                                                    style="display: none;">
-                                                <option value="">Chọn ngành nghề</option>
-                                                <option value="tu-van_9">Tư vấn</option>
-                                                <option value="van-chuyen-giao-nhan-kho-van_33">Vận chuyển / Giao nhận /
-                                                    Kho vận
-                                                </option>
-                                                <option value="xay-dung_8">Xây dựng</option>
-                                                <option value="xuat-nhap-khau_18">Xuất nhập khẩu</option>
-                                                <option value="y-te-cham-soc-suc-khoe_56">Y tế / Chăm sóc sức khỏe
-                                                </option>
-                                                <option value="bao-tri-sua-chua_71">Bảo trì / Sửa chữa</option>
-                                                <option value="nganh-khac_27">Ngành khác</option>
-                                            </select>
-                                            <div class="chosen-container chosen-container-multi" title=""
-                                                 id="industry_chosen" style="width: 0px;">
-                                                <ul class="chosen-choices">
-                                                    <li class="search-field">
-                                                        <input class="chosen-search-input default" type="search"
-                                                               autocomplete="off" value="Tất cả ngành nghề"
-                                                               style="width: 158.438px;">
-                                                    </li>
-                                                </ul>
-                                                <div class="chosen-drop">
-                                                    <ul class="chosen-results"></ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-sm-6">
-                                            <label><span class="mdi mdi-currency-usd"></span></label>
-                                            <select name="salary" id="salary"
-                                                    class="chosen-select chosen-select-max-one"
-                                                    data-placeholder="Chọn Mức Lương" multiple=""
-                                                    style="display: none;">
-                                                <option value="">Chọn mức lương</option>
-
-                                                <option value="3">Từ 3.000.000 đ</option>
-                                                <option value="5">Từ 5.000.000 đ</option>
-                                                <option value="7">Từ 7.000.000 đ</option>
-                                                <option value="10">Từ 10.000.000 đ</option>
-                                                <option value="15">Từ 15.000.000 đ</option>
-                                                <option value="20">Từ 20.000.000 đ</option>
-                                                <option value="30">Từ 30.000.000 đ</option>
-                                                <option value="40">Từ 40.000.000 đ</option>
-                                                <option value="50">Từ 50.000.000 đ</option>
-                                                <option value="60">Từ 60.000.000 đ</option>
-                                                <option value="70">Từ 70.000.000 đ</option>
-
-                                            </select>
-                                            <div class="chosen-container chosen-container-multi" title=""
-                                                 id="salary_chosen" style="width: 0px;">
-                                                <ul class="chosen-choices">
-                                                    <li class="search-field">
-                                                        <input class="chosen-search-input default" type="search"
-                                                               autocomplete="off" value="Chọn Mức Lương"
-                                                               style="width: 152.088px;">
-                                                    </li>
-                                                </ul>
-                                                <div class="chosen-drop">
-                                                    <ul class="chosen-results"></ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-sm-6">
-                                            <label><span class="mdi mdi-briefcase"></span></label>
-                                            <select id="level" name="level" class="chosen-select chosen-select-max-one"
-                                                    data-placeholder="Cấp bậc" multiple="" style="display: none;">
-                                                <option value="">Chọn cấp bậc</option>
-                                                <option value="sinh-vien-thuc-tap-sinh_1">Sinh viên/ Thực tập sinh
-                                                </option>
-                                                <option value="moi-tot-nghiep_2">Mới tốt nghiệp</option>
-                                                <option value="nhan-vien_3">Nhân viên</option>
-                                                <option value="truong-nhom-giam-sat_4">Trưởng nhóm / Giám sát</option>
-                                                <option value="quan-ly_5">Quản lý</option>
-                                                <option value="quan-ly-cap-cao_11">Quản lý cấp cao</option>
-                                                <option value="dieu-hanh-cap-cao_12">Điều hành cấp cao</option>
-                                            </select>
-                                            <div class="chosen-container chosen-container-multi" title=""
-                                                 id="level_chosen" style="width: 0px;">
-                                                <ul class="chosen-choices">
-                                                    <li class="search-field">
-                                                        <input class="chosen-search-input default" type="search"
-                                                               autocomplete="off" value="Cấp bậc"
-                                                               style="width: 84.6px;">
-                                                    </li>
-                                                </ul>
-                                                <div class="chosen-drop">
-                                                    <ul class="chosen-results"></ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <div class="reset-form"><a tabindex="0" role="button" onclick="resetForm();"><i
                                         class="fa fa-rotate-right"></i> Reset</a></div>
+                            <script>
+                                function resetForm() {
+                                    document.getElementById("myForm").reset();
+                                }
+                            </script>
                             <div class="toggle-search">
                                 <div class="advanced-search-btn"><a tabindex="0" role="button"><span
                                             class="mdi mdi-magnify-plus-outline"></span>Tìm kiếm nâng cao</a></div>
@@ -3953,8 +3831,7 @@
                                             class="mdi mdi-chevron-up"></span>Thu gọn</a></div>
                             </div>
                             <div class="find-jobs">
-                                <button class="btn-gradient" onclick="return validataSearchHomePage('vi');">TÌM VIỆC
-                                    NGAY
+                                <button class="btn-gradient" type="submit">TÌM VIỆC NGAY
                                 </button>
                             </div>
                         </form>
@@ -4082,15 +3959,19 @@
                 },
                 '768': {
                     slidesPerView: 4,
-                    spaceBetween: 20,
+                    spaceBetween: 10,
                 },
                 '576': {
                     slidesPerView: 4,
-                    spaceBetween: 20,
+                    spaceBetween: 10,
                 },
                 '480': {
                     slidesPerView: 3,
-                    spaceBetween: 20,
+                    spaceBetween: 10,
+                },
+                '320': {
+                    slidesPerView: 2,
+                    spaceBetween: 10,
                 },
             },
 
