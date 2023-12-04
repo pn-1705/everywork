@@ -121,7 +121,7 @@
                         function openMobileFilter() {
                             if ($('.filters-wrapper').hasClass('d-block')) {
                                 $('.filters-wrapper').removeClass('d-block');
-                            }else{
+                            } else {
                                 $('.filters-wrapper').addClass('d-block');
 
                             }
@@ -166,56 +166,38 @@
                         <div class="list-filter-extend">
                             <div class="item show-mb">
                                 <div class="form-group form-select-chosen">
-                                    <select id="industry_mb" name="industry" class="chosen-select-max-three"
-                                            data-placeholder="Tất cả ngành nghề" multiple="" style="display: none;">
-                                        <option value="">Chọn ngành nghề</option>
-                                        <option value="an-ninh-bao-ve_51">
-                                            An Ninh / Bảo Vệ
-                                        </option>
+                                    <select id="industry_mb" name="career"
+                                            class="select-custom select-custom-nosearch"
+                                            data-placeholder="Tất cả ngành nghề">
+                                        <option value="0">Tất cả ngành nghề</option>
+                                        @foreach($danhmucnganhnghe as $dm)
+                                            <option value="{{$dm->tenkhongdau}}"
+                                                    @if(isset($career))
+                                                    @if($career == $dm->tenkhongdau)
+                                                    selected
+                                                @endif
+                                                @endif
+                                            >{{$dm->tendaydu}}</option>
+                                        @endforeach
                                     </select>
-                                    <div class="chosen-container chosen-container-multi" title=""
-                                         id="industry_mb_chosen" style="width: 0px;">
-                                        <ul class="chosen-choices">
-                                            <li class="search-field">
-                                                <input class="chosen-search-input default" type="search"
-                                                       autocomplete="off" value="Tất cả ngành nghề"
-                                                       style="width: 150.102px;">
-                                            </li>
-                                        </ul>
-                                        <div class="chosen-drop">
-                                            <ul class="chosen-results"></ul>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="item show-mb">
-                                <div class="form-group form-select-chosen">
-                                    <select id="location_mb" name="location" class="chosen-select-max-three"
-                                            data-placeholder="Tất cả địa điểm" multiple="" style="display: none;">
-                                        <option value="">Chọn địa điểm</option>
-                                        <option value="ha-noi_4">
-                                            Hà Nội
-                                        </option>
-                                        <option value="ho-chi-minh_8">
-                                            Hồ Chí Minh
-                                        </option>
-                                        <option value="an-giang_76">
-                                            An Giang
-                                        </option>
+                                <div class="form-group">
+                                    <select id="location_mb" name="location"
+                                            class="select-custom select-custom-nosearch"
+                                            data-placeholder="Tất cả địa điểm">
+                                        <option value="0">Tất cả địa điểm</option>
+                                        @foreach($citys as $city)
+                                            <option value="{{$city->tenkhongdau}}"
+                                                    @if(isset($location))
+                                                    @if($location == $city->tenkhongdau)
+                                                    selected
+                                                @endif
+                                                @endif
+                                            >{{$city->tendaydu}}</option>
+                                        @endforeach
                                     </select>
-                                    <div class="chosen-container chosen-container-multi" title=""
-                                         id="location_mb_chosen" style="width: 0px;">
-                                        <ul class="chosen-choices">
-                                            <li class="search-field">
-                                                <input class="chosen-search-input default" type="search"
-                                                       autocomplete="off" value="Tất cả địa điểm"
-                                                       style="width: 127.547px;">
-                                            </li>
-                                        </ul>
-                                        <div class="chosen-drop">
-                                            <ul class="chosen-results"></ul>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="item">
@@ -557,7 +539,7 @@
         z-index: 500;
         position: -webkit-sticky;
         position: sticky;
-        top: 100px;
+        top: 95px;
         left: 0;
         width: 100%;
         padding: 0 !important;
@@ -574,7 +556,7 @@
 
     @media (max-width: 1200px) {
         .page-heading-tool {
-            top: 100px;
+            top: 80px;
         }
     }
 
@@ -616,6 +598,7 @@
     }
 
     @media (max-width: 1023px) {
+
         .page-heading-tool .tool-wrapper.mobile-height .search-job {
             -webkit-box-flex: 0;
             -ms-flex: 0 0 calc(100% - 40px);
@@ -720,6 +703,9 @@
             flex: 0 0 5%;
             max-width: 5%;
         }
+        .show-mb {
+            display: none;
+        }
     }
 
     @media (min-width: 1200px) {
@@ -729,6 +715,7 @@
             flex: 0 0 4%;
             max-width: 4%;
         }
+
         .filters-wrapper .filter-extend .list-filter-extend .item.show-mb {
             display: none;
         }
@@ -4182,7 +4169,6 @@
         /*.filters-wrapper .filter-extend .list-filter-extend .item.show-mb {*/
         /*    display: none;*/
         /*}*/
-
         .filters-wrapper .filter-extend .list-filter-extend .item:after {
             content: '';
             width: 1px;

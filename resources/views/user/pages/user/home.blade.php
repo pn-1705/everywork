@@ -3,7 +3,6 @@
 @section('pageTitle', 'Tuyển dụng và tìm kiếm việc làm')
 
 @section('content')
-
     <style>
         /*swiper.css*/
         .swiper-container {
@@ -3687,7 +3686,7 @@
     </style>
 
     <div class="cb-main-search" style="">
-        <section class="cb-banner-home" style="padding: 20px 0">
+        <section class="cb-banner-home" style="padding: 0px 0px; padding-top: 20px;">
             <div class="banner-pc">
                 <div class="swiper">
                     <!-- Additional required wrapper -->
@@ -3821,21 +3820,6 @@
                 <div class="item">
                     <div class="image">undefined</div>
                 </div>
-                <div class="item">
-                    <div class="image">undefined</div>
-                </div>
-                <div class="item">
-                    <div class="image">undefined</div>
-                </div>
-                <div class="item">
-                    <div class="image">undefined</div>
-                </div>
-                <div class="item">
-                    <div class="image">undefined</div>
-                </div>
-                <div class="item">
-                    <div class="image">undefined</div>
-                </div>
             </div>
             <div class="top-employers-banner">
                 <div class="row">
@@ -3861,11 +3845,14 @@
     <section class="career-key cb-section">
         <div class="container">
             <div class="d-flex flex-column align-items-center">
-                <h2 style="color: #0c0b0b">Việc làm theo ngành nghề</h2>
-                <a class="view-all font-weight-normal d-md-block" data-turbolinks="false"
-                   href="/tim-viec-lam-nhanh">
-                    <span class="mdi-chevron-right mdi">Xem tất cả</span>
-                </a></div>
+                <div class="cb-title cb-title-center d-flex align-items-center">
+                    <h2>NGÀNH NGHỀ HOT</h2>
+                    <a class="view-all font-weight-normal d-md-block" data-turbolinks="false"
+                       href="/tim-viec-lam-nhanh">
+                        <span style="font-size: 16px; color: #504f4f" class="mdi-chevron-right mdi">Xem tất cả</span>
+                    </a>
+                </div>
+            </div>
             <div class="career-key-slide">
                 <div class="swiper-container swiper-container-initialized swiper-container-horizontal">
                     <div class="swiper-wrapper">
@@ -3889,11 +3876,11 @@
                     </div>
                     <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
                 <div class="swiper-navigation">
-                    <div class="swiper-btn swiper-button-prev"
-                         style="left: -30px; background: none; color: #0056b3; transform: none">
+                    <div class="swiper-btn swiper-prev" tabindex="0" role="button" aria-label="Previous slide" aria-disabled="false">
+                        <em class="lnr lnr-chevron-left"></em>
                     </div>
-                    <div class="swiper-btn swiper-button-next"
-                         style="right: -30px;background: none; color: #0056b3; transform: none">
+                    <div class="swiper-btn swiper-next" tabindex="0" role="button" aria-label="Next slide" aria-disabled="false">
+                        <em class="lnr lnr-chevron-right"></em>
                     </div>
                 </div>
                 <div class="d-flex justify-content-end">
@@ -3937,8 +3924,8 @@
             },
 
             navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
+                nextEl: '.swiper-next',
+                prevEl: '.swiper-prev',
             },
 
             // Nếu cần scrollbar

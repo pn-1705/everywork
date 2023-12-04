@@ -138,7 +138,6 @@ h6 {
 #topbar .contact-info i a {
     line-height: 0;
     transition: 0.3s;
-    transition: 0.3s;
 }
 
 #topbar .contact-info i a:hover {
@@ -164,7 +163,7 @@ h6 {
     background: #fff;
     transition: all 0.5s;
     z-index: 997;
-    height: 80px;
+    /*height: 80px;*/
     box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
 }
 

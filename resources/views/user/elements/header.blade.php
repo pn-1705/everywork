@@ -1,4 +1,4 @@
-<header id="header" class="d-flex align-items-center" style="top: 20px">
+<header id="header" class="d-flex align-items-center" style="height: auto; top: 20px">
     <div class="container-fluid d-flex align-items-center justify-content-between">
         <div class="left-wrap">
             <?php
@@ -7,7 +7,7 @@
             @foreach($footer_setting as $footer_setting)
 
                 <div id="logo">
-                    <h1 class="logo"><a href="index.html">{{$footer_setting->name}}<span>.</span></a></h1>
+                    <h1 style="inline-size: max-content" class="logo"><a href="index.html">{{$footer_setting->name}}<span>.</span></a></h1>
                 </div>
                 <!-- Uncomment below if you prefer to use an image logo -->
                 <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt=""></a>-->
@@ -106,7 +106,6 @@
             <input type="hidden" value="" id="control_page">
 
         </div>
-
         <div class="right-wrap">
             <div class="main-noti dropdown">
                 <a href="https://careerbuilder.vn/thong-bao-viec-lam" title="Thông Báo Việc Làm">
@@ -235,6 +234,9 @@
 
         .navbar-mobile ul {
             display: block;
+        }
+        header .container-fluid {
+            padding: 15px 0;
         }
     }
     @media (min-width: 1200px) {

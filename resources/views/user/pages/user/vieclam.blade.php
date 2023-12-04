@@ -314,6 +314,16 @@
         }
     </script>
     <style>
+        @media (max-width: 576px){
+            .c-bottom-right-icon {
+                 position: relative;
+                right: 0;
+                bottom: 0;
+                display: flex;
+                flex-direction: column-reverse;
+                align-items: flex-start;
+            }
+        }
         a.saved {
             color: #7e7a7a;
         }
@@ -387,14 +397,15 @@
         .job_link .c-location, .job_link .c-expire-date, .c-time {
             color: #3f4144;
         }
-
-        .c-bottom-right-icon {
-            position: absolute;
-            right: 30px;
-            bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
+        @media (min-width: 576px) {
+            .c-bottom-right-icon {
+                position: absolute;
+                right: 30px;
+                bottom: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+            }
         }
     </style>
 
