@@ -3711,70 +3711,31 @@
                     </div>
                     <!-- If we need pagination -->
                     <div class="swiper-pagination"></div>
-
-                {{--                    <!-- If we need navigation buttons -->--}}
-                {{--                    <div class="swiper-button-prev"></div>--}}
-                {{--                    <div class="swiper-button-next"></div>--}}
-
-                <!-- If we need scrollbar -->
-                    {{--                    <div class="swiper-scrollbar"></div>--}}
                 </div>
-                {{--                <div class="main-page">--}}
-                {{--                    <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets"><span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button" aria-label="Go to slide 1"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 2"></span></div>--}}
-                {{--                </div>--}}
             </div>
             <div class="banner-mobile">
-                <div
-                    class="swiper-container swiper-container-fade swiper-container-initialized swiper-container-horizontal">
-                    <div class="swiper-wrapper" id="mobile-swiper-wrapper" style="transition-duration: 2000ms;">
-                        <div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active"
-                             data-swiper-slide-index="1"
-                             style="width: 761px; transition-duration: 2000ms; opacity: 1; transform: translate3d(0px, 0px, 0px);">
-                            <a href="https://careerbuilder.vn/en/jobseekers/ajax/counterbannerclick?url=aHR0cHM6Ly9jYXJlZXJzdGFydC52bi8=&amp;id=280"
-                               rel="nofollow;noreferrer" target="_blank">
-                                <div class="image 2">
-                                    <img
-                                        src="https://images.careerbuilder.vn/background/careerstart_plb_mobile_640x430_2022_08_15_1660563408.jpg"
-                                        class="swiper-lazy swiper-lazy-loaded" alt="Banner">
-                                </div>
-                            </a></div>
-                        <div class="swiper-slide swiper-slide-prev swiper-slide-duplicate-next"
-                             data-swiper-slide-index="0"
-                             style="width: 761px; transition-duration: 2000ms; opacity: 1; transform: translate3d(-761px, 0px, 0px);">
-                            <a href="https://careerbuilder.vn/vi/jobseekers/ajax/counterbannerclick?url=aHR0cHM6Ly9jYXJlZXJidWlsZGVyLnZuL2VtcGxveWVyb2ZjaG9pY2Utc3VydmV5LTIwMjM/dXRtX3NvdXJjZT1DQiZhbXA7dXRtX21lZGl1bT1iYW5uZXImYW1wO3V0bV9jYW1wYWlnbj1FT0MyMDIz&amp;id=304"
-                               rel="nofollow;noreferrer" target="_blank">
-                                <div class="image"><img
-                                        src="https://images.careerbuilder.vn/background/eoc_2023_launching_plb_640x430_2023_11_28_1701142407.jpg"
-                                        alt="Banner"></div>
-                            </a></div>
-                        <div class="swiper-slide swiper-slide-active" data-swiper-slide-index="1"
-                             style="width: 761px; transition-duration: 2000ms; opacity: 1; transform: translate3d(-1522px, 0px, 0px);">
-                            <a href="https://careerbuilder.vn/en/jobseekers/ajax/counterbannerclick?url=aHR0cHM6Ly9jYXJlZXJzdGFydC52bi8=&amp;id=280"
-                               rel="nofollow;noreferrer" target="_blank">
-                                <div class="image 2">
-                                    <img
-                                        src="https://images.careerbuilder.vn/background/careerstart_plb_mobile_640x430_2022_08_15_1660563408.jpg"
-                                        class="swiper-lazy swiper-lazy-loaded" alt="Banner">
-                                </div>
-                            </a></div>
-
-                        <div class="swiper-slide swiper-slide-duplicate swiper-slide-next swiper-slide-duplicate-prev"
-                             data-swiper-slide-index="0"
-                             style="width: 761px; transition-duration: 2000ms; opacity: 0; transform: translate3d(-2283px, 0px, 0px);">
-                            <a href="https://careerbuilder.vn/vi/jobseekers/ajax/counterbannerclick?url=aHR0cHM6Ly9jYXJlZXJidWlsZGVyLnZuL2VtcGxveWVyb2ZjaG9pY2Utc3VydmV5LTIwMjM/dXRtX3NvdXJjZT1DQiZhbXA7dXRtX21lZGl1bT1iYW5uZXImYW1wO3V0bV9jYW1wYWlnbj1FT0MyMDIz&amp;id=304"
-                               rel="nofollow;noreferrer" target="_blank">
-                                <div class="image"><img
-                                        src="https://images.careerbuilder.vn/background/eoc_2023_launching_plb_640x430_2023_11_28_1701142407.jpg"
-                                        alt="Banner"></div>
-                            </a></div>
+                <div class="swiper">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                        <!-- Slides -->
+                        <div class="swiper-slide">
+                            <img
+                                src="https://images.careerbuilder.vn/background/careerstart_plb_desktop_1900x570_2022_08_15_1660563408.jpg"
+                                class="swiper-lazy swiper-lazy-loaded" alt="Banner">
+                        </div>
+                        <div class="swiper-slide">
+                            <img
+                                src="https://images.careerbuilder.vn/background/eoc_2023_launching_plb_1900x570_2023_11_28_1701142407.jpg"
+                                alt="Banner">
+                        </div>
+                        <div class="swiper-slide">
+                            <img
+                                src="https://images.careerbuilder.vn/background/careerstart_plb_desktop_1900x570_2022_08_15_1660563408.jpg"
+                                class="swiper-lazy swiper-lazy-loaded" alt="Banner">
+                        </div>
                     </div>
-                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
-                <div class="main-page">
-                    <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets"><span
-                            class="swiper-pagination-bullet" tabindex="0" role="button"
-                            aria-label="Go to slide 1"></span><span
-                            class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button"
-                            aria-label="Go to slide 2"></span></div>
+                    <!-- If we need pagination -->
+                    <div class="swiper-pagination"></div>
                 </div>
             </div>
         </section>
