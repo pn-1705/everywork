@@ -70,7 +70,7 @@
                                             </div>
                                             <div class="caption">
                                                 <a class="company-name"
-                                                   href="{{ route('pages.nha-tuyen-dung.detail',$job -> id_nhatuyendung) }}"
+                                                   href="{{ route('pages.nha-tuyen-dung.detail',$job -> employer_tenkhongdau) }}"
                                                    title="{{$job->ten}}">{{$job->ten}}</a>
                                                 <a class="job_link"
                                                    href="{{ route("user.pages.viewDetailJob",  $job->id ) }}">

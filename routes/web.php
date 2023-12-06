@@ -65,7 +65,7 @@ Route::group(['middleware' => 'checkUserRole', 'prefix' => 'user'], function () 
 Route::get('/saveJob/{id}/{type}', 'User\UserController@saveJob');
 Route::post('/applyJob/{id}', 'User\UserController@applyJob')->name('nop-don-ung-tuyen');
 
-// Nhà tuyển dụng
+//Trang dành cho nhà tuyển dụng
 Route::get('/employer', 'User\EmployerController@home')->name('employer.home');
 Route::get('/employer/login', 'User\EmployerController@login')->name('employer.login');
 Route::post('/employer/post_login', 'User\EmployerController@post_login')->name('employer.post_login');

@@ -3817,23 +3817,49 @@
                 <h2>NHÀ TUYỂN DỤNG HÀNG ĐẦU</h2>
             </div>
             <div class="top-employers-list" id="top-employers-list" data-id="886,887,888,889,890,891">
-                <div class="item">
-                    <div class="image">undefined</div>
-                </div>
+                @foreach($topEmployer as $list)
+                    <div class="item">
+                        <div class="image"><a
+                                href="{{ route('pages.nha-tuyen-dung.detail', $list->tenkhongdau) }}"
+                                target="_blank"><img style="height: 90px"
+                                                     src="{{ asset('public/avatar/'. $list -> avt) }}"
+                                                     width="88" height="50" alt="Viglacera tuyendung"
+                                                     title="{{ $list -> ten }}"
+                                                     border="0"></a>
+
+                        </div>
+                    </div>
+                @endforeach
             </div>
             <div class="top-employers-banner">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="item">
-                            <div class="image adsTopBanner" id="846">
-                                <!--<script>OA_show(846);</script>-->
+                            <div class="image adsTopBanner" id="846"><a
+                                    href="https://ads.careerbuilder.vn/www/delivery/ck.php?oaparams=2__bannerid=5711__zoneid=846__cb=ca1fd954e2__oadest=https%3A%2F%2Fcareerbuilder.vn%2Fvi%2Ftalentcommunity%2Fnam-moi-lam-moi-thuong-hieu-ca-nhan.35A51DB1.html%3Futm_source%3DCBbanner%26utm_medium%3DShareProfile%26utm_campaign%3DShareProfile"
+                                    target="_blank"><img
+                                        src="https://ads.careerbuilder.vn/www/images/8038e22595ece70fbfe0a75e7020f355.jpg"
+                                        width="690" height="250" alt="Share CV tuyendung" title="Share CV tuyendung"
+                                        border="0"></a>
+                                <div id="beacon_ca1fd954e2"
+                                     style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img
+                                        src="https://ads.careerbuilder.vn/www/delivery/lg.php?bannerid=5711&amp;campaignid=1671&amp;zoneid=846&amp;loc=https%3A%2F%2Fcareerbuilder.vn%2F&amp;cb=ca1fd954e2"
+                                        width="0" height="0" alt="" style="width: 0px; height: 0px;"></div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="item">
-                            <div class="image adsTopBanner" id="847">
-                                <!--<script>OA_show(847);</script>-->
+                            <div class="image adsTopBanner" id="847"><a
+                                    href="https://ads.careerbuilder.vn/www/delivery/ck.php?oaparams=2__bannerid=6355__zoneid=847__cb=feab21e6a1__oadest=https%3A%2F%2Fcareerstart.vn%2F"
+                                    target="_blank"><img
+                                        src="https://ads.careerbuilder.vn/www/images/ac13f304e45d13c6666de7d799fd9bfd.jpg"
+                                        width="690" height="250" alt="Careerstart tuyendung"
+                                        title="Careerstart tuyendung" border="0"></a>
+                                <div id="beacon_feab21e6a1"
+                                     style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img
+                                        src="https://ads.careerbuilder.vn/www/delivery/lg.php?bannerid=6355&amp;campaignid=1749&amp;zoneid=847&amp;loc=https%3A%2F%2Fcareerbuilder.vn%2F&amp;cb=feab21e6a1"
+                                        width="0" height="0" alt="" style="width: 0px; height: 0px;"></div>
                             </div>
                         </div>
                     </div>
@@ -3876,10 +3902,12 @@
                     </div>
                     <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
                 <div class="swiper-navigation">
-                    <div class="swiper-btn swiper-prev" tabindex="0" role="button" aria-label="Previous slide" aria-disabled="false">
+                    <div class="swiper-btn swiper-prev" tabindex="0" role="button" aria-label="Previous slide"
+                         aria-disabled="false">
                         <em class="lnr lnr-chevron-left"></em>
                     </div>
-                    <div class="swiper-btn swiper-next" tabindex="0" role="button" aria-label="Next slide" aria-disabled="false">
+                    <div class="swiper-btn swiper-next" tabindex="0" role="button" aria-label="Next slide"
+                         aria-disabled="false">
                         <em class="lnr lnr-chevron-right"></em>
                     </div>
                 </div>

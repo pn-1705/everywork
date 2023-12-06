@@ -28,7 +28,7 @@ class UserController extends Controller
             ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
             ->leftJoin('table_city', 'table_jobs.noilamviec', '=', 'table_city.id')
             ->where('table_jobs.trangthai', 1)
-            ->select('table_jobs.*', 'table_employers.ten', 'table_city.tendaydu', 'table_employers.avt');
+            ->select('table_jobs.*', 'table_employers.ten', 'table_city.tendaydu', 'table_employers.avt', 'table_employers.tenkhongdau as employer_tenkhongdau');
 
         $totalJobs = $jobs->count();
         $jobs = $jobs->paginate(20)->withQueryString();
@@ -135,9 +135,9 @@ class UserController extends Controller
             ->first();
 
         $viewJob = Job::find($id);
-        if ($viewJob){
-            $viewJob -> views++;
-            $viewJob -> save();
+        if ($viewJob) {
+            $viewJob->views++;
+            $viewJob->save();
         }
 
         $data['job'] = $job;
@@ -284,7 +284,7 @@ class UserController extends Controller
                 ->join('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
                 ->leftJoin('table_cv', 'table_cv.idCV', '=', 'table_applyforjobs.idCV')
                 ->join('table_employers', 'table_employers.id', '=', 'table_jobs.id_nhatuyendung')
-                ->select('table_applyforjobs.*', 'table_employers.id as idEmployer', 'table_employers.ten','table_employers.avt', 'table_jobs.tencongviec', 'table_cv.nameCV')
+                ->select('table_applyforjobs.*', 'table_employers.id as idEmployer', 'table_employers.ten', 'table_employers.avt', 'table_jobs.tencongviec', 'table_cv.nameCV')
                 ->get();
 //            dd($jobsApplied);
             return view('user.pages.user.applyJobs')->with('jobsApplied', $jobsApplied);
@@ -377,6 +377,16 @@ class UserController extends Controller
             ->take(10)
             ->get();
         $data['jobHot'] = $jobHot;
+
+        $topEmployer = DB::table('table_jobs')
+            ->select('id_nhatuyendung', 'ten', 'table_employers.tenkhongdau', 'avt', DB::raw('count(*) as total'))
+            ->groupBy('id_nhatuyendung', 'ten', 'table_employers.tenkhongdau', 'avt')
+            ->join('table_employers', 'table_employers.id', '=', 'table_jobs.id_nhatuyendung')
+            ->orderBy('total', 'desc')
+            ->take(6)
+            ->get();
+//        dd($topEmployer);
+        $data['topEmployer'] = $topEmployer;
         return view('user.pages.user.home', $data);
     }
 
@@ -396,7 +406,8 @@ class UserController extends Controller
 
     public function nhatuyendung_view($id)
     {
-        $employer = Employer::find($id);
+        $employer = DB::table('table_employers')->where('tenkhongdau', '=', $id)->first();
+//        dd($employer);
         $jobOfEmployer = DB::table('table_jobs')
             ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
             ->leftJoin('table_city', 'table_jobs.noilamviec', '=', 'table_city.id')
