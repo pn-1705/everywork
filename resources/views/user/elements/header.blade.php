@@ -236,7 +236,7 @@
             display: block;
         }
         header .container-fluid {
-            padding: 15px 0;
+            padding: 15px 15px;
         }
     }
     @media (min-width: 1200px) {

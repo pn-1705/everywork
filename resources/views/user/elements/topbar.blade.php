@@ -14,7 +14,7 @@
 
             </div>
             <div class="text-slider">
-                <marquee class="d-flex align-items-center">EveryWork. - Website tuyển dụng và tìm kiếm việc làm miễn phí.</marquee>
+                <marquee scrolldelay="100" class="d-flex align-items-center">EveryWork. - Website tuyển dụng và tìm kiếm việc làm miễn phí.</marquee>
             </div>
         @endforeach
         @foreach($social as $social)
