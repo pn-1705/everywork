@@ -1,4 +1,4 @@
-<header id="header" class="d-flex align-items-center" style="top: 20px">
+<header id="header" class="d-flex align-items-center" style="height: auto; top: 20px">
     <div class="container-fluid d-flex align-items-center justify-content-between">
         <div class="left-wrap">
             <?php
@@ -7,7 +7,7 @@
             @foreach($footer_setting as $footer_setting)
 
                 <div id="logo">
-                    <h1 class="logo"><a href="index.html">{{$footer_setting->name}}<span>.</span></a></h1>
+                    <h1 style="inline-size: max-content" class="logo"><a href="index.html">{{$footer_setting->name}}<span>.</span></a></h1>
                 </div>
                 <!-- Uncomment below if you prefer to use an image logo -->
                 <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt=""></a>-->
@@ -103,9 +103,9 @@
                                 class="">Đăng ký</span></a>
                     </li>
                     <li class="mobile-li-toggle">
-                        <a class="nav-link scrollto" href="{{ route('employer.home') }}"
+                        <a class="nav-link scrollto" href="{{ route('user.pages.home') }}"
                            title="Đăng tuyển, Tìm ứng viên">
-                            <span class="mdi mdi-chevron-right">Dành cho nhà tuyển dụng</span>
+                            <span class="mdi mdi-chevron-right">Dành cho ứng viên</span>
 
                         </a>
                     </li>
@@ -171,7 +171,11 @@
                     echo 'hidden';
                 }
                 ?>>
-                <a href="{{ route('profile') }}" rel="nofollow">
+                <a <?php if (Auth::check() == true && Auth::user()->id_nhomquyen == 2)
+                {
+                    echo 'hidden';
+                }
+                   ?> href="{{ route('profile') }}" rel="nofollow">
                     <span class="mdi mdi-account-circle"></span>
                     Chào
                     <span class="name">
@@ -358,6 +362,9 @@
 
         .navbar-mobile ul {
             display: block;
+        }
+        header .container-fluid {
+            padding: 15px 15px;
         }
     }
     @media (min-width: 1200px) {

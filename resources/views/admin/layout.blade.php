@@ -4,7 +4,7 @@
     <LINK REL="SHORTCUT ICON" HREF="{{asset('public/logo/logo.png')}}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('adminTitle') | EveryWork Admin</title>
+    <title>@yield('adminTitle') | Admin EveryWork</title>
 
     @include('admin.elements.header-libs')
     <!-- Google Font: Source Sans Pro -->

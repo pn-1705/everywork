@@ -6,3 +6,4 @@
 <link rel="stylesheet" href="{{asset('public/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
 <!-- Theme style -->
 <link rel="stylesheet" href="{{asset('public/backend/css/adminlte.min.css')}}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">

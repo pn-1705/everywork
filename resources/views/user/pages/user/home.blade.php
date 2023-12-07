@@ -3691,22 +3691,20 @@
                 <div class="swiper">
                     <!-- Additional required wrapper -->
                     <div class="swiper-wrapper">
+                    <?php
+                    $slideshowUngVien = DB::table('table_photo')->where('type', '=', 'slideshow-ungvien')->where('hienthi', '=', 1)->get();
+                    ?>
+                    @foreach($slideshowUngVien as $list)
                         <!-- Slides -->
-                        <div class="swiper-slide">
-                            <img
-                                src="https://images.careerbuilder.vn/background/careerstart_plb_desktop_1900x570_2022_08_15_1660563408.jpg"
-                                class="swiper-lazy swiper-lazy-loaded" alt="Banner">
-                        </div>
-                        <div class="swiper-slide">
-                            <img
-                                src="https://images.careerbuilder.vn/background/eoc_2023_launching_plb_1900x570_2023_11_28_1701142407.jpg"
-                                alt="Banner">
-                        </div>
-                        <div class="swiper-slide">
-                            <img
-                                src="https://images.careerbuilder.vn/background/careerstart_plb_desktop_1900x570_2022_08_15_1660563408.jpg"
-                                class="swiper-lazy swiper-lazy-loaded" alt="Banner">
-                        </div>
+                            <div class="swiper-slide">
+                                <a href="{{ $list -> link }}">
+
+                                    <img
+                                        src="{{ asset('public/imgs/photo/'. $list -> hinhanh) }}"
+                                        class="swiper-lazy swiper-lazy-loaded" alt="Banner">
+                                </a>
+                            </div>
+                        @endforeach
                     </div>
                     <!-- If we need pagination -->
                     <div class="swiper-pagination"></div>
@@ -3717,21 +3715,15 @@
                     <!-- Additional required wrapper -->
                     <div class="swiper-wrapper">
                         <!-- Slides -->
-                        <div class="swiper-slide">
-                            <img
-                                src="https://images.careerbuilder.vn/background/careerstart_plb_desktop_1900x570_2022_08_15_1660563408.jpg"
-                                class="swiper-lazy swiper-lazy-loaded" alt="Banner">
-                        </div>
-                        <div class="swiper-slide">
-                            <img
-                                src="https://images.careerbuilder.vn/background/eoc_2023_launching_plb_1900x570_2023_11_28_1701142407.jpg"
-                                alt="Banner">
-                        </div>
-                        <div class="swiper-slide">
-                            <img
-                                src="https://images.careerbuilder.vn/background/careerstart_plb_desktop_1900x570_2022_08_15_1660563408.jpg"
-                                class="swiper-lazy swiper-lazy-loaded" alt="Banner">
-                        </div>
+                        @foreach($slideshowUngVien as $list)
+                            <div class="swiper-slide">
+                                <a href="{{ $list -> link }}">
+                                    <img href="{{ $list -> link }}"
+                                         src="{{ asset('public/imgs/photo/'. $list -> hinhanh) }}"
+                                         class="swiper-lazy swiper-lazy-loaded" alt="Banner">
+                                </a>
+                            </div>
+                        @endforeach
                     </div>
                     <!-- If we need pagination -->
                     <div class="swiper-pagination"></div>

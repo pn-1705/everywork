@@ -2,7 +2,7 @@
     <div class="container d-flex justify-content-between">
         <?php use Illuminate\Support\Facades\DB;
         $footer_setting = \App\Models\FooterSetting::all();
-        $social = DB::table('table_social')->get()->take(1);
+        $social = DB::table('table_photo')->where('type', '=', 'social')->get();
         ?>
         @foreach($footer_setting as $footer_setting)
             <div class="contact-info align-items-center">
@@ -17,16 +17,18 @@
                 <marquee scrolldelay="100" class="d-flex align-items-center">EveryWork. - Website tuyển dụng và tìm kiếm việc làm miễn phí.</marquee>
             </div>
         @endforeach
-        @foreach($social as $social)
             <div class="social-links">
                 <div class="d-flex align-items-center h-100">
-                    <a href="{{$social->twitter}}" class="twitter"><i class="bi bi-twitter"></i></a>
-                    <a href="{{$social->facebook}}" class="facebook"><i class="bi bi-facebook"></i></a>
-                    <a href="{{$social->instagram}}" class="instagram"><i class="bi bi-instagram"></i></a>
-                    <a href="{{'https://zalo.me/'.$social->zalo}}" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                    @foreach($social as $social)
+
+                    <a target="_blank" title="{{$social->tieude}}" href="{{$social->link}}" {{--class="twitter"--}}><i class="bi {{$social->hinhanh}}"></i></a>
+{{--                    <a href="{{$social->facebook}}" class="facebook"><i class="bi bi-facebook"></i></a>--}}
+{{--                    <a href="{{$social->instagram}}" class="instagram"><i class="bi bi-instagram"></i></a>--}}
+{{--                    <a href="{{'https://zalo.me/'.$social->zalo}}" class="linkedin"><i class="bi bi-linkedin"></i></a>--}}
+                    @endforeach
+
                 </div>
             </div>
-        @endforeach
 
     </div>
     <style>

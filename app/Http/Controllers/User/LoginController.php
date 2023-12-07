@@ -68,7 +68,7 @@ class LoginController extends Controller
 
     public function view_loginpage()
     {
-        if (Auth::check() == false || Auth::user()->id_nhomquyen == 1) {
+        if (Auth::check() == false || Auth::user()->id_nhomquyen == 1 || Auth::user()->id_nhomquyen == 2) {
             return view('user.pages.login_page');
         }
         return redirect()->intended('home');
@@ -169,7 +169,7 @@ class LoginController extends Controller
                 return redirect()->route('user.pages.login_page')->with('yes', 'Email đã được nhà tuyển dụng đăng kí !');
             }
         }
-       
+
         $id = DB::table('table_user')->max('id');
 
         if ($existingUser) {

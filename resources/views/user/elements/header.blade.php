@@ -7,7 +7,8 @@
             @foreach($footer_setting as $footer_setting)
 
                 <div id="logo">
-                    <h1 style="inline-size: max-content" class="logo"><a href="index.html">{{$footer_setting->name}}<span>.</span></a></h1>
+                    <h1 style="inline-size: max-content" class="logo"><a href="index.html">{{$footer_setting->name}}
+                            <span>.</span></a></h1>
                 </div>
                 <!-- Uncomment below if you prefer to use an image logo -->
                 <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt=""></a>-->
@@ -147,12 +148,19 @@
                 <a class="" href="{{route('user.pages.register_page')}}" title="Đăng ký">Đăng ký</a>
             </div>
             <div class="main-login logged dropdown"
-            <?php
-                if (Auth::check() == false || Auth::user()->id_nhomquyen == 1) {
-                    echo 'hidden';
-                }
-                ?>>
-                <a href="{{ route('profile') }}" rel="nofollow">
+                <?php
+                    if (Auth::check() == false || Auth::user()->id_nhomquyen == 1) {
+                        echo 'hidden';
+                    }
+                ?>
+            >
+                <a
+                    <?php if (Auth::check() == true && Auth::user()->id_nhomquyen == 2)
+                    {
+                        echo 'hidden';
+                    }
+                    ?>
+                   href="{{ route('profile') }}" rel="nofollow">
                     <span class="mdi mdi-account-circle"></span>
                     Chào
                     <span class="name">
@@ -235,17 +243,19 @@
         .navbar-mobile ul {
             display: block;
         }
+
         header .container-fluid {
             padding: 15px 15px;
         }
     }
+
     @media (min-width: 1200px) {
-        .navbar ul li.mobile-li-toggle{
+        .navbar ul li.mobile-li-toggle {
             display: none;
         }
     }
 
-        .dropdown-toggle::after {
+    .dropdown-toggle::after {
         content: none;
     }
 </style>

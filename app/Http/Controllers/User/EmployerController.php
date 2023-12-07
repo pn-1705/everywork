@@ -30,7 +30,7 @@ class EmployerController extends Controller
 
     public function login()
     {
-        if (Auth::check() == false || Auth::user()->id_nhomquyen == 0) {
+        if (Auth::check() == false || Auth::user()->id_nhomquyen == 0 || Auth::user()->id_nhomquyen == 2) {
             return view('employer.login');
         }
         return redirect()->route('employer.home');

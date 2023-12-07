@@ -51,14 +51,10 @@
                     <p>Cras fermentum odio eu feugiat lide par naso tierra videa magna derita valies</p>
                     <div class="social-links mt-3">
                         <?php
-                        $social_media = DB::table('social_media')->get();
+                        $social_media = DB::table('table_photo')->where('type', '=', 'social')->get();
                         ?>
-                        @foreach($social_media as $socia_media )
-
-                            <a href="{{$socia_media ->twitter}}" class="twitter"><i class="bi bi-twitter"></i></a>
-                            <a href="{{$socia_media ->facebook}}" class="facebook"><i class="bi bi-facebook"></i></a>
-                            <a href="{{$socia_media ->instagram}}" class="instagram"><i class="bi bi-instagram"></i></a>
-                            <a href="{{'https://zalo.me/'.$socia_media ->zalo}}" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                        @foreach($social_media as $social )
+                                <a target="_blank" title="{{$social->tieude}}" href="{{$social->link}}" {{--class="twitter"--}}><i class="bi {{$social->hinhanh}}"></i></a>
                         @endforeach
                     </div>
                 </div>

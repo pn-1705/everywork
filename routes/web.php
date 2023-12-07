@@ -188,6 +188,18 @@ Route::group(['middleware' => 'checklogin', 'prefix' => 'admin'], function () {
     Route::get('/user/edit/{id}', ['as' => 'admin.user.edit', 'uses' => 'Admin\UserController@edit']);
     Route::post('/user/edit/{id}', ['as' => 'admin.user.edit', 'uses' => 'Admin\UserController@update']);
     Route::get('/user/destroy/{id}', ['as' => 'admin.user.getDestroy', 'uses' => 'Admin\UserController@destroy']);
+
+    //Photo-video --Social
+    Route::get('/photo-video/social', ['as' => 'admin.photo-video.social', 'uses' => 'Admin\PhotoVideoController@index']);
+    Route::post('/photo-video/social/add', ['as' => 'admin.photo-video.social.add', 'uses' => 'Admin\PhotoVideoController@add']);
+    Route::post('/photo-video/social/update/{id}', ['as' => 'admin.photo-video.social.update', 'uses' => 'Admin\PhotoVideoController@update']);
+    Route::get('/photo-video/social/del/{id}', ['as' => 'admin.photo-video.social.del', 'uses' => 'Admin\PhotoVideoController@del']);
+    //Photo-video --Slideshow
+    Route::get('/photo-video/slideshow-ungvien', ['as' => 'admin.photo-video.slideshow', 'uses' => 'Admin\PhotoVideoController@indexSlideshow']);
+    Route::post('/photo-video/slideshow-ungvien/add', ['as' => 'admin.photo-video.slideshow-ungvien.add', 'uses' => 'Admin\PhotoVideoController@addSlideshowUngvien']);
+    Route::post('/photo-video/slideshow-ungvien/update/{id}', ['as' => 'admin.photo-video.slideshow-ungvien.update', 'uses' => 'Admin\PhotoVideoController@updateSlideshowUngvien']);
+    Route::get('/photo-video/slideshow-ungvien/del/{id}', ['as' => 'admin.photo-video.slideshow-ungvien.del', 'uses' => 'Admin\PhotoVideoController@delSlideshowUngvien']);
+
 });
 
 //Login facebook
