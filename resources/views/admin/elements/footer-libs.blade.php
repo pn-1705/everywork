@@ -14,6 +14,11 @@
 <script src="{{asset('public/plugins/jquery-mapael/maps/usa_states.min.js')}}"></script>
 <!-- ChartJS -->
 <script src="{{asset('public/plugins/chart.js/Chart.min.js')}}"></script>
+{{--<script src="{{asset('public/plugins/ckeditor/ckeditor.js')}}"></script>--}}
+<script src="//cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+<script type="text/javascript">
+    CKEDITOR.replace('ckeditor_noidung_news');
+</script>
 
 <!-- AdminLTE for demo purposes -->
 {{--<script src="{{asset('public/backend/js/demo.js')}}"></script>--}}

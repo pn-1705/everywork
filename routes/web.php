@@ -199,6 +199,10 @@ Route::group(['middleware' => 'checklogin', 'prefix' => 'admin'], function () {
     Route::post('/photo-video/slideshow-ungvien/add', ['as' => 'admin.photo-video.slideshow-ungvien.add', 'uses' => 'Admin\PhotoVideoController@addSlideshowUngvien']);
     Route::post('/photo-video/slideshow-ungvien/update/{id}', ['as' => 'admin.photo-video.slideshow-ungvien.update', 'uses' => 'Admin\PhotoVideoController@updateSlideshowUngvien']);
     Route::get('/photo-video/slideshow-ungvien/del/{id}', ['as' => 'admin.photo-video.slideshow-ungvien.del', 'uses' => 'Admin\PhotoVideoController@delSlideshowUngvien']);
+    //Quản lí bài viết
+    Route::get('/news', ['as' => 'admin.news', 'uses' => 'Admin\NewsController@index']);
+    Route::get('/news/create', ['as' => 'admin.news.add', 'uses' => 'Admin\NewsController@add']);
+    Route::post('/news/post', ['as' => 'admin.news.post', 'uses' => 'Admin\NewsController@postNews']);
 
 });
 

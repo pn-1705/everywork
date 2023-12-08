@@ -39,4 +39,5 @@
 <!-- jQuery -->
     @include('admin.elements.footer-libs')
 </body>
+
 </html>

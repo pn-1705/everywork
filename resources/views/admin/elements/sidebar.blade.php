@@ -137,16 +137,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.order.index') }}"
-                       class="nav-link {{ Route::is('admin.order.index') ? 'active' : '' }}">
-                        @if(DB::table('hoadon')->where('TrangThai', 0)->count()!= 0)
-                        <span class="badge badge-danger right">
-                                    {{DB::table('hoadon')->where('TrangThai', 0)->count()}}
-                                </span>
-                        @endif
+                    <a href="{{ route('admin.news') }}"
+                       class="nav-link {{ Route::is('admin.news') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-sort-amount-up"></i>
                         <p>
-                            Đơn hàng
+                            Quản lí bài viết
                         </p>
                     </a>
                 </li>

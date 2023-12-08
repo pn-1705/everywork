@@ -3860,22 +3860,18 @@
         </div>
     </section>
 
-    <section class="career-key cb-section">
+    <div class="career-key" style="padding-top: 60px">
         <div class="container">
             <div class="d-flex flex-column align-items-center">
                 <div class="cb-title cb-title-center d-flex align-items-center">
-                    <h2>NGÀNH NGHỀ HOT</h2>
-                    <a class="view-all font-weight-normal d-md-block" data-turbolinks="false"
-                       href="/tim-viec-lam-nhanh">
-                        <span style="font-size: 16px; color: #504f4f" class="mdi-chevron-right mdi">Xem tất cả</span>
-                    </a>
+                    <h2>Ngành nghề hot</h2>
                 </div>
             </div>
             <div class="career-key-slide">
-                <div class="swiper-container swiper-container-initialized swiper-container-horizontal">
+                <div class="swiper-container swiper-container-career swiper-container-initialized swiper-container-horizontal">
                     <div class="swiper-wrapper">
                         @foreach($jobHot as $list)
-                            <div class="swiper-slide p-md-2">
+                            <div class="swiper-slide">
                                 <div style="height: 200px;
                                 background: #d4efff;border-radius: 4px;border-bottom-right-radius: 40px !important;">
                                     <div class="box-desc"
@@ -3894,11 +3890,11 @@
                     </div>
                     <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
                 <div class="swiper-navigation">
-                    <div class="swiper-btn swiper-prev" tabindex="0" role="button" aria-label="Previous slide"
+                    <div class="swiper-btn swiper-prev hotJob-swiper-prev" tabindex="0" role="button" aria-label="Previous slide"
                          aria-disabled="false">
                         <em class="lnr lnr-chevron-left"></em>
                     </div>
-                    <div class="swiper-btn swiper-next" tabindex="0" role="button" aria-label="Next slide"
+                    <div class="swiper-btn swiper-next hotJob-swiper-next" tabindex="0" role="button" aria-label="Next slide"
                          aria-disabled="false">
                         <em class="lnr lnr-chevron-right"></em>
                     </div>
@@ -3907,11 +3903,55 @@
 
                 </div>
             </div>
+            <div class="view-more"><a target="_blank" href="https://careerbuilder.vn/vi/talentcommunity">Xem thêm<span
+                        class="mdi mdi-arrow-right"></span></a></div>
+        </div>
+    </div>
+
+    <section class="cb-section career-development">
+        <div class="container">
+            <div class="cb-title cb-title-center">
+                <h2><span>Cẩm nang nghề nghiệp</span></h2>
+            </div>
+            <div class="career-development-slide">
+                <div class="swiper-container-news swiper-container swiper-container-initialized swiper-container-horizontal">
+                    <div class="swiper-wrapper">
+                        @foreach($news as $list)
+                        <div class="swiper-slide" style="width: 330px; margin-right: 30px;">
+                            <div class="item bg-trends">
+
+                                <div class="img"><a target="_blank"
+                                                    href="https://careerbuilder.vn/vi/talentcommunity/evp-la-gi-huong-dan-6-buoc-xay-dung-evp-chuan-cho-doanh-nghiep.35A52469.html"
+                                                    title="EVP là gì? Hướng dẫn 6 bước xây dựng EVP chuẩn cho doanh nghiệp"><img
+                                            class="swiper-lazy swiper-lazy-loaded"
+                                            src="{{ asset('public/imgs/news/'. $list -> hinhanh) }}"
+                                            alt="{{$list -> tieude}}">
+                                    </a></div>
+                                <div class="caption">
+                                    <p class="category-title">
+                                        Phát triển bản thân</p>
+                                    <a target="_blank" class="title"
+                                       href=""
+                                       title="EVP là gì? Hướng dẫn 6 bước xây dựng EVP chuẩn cho doanh nghiệp">{{$list -> tieude}}</a>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+
+                    </div>
+                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                <div class="news-swiper-prev swiper-prev" tabindex="0" role="button" aria-label="Previous slide"><span
+                        class="lnr lnr-chevron-left"></span></div>
+                <div class="news-swiper-next swiper-next" tabindex="0" role="button" aria-label="Next slide"><span
+                        class="lnr lnr-chevron-right"></span></div>
+            </div>
+            <div class="view-more"><a target="_blank" href="https://careerbuilder.vn/vi/talentcommunity">Xem thêm<span
+                        class="mdi mdi-arrow-right"></span></a></div>
         </div>
     </section>
-    <script>
 
-        var mySwiper = new Swiper('.swiper-container', {
+    <script>
+        var mySwiper = new Swiper('.swiper-container-career', {
             // Các Parameters
             direction: 'horizontal',
             loop: true,
@@ -3944,8 +3984,8 @@
             },
 
             navigation: {
-                nextEl: '.swiper-next',
-                prevEl: '.swiper-prev',
+                nextEl: '.hotJob-swiper-next',
+                prevEl: '.hotJob-swiper-prev',
             },
 
             // Nếu cần scrollbar
@@ -3954,8 +3994,51 @@
             // },
 
         })
-    </script>
+        var mySwiper = new Swiper('.swiper-container-news', {
+            // Các Parameters
+            direction: 'horizontal',
+            loop: true,
+            slidesPerView: 4,
 
+            autoplay: {
+                delay: 5000,
+            },
+            breakpoints: {
+                '1200': {
+                    slidesPerView: 4,
+                    spaceBetween: 20,
+                },
+                '768': {
+                    slidesPerView: 3,
+                    spaceBetween: 10,
+                },
+                '576': {
+                    slidesPerView: 3,
+                    spaceBetween: 10,
+                },
+                '480': {
+                    slidesPerView: 2,
+                    spaceBetween: 10,
+                },
+                '320': {
+                    slidesPerView: 2,
+                    spaceBetween: 10,
+                },
+            },
+
+            navigation: {
+                nextEl: '.news-swiper-next',
+                prevEl: '.news-swiper-prev',
+            },
+
+            // Nếu cần scrollbar
+            // scrollbar: {
+            //     el: '.swiper-scrollbar',
+            // },
+
+        });
+
+    </script>
 
     <style>/*common.css*/
 

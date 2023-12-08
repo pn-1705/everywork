@@ -386,7 +386,15 @@ class UserController extends Controller
             ->take(6)
             ->get();
 //        dd($topEmployer);
+
         $data['topEmployer'] = $topEmployer;
+
+        $news = DB::table('table_news')
+            ->where('noibat', '=', 1)
+            ->where('hienthi', '=', 1)
+            ->get();
+//        dd($news);
+        $data['news'] = $news;
         return view('user.pages.user.home', $data);
     }
 
