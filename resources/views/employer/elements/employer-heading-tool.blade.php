@@ -6,7 +6,9 @@
         <div class="main-wrap">
             <div class="left-wrap">
                 <ul class="list-menu">
-                    <li><a href="#">Dashboard</a></li>
+                    <li class="{{ Route::is('employer.viewDashboard') ? 'active' : ''}} ">
+                        <a href="{{ route('employer.viewDashboard') }}"
+                           title="Quản Lý Đăng Tuyển">Dashboard</a>
                     <li class="{{ Route::is('employer.view_hrcentral') ? 'active' : ''}} ">
                         <a href="{{ route('employer.view_hrcentral') }}"
                            title="Quản Lý Đăng Tuyển">Quản Lý Đăng Tuyển</a>
@@ -889,7 +891,7 @@
         z-index: 500;
         position: -webkit-sticky;
         position: sticky;
-        top: 70px;
+        top: 100px;
         border-bottom: 1px solid #e6e6e7;
         background: #ffffff;
     }

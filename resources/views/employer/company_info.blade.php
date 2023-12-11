@@ -37,13 +37,13 @@
                                             <label>Loại hình hoạt động</label>
                                             <select name="loaihinhhoatdong" id="company_type" class="width_160">
                                                 <option value="0">Vui lòng chọn</option>
-                                                <option value="6">100% vốn nước ngoài</option>
-                                                <option value="4">Cá nhân</option>
-                                                <option value="7">Công ty đa quốc gia</option>
-                                                <option value="2" selected="selected">Cổ phần</option>
-                                                <option value="5">Liên doanh</option>
-                                                <option value="1">Nhà nước</option>
-                                                <option value="3">Trách nhiệm hữu hạn</option>
+                                                <option value="6" @if($info -> loaihinhhoatdong ==6) selected @endif>100% vốn nước ngoài</option>
+                                                <option value="4" @if($info -> loaihinhhoatdong ==4) selected @endif>Cá nhân</option>
+                                                <option value="7" @if($info -> loaihinhhoatdong ==7) selected @endif>Công ty đa quốc gia</option>
+                                                <option value="2" @if($info -> loaihinhhoatdong ==2) selected @endif>Cổ phần</option>
+                                                <option value="5" @if($info -> loaihinhhoatdong ==5) selected @endif>Liên doanh</option>
+                                                <option value="1" @if($info -> loaihinhhoatdong ==1) selected @endif>Nhà nước</option>
+                                                <option value="3" @if($info -> loaihinhhoatdong ==3) selected @endif>Trách nhiệm hữu hạn</option>
                                             </select>
                                             <span class="error error_Company_type"> </span>
                                         </div>

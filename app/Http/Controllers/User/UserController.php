@@ -67,6 +67,12 @@ class UserController extends Controller
         if ($request->location != 0) {
             $jobs->where('table_city.tenkhongdau', $request->location);
         }
+        if ($request->career_mobile != 0) {
+            $jobs->where('table_danhmucnganhnghe.tenkhongdau', $request->career);
+        }
+        if ($request->location_mobile != 0) {
+            $jobs->where('table_city.tenkhongdau', $request->location);
+        }
         $salary = $request->salary;
         if ($request->salary != 0) {
             $jobs->where('table_jobs.minluong', '>=', $salary);
@@ -85,20 +91,25 @@ class UserController extends Controller
         }
 
         $totalJobs = $jobs->count();
+
         $jobs = $jobs->paginate(20)->withQueryString();
         $data['jobs'] = $jobs;
         $data['totalJobs'] = $totalJobs;
 
         $keySearch = $request->keySearch;
         $career = $request->career;
+        $career_mobile = $request->career_mobile;
         $location = $request->location;
+        $location_mobile = $request->location_mobile;
         $salary = $request->salary;
         $level = $request->level;
         $days = $request->days;
         $job_type = $request->job_type;
         $data['keySearch'] = $keySearch;
         $data['career'] = $career;
+        $data['career_mobile'] = $career_mobile;
         $data['location'] = $location;
+        $data['location_mobile'] = $location_mobile;
         $data['salary'] = $salary;
         $data['level'] = $level;
         $data['days'] = $days;
@@ -130,9 +141,11 @@ class UserController extends Controller
             ->leftJoin('table_city', 'table_jobs.noilamviec', '=', 'table_city.id')
             ->where('table_jobs.trangthai', 1)
             ->where('table_jobs.id', $id)
-            ->select('table_jobs.*', 'table_employers.*', 'table_danhmucnganhnghe.tendaydu', 'table_jobs.id as idJob')
+            ->select('table_jobs.*', 'table_employers.*', 'table_danhmucnganhnghe.id as idJob_Cate', 'table_danhmucnganhnghe.tendaydu', 'table_jobs.id as idJob')
             ->get()
             ->first();
+
+//        dd($jobForCate);
 
         $viewJob = Job::find($id);
         if ($viewJob) {
@@ -427,5 +440,18 @@ class UserController extends Controller
         $data['employer'] = $employer;
         $data['jobOfEmployer'] = $jobOfEmployer;
         return view('user.pages.employer.viewDetailEmployer', $data);
+    }
+
+    //Cẩm nang - tin tức
+    public function viewNews()
+    {
+        $newsBig = DB::table('table_news')->take(1)->get();
+        $newsBig2 = DB::table('table_news')->skip(1)->take(1)->get();
+        $news = DB::table('table_news')->skip(1)->take(4)->get();
+        $data['newsB1'] = $newsBig;
+        $data['newsB2'] = $newsBig2;
+        $data['news4'] = $news;
+//        dd(htmlspecialchars_decode($newsBig[0]->noidung));
+        return view('user.pages.news.index', $data);
     }
 }

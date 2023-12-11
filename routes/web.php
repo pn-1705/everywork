@@ -44,6 +44,9 @@ Route::get('/viec-lam/{id}', 'User\UserController@viewDetailJob')->name('user.pa
 Route::get('/nha-tuyen-dung-hang-dau', 'User\UserController@nhatuyendung_page')->name('pages.nha-tuyen-dung');
 Route::get('/nha-tuyen-dung/{ten}', 'User\UserController@nhatuyendung_view')->name('pages.nha-tuyen-dung.detail');
 
+Route::get('/tin-tuc', 'User\UserController@viewNews')->name('user.tin-tuc');
+
+
 //Typeahead
 Route::get('autocomplete', 'User\UserController@autocompleteSearch')->name('autocompleteSearch');
 
@@ -74,6 +77,7 @@ Route::post('/employer/post_register', 'User\EmployerController@post_register')-
 Route::get('/active/{token}', 'User\EmployerController@active_acount')->name('employer.active_acount');
 
 Route::group(['middleware' => 'checkEmployerRole', 'prefix' => 'employer'], function () {
+    Route::get('/dashboard', 'Employer\ManagerController@viewDashboard')->name('employer.viewDashboard');
     Route::get('/hrcentral', 'User\EmployerController@view_hrcentral')->name('employer.view_hrcentral');
     Route::get('/postJob', 'User\EmployerController@view_postJob')->name('employer.view_postJob');
     Route::post('/postJob', 'User\EmployerController@postJob')->name('employer.postJob');

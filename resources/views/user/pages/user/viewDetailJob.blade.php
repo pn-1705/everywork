@@ -236,7 +236,7 @@
                                             @if($benefitChecked['chedobaohiem'] == 0)
                                             style="display: none"
 
-                                            @endif> <span class="fa fa-medkit"></span>Chế độ bảo hiểm
+                                            @endif><span class="fa fa-medkit"></span>Chế độ bảo hiểm
                                         </li>
                                         <li
                                             @if($benefitChecked['dulich'] == 0)
@@ -254,7 +254,7 @@
                                             @if($benefitChecked['chedothuong'] == 0)
                                             style="display: none"
 
-                                            @endif> <span class="fa fa-usd"></span>Chế độ thưởng
+                                            @endif><span class="fa fa-usd"></span>Chế độ thưởng
                                         </li>
                                         <li
                                             @if($benefitChecked['chamsocsuckhoe'] == 0)
@@ -265,31 +265,31 @@
                                         <li
                                             @if($benefitChecked['daotao'] == 0)
                                             style="display: none"
-                                            @endif> <span class="fa fa-graduation-cap"></span>Đào tạo
+                                            @endif><span class="fa fa-graduation-cap"></span>Đào tạo
                                         </li>
                                         <li
                                             @if($benefitChecked['tangluong'] == 0)
                                             style="display: none"
 
-                                            @endif> <span class="fa fa-line-chart"></span>Tăng lương
+                                            @endif><span class="fa fa-line-chart"></span>Tăng lương
                                         </li>
                                         <li
                                             @if($benefitChecked['congtacphi'] == 0)
                                             style="display: none"
 
-                                            @endif> <span class="fa fa-credit-card"></span>Công tác phí
+                                            @endif><span class="fa fa-credit-card"></span>Công tác phí
                                         </li>
                                         <li
                                             @if($benefitChecked['nghiphepnam'] == 0)
                                             style="display: none"
 
-                                            @endif> <span class="fa fa-briefcase"></span>Nghỉ phép năm
+                                            @endif><span class="fa fa-briefcase"></span>Nghỉ phép năm
                                         </li>
                                         <li
                                             @if($benefitChecked['xeduadon'] == 0)
                                             style="display: none"
 
-                                            @endif> <span class="fa fa-taxi"></span>Xe đưa đón
+                                            @endif><span class="fa fa-taxi"></span>Xe đưa đón
                                         </li>
                                         <li
                                             @if($benefitChecked['dulichnuocngoai'] == 0)
@@ -313,7 +313,7 @@
                                             @if($benefitChecked['clbthethao'] == 0)
                                             style="display: none"
 
-                                            @endif> <span class="fa fa-heartbeat"></span>CLB thể thao
+                                            @endif><span class="fa fa-heartbeat"></span>CLB thể thao
                                         </li>
                                     </ul>
                                 </div>
@@ -446,330 +446,64 @@
                         </div>
                         <section class="jobs-side-list" style="padding: 0">
                             <div class="jobs-list">
-                                <div class="job-item">
-                                    <div class="figure">
-                                        <div class="image"><a
-                                                href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-tnhh-thuong-mai-abico-viet-nam.35A7E76E.html"
-                                                target="_blank" title="Công ty TNHH Thương Mại ABICO Việt Nam"> <img
-                                                    class="lazy-bg"
-                                                    src="https://images.careerbuilder.vn/employer_folders/lot6/196206/67x67/132538abico.png"
-                                                    alt="Công ty TNHH Thương Mại ABICO Việt Nam" style=""> </a></div>
-                                        <div class="figcaption">
-                                            <div class="timeago"></div>
-                                            <div class="title"><a class="job_link"
-                                                                  href="https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-tieng-trung-phong-ke-toan.35BDAADB.html"
-                                                                  target="_blank"
-                                                                  title="Trợ lý tiếng Trung (Phòng Kế toán)"> Trợ lý
-                                                    tiếng Trung (Phòng Kế toán) </a></div>
-                                            <div class="caption">
-                                                <a class="company-name"
-                                                   href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-tnhh-thuong-mai-abico-viet-nam.35A7E76E.html"
-                                                   target="_blank" title="Công ty TNHH Thương Mại ABICO Việt Nam">Công
-                                                    ty TNHH Thương Mại ABICO Việt Nam</a>
-                                                <p class="salary"><em class="fa fa-usd"></em>Lương: 8 Tr - 10 Tr VND</p>
-                                                <div class="location">
-                                                    <em class="mdi mdi-map-marker"></em>
-                                                    <ul>
-                                                        <li>Hồ Chí Minh</li>
-                                                    </ul>
+                                <?php $jobForCate = DB::table('table_jobs')
+                                    ->leftJoin('table_danhmucnganhnghe', 'table_jobs.id_nganhnghe', '=', 'table_danhmucnganhnghe.id')
+                                    ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
+                                    ->leftJoin('table_city', 'table_jobs.noilamviec', '=', 'table_city.id')
+                                    ->where('id_nganhnghe', '=', $job->idJob_Cate)
+                                    ->where('table_jobs.trangthai', 1)
+                                    ->select('table_jobs.id as idJob','table_jobs.tencongviec as tencongviec','table_jobs.minluong','table_jobs.maxluong','table_jobs.donvitien',
+                                        'table_jobs.img_banner as img', 'table_employers.id as idEmployer',
+                                        'table_employers.ten as tenEmployer', 'table_employers.avt as avt', 'table_city.tendaydu as city')
+                                    ->inRandomOrder()->take(10)->get(); ?>
+                                @foreach($jobForCate as $item)
+                                    <div class="job-item">
+                                        <div class="figure">
+                                            <div class="image"><a
+                                                    href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-tnhh-thuong-mai-abico-viet-nam.35A7E76E.html"
+                                                    target="_blank" title="{{ $item -> tenEmployer }}"> <img
+                                                        class="lazy-bg" title="{{ $item -> tenEmployer }}"
+                                                        src="@if($item -> img == null){{ asset('public/avatar/'. $item -> avt) }}@else{{ asset('public/banner_job/'. $item -> img) }}@endif" > </a>
+                                            </div>
+                                            <div class="figcaption">
+                                                <div class="timeago"></div>
+                                                <div class="title"><a class="job_link"
+                                                                      href="https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-tieng-trung-phong-ke-toan.35BDAADB.html"
+                                                                      target="_blank"
+                                                                      title="{{ $item -> tencongviec }}"> {{ $item -> tencongviec }} </a>
+                                                </div>
+                                                <div class="caption">
+                                                    <a class="company-name"
+                                                       href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-tnhh-thuong-mai-abico-viet-nam.35A7E76E.html"
+                                                       target="_blank" title="{{ $item -> tenEmployer }}">{{ $item -> tenEmployer }}</a>
+                                                    <p class="salary"><em class="fa fa-usd"></em>Lương:
+                                                        @if($item -> minluong == null and $item -> maxluong == null)
+                                                            Thỏa thuận
+                                                        @else
+                                                            @if($item -> minluong)
+                                                                {{$item -> minluong . ' Tr'}}
+                                                            @endif
+
+                                                            @if($item -> maxluong && $item -> minluong == null)
+                                                                {{'Lên đến '.$item -> maxluong. ' Tr'}}
+                                                            @elseif($item -> maxluong)
+                                                                {{' - '.$item -> maxluong. ' Tr'}}
+                                                            @endif
+                                                            {{strtoupper($item -> donvitien)}}
+                                                        @endif
+                                                    </p>
+                                                    <div class="location">
+                                                        <em class="mdi mdi-map-marker"></em>
+                                                        <ul>
+                                                            <li>{{ $item -> city }}</li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div class="top-icon"></div>
                                         </div>
-                                        <div class="top-icon"></div>
                                     </div>
-                                </div>
-                                <div class="job-item">
-                                    <div class="figure">
-                                        <div class="image"><a
-                                                href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-tnhh-dau-tu-core-pacific-twin-star-viet-nam.35A8EA9F.html"
-                                                target="_blank"
-                                                title="Công Ty TNHH Đầu Tư Core Pacific Twin Star (Việt Nam)"> <img
-                                                    class="lazy-bg"
-                                                    src="https://images.careerbuilder.vn/employer_folders/lot9/262559/67x67/90059-_.png"
-                                                    alt="Công Ty TNHH Đầu Tư Core Pacific Twin Star (Việt Nam)"
-                                                    style=""> </a></div>
-                                        <div class="figcaption">
-                                            <div class="timeago"></div>
-                                            <div class="title"><a class="job_link"
-                                                                  href="https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-hanh-chanh.35BDEEF9.html"
-                                                                  target="_blank" title="Trợ Lý Hành Chánh"> Trợ Lý Hành
-                                                    Chánh </a></div>
-                                            <div class="caption">
-                                                <a class="company-name"
-                                                   href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-tnhh-dau-tu-core-pacific-twin-star-viet-nam.35A8EA9F.html"
-                                                   target="_blank"
-                                                   title="Công Ty TNHH Đầu Tư Core Pacific Twin Star (Việt Nam)">Công Ty
-                                                    TNHH Đầu Tư Core Pacific Twin Star (Việt Nam)</a>
-                                                <p class="salary"><em class="fa fa-usd"></em>Lương:Cạnh tranh</p>
-                                                <div class="location">
-                                                    <em class="mdi mdi-map-marker"></em>
-                                                    <ul>
-                                                        <li>Hồ Chí Minh</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="top-icon"></div>
-                                    </div>
-                                </div>
-                                <div class="job-item">
-                                    <div class="figure">
-                                        <div class="image"><a
-                                                href="https://careerbuilder.vn/vi/nha-tuyen-dung/chi-nhanh-cong-ty-tnhh-ourhome-viet-nam-tai-tp-hcm.35A843E1.html"
-                                                target="_blank"
-                                                title="CHI NHÁNH CÔNG TY TNHH OURHOME  VIỆT NAM TẠI TP HCM"> <img
-                                                    class="lazy-bg"
-                                                    src="https://images.careerbuilder.vn/employer_folders/lot3/219873/67x67/143905pic_040101_01.png"
-                                                    alt="CHI NHÁNH CÔNG TY TNHH OURHOME  VIỆT NAM TẠI TP HCM" style="">
-                                            </a></div>
-                                        <div class="figcaption">
-                                            <div class="timeago"></div>
-                                            <div class="title"><a class="job_link"
-                                                                  href="https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-tieng-han.35BDD0BD.html"
-                                                                  target="_blank" title="Trợ Lý Tiếng Hàn"> Trợ Lý Tiếng
-                                                    Hàn </a></div>
-                                            <div class="caption">
-                                                <a class="company-name"
-                                                   href="https://careerbuilder.vn/vi/nha-tuyen-dung/chi-nhanh-cong-ty-tnhh-ourhome-viet-nam-tai-tp-hcm.35A843E1.html"
-                                                   target="_blank"
-                                                   title="CHI NHÁNH CÔNG TY TNHH OURHOME  VIỆT NAM TẠI TP HCM">CHI NHÁNH
-                                                    CÔNG TY TNHH OURHOME VIỆT NAM TẠI TP HCM</a>
-                                                <p class="salary"><em class="fa fa-usd"></em>Lương: Trên 12 Tr VND</p>
-                                                <div class="location">
-                                                    <em class="mdi mdi-map-marker"></em>
-                                                    <ul>
-                                                        <li>Hồ Chí Minh</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="top-icon"></div>
-                                    </div>
-                                </div>
-                                <div class="job-item">
-                                    <div class="figure">
-                                        <div class="image"><a
-                                                href="https://careerbuilder.vn/vi/nha-tuyen-dung/he-thong-phong-kham-315.35A97077.html"
-                                                target="_blank" title="Hệ thống Phòng khám 315"> <img class="lazy-bg"
-                                                                                                      src="https://images.careerbuilder.vn/employer_folders/lot3/296823/67x67/171551315logo.jpg"
-                                                                                                      alt="Hệ thống Phòng khám 315"
-                                                                                                      style=""> </a>
-                                        </div>
-                                        <div class="figcaption">
-                                            <div class="timeago"></div>
-                                            <div class="title"><a class="job_link"
-                                                                  href="https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-van-hanh-duoc.35BDE141.html"
-                                                                  target="_blank" title="TRỢ LÝ VẬN HÀNH DƯỢC"> TRỢ LÝ
-                                                    VẬN HÀNH DƯỢC </a></div>
-                                            <div class="caption">
-                                                <a class="company-name"
-                                                   href="https://careerbuilder.vn/vi/nha-tuyen-dung/he-thong-phong-kham-315.35A97077.html"
-                                                   target="_blank" title="Hệ thống Phòng khám 315">Hệ thống Phòng khám
-                                                    315</a>
-                                                <p class="salary"><em class="fa fa-usd"></em>Lương: Trên 9 Tr VND</p>
-                                                <div class="location">
-                                                    <em class="mdi mdi-map-marker"></em>
-                                                    <ul>
-                                                        <li>Hồ Chí Minh</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="top-icon"></div>
-                                    </div>
-                                </div>
-                                <div class="job-item">
-                                    <div class="figure">
-                                        <div class="image"><a
-                                                href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-co-phan-pgt-solution.35A972F4.html"
-                                                target="_blank" title="CÔNG TY CỔ PHẦN PGT SOLUTION"> <img
-                                                    class="lazy-bg"
-                                                    src="https://static.careerbuilder.vn/themes/kiemviecv32/images/graphics/logo-default.png"
-                                                    alt="CÔNG TY CỔ PHẦN PGT SOLUTION" style=""> </a></div>
-                                        <div class="figcaption">
-                                            <div class="timeago"></div>
-                                            <div class="title"><a class="job_link"
-                                                                  href="https://careerbuilder.vn/vi/tim-viec-lam/tts-tro-ly-tieng-nhat.35BD6F6B.html"
-                                                                  target="_blank" title="TTS TRỢ LÝ TIẾNG NHẬT"> TTS TRỢ
-                                                    LÝ TIẾNG NHẬT </a></div>
-                                            <div class="caption">
-                                                <a class="company-name"
-                                                   href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-co-phan-pgt-solution.35A972F4.html"
-                                                   target="_blank" title="CÔNG TY CỔ PHẦN PGT SOLUTION">CÔNG TY CỔ PHẦN
-                                                    PGT SOLUTION</a>
-                                                <p class="salary"><em class="fa fa-usd"></em>Lương: Trên 3 Tr VND</p>
-                                                <div class="location">
-                                                    <em class="mdi mdi-map-marker"></em>
-                                                    <ul>
-                                                        <li>Hồ Chí Minh</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="top-icon"></div>
-                                    </div>
-                                </div>
-                                <div class="job-item">
-                                    <div class="figure">
-                                        <div class="image"><a
-                                                href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-tnhh-dau-tu-am-thuc-nhan-phat.35A89800.html"
-                                                target="_blank" title="Công ty TNHH Đầu Tư Ẩm Thực NHÂN PHÁT"> <img
-                                                    class="lazy-bg"
-                                                    src="https://images.careerbuilder.vn/employer_folders/lot8/241408/67x67/1222121.png"
-                                                    alt="Công ty TNHH Đầu Tư Ẩm Thực NHÂN PHÁT" style=""> </a></div>
-                                        <div class="figcaption">
-                                            <div class="timeago"></div>
-                                            <div class="title"><a class="job_link"
-                                                                  href="https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-truong-phong-r-d-mang-hanh-chinh-kinh-nghiep-tu-6-thang.35BE0244.html"
-                                                                  target="_blank"
-                                                                  title="TRỢ LÝ TRƯỞNG PHÒNG R&amp;D (Mảng hành chinh) Kinh nghiệp từ 6 tháng">
-                                                    TRỢ LÝ TRƯỞNG PHÒNG R&amp;D (Mảng hành chinh) Kinh nghiệp từ 6
-                                                    tháng </a></div>
-                                            <div class="caption">
-                                                <a class="company-name"
-                                                   href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-tnhh-dau-tu-am-thuc-nhan-phat.35A89800.html"
-                                                   target="_blank" title="Công ty TNHH Đầu Tư Ẩm Thực NHÂN PHÁT">Công ty
-                                                    TNHH Đầu Tư Ẩm Thực NHÂN PHÁT</a>
-                                                <p class="salary"><em class="fa fa-usd"></em>Lương:Cạnh tranh</p>
-                                                <div class="location">
-                                                    <em class="mdi mdi-map-marker"></em>
-                                                    <ul>
-                                                        <li>Hồ Chí Minh</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="top-icon"></div>
-                                    </div>
-                                </div>
-                                <div class="job-item">
-                                    <div class="figure">
-                                        <div class="image"><a
-                                                href="https://careerbuilder.vn/vi/nha-tuyen-dung/congty-tnhh-bbq-home-viet-nam.35A95820.html"
-                                                target="_blank" title="CÔNGTY TNHH BBQ HOME VIỆT NAM"> <img
-                                                    class="lazy-bg"
-                                                    src="https://static.careerbuilder.vn/themes/kiemviecv32/images/graphics/logo-default.png"
-                                                    alt="CÔNGTY TNHH BBQ HOME VIỆT NAM" style=""> </a></div>
-                                        <div class="figcaption">
-                                            <div class="timeago"></div>
-                                            <div class="title"><a class="job_link"
-                                                                  href="https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-phong-kinh-doanh.35BDDBC4.html"
-                                                                  target="_blank" title="TRỢ LÝ PHÒNG KINH DOANH"> TRỢ
-                                                    LÝ PHÒNG KINH DOANH </a></div>
-                                            <div class="caption">
-                                                <a class="company-name"
-                                                   href="https://careerbuilder.vn/vi/nha-tuyen-dung/congty-tnhh-bbq-home-viet-nam.35A95820.html"
-                                                   target="_blank" title="CÔNGTY TNHH BBQ HOME VIỆT NAM">CÔNGTY TNHH BBQ
-                                                    HOME VIỆT NAM</a>
-                                                <p class="salary"><em class="fa fa-usd"></em>Lương: 8 Tr - 10 Tr VND</p>
-                                                <div class="location">
-                                                    <em class="mdi mdi-map-marker"></em>
-                                                    <ul>
-                                                        <li>Hồ Chí Minh</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="top-icon"></div>
-                                    </div>
-                                </div>
-                                <div class="job-item">
-                                    <div class="figure">
-                                        <div class="image"><a
-                                                href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-tnhh-lotus-venture-holding.35A9644F.html"
-                                                target="_blank" title="CÔNG TY TNHH LOTUS VENTURE HOLDING"> <img
-                                                    class="lazy-bg"
-                                                    src="https://images.careerbuilder.vn/employer_folders/lot1/293711/67x67/161524logo-005.jpg"
-                                                    alt="CÔNG TY TNHH LOTUS VENTURE HOLDING" style=""> </a></div>
-                                        <div class="figcaption">
-                                            <div class="timeago"></div>
-                                            <div class="title"><a class="job_link"
-                                                                  href="https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-kinh-doanh-kiem-hanh-chinh.35BDB2B2.html"
-                                                                  target="_blank"
-                                                                  title="Trợ lý Kinh doanh kiêm Hành chính"> Trợ lý Kinh
-                                                    doanh kiêm Hành chính </a></div>
-                                            <div class="caption">
-                                                <a class="company-name"
-                                                   href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-tnhh-lotus-venture-holding.35A9644F.html"
-                                                   target="_blank" title="CÔNG TY TNHH LOTUS VENTURE HOLDING">CÔNG TY
-                                                    TNHH LOTUS VENTURE HOLDING</a>
-                                                <p class="salary"><em class="fa fa-usd"></em>Lương:Cạnh tranh</p>
-                                                <div class="location">
-                                                    <em class="mdi mdi-map-marker"></em>
-                                                    <ul>
-                                                        <li>Hồ Chí Minh</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="top-icon"></div>
-                                    </div>
-                                </div>
-                                <div class="job-item">
-                                    <div class="figure">
-                                        <div class="image"><a
-                                                href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-tnhh-sx-tm-cn-nhua-a-chau.35A650FA.html"
-                                                target="_blank" title="CÔNG TY TNHH SX TM CN NHỰA Á CHÂU"> <img
-                                                    class="lazy-bg"
-                                                    src="https://images.careerbuilder.vn/employer_folders/lot4/92154/67x67/143800logonhuaachau-002.jpg"
-                                                    alt="CÔNG TY TNHH SX TM CN NHỰA Á CHÂU" style=""> </a></div>
-                                        <div class="figcaption">
-                                            <div class="timeago"></div>
-                                            <div class="title"><a class="job_link"
-                                                                  href="https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-kinh-doanh-tieng-trung.35BDD3A8.html"
-                                                                  target="_blank" title="TRỢ LÝ KINH DOANH TIẾNG TRUNG">
-                                                    TRỢ LÝ KINH DOANH TIẾNG TRUNG </a></div>
-                                            <div class="caption">
-                                                <a class="company-name"
-                                                   href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-tnhh-sx-tm-cn-nhua-a-chau.35A650FA.html"
-                                                   target="_blank" title="CÔNG TY TNHH SX TM CN NHỰA Á CHÂU">CÔNG TY
-                                                    TNHH SX TM CN NHỰA Á CHÂU</a>
-                                                <p class="salary"><em class="fa fa-usd"></em>Lương: 15 Tr - 20 Tr VND
-                                                </p>
-                                                <div class="location">
-                                                    <em class="mdi mdi-map-marker"></em>
-                                                    <ul>
-                                                        <li>Hồ Chí Minh</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="top-icon"></div>
-                                    </div>
-                                </div>
-                                <div class="job-item">
-                                    <div class="figure">
-                                        <div class="image"><a
-                                                href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-tnhh-du-lich-va-thuong-mai-hoang-tra.35A90585.html"
-                                                target="_blank" title="CÔNG TY TNHH DU LỊCH VÀ THƯƠNG MẠI HOÀNG TRÀ">
-                                                <img class="lazy-bg"
-                                                     src="https://images.careerbuilder.vn/employer_folders/lot5/269445/67x67/173625download-1.jpg"
-                                                     alt="CÔNG TY TNHH DU LỊCH VÀ THƯƠNG MẠI HOÀNG TRÀ" style=""> </a>
-                                        </div>
-                                        <div class="figcaption">
-                                            <div class="timeago"></div>
-                                            <div class="title"><a class="job_link"
-                                                                  href="https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-kinh-doanh-biet-tieng-trung.35BDFBBD.html"
-                                                                  target="_blank"
-                                                                  title="Trợ Lý Kinh Doanh (Biết Tiếng Trung)"> Trợ Lý
-                                                    Kinh Doanh (Biết Tiếng Trung) </a></div>
-                                            <div class="caption">
-                                                <a class="company-name"
-                                                   href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-tnhh-du-lich-va-thuong-mai-hoang-tra.35A90585.html"
-                                                   target="_blank" title="CÔNG TY TNHH DU LỊCH VÀ THƯƠNG MẠI HOÀNG TRÀ">CÔNG
-                                                    TY TNHH DU LỊCH VÀ THƯƠNG MẠI HOÀNG TRÀ</a>
-                                                <p class="salary"><em class="fa fa-usd"></em>Lương:Cạnh tranh</p>
-                                                <div class="location">
-                                                    <em class="mdi mdi-map-marker"></em>
-                                                    <ul>
-                                                        <li>Hồ Chí Minh</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="top-icon"></div>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                             <div class="load-more"><a
                                     href="https://careerbuilder.vn/viec-lam-tuong-tu/TRỢ-LÝ-TIẾNG-HOA-PHÒNG-BẢO-HÀNH-tai-ho-chi-minh-kl8-vi.html"

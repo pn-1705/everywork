@@ -11,8 +11,8 @@
 <!-- Import typeahead.js -->
 <script src="https://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
 <div class="page-heading-tool">
-    <form id="myForm" action="{{ route('filterJobs') }}">
-        {{--            @csrf--}}
+    <form id="myForm" action="{{ route('filterJobs') }}" method="GET">
+        @csrf
         <div class="container">
             <div class="tool-wrapper">
                 <div class="search-job">
@@ -71,16 +71,16 @@
                             </style>
                         </div>
                         <div class="form-group tool-form-select">
-                            <select id="" name="career" style="appearance: none;"
+                            <select id="career" name="career" style="appearance: none;"
                                     data-placeholder="Tất cả ngành nghề">
                                 <option value="0">Tất cả ngành nghề</option>
                                 <?php $danhmucnganhnghe = \App\Models\DanhMucNganhNghe::all()->where('trangthai', 1) ?>
                                 @foreach($danhmucnganhnghe as $dm)
                                     <option value="{{$dm->tenkhongdau}}"
-                                            @if(isset($career))
+                                        @if(isset($career))
                                             @if($career == $dm->tenkhongdau)
                                             selected
-                                        @endif
+                                            @endif
                                         @endif
                                     >{{$dm->tendaydu}}</option>
                                 @endforeach
@@ -94,10 +94,10 @@
                                 <?php $citys = \App\Models\City::all()->where('trangthai', 1) ?>
                                 @foreach($citys as $city)
                                     <option value="{{$city->tenkhongdau}}"
-                                            @if(isset($location))
+                                        @if(isset($location))
                                             @if($location == $city->tenkhongdau)
                                             selected
-                                        @endif
+                                            @endif
                                         @endif
                                     >{{$city->tendaydu}}</option>
                                 @endforeach
@@ -166,32 +166,33 @@
                         <div class="list-filter-extend">
                             <div class="item show-mb">
                                 <div class="form-group form-select-chosen">
-                                    <select id="industry_mb" name="career"
+                                    <select id="industry_mb" name="career_mobile"
                                             class="select-custom select-custom-nosearch"
                                             data-placeholder="Tất cả ngành nghề">
                                         <option value="0">Tất cả ngành nghề</option>
                                         @foreach($danhmucnganhnghe as $dm)
                                             <option value="{{$dm->tenkhongdau}}"
-                                                    @if(isset($career))
-                                                    @if($career == $dm->tenkhongdau)
+                                                @if(isset($career))
+                                                    @if($career_mobile == $city->tenkhongdau)
                                                     selected
+                                                    @endif
                                                 @endif
-                                                @endif
-                                            >{{$dm->tendaydu}}</option>
+                                            >{{$dm->tendaydu}}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="item show-mb">
                                 <div class="form-group">
-                                    <select id="location_mb" name="location"
+                                    <select id="location_mb" name="location_mobile"
                                             class="select-custom select-custom-nosearch"
                                             data-placeholder="Tất cả địa điểm">
                                         <option value="0">Tất cả địa điểm</option>
                                         @foreach($citys as $city)
                                             <option value="{{$city->tenkhongdau}}"
                                                     @if(isset($location))
-                                                    @if($location == $city->tenkhongdau)
+                                                    @if($location_mobile == $city->tenkhongdau)
                                                     selected
                                                 @endif
                                                 @endif
@@ -703,6 +704,7 @@
             flex: 0 0 5%;
             max-width: 5%;
         }
+
         .show-mb {
             display: none;
         }
@@ -1718,6 +1720,20 @@
 
         .page-heading-tool .tool-wrapper .search-job .form-group.tool-form-select {
             display: none !important;
+        }
+        .filters-wrapper .filter-extend .list-filter-extend {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -7.5px -15px;
+            flex: 0 0 calc(100% + 15px) !important;
+            max-width: calc(100% + 15px) !important;
+            padding-right: 0;
+        }
+        .filters-wrapper .filter-extend .list-filter-extend .item {
+            flex: 0 0 50%;
+            max-width: 50%;
+            padding: 0 7.5px;
+            margin-bottom: 15px;
         }
 
         .page-heading-tool .search-job .form-wrap .form-submit {
@@ -4258,8 +4274,6 @@
                 height: auto !important;
             }
         }
-
-
         @media (max-width: 1023px) {
             .page-heading-tool .tool-wrapper {
                 margin: 0;

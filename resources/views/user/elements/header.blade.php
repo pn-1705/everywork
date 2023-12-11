@@ -6,8 +6,9 @@
             ?>
             @foreach($footer_setting as $footer_setting)
 
-                <div id="logo">
-                    <h1 style="inline-size: max-content" class="logo"><a href="index.html">{{$footer_setting->name}}
+                <div id="logo" class="d-flex align-items-center">
+                    <img href="" src="{{ asset('public/logo/' .$footer_setting -> logo) }}" alt="{{$footer_setting->name}}" style="height: 40px">
+                    <h1 style="inline-size: max-content;" class="logo"><a href="{{ route('user.pages.home') }}">{{$footer_setting->name}}
                             <span>.</span></a></h1>
                 </div>
                 <!-- Uncomment below if you prefer to use an image logo -->
@@ -18,11 +19,14 @@
 
                 <ul>
                     <li><a class="nav-link scrollto {{ Route::is('user.pages.home') ? 'active' : '' }}"
-                           href="{{ route('user.pages.home') }}">Home</a></li>
+                           href="{{ route('user.pages.home') }}"><span class="bi bi-house">&nbsp; Home</span></a></li>
+
                     <li><a class="nav-link scrollto {{ Route::is('user.pages.viec-lam') ? 'active' : '' }}"
-                           href="{{ route('user.pages.viec-lam') }}">Tìm việc làm</a></li>
+                           href="{{ route('user.pages.viec-lam') }}"><span class="bi bi-person-workspace">&nbsp; Việc làm</span></a></li>
+                    <li><a class="nav-link scrollto {{ Route::is('user.tin-tuc') ? 'active' : '' }}"
+                           href="{{ route('user.tin-tuc') }}"><span class="bi bi-newspaper">&nbsp; Cẩm nang - Tin tức</span></a></li>
                     <li><a class="nav-link scrollto {{ Route::is('pages.nha-tuyen-dung') ? 'active' : '' }}"
-                           href="{{ route('pages.nha-tuyen-dung') }}">Nhà tuyển dụng</a></li>
+                           href="{{ route('pages.nha-tuyen-dung') }}"><span class="bi bi-person-bounding-box">&nbsp; Nhà tuyển dụng</span></a></li>
                     <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="#">Drop Down 1</a></li>
@@ -37,8 +41,6 @@
                             <li><a href="#">Drop Down 2</a></li>
                         </ul>
                     </li>
-                    <li>
-                        <a class="nav-link scrollto" href="#contact">Contact</a></li>
                     <li class="mobile-li-toggle"><a href="#" title="Thông Báo Việc Làm"><span class="mdi mdi-bell">&nbsp;Thông báo</span></a>
                     </li>
                     <li class="mobile-li-toggle"
@@ -50,7 +52,7 @@
                                 class="mdi mdi-account-circle">&nbsp;Đăng nhập</span></a>
                     </li>
                     <li class="dropdown mobile-li-toggle" <?php
-                        if (Auth::check() == false || Auth::user()->id_nhomquyen == 1) {
+                        if (Auth::check() == false || Auth::user()->id_nhomquyen == 1|| Auth::user()->id_nhomquyen == 2) {
                             echo 'hidden';
                         }
                         ?>>
@@ -148,19 +150,18 @@
                 <a class="" href="{{route('user.pages.register_page')}}" title="Đăng ký">Đăng ký</a>
             </div>
             <div class="main-login logged dropdown"
-                <?php
-                    if (Auth::check() == false || Auth::user()->id_nhomquyen == 1) {
-                        echo 'hidden';
-                    }
+            <?php
+                if (Auth::check() == false || Auth::user()->id_nhomquyen == 1) {
+                    echo 'hidden';
+                }
                 ?>
             >
                 <a
-                    <?php if (Auth::check() == true && Auth::user()->id_nhomquyen == 2)
-                    {
+                    <?php if (Auth::check() == true && Auth::user()->id_nhomquyen == 2) {
                         echo 'hidden';
                     }
                     ?>
-                   href="{{ route('profile') }}" rel="nofollow">
+                    href="{{ route('profile') }}" rel="nofollow">
                     <span class="mdi mdi-account-circle"></span>
                     Chào
                     <span class="name">
@@ -228,6 +229,9 @@
             left: 50%;
             padding-left: 0;
             transform: translate(-50%, -50%);
+        }
+        #logo img {
+            display: none;
         }
     }
 

@@ -19,5 +19,6 @@ class EmployerRoleMiddleware
                 return redirect()->route("user.pages.home");
             }
         }
+        return redirect()->route("user.pages.home");
     }
 }
