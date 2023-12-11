@@ -55,7 +55,7 @@ class EmployerController extends Controller
                     return redirect()->route('employer.view_hrcentral');
                 }
             } else {
-                return back()->with('activeAlert', 'Vui lòng kiểm tra email đã đăng kí để kích hoạt tài khoản !');
+                return back()->with('error', 'Tài khoản hoặc mật khẩu không đúng !');
             }
         }
         return back()->with('error', 'Tài khoản hoặc mật khẩu không đúng !');

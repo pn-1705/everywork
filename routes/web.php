@@ -207,7 +207,8 @@ Route::group(['middleware' => 'checklogin', 'prefix' => 'admin'], function () {
     Route::get('/news', ['as' => 'admin.news', 'uses' => 'Admin\NewsController@index']);
     Route::get('/news/create', ['as' => 'admin.news.add', 'uses' => 'Admin\NewsController@add']);
     Route::post('/news/post', ['as' => 'admin.news.post', 'uses' => 'Admin\NewsController@postNews']);
-
+    //Quản lí nhà tuyển dụng
+    Route::get('/employers/new-employer', ['as' => 'admin.employers.newRegister', 'uses' => 'Admin\EmployerManagerController@indexNewRegister']);
 });
 
 //Login facebook

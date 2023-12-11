@@ -1,54 +1,20 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a  href="http://localhost/phonestore/admin/dashboard" class="text-light brand-link text-center">
-{{--        <img src="{{asset('public/backend/img/logo.png')}}" alt="MONA" class="brand-image">--}}
-        <h2 class=" text-center animation__wobble font-weight-bold">EveryWork</h2>
+    <a href="index3.html" class="brand-link">
+        <img src="{{ asset('public/logo/logo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">Admin EveryWork.</span>
     </a>
 
 
     <!-- Sidebar -->
-    <div class="sidebar" style="padding-top: 15px">
+    <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
-        <div class="user-panel">
-            <div>
-{{--                <nav class="mt-2">--}}
-{{--                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"--}}
-{{--                        data-accordion="false">--}}
-{{--                        <!-- Add icons to the links using the .nav-icon class--}}
-{{--                             with font-awesome or any other icon font library -->--}}
-{{--                        <li class="nav-item">--}}
-{{--                            <a href="#" class="nav-link">--}}
-{{--                                <i class="nav-icon fas fa-user"></i>--}}
-{{--                                <p>--}}
-{{--                                    {{ Auth::user()->ten }}--}}
-{{--                                    <i class="fas fa-angle-left right"></i>--}}
-{{--                                </p>--}}
-{{--                            </a>--}}
-{{--                            <ul class="nav nav-treeview">--}}
-{{--                                <li class="nav-item">--}}
-{{--                                    <a class="nav-link">--}}
-{{--                                        <i class="fas fa-key nav-icon"></i>--}}
-{{--                                        <p><?php--}}
-{{--                                            $q = Session::get('Quyen_id');--}}
-{{--                                            if ($q == 2) {--}}
-{{--                                                echo 'Admin';--}}
-{{--                                            } else--}}
-{{--                                                echo 'Nhân viên quản lí';--}}
-{{--                                            ?>--}}
-{{--                                        </p>--}}
-{{--                                    </a>--}}
-
-{{--                                </li>--}}
-{{--                                <li class="nav-item">--}}
-{{--                                    <a href="{{ route('admin.logout') }}" class="nav-link">--}}
-{{--                                        <i class="fas fa-sign-in-alt nav-icon"></i>--}}
-{{--                                        <p>Đăng xuất</p>--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
-{{--                            </ul>--}}
-{{--                        </li>--}}
-{{--                    </ul>--}}
-{{--                </nav>--}}
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="{{ asset('public/logo/logo.png') }}" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">Alexander Pierce</a>
             </div>
         </div>
 
@@ -137,9 +103,32 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="" class="nav-link">
+                        <i class="nav-icon fas fa-person-booth"></i>
+                        <p>
+                            Quản lí Nhà tuyển dụng
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: none;">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.employers.newRegister') }}" class="nav-link {{ Route::is('admin.employers.newRegister') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Đăng ký mới</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.photo-video.slideshow') }}" class="nav-link {{ Route::is('admin.photo-video.slideshow') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Slideshow</p>
+                            </a>
+                        </li>
+                    </ul>
+
+                </li><li class="nav-item">
                     <a href="{{ route('admin.news') }}"
                        class="nav-link {{ Route::is('admin.news') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-sort-amount-up"></i>
+                        <i class="nav-icon fas fa-newspaper"></i>
                         <p>
                             Quản lí bài viết
                         </p>
