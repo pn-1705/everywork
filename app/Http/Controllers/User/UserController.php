@@ -21,14 +21,18 @@ class UserController extends Controller
 {
     public function vieclam_page()
     {
+
+/*        DB::table('table_jobs')
+            ->where('noilamviec', '=', 20)
+            ->update(['noilamviec' => 2]);*/
 //        dd(Auth::check());
         $jobs = DB::table('table_jobs')
             ->leftJoin('table_danhmucnganhnghe', 'table_jobs.id_nganhnghe', '=', 'table_danhmucnganhnghe.id')
             ->leftJoin('table_ranks', 'table_jobs.capbac', '=', 'table_ranks.id')
             ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
-            ->leftJoin('table_city', 'table_jobs.noilamviec', '=', 'table_city.id')
+            ->leftJoin('table_district', 'table_jobs.noilamviec', '=', 'table_district.id')
             ->where('table_jobs.trangthai', 1)
-            ->select('table_jobs.*', 'table_employers.ten', 'table_city.tendaydu', 'table_employers.avt', 'table_employers.tenkhongdau as employer_tenkhongdau');
+            ->select('table_jobs.*', 'table_employers.ten', 'table_district.tendaydu', 'table_employers.avt', 'table_employers.tenkhongdau as employer_tenkhongdau');
 
         $totalJobs = $jobs->count();
         $jobs = $jobs->paginate(20)->withQueryString();
@@ -53,10 +57,10 @@ class UserController extends Controller
             ->leftJoin('table_danhmucnganhnghe', 'table_jobs.id_nganhnghe', '=', 'table_danhmucnganhnghe.id')
             ->leftJoin('table_ranks', 'table_jobs.capbac', '=', 'table_ranks.id')
             ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
-            ->leftJoin('table_city', 'table_jobs.noilamviec', '=', 'table_city.id')
+            ->leftJoin('table_district', 'table_jobs.noilamviec', '=', 'table_district.id')
             ->where('table_jobs.trangthai', 1)
-            ->select('table_jobs.*', 'table_employers.ten', 'table_city.tendaydu', 'table_city.tenkhongdau', 'table_employers.avt',
-                'table_danhmucnganhnghe.tenkhongdau');
+            ->select('table_jobs.*', 'table_employers.ten', 'table_district.tendaydu', 'table_district.tenkhongdau', 'table_employers.avt',
+                'table_danhmucnganhnghe.tenkhongdau as employer_tenkhongdau');
 
         if ($request->keySearch != null) {
             $jobs->where('table_jobs.tencongviec', 'like', '%' . $request->keySearch . '%');
@@ -65,7 +69,7 @@ class UserController extends Controller
             $jobs->where('table_danhmucnganhnghe.tenkhongdau', $request->career);
         }
         if ($request->location != 0) {
-            $jobs->where('table_city.tenkhongdau', $request->location);
+            $jobs->where('table_district.tenkhongdau', $request->location);
         }
         if ($request->career_mobile != 0) {
             $jobs->where('table_danhmucnganhnghe.tenkhongdau', $request->career);
@@ -138,7 +142,7 @@ class UserController extends Controller
             ->leftJoin('table_danhmucnganhnghe', 'table_jobs.id_nganhnghe', '=', 'table_danhmucnganhnghe.id')
             ->leftJoin('table_ranks', 'table_jobs.capbac', '=', 'table_ranks.id')
             ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
-            ->leftJoin('table_city', 'table_jobs.noilamviec', '=', 'table_city.id')
+            ->leftJoin('table_district', 'table_jobs.noilamviec', '=', 'table_district.id')
             ->where('table_jobs.trangthai', 1)
             ->where('table_jobs.id', $id)
             ->select('table_jobs.*', 'table_employers.*', 'table_danhmucnganhnghe.id as idJob_Cate', 'table_danhmucnganhnghe.tendaydu', 'table_jobs.id as idJob')
@@ -267,7 +271,7 @@ class UserController extends Controller
                 ->where('idAccount', Auth::user()->id)
                 ->join('table_jobs', 'table_jobs.id', '=', 'table_savejobs.idJob')
                 ->join('table_employers', 'table_employers.id', '=', 'table_jobs.id_nhatuyendung')
-                ->join('table_city', 'table_city.id', '=', 'table_jobs.noilamviec')
+                ->join('table_district', 'table_district.id', '=', 'table_jobs.noilamviec')
                 ->get();
 //            dd($jobs);
             $data['jobs'] = $jobs;
@@ -431,7 +435,7 @@ class UserController extends Controller
 //        dd($employer);
         $jobOfEmployer = DB::table('table_jobs')
             ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
-            ->leftJoin('table_city', 'table_jobs.noilamviec', '=', 'table_city.id')
+            ->leftJoin('table_district', 'table_jobs.noilamviec', '=', 'table_district.id')
             ->where('table_jobs.trangthai', 1)
             ->where('table_jobs.id_nhatuyendung', $id)
             ->select('table_jobs.*', 'table_employers.ten', 'table_city.tendaydu', 'table_employers.avt')

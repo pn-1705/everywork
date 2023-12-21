@@ -33,7 +33,6 @@
                         <div class="info-box-content">
                             <span class="info-box-text">Doanh thu</span>
                             <span class="info-box-number">
-                            {{number_format(DB::table('hoadon')->sum('TongTien'),0,',','.')}}
                   <small>VNĐ</small>
                 </span>
                         </div>
@@ -49,7 +48,6 @@
                         <div class="info-box-content">
                             <span class="info-box-text">Tỷ lệ ĐHĐG</span>
                             <span class="info-box-number">
-                                    {{(DB::table('hoadon')->where('TrangThai', '3')->count()) / (DB::table('hoadon')->count())*100 }}
                                 <small>%</small>
                                 </span>
                         </div>
@@ -70,7 +68,6 @@
                         <div class="info-box-content">
                             <span class="info-box-text">Đơn hàng</span>
                             <span class="info-box-number">
-                                    {{DB::table('hoadon')->count()}}
                                 </span>
                         </div>
                         <!-- /.info-box-content -->
@@ -85,7 +82,6 @@
                         <div class="info-box-content">
                             <span class="info-box-text">Khách hàng</span>
                             <span class="info-box-number">
-                                    {{DB::table('nguoidung')->where('Quyen_id', '1')->count()}}
                                 </span>
                         </div>
                         <!-- /.info-box-content -->
@@ -125,12 +121,11 @@
                                         Số lượng đã bán
                                         <span class="float-right">
                                             <b>
-                                                {{DB::table('chitiethoadon')->sum('SoLuong')}}
                                             </b>
-                                            /{{DB::table('sanpham')->sum('SoLuong')}}</span>
+                                            </span>
                                         <div class="progress progress-sm">
                                             <div class="progress-bar bg-primary"
-                                                 style="width:{{(DB::table('chitiethoadon')->sum('SoLuong')) / (DB::table('sanpham')->sum('SoLuong'))*100}}%"></div>
+                                                 style=""></div>
                                         </div>
                                     </div>
                                     <!-- /.progress-group -->
@@ -138,13 +133,11 @@
                                         <span class="progress-text">Đơn hàng đã giao</span>
                                         <span class="float-right">
                                             <b>
-                                                {{number_format((DB::table('hoadon')->where('TrangThai', '3')->count()) / (DB::table('hoadon')->count())*100, 2) }}
                                             </b>
                                             %
                                         </span>
                                         <div class="progress progress-sm">
-                                            <div class="progress-bar bg-success" style="width:
-                                            {{(DB::table('hoadon')->where('TrangThai', '3')->count()) / (DB::table('hoadon')->count())*100 }}%"></div>
+                                            <div class="progress-bar bg-success" style=" "></div>
                                         </div>
                                     </div>
                                     <!-- /.progress-group -->
@@ -153,11 +146,9 @@
                                         Đơn hàng đã hủy
                                         <span class="float-right">
                                             <b>
-                                                {{ number_format((DB::table('hoadon')->where('TrangThai', '4')->count()) / (DB::table('hoadon')->count())*100, 2)  }}
                                             </b>%</span>
                                         <div class="progress progress-sm">
-                                            <div class="progress-bar bg-danger" style="width:
-                                            {{(DB::table('hoadon')->where('TrangThai', '4')->count()) / (DB::table('hoadon')->count())*100 }}%"></div>
+                                            <div class="progress-bar bg-danger" style=" "></div>
                                         </div>
                                     </div>
 
@@ -165,51 +156,15 @@
                                         Đơn hàng bị trả về
                                         <span class="float-right">
                                             <b>
-                                                {{ number_format((DB::table('hoadon')->where('TrangThai', '5')->count()) / (DB::table('hoadon')->count())*100, 2)  }}
                                             </b>%</span>
                                         <div class="progress progress-sm">
-                                            <div class="progress-bar bg-warning" style="width:
-                                            {{(DB::table('hoadon')->where('TrangThai', '5')->count()) / (DB::table('hoadon')->count())*100 }}%"></div>
+                                            <div class="progress-bar bg-warning" style=" "></div>
                                         </div>
                                     </div>
 
                                 </div>
                                 <!-- /.col -->
-                                <div class="col-md-4">
-                                    <p class="text-center">
-                                        <strong>
-                                            Sản phẩm bán chạy
-                                        </strong>
-                                    </p>
-                                    @foreach($banchay as $vl)
-                                        <div class="progress-group">
-                                            {{ $vl -> TenSP }}
-                                            <span class="float-right">
-                                            <b>
-                                                {{number_format($vl -> DonGia,0,',','.')}}
-                                            </b>
-                                                <small>VNĐ</small>
-                                        </span>
-                                        </div>
-                                    @endforeach
-                                </div>
-                                <div class="col-md-4">
-                                    <p class="text-center">
-                                        <strong>
-                                            Thương hiệu nổi bật
-                                        </strong>
-                                    </p>
-                                    @foreach($noibat as $vl)
-                                        <div class="progress-group">
-                                            {{ $vl -> TenLSP }}
-                                            <span class="float-right">
-                                            <b>
-                                                <image style="width: 100px" src="http://localhost/phonestore/public/backend/img/company/{{ $vl -> HinhAnh }}"></image>
-                                            </b>
-                                        </span>
-                                        </div>
-                                    @endforeach
-                                </div>
+
                             </div>
                             <!-- /.row -->
                         </div>

@@ -1,4 +1,4 @@
-<footer id="footer" >
+<footer id="footer">
     <div class="footer-top" style="background: #f5f5f5">
         <div class="container">
             <div class="row">
@@ -25,36 +25,53 @@
                 </div>
 
                 <div class="col-lg-3 col-md-6 footer-links">
-                    <h4>Useful Links</h4>
+                    <h4>Dành cho ứng viên</h4>
                     <ul>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Việc làm mới nhất</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Nhà tuyển dụng</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Cẩm nang - Tin tức</a></li>
+                    </ul>
+                    <br>
+                    <h4>Nhà tuyển dụng</h4>
+                    <ul>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Đăng tuyển dụng</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Quản lí đăng tuyển</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Cẩm nang - Tin tức</a></li>
                     </ul>
                 </div>
 
                 <div class="col-lg-3 col-md-6 footer-links">
-                    <h4>Our Services</h4>
+                    <?php $citys = DB::table('table_district')->where('trangthai', 1)->inRandomOrder()->take(5)->get()?>
+                    <h4>Việc làm theo khu vực</h4>
                     <ul>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
+                        @foreach($citys as $city)
+                            <li><i class="bx bx-chevron-right"></i> <a
+                                    href="{{ route('filterJobs','location='. $city -> tenkhongdau) }}">{{$city->tendaydu}}</a>
+                            </li>
+                        @endforeach
+                    </ul>
+                    <br>
+                    <?php $dmnn = DB::table('table_danhmucnganhnghe')->where('trangthai', 1)->inRandomOrder()->take(5)->get()?>
+
+                    <h4>Việc làm theo ngành nghề</h4>
+                    <ul>
+                        @foreach($dmnn as $list)
+                            <li><i class="bx bx-chevron-right"></i> <a
+                                    href="{{ route('filterJobs','career='. $list -> tenkhongdau) }}">{{$list->tendaydu}}</a>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
 
                 <div class="col-lg-3 col-md-6 footer-links">
-                    <h4>Our Social Networks</h4>
-                    <p>Cras fermentum odio eu feugiat lide par naso tierra videa magna derita valies</p>
+                    <h4>Kết nối với chúng tôi</h4>
                     <div class="social-links mt-3">
                         <?php
                         $social_media = DB::table('table_photo')->where('type', '=', 'social')->get();
                         ?>
                         @foreach($social_media as $social )
-                                <a target="_blank" title="{{$social->tieude}}" href="{{$social->link}}" {{--class="twitter"--}}><i class="bi {{$social->hinhanh}}"></i></a>
+                            <a target="_blank" title="{{$social->tieude}}"
+                               href="{{$social->link}}" {{--class="twitter"--}}><i class="bi {{$social->hinhanh}}"></i></a>
                         @endforeach
                     </div>
                 </div>

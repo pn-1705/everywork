@@ -91,7 +91,7 @@
                             <select id="location_mb" name="location" style="appearance: none;"
                                     data-placeholder="Tất cả địa điểm">
                                 <option value="0">Tất cả địa điểm</option>
-                                <?php $citys = \App\Models\City::all()->where('trangthai', 1) ?>
+                                <?php $citys = DB::table('table_district')->where('trangthai', 1)->get() ?>
                                 @foreach($citys as $city)
                                     <option value="{{$city->tenkhongdau}}"
                                         @if(isset($location))

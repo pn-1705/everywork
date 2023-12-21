@@ -107,7 +107,7 @@
                                                     <strong><em class="mdi mdi-map-marker"></em>Địa điểm</strong>
                                                     <p>
                                                         <?php
-                                                        $city = \App\Models\City::all()->where('id', $job->noilamviec)->first()
+                                                        $city = DB::table('table_district')->where('id', $job->noilamviec)->first()
                                                         ?>
                                                         {{ $city -> tendaydu }}
 
@@ -449,12 +449,12 @@
                                 <?php $jobForCate = DB::table('table_jobs')
                                     ->leftJoin('table_danhmucnganhnghe', 'table_jobs.id_nganhnghe', '=', 'table_danhmucnganhnghe.id')
                                     ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
-                                    ->leftJoin('table_city', 'table_jobs.noilamviec', '=', 'table_city.id')
+                                    ->leftJoin('table_district', 'table_jobs.noilamviec', '=', 'table_district.id')
                                     ->where('id_nganhnghe', '=', $job->idJob_Cate)
                                     ->where('table_jobs.trangthai', 1)
                                     ->select('table_jobs.id as idJob','table_jobs.tencongviec as tencongviec','table_jobs.minluong','table_jobs.maxluong','table_jobs.donvitien',
                                         'table_jobs.img_banner as img', 'table_employers.id as idEmployer',
-                                        'table_employers.ten as tenEmployer', 'table_employers.avt as avt', 'table_city.tendaydu as city')
+                                        'table_employers.ten as tenEmployer', 'table_employers.avt as avt', 'table_district.tendaydu as city')
                                     ->inRandomOrder()->take(10)->get(); ?>
                                 @foreach($jobForCate as $item)
                                     <div class="job-item">

@@ -14,7 +14,7 @@
 
             </div>
             <div class="text-slider">
-                <marquee scrolldelay="100" class="d-flex align-items-center">EveryWork. - Website tuyển dụng và tìm kiếm việc làm miễn phí.</marquee>
+                <marquee scrolldelay="100" class="d-flex align-items-center">EveryWork. - Website tuyển dụng và tìm kiếm việc làm tại TP. Đà Nẵng</marquee>
             </div>
         @endforeach
             <div class="social-links">
