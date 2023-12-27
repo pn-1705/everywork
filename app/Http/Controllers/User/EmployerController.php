@@ -52,7 +52,7 @@ class EmployerController extends Controller
         if ($count == 1) {
             if ($accountStatus == 1) {
                 if (Auth::attempt($data)) {
-                    return redirect()->route('employer.view_hrcentral');
+                    return redirect()->route('employer.viewDashboard');
                 }
             } else {
                 return back()->with('error', 'Tài khoản hoặc mật khẩu không đúng !');
@@ -64,7 +64,7 @@ class EmployerController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('employer.home');
+        return redirect()->route('employer.login');
     }
 
     public function register()
@@ -127,13 +127,21 @@ class EmployerController extends Controller
     {
         return view('employer.hrcentral', $this->getDataJob());
     }
+    public function view_waitPostJob()
+    {
+        return view('employer.waitPostJob', $this->getDataJob());
+    }
 
-    public function view_postJob()
+    public function view_expJob()
+    {
+        return view('employer.expJob', $this->getDataJob());
+    }
+    public function view_addJob()
     {
         return view('employer.addJob');
     }
 
-    public function postJob(JobRequest $request)
+    public function addJob(JobRequest $request)
     {
         $newJob = new Job();
 
@@ -169,7 +177,7 @@ class EmployerController extends Controller
             $newJob->img_banner = $filename;
         }
         $newJob->id_nhatuyendung = Auth::id();
-        $newJob->trangthai = 1;
+        $newJob->trangthai = 0;
         $newJob->tenkhongdau = $this->un_unicode($request->tencongviec);
         $newJob->created_at = Carbon::now('Asia/Ho_Chi_Minh');
         $newJob->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
@@ -199,7 +207,7 @@ class EmployerController extends Controller
         $newBenefit->save();
 
 
-        return redirect()->route('employer.view_hrcentral')->with($this->getDataJob());
+        return redirect()->route('employer.view_waitPostJob')->with($this->getDataJob());
     }
 
     public function viewDetailJob($id)
@@ -232,7 +240,7 @@ class EmployerController extends Controller
         $job['phucloi'] = $id_phucloi;
         Job::create($job);
 
-        return redirect()->route('employer.view_hrcentral')->with($this->getDataJob());
+        return redirect()->route('employer.view_waitPostJob')->with($this->getDataJob());
     }
 
     public function view_updateJob($id)
@@ -281,8 +289,7 @@ class EmployerController extends Controller
             File::delete('public/banner_job/' . $banner_old);
             $newJob->img_banner = $filename;
         }
-
-        $newJob->trangthai = 1;
+//        $newJob->trangthai = 0;
         $newJob->tenkhongdau = $this->un_unicode($request->tencongviec);
 //        $newJob->created_at = Carbon::now();
         $newJob->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
@@ -326,13 +333,14 @@ class EmployerController extends Controller
             ->orderBy('tencongviec')->paginate(10)->withQueryString();
 
         $listJobs = DB::table('table_applyforjobs')
-            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
-            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai')
+            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
+            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai')
             ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
             ->where('table_jobs.id_nhatuyendung', Auth::id())
             ->where('hannhanhoso', '>=', Carbon::now()->toDateString())
-            ->where('trangthai', 1)
-            ->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+            ->where('trangthai', '!=', 0)
+            ->where('trangthai', '!=', 2)
+            ->orderBy('ngaydang', 'desc')->paginate(10)->withQueryString();
 
         //Việc làm chở chờ đăng (nháp)
         $listJobsWait = DB::table('table_applyforjobs')
@@ -341,7 +349,7 @@ class EmployerController extends Controller
             ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
             ->where('table_jobs.id_nhatuyendung', Auth::id())
             ->where('table_jobs.trangthai', 0)
-            ->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+            ->orderBy('created_at', 'desc')->paginate(5)->withQueryString();
 
         //Việc làm hết hạn
         $listJobsExp = DB::table('table_applyforjobs')

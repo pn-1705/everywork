@@ -104,5 +104,7 @@ $footer_setting = \App\Models\FooterSetting::all();
 </script>
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="//cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+
 
 

@@ -39,8 +39,8 @@ return [
             'host' => 'smtp.gmail.com',
             'port' => 587,
             'encryption' => 'tls',
-            'username' => 'nhavophong3@gmail.com',
-            'password' => 'kiuf ifid gtae xxyx',
+            'username' => 'contact.everywork@gmail.com',
+            'password' => 'fjdb icrk xvnu jjcv',
             'timeout' => null,
             'auth_mode' => null,
         ],
@@ -92,7 +92,7 @@ return [
     */
 
     'from' => [
-        'address' => 'nhavophong3@gmail.com',
+        'address' => 'contact.everywork@gmail.com',
         'name' => 'EveryWork',
     ],
 

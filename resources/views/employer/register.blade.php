@@ -175,9 +175,9 @@
                                     </div>
                                     <div class="right-note">
                                         <p>Bằng việc nhấp vào "Đăng Ký Ngay!", bạn đã đồng ý với các điều khoản ghi
-                                            trong <a href="https://careerbuilder.vn/vi/jobseekers/use">Thỏa thuận
+                                            trong <a href="#">Thỏa thuận
                                                 dịch
-                                                vụ của CareerBuilder.vn.</a></p>
+                                                vụ của EveryWork.</a></p>
                                     </div>
                                 </div>
                             </div>

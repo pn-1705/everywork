@@ -72,7 +72,6 @@ class LoginController extends Controller
             return view('user.pages.login_page');
         }
         return redirect()->intended('home');
-
     }
 
     public function post_login(LoginRequest $request)
@@ -146,6 +145,12 @@ class LoginController extends Controller
         Auth::logout();
         Session::flush();
         return redirect()->intended('/login');
+    }
+    public function employer_logout()
+    {
+        Auth::logout();
+        Session::flush();
+        return redirect()->intended('/employer/login');
     }
 
     public function redirectToGoogle()

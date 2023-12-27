@@ -27,8 +27,8 @@
                                                    class="tuv" target="_blank"> {{ $employer -> ten }} </a></p>
                                             <p><span>Email: {{ $employer -> email }}</span>
                                             <p><span>Phone: {{ $employer -> phone }}</span>
-                                            <p><span>Website: <a
-                                                        href="{{ $employer -> website }}"> {{ $employer -> website }}</a></span>
+                                            <p><span>Website: <a target="_blank"
+                                                        href="https://www.{{ $employer -> website }}"> {{ $employer -> website }}</a></span>
                                             <p><span>Mã số thuế: {{ $employer -> masothue }}</span>
                                             <p><span>Loại hình hoạt động: @if($employer -> loaihinhhoatdong == 2) Cổ
                                                     phần @endif
@@ -43,6 +43,23 @@
                                             <p><span><bi
                                                         class="bi bi-calendar-check-fill"></bi> Đăng kí:</span> {{date('d-m-Y', strtotime($employer -> created_at))}}
                                             </p>
+                                            <p><span>Trạng thái: <strong>
+                                                        @if($employer -> trangthai == 0 || $employer -> trangthai == 1)
+                                                            <span class="text-danger">Chưa được phép đăng tuyển</span>
+                                                        @else
+                                                            <span class="text-success">Được phép đăng tuyển</span>
+                                                        @endif
+                                                    </strong></span></p>
+                                            @if($employer -> trangthai == 0)
+                                                <a class="text-primary py-1"
+                                                   href="{{ route('employer.sendRequestRole') }}">Yêu cầu cấp quyền
+                                                </a>
+                                            @elseif($employer -> trangthai == 1)
+                                                <p class="text-success py-1"
+                                                   href="">Đã gửi yêu cầu
+                                                </p>
+                                            @endif
+
                                         </div>
                                     </div>
                                 </div>
@@ -133,7 +150,9 @@
                                 <div class="left-heading">
                                     <h1 class="title-manage">Việc làm đang đăng tuyển</h1>
                                 </div>
-                                <div class="right-heading"> <a class="support" href="https://careerbuilder.vn/vi/employers/faq" target="_blank">Xem tất cả </a></div>
+                                <div class="right-heading"><a class="support"
+                                                              href="https://careerbuilder.vn/vi/employers/faq"
+                                                              target="_blank">Xem tất cả </a></div>
                             </div>
                             <div class="main-tabslet" data-toggle="tabslet">
 
@@ -171,7 +190,8 @@
                         </div>
                     </div>
                 </div>
-            </div><div class="main-dasboard-bottom">
+            </div>
+            <div class="main-dasboard-bottom">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="box-candidates-resume-applied">
@@ -179,7 +199,9 @@
                                 <div class="left-heading">
                                     <h1 class="title-manage">Đơn ứng tuyển gần đây</h1>
                                 </div>
-                                <div class="right-heading"> <a class="support" href="https://careerbuilder.vn/vi/employers/faq" target="_blank">Xem tất cả </a></div>
+                                <div class="right-heading"><a class="support"
+                                                              href="https://careerbuilder.vn/vi/employers/faq"
+                                                              target="_blank">Xem tất cả </a></div>
                             </div>
                             <div class="main-tabslet" data-toggle="tabslet">
 

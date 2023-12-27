@@ -63,7 +63,7 @@
                                                                              target="_blank">{{$customer->email}}</a>
                                                 </li>
                                                 <li>
-                                                    <b>Mật khẩu:</b>&nbsp;{{$password}}
+                                                    <b>Mật khẩu:</b>&nbsp;******
                                                 </li>
                                             </ul>
                                         </td>

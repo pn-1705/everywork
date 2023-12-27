@@ -63,10 +63,9 @@
                                 </div>
                                 <div class="user-action d-flex justify-content-between">
                                     <div>
-                                        <a href="https://careerbuilder.vn/vi/employers/forgetpassword.html"> Quên Mật Khẩu </a>
+                                        <a href=""> Quên Mật Khẩu </a>
                                         <p>
-                                            <a class="register" href="javascript:void()"
-                                               onclick="location.href='https://careerbuilder.vn/vi/employers/register'">Quý khách chưa có tài khoản?</a> Đăng ký dễ dàng, hoàn toàn miễn phí</p>
+                                            <a href="{{ route('employer.register') }}" class="register">Quý khách chưa có tài khoản?</a> Đăng ký dễ dàng, hoàn toàn miễn phí</p>
 
                                     </div>
                                     <div class="btn-area">

@@ -79,17 +79,17 @@
                 </div>
                 <div class="main-tabslet">
                     <ul class="tabslet-tab">
-                        <li class="tablinks active">
+                        <li class="tablinks">
                             <a href="{{ route('employer.view_hrcentral') }}">Việc Làm Đang Đăng</a>
                         </li>
                         <li class="tablinks">
                             <a href="{{ route('employer.view_waitPostJob') }}">Việc Làm Chờ Đăng</a>
                         </li>
-                        <li class="tablinks" data-electronic="tab-hh">
+                        <li class="tablinks active">
                             <a href="{{ route('employer.view_expJob') }}">Việc Làm Hết Hạn</a>
                         </li>
                     </ul>
-                    <div class="tabslet-content active" id="tab-dd">
+                    <div class="tabslet-content active" id="tab-hh">
                         <div class="main-jobs-posting">
                             <div class="heading-jobs-posting">
                                 <div class="left-heading">
@@ -133,7 +133,6 @@
                                                     class="material-icons">arrow_drop_down</em></th>
                                             <th width="10%" onclick="setTypeSort('posting', 'asc', 4)">Hết hạn<em
                                                     class="material-icons">sort</em></th>
-                                            <th width="10%" onclick="setTypeSort('posting', 'asc', 4)">Trạng thái</th>
                                             <th width="10%" onclick="setTypeSort('posting', 'asc', 0)">Lượt Xem<em
                                                     class="material-icons">sort</em></th>
                                             <th width="10%" onclick="setTypeSort('posting', 'asc', 1)">Lượt Nộp<em
@@ -142,7 +141,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach($listJobs as $list)
+                                        @foreach($listJobsExp as $list)
                                             <tr>
                                                 {{--                                            <td colspan="9" class="cb-text-center"><p><strong> Không có vị trí nào trong thư mục này.</strong></p></td>--}}
                                                 <td>
@@ -151,39 +150,17 @@
                                                     </div>
                                                 </td>
                                                 <td>{{ $list-> tencongviec }}</td>
-                                                <td>{{ date('d-m-Y', strtotime($list-> ngaydang)) }}</td>
+                                                <td>{{ date('d-m-Y', strtotime($list-> created_at)) }}</td>
                                                 <td>{{ date('d-m-Y', strtotime($list-> hannhanhoso)) }}</td>
-                                                <td>@if($list-> trangthai == 3)
-                                                        <span class="badge bg-secondary">Chờ duyệt</span>
-                                                    @elseif($list-> trangthai == 1)
-                                                        <span class="badge bg-success">Đang đăng</span>
-                                                    @endif</td>
                                                 <td>{{ $list-> views }}</td>
                                                 <td>{{ $list-> danop }}</td>
-                                                <td>
-                                                    <ul class="list-manipulation">
-                                                        <li>
-                                                            <a href="{{ route('employer.view_detailJob', $list ->id) }}"
-                                                               title="Chi tiết"><em
-                                                                    class="material-icons">visibility </em></a></li>
-                                                        <li>
-                                                            <a href="{{ route('employer.view_updateJob', $list->id) }}"
-                                                               title="Sửa"><em
-                                                                    class="material-icons">created</em></a>
-                                                        </li>
-                                                        <li class="end">
-                                                            <a href="javascript:void(0);"
-                                                               onclick="deleteItem_job('35BE100A');return false;"
-                                                               title="Xóa"><em
-                                                                    class="material-icons">cancel </em></a></li>
-                                                    </ul>
-                                                </td>
+                                                <td>{{ $list-> id }}</td>
 
                                             </tr>
                                         @endforeach
                                         </tbody>
                                     </table>
-                                    {!! $listJobs->links() !!}
+                                    {!! $listJobsExp->links() !!}
                                 </div>
                             </div>
                         </div>
@@ -192,33 +169,33 @@
             </div>
         </div>
     </section>
-    {{--    <script>--}}
-    {{--        var tabLinks = document.querySelectorAll(".tablinks");--}}
-    {{--        var tabContent = document.querySelectorAll(".tabslet-content");--}}
+{{--    <script>--}}
+{{--        var tabLinks = document.querySelectorAll(".tablinks");--}}
+{{--        var tabContent = document.querySelectorAll(".tabslet-content");--}}
 
-    {{--        tabLinks.forEach(function (el) {--}}
-    {{--            el.addEventListener("click", openTabs);--}}
-    {{--        });--}}
+{{--        tabLinks.forEach(function (el) {--}}
+{{--            el.addEventListener("click", openTabs);--}}
+{{--        });--}}
 
-    {{--        function openTabs(el) {--}}
-    {{--            var btn = el.currentTarget; // lắng nghe sự kiện và hiển thị các element--}}
-    {{--            var electronic = btn.dataset.electronic; // lấy giá trị trong data-electronic--}}
+{{--        function openTabs(el) {--}}
+{{--            var btn = el.currentTarget; // lắng nghe sự kiện và hiển thị các element--}}
+{{--            var electronic = btn.dataset.electronic; // lấy giá trị trong data-electronic--}}
 
-    {{--            tabContent.forEach(function (el) {--}}
-    {{--                el.classList.remove("active");--}}
-    {{--            }); //lặp qua các tab content để remove class active--}}
+{{--            tabContent.forEach(function (el) {--}}
+{{--                el.classList.remove("active");--}}
+{{--            }); //lặp qua các tab content để remove class active--}}
 
-    {{--            tabLinks.forEach(function (el) {--}}
-    {{--                el.classList.remove("active");--}}
-    {{--            }); //lặp qua các tab links để remove class active--}}
+{{--            tabLinks.forEach(function (el) {--}}
+{{--                el.classList.remove("active");--}}
+{{--            }); //lặp qua các tab links để remove class active--}}
 
-    {{--            document.querySelector("#" + electronic).classList.add("active");--}}
-    {{--            // trả về phần tử đầu tiên có id="" được add class active--}}
+{{--            document.querySelector("#" + electronic).classList.add("active");--}}
+{{--            // trả về phần tử đầu tiên có id="" được add class active--}}
 
-    {{--            btn.classList.add("active");--}}
-    {{--            // các button mà chúng ta click vào sẽ được add class active--}}
-    {{--        }--}}
-    {{--    </script>--}}
+{{--            btn.classList.add("active");--}}
+{{--            // các button mà chúng ta click vào sẽ được add class active--}}
+{{--        }--}}
+{{--    </script>--}}
     <style>
         .pagination {
             display: flex;

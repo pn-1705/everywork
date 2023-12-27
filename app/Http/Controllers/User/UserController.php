@@ -63,7 +63,8 @@ class UserController extends Controller
                 'table_danhmucnganhnghe.tenkhongdau as employer_tenkhongdau');
 
         if ($request->keySearch != null) {
-            $jobs->where('table_jobs.tencongviec', 'like', '%' . $request->keySearch . '%');
+            $jobs->where('table_jobs.tencongviec', 'like', '%' . $request->keySearch . '%')
+            ->orWhere('table_employers.ten', 'like', '%'. $request->keySearch. '%');
         }
         if ($request->career != 0) {
             $jobs->where('table_danhmucnganhnghe.tenkhongdau', $request->career);
@@ -449,9 +450,9 @@ class UserController extends Controller
     //Cẩm nang - tin tức
     public function viewNews()
     {
-        $newsBig = DB::table('table_news')->take(1)->get();
-        $newsBig2 = DB::table('table_news')->skip(1)->take(1)->get();
-        $news = DB::table('table_news')->skip(1)->take(4)->get();
+        $newsBig = DB::table('table_news')->inRandomOrder()->take(1)->get();
+        $newsBig2 = DB::table('table_news')->inRandomOrder()->skip(1)->take(1)->get();
+        $news = DB::table('table_news')->inRandomOrder()->skip(1)->take(4)->get();
         $data['newsB1'] = $newsBig;
         $data['newsB2'] = $newsBig2;
         $data['news4'] = $news;

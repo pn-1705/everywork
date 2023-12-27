@@ -79,12 +79,17 @@ Route::get('/active/{token}', 'User\EmployerController@active_acount')->name('em
 Route::group(['middleware' => 'checkEmployerRole', 'prefix' => 'employer'], function () {
     Route::get('/dashboard', 'Employer\ManagerController@viewDashboard')->name('employer.viewDashboard');
     Route::get('/hrcentral', 'User\EmployerController@view_hrcentral')->name('employer.view_hrcentral');
-    Route::get('/postJob', 'User\EmployerController@view_postJob')->name('employer.view_postJob');
-    Route::post('/postJob', 'User\EmployerController@postJob')->name('employer.postJob');
+    Route::get('/hrcentral/waitPostJob', 'User\EmployerController@view_waitPostJob')->name('employer.view_waitPostJob');
+    Route::get('/hrcentral/expJob', 'User\EmployerController@view_expJob')->name('employer.view_expJob');
+
+    Route::get('/addJob', 'User\EmployerController@view_addJob')->name('employer.view_addJob');
+    Route::post('/addJob', 'User\EmployerController@addJob')->name('employer.addJob');
+    Route::get('/postJob/{id}', 'Employer\ManagerController@postJob')->name('employer.postJob');
     Route::get('/hrcentral/update/{id}', 'User\EmployerController@view_updateJob')->name('employer.view_updateJob');
     Route::post('/hrcentral/update/{id}', 'User\EmployerController@updateJob')->name('employer.updateJob');
     Route::get('/hrcentral/viewjob/{id}', 'User\EmployerController@viewDetailJob')->name('employer.view_detailJob');
-    Route::get('/hrcentral/{id}', 'User\EmployerController@duplicatedJob')->name('employer.duplicatedJob');
+    Route::get('/hrcentral/duplicatedJob/{id}', 'User\EmployerController@duplicatedJob')->name('employer.duplicatedJob');
+
 
     Route::get('/company_info', 'User\EmployerController@view_company_info')->name('employer.view_company_info');
     Route::post('/', 'User\EmployerController@post_company_info')->name('employer.post_company_info');
@@ -95,40 +100,11 @@ Route::group(['middleware' => 'checkEmployerRole', 'prefix' => 'employer'], func
     Route::get('/manageresume', 'User\EmployerController@manageresume')->name('employer.manageresume');
 
     Route::get('/logout', 'User\EmployerController@logout')->name('employer.logout');
+
+    //Yêu cầu cấp quyền đăng bài
+    Route::get('/sendRequestRole', 'Employer\ManagerController@sendRequestRole')->name('employer.sendRequestRole');
+
 });
-
-
-
-
-Route::get('/quen_mk/view', 'User\UserController@quen_mk_view')->name('quen_mk_view');
-Route::get('/doi_mk', 'User\UserController@doi_mk_view')->name('doi_mk_view');
-Route::post('/doi_mk', 'User\UserController@doi_mk')->name('doi_mk');
-
-Route::get('/cart', 'User\HomeController@cart')->name('cart');
-Route::get('/cart/up_sl/{sl}/{id_sp}/{don_gia}', 'User\AjaxController@up_sl')->name('up_sl');
-Route::get('/cart/xoa_sp/{id_nd}/{id_sp}', 'User\AjaxController@xoa_sp');
-
-Route::get('/product/category_brand/view/{DM_id}/{TH_id}', 'User\ProductController@user_viewProductCategoryBrand')->name('user.product.category_brand.view');
-Route::get('/product/view/{id}', 'User\ProductController@view_product')->name('product.view');
-Route::get('/product/add_cart/{id_nd}/{id_product}/{so_luong}', 'User\AjaxController@add_cart')->name('add_cart');
-Route::get('/product/sp_khuyen_mai', 'User\ProductController@sp_khuyen_mai')->name('sp_khuyen_mai');
-
-Route::get('/user/kt_email/{email}', 'User\AjaxController@kt_email');
-Route::get('/user/kt_ma_xn/{ma_xn}/{email}', 'User\AjaxController@kt_ma_xn');
-
-Route::get('/thanh_toan/view/{sp_thanh_toan}', 'User\HomeController@thanh_toan_view')->name('thanh_toan_view');
-Route::post('/thanh_toan', 'User\HomeController@thanh_toan')->name('thanh_toan');
-
-
-Route::get('/phan_trang/{i}/{mes}', 'User\AjaxController@phan_trang');
-Route::get('/bo_loc/{sx}/{gia}/{ram}/{rom}/{tu_khoa}', 'User\AjaxController@bo_loc');
-
-Route::get('/search', 'User\HomeController@search')->name('search');
-
-Route::post('/danh_gia', 'User\AjaxController@danh_gia');
-Route::post('/tl_danh_gia', 'User\AjaxController@tl_danh_gia');
-
-Route::get('/in_don_hang/{id_hd}', 'User\UserController@in_don_hang')->name('in_don_hang');
 
 // admin
 
@@ -139,51 +115,6 @@ Route::post('/admin/login', 'Admin\LoginController@login')->name('admin.login');
 Route::group(['middleware' => 'checklogin', 'prefix' => 'admin'], function () {
     Route::get('/dashboard', 'Admin\HomeController@dashboard')->name('admin.dashboard');
     Route::get('/logout', 'Admin\LoginController@logout')->name('admin.logout');
-
-    Route::get('/product', ['as' => 'admin.product.index', 'uses' => 'Admin\ProductController@index']);
-    Route::get('/product/add', ['as' => 'admin.product.add', 'uses' => 'Admin\ProductController@addProduct']);
-    Route::post('/product/add', ['as' => 'admin.product.save', 'uses' => 'Admin\ProductController@addProductPost']);
-    Route::get('/product/edit/{id}', ['as' => 'admin.product.edit', 'uses' => 'Admin\ProductController@edit']);
-    Route::post('/product/edit/{id}', ['as' => 'admin.product.edit', 'uses' => 'Admin\ProductController@update']);
-    Route::get('/product/destroy/{id}', ['as' => 'admin.product.getDestroy', 'uses' => 'Admin\ProductController@destroy']);
-    Route::get('/product/{id}', ['as' => 'admin.product', 'uses' => 'Admin\ProductController@cate_product']);
-    Route::get('/product/active/{id}', ['as' => 'admin.product.active', 'uses' => 'Admin\ProductController@active']);
-
-
-    Route::get('/category', ['as' => 'admin.category.index', 'uses' => 'Admin\CateController@index']);
-    Route::get('/category/add', ['as' => 'admin.category.add', 'uses' => 'Admin\CateController@addCate']);
-    Route::post('/category/add', ['as' => 'admin.category.save', 'uses' => 'Admin\CateController@addCatePost']);
-    Route::get('/category/edit/{id}', ['as' => 'admin.category.edit', 'uses' => 'Admin\CateController@edit']);
-    Route::post('/category/edit/{id}', ['as' => 'admin.category.edit', 'uses' => 'Admin\CateController@update']);
-    Route::get('/category/destroy/{id}', ['as' => 'admin.category.getDestroy', 'uses' => 'Admin\CateController@destroy']);
-
-    Route::get('/brand', ['as' => 'admin.brand.index', 'uses' => 'Admin\BrandController@index']);
-    Route::get('/brand/add', ['as' => 'admin.brand.add', 'uses' => 'Admin\BrandController@addBrand']);
-    Route::post('/brand/add', ['as' => 'admin.brand.save', 'uses' => 'Admin\BrandController@addBrandPost']);
-    Route::get('/brand/edit/{id}', ['as' => 'admin.brand.edit', 'uses' => 'Admin\BrandController@edit']);
-    Route::post('/brand/edit/{id}', ['as' => 'admin.brand.edit', 'uses' => 'Admin\BrandController@update']);
-    Route::get('/brand/destroy/{id}', ['as' => 'admin.brand.getDestroy', 'uses' => 'Admin\BrandController@destroy']);
-
-    //khuyến mãi
-    Route::get('/discount', ['as' => 'admin.discount.index', 'uses' => 'Admin\DiscountController@index']);
-    Route::get('/discount/add', ['as' => 'admin.discount.add', 'uses' => 'Admin\DiscountController@addDiscount']);
-    Route::post('/discount/add', ['as' => 'admin.discount.save', 'uses' => 'Admin\DiscountController@addDiscountPost']);
-    Route::get('/discount/edit/{id}', ['as' => 'admin.discount.edit', 'uses' => 'Admin\DiscountController@edit']);
-    Route::post('/discount/edit/{id}', ['as' => 'admin.discount.edit', 'uses' => 'Admin\DiscountController@update']);
-    Route::get('/discount/destroy/{id}', ['as' => 'admin.discount.getDestroy', 'uses' => 'Admin\DiscountController@destroy']);
-
-    Route::get('/order', ['as' => 'admin.order.index', 'uses' => 'Admin\OrderController@index']);
-    Route::get('/order/add', ['as' => 'admin.order.add', 'uses' => 'Admin\OrderController@addOrder']);
-//    Route::post('/admin/order/add', ['as' => 'admin.order.save', 'uses' => 'Admin\OrderController@addOrderPost']);
-    Route::get('/order/detail/{id}', ['as' => 'admin.order.detail', 'uses' => 'Admin\OrderController@detail']);
-    Route::get('/order/edit/{id}', ['as' => 'admin.order.edit', 'uses' => 'Admin\OrderController@edit']);
-    Route::post('/order/edit/{id}', ['as' => 'admin.order.edit', 'uses' => 'Admin\OrderController@update']);
-//    Route::get('/admin/order/detail/destroy/{id}', ['as' => 'admin.order.getDestroy', 'uses' => 'Admin\OrderController@destroy']);
-    Route::get('/order/action/{id}', ['as' => 'admin.order.action', 'uses' => 'Admin\OrderController@action']);
-    Route::get('/order/cancel/{id}', ['as' => 'admin.order.cancel', 'uses' => 'Admin\OrderController@cancel']);
-    Route::get('/order/returns/{id}', ['as' => 'admin.order.returns', 'uses' => 'Admin\OrderController@returns']);
-    Route::get('/order/del_product/{MaSP}/{MaHD}', ['as' => 'admin.order.getDestroy', 'uses' => 'Admin\OrderController@destroy']);
-    Route::get('/order/detail/{MaSP}/{MaHD}/{sl}', 'Admin\OrderController@change_sl');
 
 //
     Route::get('/user', ['as' => 'admin.user.index', 'uses' => 'Admin\UserController@index']);
@@ -209,6 +140,7 @@ Route::group(['middleware' => 'checklogin', 'prefix' => 'admin'], function () {
     Route::post('/news/post', ['as' => 'admin.news.post', 'uses' => 'Admin\NewsController@postNews']);
     //Quản lí nhà tuyển dụng
     Route::get('/employers/new-employer', ['as' => 'admin.employers.newRegister', 'uses' => 'Admin\EmployerManagerController@indexNewRegister']);
+    Route::get('/employers/grantPermissions/{id}', ['as' => 'admin.employers.grantPermissions', 'uses' => 'Admin\EmployerManagerController@grantPermissions']);
 });
 
 //Login facebook

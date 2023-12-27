@@ -74,7 +74,7 @@
                             ?>>
                             @if(isset(Auth::user()->id_nhomquyen))
                                 @if(Auth::user()->id_nhomquyen == 1)
-                                    <li><a style="font-weight: 700;" href="{{ route('employer.view_hrcentral') }}">
+                                    <li><a style="font-weight: 700;" href="{{ route('employer.viewDashboard') }}">
                                             &nbsp; Dashboard</a></li>
                                     <li><a style="font-weight: 700;" href="{{ route('employer.view_hrcentral') }}">
                                             &nbsp; Quản lí đăng tuyển</a></li>
@@ -84,7 +84,7 @@
                                             &nbsp; Thông tin công ty</a></li>
                                     <li><a style="font-weight: 700;" href="{{ route('employer.view_account') }}"> &nbsp;
                                             Tài khoản</a></li>
-                                    <li><a style="font-weight: 700;" href="{{ route('logout') }}"> &nbsp; Đăng xuất</a>
+                                    <li><a style="font-weight: 700;" href="{{ route('employer.logout') }}"> &nbsp; Đăng xuất</a>
                                     </li>
 
                                 @endif
@@ -189,7 +189,7 @@
                     <ul>
                         @if(isset(Auth::user()->id_nhomquyen))
                             @if(Auth::user()->id_nhomquyen == 1)
-                                <li><a style="font-weight: 700;" href="{{ route('employer.view_hrcentral') }}">
+                                <li><a style="font-weight: 700;" href="{{ route('employer.viewDashboard') }}">
                                         &nbsp; Dashboard</a></li>
                                 <li><a style="font-weight: 700;" href="{{ route('employer.view_hrcentral') }}">
                                         &nbsp; Quản lí đăng tuyển</a></li>
@@ -199,7 +199,7 @@
                                         &nbsp; Thông tin công ty</a></li>
                                 <li><a style="font-weight: 700;" href="{{ route('employer.view_account') }}"> &nbsp;
                                         Tài khoản</a></li>
-                                <li><a style="font-weight: 700;" href="{{ route('logout') }}"> &nbsp; Đăng xuất</a></li>
+                                <li><a style="font-weight: 700;" href="{{ route('employer.logout') }}"> &nbsp; Đăng xuất</a></li>
 
                             @endif
                         @endif

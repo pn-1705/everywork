@@ -48,22 +48,30 @@
                                             <span class="error error_Company_type"> </span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group form-text form-input-label">
-                                            <input type="text" name="website" id="EMP_WEBSITE"
-                                                   value="{{ $info ->website }}" maxlength="100">
-                                            <label>Website công ty</label>
-                                            <span class="error error_EMP_WEBSITE"> </span>
-                                        </div>
-                                    </div>
                                     <div class="col-lg-6">
                                         <div class="form-group form-text form-input-label">
                                             <input type="number" name="masothue" id="EMP_TAXID"
                                                    value="{{ $info -> masothue }}" maxlength="100">
                                             <label>Mã số thuế</label>
                                             <span class="error error_EMP_TAXID"> </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group form-text form-input-label">
+                                            <input type="text" name="diachi" id="EMP_WEBSITE"
+                                                   value="{{ $info ->diachi }}" maxlength="100">
+                                            <label>Địa chỉ</label>
+                                            <span class="error error_EMP_WEBSITE"> </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group form-text form-input-label">
+                                            <input type="text" name="website" id="EMP_WEBSITE"
+                                                   value="{{ $info ->website }}" maxlength="100">
+                                            <label>Website công ty</label>
+                                            <span class="error error_EMP_WEBSITE"> </span>
                                         </div>
                                     </div>
                                 </div>

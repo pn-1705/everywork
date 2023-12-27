@@ -3793,8 +3793,7 @@
                             <p>Đăng hồ sơ nghề nghiệp để dễ dàng ứng tuyển nhanh</p>
                         </div>
                         <div class="upload-resume">
-                            <button class="btn-gradient"
-                                    onclick="window.location='https://careerbuilder.vn/vi/jobseekers/quick_upload_resume'">
+                            <button class="btn-gradient">
                                 ĐĂNG NGAY
                             </button>
                         </div>

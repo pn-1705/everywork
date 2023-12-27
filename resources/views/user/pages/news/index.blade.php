@@ -9,7 +9,7 @@
                 @foreach($newsB1 as $list)
                     <div class="col-sm-6 col-lg-6 item item-big">
                         <div class="figure"><a
-                                href="https://careerbuilder.vn/vi/talentcommunity/chuong-trinh-nha-tuyen-dung-yeu-thich-2023-chinh-thuc-bat-dau.35A524AC.html"
+                                href="#"
                                 title="{{ $list -> tieude }}">
                                 <div class="image"><img class="lazy-bg"
                                                         src="{{ asset('public/imgs/news/'. $list -> hinhanh) }}"
@@ -18,17 +18,18 @@
                             </a>
                             <div class="figcaption">
                                 <div class="category-name"><a
-                                        href="https://careerbuilder.vn/vi/talentcommunity/bao-cao-khao-sat"
+                                        href="#"
                                         title="Báo cáo - Khảo sát">Báo cáo - Khảo sát</a>
                                 </div>
                                 <div class="title"><a
-                                        href="https://careerbuilder.vn/vi/talentcommunity/chuong-trinh-nha-tuyen-dung-yeu-thich-2023-chinh-thuc-bat-dau.35A524AC.html"
+                                        href="#"
                                         title="{{ $list -> tieude }}">
                                         <h3>{{ $list -> tieude }}</h3>
                                     </a>
                                 </div>
                                 <div class="content">
-                                    {{  html_entity_decode($list -> noidung) }}
+                                    <p>                                    {!! $list -> noidung !!}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -37,7 +38,7 @@
                 @foreach($newsB2 as $list)
                     <div class="col-sm-6 col-md-6 col-lg-6 item item-big item-800">
                         <div class="figure">
-                            <a href="https://careerbuilder.vn/vi/talentcommunity/thu-phuc-nhan-tam-tuyet-ky-quan-ly-nhan-su-nhat-dinh-khong-nen-bo-qua.35A5243F.html"
+                            <a href="#"
                                title="{{ $list -> tieude }}">
                                 <div class="image">
                                     <img class="lazy-bg"
@@ -48,16 +49,18 @@
                             </a>
                             <div class="figcaption">
                                 <div class="category-name"><a
-                                        href="https://careerbuilder.vn/vi/talentcommunity/con-duong-su-nghiep"
+                                        href="#"
                                         title="Con đường sự nghiệp">Con đường sự nghiệp</a>
                                 </div>
                                 <div class="title"><a
-                                        href="https://careerbuilder.vn/vi/talentcommunity/thu-phuc-nhan-tam-tuyet-ky-quan-ly-nhan-su-nhat-dinh-khong-nen-bo-qua.35A5243F.html"
+                                        href="#"
                                         title="{{ $list -> tieude }}">
                                         <h3>{{ $list -> tieude }}</h3>
                                     </a></div>
                                 <div class="content">
-                                    <p>{{ $list -> noidung }}</p>
+                                    <p>
+                                        {!! $list -> noidung !!}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -69,7 +72,7 @@
 
                             <div class="col-sm-4 col-lg-6 item item-small">
                                 <div class="figure"><a
-                                        href="https://careerbuilder.vn/vi/talentcommunity/thu-phuc-nhan-tam-tuyet-ky-quan-ly-nhan-su-nhat-dinh-khong-nen-bo-qua.35A5243F.html"
+                                        href="#"
                                         title="{{ $list->tieude }}">
                                         <div class="image"><img class="lazy-bg"
                                                                 src="{{ asset('public/imgs/news/'. $list -> hinhanh) }}"
@@ -78,11 +81,11 @@
                                     </a>
                                     <div class="figcaption">
                                         <div class="category-name"><a
-                                                href="https://careerbuilder.vn/vi/talentcommunity/con-duong-su-nghiep"
+                                                href="#"
                                                 title="Con đường sự nghiệp">Con đường sự nghiệp</a>
                                         </div>
                                         <div class="title"><a
-                                                href="https://careerbuilder.vn/vi/talentcommunity/thu-phuc-nhan-tam-tuyet-ky-quan-ly-nhan-su-nhat-dinh-khong-nen-bo-qua.35A5243F.html"
+                                                href="#"
                                                 title="{{ $list->tieude }}">
                                                 <h3>{{ $list->tieude }}</h3>
                                             </a></div>
@@ -101,12 +104,12 @@
                 <div class="col-cus-md-6">
                     <div class="box-content">
                         <div class="cb-title">
-                            <h1>Đón lấy thành công cùng +200 triệu ứng viên CareerBuilder toàn cầu!</h1>
+                            <h1>Đón lấy thành công cùng EveryWork. Nhanh tay nộp đơn ứng tuyển ngay !</h1>
                         </div>
                         <div class="figure">
-                            <div class="quote"><img class="lazy-bg" src="./img/career/quote.png"
+                            <div class="quote">{{--<img class="lazy-bg" src="./img/career/quote.png"
                                                     alt="Đón lấy thành công cùng +200 triệu ứng viên CareerBuilder toàn cầu!"
-                                                    style=""></div>
+                                                    style="">--}}</div>
                             <div class="figcaption">
                                 <div class="content">
                                     <p>Thường xuyên cập nhật CV những thành tựu cá nhân, chủ động tìm thông tin qua mối

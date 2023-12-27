@@ -47,7 +47,7 @@ class NewsController extends Controller
         }
         DB::table('table_news')->insert([
             'tieude' => $request -> tieude,
-            'noidung' => htmlspecialchars($request -> noidung),
+            'noidung' => $request -> noidung,
             'idDanhMuc' => 1,
             'hienthi' => $hienthi,
             'noibat' => $noibat,

@@ -1,7 +1,6 @@
 @extends('employer.layout')
 
-@section('title', 'Việc làm')
-
+@section('pageTitle', 'Tạo tin tuyển dụng')
 
 @section('content')
     @include("employer.elements.employer-heading-tool")
@@ -13,7 +12,7 @@
                         <h1 class="title-manage">Tạo Tin Tuyển Dụng</h1>
                     </div>
                 </div>
-                <form method="post" action="{{ route('employer.postJob') }}" enctype="multipart/form-data">
+                <form method="post" action="{{ route('employer.addJob') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="main-tabslet">
                         <ul class="tabslet-tab">
@@ -110,7 +109,7 @@
 
                                     <div class="form-group">
                                         <label>Mô Tả Công Việc <font style="color: red">*</font></label>
-                                        <textarea cols="80" rows="5" name="mota" class=""></textarea>
+                                        <textarea cols="80" rows="5" id="addjob_mota" name="mota" class=""></textarea>
                                         @error('mota')
                                         <span class="form-error">{{ $message }}</span>
                                         @enderror
@@ -120,7 +119,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Yêu cầu công việc <font style="color: red">*</font></label>
-                                        <textarea cols="80" rows="5" name="yeucau" class=""></textarea>
+                                        <textarea cols="80" rows="5" id="addjob_yeucau" name="yeucau" class=""></textarea>
+                                        <script>
+                                            CKEDITOR.replace('mota')
+                                            CKEDITOR.replace('yeucau')
+                                        </script>
                                         @error('yeucau')
                                         <span class="form-error">{{ $message }}</span>
                                         @enderror
@@ -439,7 +442,7 @@
                         <button class="btn-gradient" type="submit">
                             <bi class="bi bi-upload"></bi>
                             &nbsp;
-                            Đăng tuyển
+                            Tạo
                         </button>
                     </div>
                 </form>

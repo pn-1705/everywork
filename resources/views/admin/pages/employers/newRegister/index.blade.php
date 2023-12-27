@@ -21,10 +21,7 @@
     <!-- Main content -->
     <section class="content"><!-- Default box -->
         <div class="card-footer text-sm sticky-top">
-            <a class="btn btn-primary btn-sm text-white"
-               href="{{ route('admin.news.add') }}" title="Thêm mới"><i
-                    class="fas fa-plus mr-2"></i>Thêm mới</a>
-            <div class="form-inline form-search d-inline-block align-middle ml-3">
+            <div class="form-inline form-search d-inline-block">
                 <div class="input-group input-group-sm">
                     <input class="form-control form-control-navbar text-sm" type="search" id="keyword"
                            placeholder="Tìm kiếm" aria-label="Tìm kiếm" value=""
@@ -86,7 +83,7 @@
                             Website
                         </th>
                         <th class="text-right">
-                            Thao tác
+                            Yêu cầu
                         </th>
                     </tr>
                     </thead>
@@ -107,14 +104,8 @@
                                 <td>
                                     <p>{{ $list -> ten }}</p>
                                     <div class="tool-action mt-2 w-clear">
-                                        <a class="text-primary mr-3" href="http://localhost/source_home1/ten-tin-tuc-1"
-                                           target="_blank" title="Tên tin tức 1"><i class="far fa-eye mr-1"></i>View</a>
-                                        <a class="text-info mr-3"
-                                           href="../../../../../../index.php?com=news&amp;act=edit&amp;type=tin-tuc&amp;p=1&amp;id=5"
-                                           title="Tên tin tức 1"><i class="far fa-edit mr-1"></i>Edit</a>
-                                        <a class="text-danger" id="delete-item"
-                                           data-url="index.php?com=news&amp;act=delete&amp;type=tin-tuc&amp;p=1&amp;id=5"
-                                           title="Tên tin tức 1"><i class="far fa-trash-alt mr-1"></i>Delete</a>
+                                        <a class="text-primary mr-3" href="{{ route('pages.nha-tuyen-dung.detail',$list -> tenkhongdau) }}"
+                                           target="_blank" title="Xem chi tiết"><i class="far fa-eye mr-1"></i>View</a>
                                     </div>
                                 </td>
 
@@ -129,14 +120,15 @@
                                     {{$list -> website}}
                                 </td>
                                 <td class="project-actions text-right">
-                                    <a title="Delete" class="btn btn-secondary btn-xs"
+                                    @if ($list -> trangthai == 1)
+                                    <a title="Từ chối" class="btn btn-secondary btn-xs"
                                        href="{{--{{ route("admin.photo-video.social.del",  $list -> id ) }}--}}">
-                                        Gửi yêu cầu
+                                        Từ chối
                                     </a>
-                                    <button type="submit" title="Update" class="btn btn-info btn-xs">
+                                    <a href="{{ route('admin.employers.grantPermissions', $list -> id) }}" title="Cấp quyền" class="btn btn-info btn-xs">
                                         Cấp quyền
-                                    </button>
-
+                                    </a>
+                                    @endif
                                 </td>
                             </tr>
                         </form>

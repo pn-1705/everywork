@@ -25,7 +25,7 @@
                             <div class="job-desc">
                                 <h1 class="title">{{ $job -> tencongviec }}</h1>
                                 <a class="employer job-company-name"
-                                   href="{{--{{ route() }}--}}">{{ $job -> ten }}</a>
+                                   href="{{ route('pages.nha-tuyen-dung.detail',$job -> tenkhongdau) }}">{{ $job -> ten }}</a>
                             </div>
                             <div class="apply-type">
                                 <div class="apply-now-btn ">
@@ -41,10 +41,10 @@
                         <nav class="job-result-nav">
                             <ul class="tabs-toggle">
                                 <li id="tabs-job-detail" class="active"><a
-                                        href="https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-tieng-hoa-phong-bao-hanh.35BE05CA.html"
+                                        href=""
                                         data-href="#tab-1" title="Chi tiết">Chi tiết</a></li>
                                 <li id="tabs-job-company" class=""><a
-                                        href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-tnhh-hisense-vietnam.35A96D2D.html"
+                                        href="{{ route('pages.nha-tuyen-dung.detail',$job -> tenkhongdau) }}"
                                         data-href="#tab-2" title="Tổng quan công ty">Tổng quan công ty</a></li>
                             </ul>
                             <input type="hidden" name="job_id_tmp" id="job_id_tmp" value="1645770">
@@ -64,13 +64,13 @@
                                             <div class="dropdown-menu">
                                                 <div class="social-list">
                                                     <a rel="nofollow" target="_blank"
-                                                       href="https://www.facebook.com/sharer/sharer.php?u=https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-tieng-hoa-phong-bao-hanh.35BE05CA.html&amp;t=TRỢ LÝ TIẾNG HOA (PHÒNG BẢO HÀNH)"><i
+                                                       href="{{--https://www.facebook.com/sharer/sharer.php?u=https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-tieng-hoa-phong-bao-hanh.35BE05CA.html&amp;t=TRỢ LÝ TIẾNG HOA (PHÒNG BẢO HÀNH)--}}"><i
                                                             class="fa fa-facebook"></i></a>
                                                     <a rel="nofollow" target="_blank"
-                                                       href="https://api.addthis.com/oexchange/0.8/forward/linkedin/offer?url=https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-tieng-hoa-phong-bao-hanh.35BE05CA.html&amp;pubid=ra-559220ee7f9c15d6&amp;title=TRỢ LÝ TIẾNG HOA (PHÒNG BẢO HÀNH)&amp;ct=1&amp;pco=tbxnj-1.0"><i
+                                                       href=""><i
                                                             class="fa fa-linkedin"></i></a>
                                                     <a rel="nofollow" target="_blank"
-                                                       href="https://api.addthis.com/oexchange/0.8/forward/gmail/offer?url=https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-tieng-hoa-phong-bao-hanh.35BE05CA.html&amp;pubid=ra-559220ee7f9c15d6&amp;title=TRỢ LÝ TIẾNG HOA (PHÒNG BẢO HÀNH)&amp;ct=1&amp;pco=tbxnj-1.0"><i
+                                                       href=""><i
                                                             class="fa fa-google"></i></a>
                                                     <div class="zalo-share-button" data-href=""
                                                          data-oaid="579745863508352884" data-layout="2"
@@ -319,14 +319,12 @@
                                 </div>
                                 <div class="detail-row reset-bullet">
                                     <h2 class="detail-title">Mô tả Công việc</h2>
-                                    <textarea style="width: 100%; border: none;" readonly
-                                              rows="10"> {{ $job ->mota }}</textarea>
+                                    <p> {!! $job ->mota !!}</p>
 
                                 </div>
                                 <div class="detail-row" reset-bullet="">
                                     <h2 class="detail-title">Yêu Cầu Công Việc</h2>
-                                    <textarea style="width: 100%; border: none;" readonly
-                                              rows="10"> {{ $job ->yeucau }}</textarea>
+                                    <p> {!! $job ->yeucau !!}</p>
 
                                 </div>
                                 <div class="detail-row">
@@ -372,7 +370,7 @@
                                         <div class="item item-1">
                                             <a tabindex="0" role="button">
                                                 <span>
-                    </span></a><a href="https://careerbuilder.vn/cv-hay" target="_blank">Thiết kế CV Ứng Tuyển</a>
+                    </span></a><a href="#" target="_blank">Thiết kế CV Ứng Tuyển</a>
 
 
                                         </div>
@@ -381,13 +379,13 @@
                                 <div class="share-this-job">
                                     <span>Chia sẻ việc làm này:</span>
                                     <a target="_blank"
-                                       href="https://www.facebook.com/sharer/sharer.php?u=https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-tieng-hoa-phong-bao-hanh.35BE05CA.html&amp;t=TRỢ LÝ TIẾNG HOA (PHÒNG BẢO HÀNH)">
+                                       href="">
                                         <i class="fa fa-facebook"></i> </a>
                                     <a target="_blank"
-                                       href="https://api.addthis.com/oexchange/0.8/forward/linkedin/offer?url=https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-tieng-hoa-phong-bao-hanh.35BE05CA.html&amp;pubid=ra-559220ee7f9c15d6&amp;title=TRỢ LÝ TIẾNG HOA (PHÒNG BẢO HÀNH)&amp;ct=1&amp;pco=tbxnj-1.0">
+                                       href="">
                                         <i class="fa fa-linkedin"></i></a>
                                     <a target="_blank"
-                                       href="https://api.addthis.com/oexchange/0.8/forward/gmail/offer?url=https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-tieng-hoa-phong-bao-hanh.35BE05CA.html&amp;pubid=ra-559220ee7f9c15d6&amp;title=TRỢ LÝ TIẾNG HOA (PHÒNG BẢO HÀNH)&amp;ct=1&amp;pco=tbxnj-1.0">
+                                       href="">
                                         <i class="fa fa-google"></i></a>
                                     <div class="zalo-share-button" data-href="" data-oaid="579745863508352884"
                                          data-layout="2" data-color="white" data-customize="false"
@@ -395,13 +393,13 @@
                                         <iframe id="d10a5333-6f35-481f-a3fd-7ef601aa43ba"
                                                 name="d10a5333-6f35-481f-a3fd-7ef601aa43ba" frameborder="0"
                                                 allowfullscreen="" scrolling="no" width="20px" height="20px"
-                                                src="https://button-share.zalo.me/share_inline?id=d10a5333-6f35-481f-a3fd-7ef601aa43ba&amp;layout=2&amp;color=white&amp;customize=false&amp;width=20&amp;height=20&amp;isDesktop=true&amp;url=https%3A%2F%2Fcareerbuilder.vn%2Fvi%2Ftim-viec-lam%2Ftro-ly-tieng-hoa-phong-bao-hanh.35BE05CA.html&amp;d=eyJ1cmwiOiJodHRwczovL2NhcmVlcmJ1aWxkZXIudm4vdmkvdGltLXZpZWMtbGFtL3Ryby1seS10aWVuZy1ob2EtcGhvbmctYmFvLWhhbmguMzVCRTA1Q0EuaHRtbCJ9&amp;shareType=0"
+                                                src=""
                                                 style="position: absolute; z-index: 99; top: 0px; left: 0px;"></iframe>
                                     </div>
 
                                 </div>
 
-                                <div class="job-tags ">
+                               {{-- <div class="job-tags ">
                                     <h2>Job tags / skills</h2>
                                     <ul>
                                         <li>
@@ -411,7 +409,7 @@
                                         <li><a href="https://careerbuilder.vn/vi/tag/assistant.html" title=" Assistant">
                                                 Assistant</a></li>
                                     </ul>
-                                </div>
+                                </div>--}}
 
                                 <input type="hidden" id="salary_taskbar" name="salary_taskbar" value="0">
                                 <input type="hidden" id="industry_taskbar" name="industry_taskbar" value="38,71,48">
@@ -460,7 +458,7 @@
                                     <div class="job-item">
                                         <div class="figure">
                                             <div class="image"><a
-                                                    href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-tnhh-thuong-mai-abico-viet-nam.35A7E76E.html"
+                                                    href="{{ route("user.pages.viewDetailJob",  $item->idJob ) }}"
                                                     target="_blank" title="{{ $item -> tenEmployer }}"> <img
                                                         class="lazy-bg" title="{{ $item -> tenEmployer }}"
                                                         src="@if($item -> img == null){{ asset('public/avatar/'. $item -> avt) }}@else{{ asset('public/banner_job/'. $item -> img) }}@endif" > </a>
@@ -468,13 +466,13 @@
                                             <div class="figcaption">
                                                 <div class="timeago"></div>
                                                 <div class="title"><a class="job_link"
-                                                                      href="https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-tieng-trung-phong-ke-toan.35BDAADB.html"
+                                                                      href="{{ route("user.pages.viewDetailJob",  $item->idJob ) }}"
                                                                       target="_blank"
                                                                       title="{{ $item -> tencongviec }}"> {{ $item -> tencongviec }} </a>
                                                 </div>
                                                 <div class="caption">
                                                     <a class="company-name"
-                                                       href="https://careerbuilder.vn/vi/nha-tuyen-dung/cong-ty-tnhh-thuong-mai-abico-viet-nam.35A7E76E.html"
+                                                       href="{{ route("user.pages.viewDetailJob",  $item->idJob ) }}"
                                                        target="_blank" title="{{ $item -> tenEmployer }}">{{ $item -> tenEmployer }}</a>
                                                     <p class="salary"><em class="fa fa-usd"></em>Lương:
                                                         @if($item -> minluong == null and $item -> maxluong == null)
@@ -506,7 +504,7 @@
                                 @endforeach
                             </div>
                             <div class="load-more"><a
-                                    href="https://careerbuilder.vn/viec-lam-tuong-tu/TRỢ-LÝ-TIẾNG-HOA-PHÒNG-BẢO-HÀNH-tai-ho-chi-minh-kl8-vi.html"
+                                    href="{{ route('user.pages.viec-lam') }}"
                                     title="jobs recommend">Xem tất cả</a></div>
                         </section>
                     </div>

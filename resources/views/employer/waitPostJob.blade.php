@@ -77,19 +77,24 @@
                         </option>
                     </select>
                 </div>
+                @if(session('norole'))
+                    <div style="margin: 0px; padding: 0.5rem 1.25rem" class="alert alert-danger">
+                        {{session('norole')}}
+                    </div>
+                @endif
                 <div class="main-tabslet">
                     <ul class="tabslet-tab">
-                        <li class="tablinks active">
+                        <li class="tablinks">
                             <a href="{{ route('employer.view_hrcentral') }}">Việc Làm Đang Đăng</a>
                         </li>
-                        <li class="tablinks">
+                        <li class="tablinks active">
                             <a href="{{ route('employer.view_waitPostJob') }}">Việc Làm Chờ Đăng</a>
                         </li>
-                        <li class="tablinks" data-electronic="tab-hh">
+                        <li class="tablinks">
                             <a href="{{ route('employer.view_expJob') }}">Việc Làm Hết Hạn</a>
                         </li>
                     </ul>
-                    <div class="tabslet-content active" id="tab-dd">
+                    <div class="tabslet-content active" id="tab-cd">
                         <div class="main-jobs-posting">
                             <div class="heading-jobs-posting">
                                 <div class="left-heading">
@@ -129,20 +134,14 @@
                                         <tr>
                                             <th width="1%"></th>
                                             <th width="32%">Chức danh</th>
-                                            <th width="12%" onclick="setTypeSort('posting', 'asc', 3)">Ngày đăng<em
+                                            <th width="12%" onclick="setTypeSort('posting', 'asc', 3)">Ngày tạo<em
                                                     class="material-icons">arrow_drop_down</em></th>
-                                            <th width="10%" onclick="setTypeSort('posting', 'asc', 4)">Hết hạn<em
-                                                    class="material-icons">sort</em></th>
-                                            <th width="10%" onclick="setTypeSort('posting', 'asc', 4)">Trạng thái</th>
-                                            <th width="10%" onclick="setTypeSort('posting', 'asc', 0)">Lượt Xem<em
-                                                    class="material-icons">sort</em></th>
-                                            <th width="10%" onclick="setTypeSort('posting', 'asc', 1)">Lượt Nộp<em
-                                                    class="material-icons">sort</em></th>
+                                            <th width="10%" onclick="setTypeSort('posting', 'asc', 1)">Đăng tuyển</th>
                                             <th width="15%">Thao tác</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach($listJobs as $list)
+                                        @foreach($listJobsWait as $list)
                                             <tr>
                                                 {{--                                            <td colspan="9" class="cb-text-center"><p><strong> Không có vị trí nào trong thư mục này.</strong></p></td>--}}
                                                 <td>
@@ -151,21 +150,23 @@
                                                     </div>
                                                 </td>
                                                 <td>{{ $list-> tencongviec }}</td>
-                                                <td>{{ date('d-m-Y', strtotime($list-> ngaydang)) }}</td>
-                                                <td>{{ date('d-m-Y', strtotime($list-> hannhanhoso)) }}</td>
-                                                <td>@if($list-> trangthai == 3)
-                                                        <span class="badge bg-secondary">Chờ duyệt</span>
-                                                    @elseif($list-> trangthai == 1)
-                                                        <span class="badge bg-success">Đang đăng</span>
-                                                    @endif</td>
-                                                <td>{{ $list-> views }}</td>
-                                                <td>{{ $list-> danop }}</td>
+                                                <td>{{ date('d-m-Y', strtotime($list-> created_at)) }}</td>
+                                                <td>
+                                                    <a href="{{ route('employer.postJob', $list -> id) }}" title="Đăng tuyển">
+                                                        <em class="material-icons">vertical_align_top
+                                                        </em></a>
+                                                </td>
                                                 <td>
                                                     <ul class="list-manipulation">
                                                         <li>
                                                             <a href="{{ route('employer.view_detailJob', $list ->id) }}"
                                                                title="Chi tiết"><em
                                                                     class="material-icons">visibility </em></a></li>
+                                                        <li>
+                                                            <a href="{{ route('employer.duplicatedJob', $list ->id) }}"
+                                                               title="Nhân bản"><em
+                                                                    class="material-icons">content_copy </em>
+                                                            </a></li>
                                                         <li>
                                                             <a href="{{ route('employer.view_updateJob', $list->id) }}"
                                                                title="Sửa"><em
@@ -178,12 +179,12 @@
                                                                     class="material-icons">cancel </em></a></li>
                                                     </ul>
                                                 </td>
-
                                             </tr>
                                         @endforeach
                                         </tbody>
                                     </table>
-                                    {!! $listJobs->links() !!}
+                                    {!! $listJobsWait->links() !!}
+
                                 </div>
                             </div>
                         </div>
@@ -192,33 +193,33 @@
             </div>
         </div>
     </section>
-    {{--    <script>--}}
-    {{--        var tabLinks = document.querySelectorAll(".tablinks");--}}
-    {{--        var tabContent = document.querySelectorAll(".tabslet-content");--}}
+{{--    <script>--}}
+{{--        var tabLinks = document.querySelectorAll(".tablinks");--}}
+{{--        var tabContent = document.querySelectorAll(".tabslet-content");--}}
 
-    {{--        tabLinks.forEach(function (el) {--}}
-    {{--            el.addEventListener("click", openTabs);--}}
-    {{--        });--}}
+{{--        tabLinks.forEach(function (el) {--}}
+{{--            el.addEventListener("click", openTabs);--}}
+{{--        });--}}
 
-    {{--        function openTabs(el) {--}}
-    {{--            var btn = el.currentTarget; // lắng nghe sự kiện và hiển thị các element--}}
-    {{--            var electronic = btn.dataset.electronic; // lấy giá trị trong data-electronic--}}
+{{--        function openTabs(el) {--}}
+{{--            var btn = el.currentTarget; // lắng nghe sự kiện và hiển thị các element--}}
+{{--            var electronic = btn.dataset.electronic; // lấy giá trị trong data-electronic--}}
 
-    {{--            tabContent.forEach(function (el) {--}}
-    {{--                el.classList.remove("active");--}}
-    {{--            }); //lặp qua các tab content để remove class active--}}
+{{--            tabContent.forEach(function (el) {--}}
+{{--                el.classList.remove("active");--}}
+{{--            }); //lặp qua các tab content để remove class active--}}
 
-    {{--            tabLinks.forEach(function (el) {--}}
-    {{--                el.classList.remove("active");--}}
-    {{--            }); //lặp qua các tab links để remove class active--}}
+{{--            tabLinks.forEach(function (el) {--}}
+{{--                el.classList.remove("active");--}}
+{{--            }); //lặp qua các tab links để remove class active--}}
 
-    {{--            document.querySelector("#" + electronic).classList.add("active");--}}
-    {{--            // trả về phần tử đầu tiên có id="" được add class active--}}
+{{--            document.querySelector("#" + electronic).classList.add("active");--}}
+{{--            // trả về phần tử đầu tiên có id="" được add class active--}}
 
-    {{--            btn.classList.add("active");--}}
-    {{--            // các button mà chúng ta click vào sẽ được add class active--}}
-    {{--        }--}}
-    {{--    </script>--}}
+{{--            btn.classList.add("active");--}}
+{{--            // các button mà chúng ta click vào sẽ được add class active--}}
+{{--        }--}}
+{{--    </script>--}}
     <style>
         .pagination {
             display: flex;

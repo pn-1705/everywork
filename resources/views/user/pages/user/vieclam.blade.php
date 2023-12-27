@@ -195,65 +195,34 @@
                         <div class="box-content">
                             <ul>
                                 <li>
-                                    <a href="https://careerbuilder.vn/viec-lam/Supervisor-k-vi.html"
+                                    <a href="#"
                                        title="Supervisor">
-                                        Supervisor
+                                        Kế toán
                                     </a>
-                                </li>
-                                <li>
-                                    <a href="https://careerbuilder.vn/viec-lam/Giám-đốc-nhân-sự-k-vi.html"
-                                       title="Giám đốc nhân sự">
-                                        Giám đốc nhân sự
+                                </li><li>
+                                    <a href="#"
+                                       title="Supervisor">
+                                        Kế toán
                                     </a>
-                                </li>
-                                <li>
-                                    <a href="https://careerbuilder.vn/viec-lam/quản-lý-kho-k-vi.html"
-                                       title="quản lý kho">
-                                        quản lý kho
+                                </li><li>
+                                    <a href="#"
+                                       title="Supervisor">
+                                        Kế toán
                                     </a>
-                                </li>
-                                <li>
-                                    <a href="https://careerbuilder.vn/viec-lam/Đại-diện-kinh-doanh-k-vi.html"
-                                       title="Đại diện kinh doanh">
-                                        Đại diện kinh doanh
+                                </li><li>
+                                    <a href="#"
+                                       title="Supervisor">
+                                        Kế toán
                                     </a>
-                                </li>
-                                <li>
-                                    <a href="https://careerbuilder.vn/viec-lam/Hành-chính-k-vi.html"
-                                       title="Hành chính">
-                                        Hành chính
+                                </li><li>
+                                    <a href="#"
+                                       title="Supervisor">
+                                        Kế toán
                                     </a>
-                                </li>
-                                <li>
-                                    <a href="https://careerbuilder.vn/viec-lam/HSE-k-vi.html" title="HSE">
-                                        HSE
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://careerbuilder.vn/viec-lam/Kế-toán-trưởng-k-vi.html"
-                                       title="Kế toán trưởng">
-                                        Kế toán trưởng
-                                    </a>
-                                    <script
-                                        src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
-                                </li>
-                                <li>
-                                    <a href="https://careerbuilder.vn/viec-lam/assistant-k-vi.html"
-                                       title="assistant">
-                                        assistant
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://careerbuilder.vn/viec-lam/Purchasing-k-vi.html"
-                                       title="Purchasing">
-                                        Purchasing
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://careerbuilder.vn/viec-lam/Sales-Admin-k-vi.html"
-                                       title="Sales Admin">
-                                        Sales Admin
+                                </li><li>
+                                    <a href="#"
+                                       title="Supervisor">
+                                        Kế toán
                                     </a>
                                 </li>
                             </ul>
