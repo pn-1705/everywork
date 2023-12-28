@@ -1807,7 +1807,7 @@
     }
 
     .box-manage-job-posting .main-jobs-posting .table > table th:nth-child(2), .box-manage-job-posting .main-jobs-posting .table > table td:nth-child(2) {
-        text-align: left;
+        /*text-align: left;*/
     }
 
     .box-manage-job-posting .main-jobs-posting .table > table thead {
@@ -6938,7 +6938,7 @@
     }
 
     .box-manage-job-posting .main-jobs-posting .table > table th:nth-child(2), .box-manage-job-posting .main-jobs-posting .table > table td:nth-child(2) {
-        text-align: left;
+        /*text-align: left;*/
     }
 
     .box-manage-job-posting .main-jobs-posting .table > table thead {

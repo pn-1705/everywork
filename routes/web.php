@@ -62,7 +62,6 @@ Route::group(['middleware' => 'checkUserRole', 'prefix' => 'user'], function () 
     Route::get('/CV', 'User\UserController@view_CV')->name('CV');
     Route::post('/uploadCV', 'User\UserController@upload_CV')->name('tai-len-ho-so');
     Route::get('/deleteCV/{id}', 'User\UserController@delete_CV')->name('xoa-CV');
-
 });
 //Lưu việc làm
 Route::get('/saveJob/{id}/{type}', 'User\UserController@saveJob');
@@ -97,7 +96,8 @@ Route::group(['middleware' => 'checkEmployerRole', 'prefix' => 'employer'], func
     Route::post('/account', 'User\EmployerController@post_account')->name('employer.post_account');
     Route::get('/changepassword', 'User\EmployerController@changepassword')->name('employer.changepassword');
     Route::post('/changepassword', 'User\EmployerController@post_changepassword')->name('employer.post_changepassword');
-    Route::get('/manageresume', 'User\EmployerController@manageresume')->name('employer.manageresume');
+    Route::get('/manageresume', 'Employer\ManagerController@viewManageResume')->name('employer.manageresume');
+    Route::get('/manageresume/CV/{filename}', 'Employer\ManagerController@viewCV')->name('employer.viewCV');
 
     Route::get('/logout', 'User\EmployerController@logout')->name('employer.logout');
 
@@ -141,6 +141,10 @@ Route::group(['middleware' => 'checklogin', 'prefix' => 'admin'], function () {
     //Quản lí nhà tuyển dụng
     Route::get('/employers/new-employer', ['as' => 'admin.employers.newRegister', 'uses' => 'Admin\EmployerManagerController@indexNewRegister']);
     Route::get('/employers/grantPermissions/{id}', ['as' => 'admin.employers.grantPermissions', 'uses' => 'Admin\EmployerManagerController@grantPermissions']);
+    //Quản lí tin tuyển dụng
+    Route::get('/jobs/new-job', ['as' => 'admin.posts.newPost', 'uses' => 'Admin\PostManagerController@viewNewPost']);
+    Route::get('/jobs/accept/{id}', ['as' => 'admin.posts.acceptJob', 'uses' => 'Admin\PostManagerController@acceptJob']);
+
 });
 
 //Login facebook

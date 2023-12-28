@@ -27,7 +27,7 @@ class UserController extends Controller
             ->update(['noilamviec' => 2]);*/
 //        dd(Auth::check());
         $jobs = DB::table('table_jobs')
-            ->leftJoin('table_danhmucnganhnghe', 'table_jobs.id_nganhnghe', '=', 'table_danhmucnganhnghe.id')
+            ->leftJoin('table_careers', 'table_jobs.id_nganhnghe', '=', 'table_careers.id')
             ->leftJoin('table_ranks', 'table_jobs.capbac', '=', 'table_ranks.id')
             ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
             ->leftJoin('table_district', 'table_jobs.noilamviec', '=', 'table_district.id')
@@ -54,26 +54,26 @@ class UserController extends Controller
     {
 //        dd($request -> all());
         $jobs = DB::table('table_jobs')
-            ->leftJoin('table_danhmucnganhnghe', 'table_jobs.id_nganhnghe', '=', 'table_danhmucnganhnghe.id')
+            ->leftJoin('table_careers', 'table_jobs.id_nganhnghe', '=', 'table_careers.id')
             ->leftJoin('table_ranks', 'table_jobs.capbac', '=', 'table_ranks.id')
             ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
             ->leftJoin('table_district', 'table_jobs.noilamviec', '=', 'table_district.id')
             ->where('table_jobs.trangthai', 1)
             ->select('table_jobs.*', 'table_employers.ten', 'table_district.tendaydu', 'table_district.tenkhongdau', 'table_employers.avt',
-                'table_danhmucnganhnghe.tenkhongdau as employer_tenkhongdau');
+                'table_careers.tenkhongdau as employer_tenkhongdau');
 
         if ($request->keySearch != null) {
             $jobs->where('table_jobs.tencongviec', 'like', '%' . $request->keySearch . '%')
             ->orWhere('table_employers.ten', 'like', '%'. $request->keySearch. '%');
         }
         if ($request->career != 0) {
-            $jobs->where('table_danhmucnganhnghe.tenkhongdau', $request->career);
+            $jobs->where('table_careers.tenkhongdau', $request->career);
         }
         if ($request->location != 0) {
             $jobs->where('table_district.tenkhongdau', $request->location);
         }
         if ($request->career_mobile != 0) {
-            $jobs->where('table_danhmucnganhnghe.tenkhongdau', $request->career);
+            $jobs->where('table_careers.tenkhongdau', $request->career);
         }
         if ($request->location_mobile != 0) {
             $jobs->where('table_city.tenkhongdau', $request->location);
@@ -140,13 +140,13 @@ class UserController extends Controller
 
 
         $job = DB::table('table_jobs')
-            ->leftJoin('table_danhmucnganhnghe', 'table_jobs.id_nganhnghe', '=', 'table_danhmucnganhnghe.id')
+            ->leftJoin('table_careers', 'table_jobs.id_nganhnghe', '=', 'table_careers.id')
             ->leftJoin('table_ranks', 'table_jobs.capbac', '=', 'table_ranks.id')
             ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
             ->leftJoin('table_district', 'table_jobs.noilamviec', '=', 'table_district.id')
             ->where('table_jobs.trangthai', 1)
             ->where('table_jobs.id', $id)
-            ->select('table_jobs.*', 'table_employers.*', 'table_danhmucnganhnghe.id as idJob_Cate', 'table_danhmucnganhnghe.tendaydu', 'table_jobs.id as idJob')
+            ->select('table_jobs.*', 'table_employers.*', 'table_careers.id as idJob_Cate', 'table_careers.tendaydu', 'table_jobs.id as idJob')
             ->get()
             ->first();
 
@@ -247,7 +247,13 @@ class UserController extends Controller
         $idAccount = Auth::id();
         $idJob = $id;
         $idCV = $request->fileCV_select;
-        $fileCV = $request->fileCV;
+//        $fileCV = $request->fileCV;
+        if ($request->has('fileCV')) {
+            $file = $request->fileCV;
+            $extension = $request->fileCV->extension();
+            $filename = time() . '-CV-' . $idAccount . '.' . $extension;
+            $file->move(public_path('CV'), $filename);
+        }
         $letter = $request->letter;
         $created_at = Carbon::now('Asia/Ho_Chi_Minh');
         $updated_at = Carbon::now('Asia/Ho_Chi_Minh');
@@ -256,7 +262,7 @@ class UserController extends Controller
             ['idAccount' => $idAccount,
                 'idJob' => $idJob,
                 'idCV' => $idCV,
-                'fileCV' => $fileCV,
+                'fileCV' => $filename,
                 'letter' => $letter,
                 'created_at' => $created_at,
                 'updated_at' => $updated_at
@@ -388,9 +394,9 @@ class UserController extends Controller
     {
 
         $jobHot = DB::table('table_jobs')
-            ->select('table_jobs.id_nganhnghe', 'table_danhmucnganhnghe.tenkhongdau', 'table_danhmucnganhnghe.tendaydu', DB::raw('count(*) as total'))
-            ->groupBy('id_nganhnghe', 'table_danhmucnganhnghe.tenkhongdau', 'table_danhmucnganhnghe.tendaydu')
-            ->join('table_danhmucnganhnghe', 'table_danhmucnganhnghe.id', '=', 'table_jobs.id_nganhnghe')
+            ->select('table_jobs.id_nganhnghe', 'table_careers.tenkhongdau', 'table_careers.tendaydu', DB::raw('count(*) as total'))
+            ->groupBy('id_nganhnghe', 'table_careers.tenkhongdau', 'table_careers.tendaydu')
+            ->join('table_careers', 'table_careers.id', '=', 'table_jobs.id_nganhnghe')
             ->orderBy('total', 'desc')
             ->take(10)
             ->get();

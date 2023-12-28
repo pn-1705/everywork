@@ -110,7 +110,6 @@
                                                         $city = DB::table('table_district')->where('id', $job->noilamviec)->first()
                                                         ?>
                                                         {{ $city -> tendaydu }}
-
                                                     </p>
                                                 </div>
                                             </div>
@@ -445,7 +444,7 @@
                         <section class="jobs-side-list" style="padding: 0">
                             <div class="jobs-list">
                                 <?php $jobForCate = DB::table('table_jobs')
-                                    ->leftJoin('table_danhmucnganhnghe', 'table_jobs.id_nganhnghe', '=', 'table_danhmucnganhnghe.id')
+                                    ->leftJoin('table_careers', 'table_jobs.id_nganhnghe', '=', 'table_careers.id')
                                     ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
                                     ->leftJoin('table_district', 'table_jobs.noilamviec', '=', 'table_district.id')
                                     ->where('id_nganhnghe', '=', $job->idJob_Cate)
@@ -631,7 +630,7 @@
                                 aria-hidden="true" class="bi bi-x-square"></i></button>
                     </div>
                     <div class="modal-body p-lg-4">
-                        <form action="{{ route('nop-don-ung-tuyen', $job -> idJob) }}" method="post">
+                        <form action="{{ route('nop-don-ung-tuyen', $job -> idJob) }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div><p style="font-weight: bold">
                                 <?php if (isset(Auth::user()->id)) {

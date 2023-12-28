@@ -148,7 +148,7 @@
                             <div class="form-wrap">
                                 <div class="form-group form-editor" id="div_jobdesc">
                                     <label>Giới thiệu về công ty <font style="color: red">*</font></label>
-                                    <textarea rows="8" name="thongtin" id="EMP_DESC" class="editor">{{ $info -> thongtin }}
+                                    <textarea  name="thongtin" >{{ $info -> thongtin }}
                                     </textarea>
                                     <div class="note">
                                         <p>Vui lòng không nhập email,số điện thoại và số lượng kí tự phải lớn hơn 10
@@ -162,8 +162,12 @@
                                 </div>
                                 <div class="form-group form-editor" id="div_jobreq">
                                     <label>Thông điệp từ công ty</label>
-                                    <textarea rows="8" name="thongdiep" id="EMP_DESC" class="editor">{{ $info -> thongtin }}
+                                    <textarea name="thongdiep">{{ $info -> thongdiep }}
                                     </textarea>
+                                    <script>
+                                        CKEDITOR.replace('thongtin')
+                                        CKEDITOR.replace('thongdiep')
+                                    </script>
                                     <div class="note">
                                         <p>Vui lòng không nhập email,số điện thoại và số lượng kí tự phải lớn hơn 10
                                         </p>

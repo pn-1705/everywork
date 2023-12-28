@@ -28,7 +28,8 @@
                                     </a>
                                 </div>
                                 <div class="content">
-                                    <p>                                    {!! $list -> noidung !!}
+                                    <p>
+                                        {!! $list -> noidung !!}
                                     </p>
                                 </div>
                             </div>

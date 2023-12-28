@@ -404,6 +404,7 @@ class EmployerController extends Controller
             $employer->ten = $request->ten;
             $employer->loaihinhhoatdong = $request->loaihinhhoatdong;
             $employer->website = $request->website;
+            $employer->diachi = $request->diachi;
             $employer->masothue = $request->masothue;
             $employer->thongtin = $request->thongtin;
             $employer->thongdiep = $request->thongdiep;

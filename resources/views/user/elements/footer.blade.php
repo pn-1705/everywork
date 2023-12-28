@@ -51,7 +51,7 @@
                         @endforeach
                     </ul>
                     <br>
-                    <?php $dmnn = DB::table('table_danhmucnganhnghe')->where('trangthai', 1)->inRandomOrder()->take(5)->get()?>
+                    <?php $dmnn = DB::table('table_careers')->where('trangthai', 1)->inRandomOrder()->take(5)->get()?>
 
                     <h4>Việc làm theo ngành nghề</h4>
                     <ul>

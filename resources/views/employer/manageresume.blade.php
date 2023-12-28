@@ -8,11 +8,7 @@
             <div class="box-manage-job-posting">
                 <div class="heading-manage">
                     <div class="left-heading">
-                        <h1 class="title-manage">Quản Lý Tuyển Dụng</h1>
-                        <div><a href="{{ route('employer.view_addJob') }}">
-                                <bi class="bi bi-building-fill-add"></bi>
-                                Tạo tin tuyển dụng</a></div>
-
+                        <h1 class="title-manage">Quản Lý Ứng Viên</h1>
                     </div>
                     <div class="right-heading"><a href="https://careerbuilder.vn/vi/employers/faq" target="_blank"
                                                   class="support">Hướng dẫn</a></div>
@@ -68,37 +64,25 @@
                         </div>
                     </form>
                 </div>
+                <div class="filter-emp-user-create">
+                    <label>Ứng tuyển theo công việc</label>
+                    <select name="user_id" onchange="SetUserId(this.value, 'posting');">&gt;
+                        <option value="0">Tất cả</option>
+                        @foreach($listUV as $list)
+                        <option value="{{ $list -> id }}">
+                            {{ $list-> tencongviec }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="main-tabslet">
-                    <ul class="tabslet-tab">
-                        <li class="tablinks active">
-                            <a href="{{ route('employer.view_hrcentral') }}">Việc Làm Đang Đăng</a>
-                        </li>
-                        <li class="tablinks">
-                            <a href="{{ route('employer.view_waitPostJob') }}">Việc Làm Chờ Đăng</a>
-                        </li>
-                        <li class="tablinks" data-electronic="tab-hh">
-                            <a href="{{ route('employer.view_expJob') }}">Việc Làm Hết Hạn</a>
-                        </li>
-                    </ul>
+
                     <div class="tabslet-content active" id="tab-dd">
                         <div class="main-jobs-posting">
                             <div class="heading-jobs-posting">
-                                <div class="left-heading">
-                                    <p class="name">Hiển thị </p>
-                                    <ul class="list-check">
-                                        <li class="view-posting-detail active"><a href="javascript:void(0);" id="dtail">Chi
-                                                tiết</a></li>
-                                        <li class="view-posting-summary"><a href="javascript:void(0)">Xem tóm tắt </a>
-                                        </li>
-
-                                        <li><a href="javascript:void(0);" id="copy_multi_job">Nhân bản</a></li>
-                                        <li><a href="javascript:void(0);" id="unposting_multi_job">Tạm Dừng Đăng</a>
-                                        </li>
-                                    </ul>
-                                </div>
                                 <div class="right-heading">
                                     <div class="export-file"><a href="javascript:void(0);" onclick="exportJobs();"> <em
-                                                class="material-icons">get_app</em>Xuất file job</a></div>
+                                                class="material-icons">get_app</em>Xuất file</a></div>
                                     <div class="to-display">
                                         <p class="name">Hiển thị </p>
                                         <div class="form-display">
@@ -118,39 +102,35 @@
                                     <table>
                                         <thead style="background: #e6e6e6;">
                                         <tr>
-                                            <th width="1%"></th>
-                                            <th width="32%">Chức danh</th>
-                                            <th width="12%" onclick="setTypeSort('posting', 'asc', 3)">Ngày đăng<em
+                                            <th>Ứng viên</th>
+                                            <th>Số điện thoại</th>
+                                            <th>Email</th>
+                                            <th>Ngày nộp<em
                                                     class="material-icons">arrow_drop_down</em></th>
-                                            <th width="10%" onclick="setTypeSort('posting', 'asc', 4)">Hết hạn<em
+                                            <th>FileCV<em
                                                     class="material-icons">sort</em></th>
-                                            <th width="10%" onclick="setTypeSort('posting', 'asc', 4)">Trạng thái</th>
-                                            <th width="10%" onclick="setTypeSort('posting', 'asc', 0)">Lượt Xem<em
-                                                    class="material-icons">sort</em></th>
-                                            <th width="10%" onclick="setTypeSort('posting', 'asc', 1)">Lượt Nộp<em
-                                                    class="material-icons">sort</em></th>
-                                            <th width="15%">Thao tác</th>
+                                            <th>Công việc</th>
+
+                                            <th>Thao tác</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach($listJobs as $list)
+                                        @foreach($listUV as $list)
                                             <tr>
                                                 {{--                                            <td colspan="9" class="cb-text-center"><p><strong> Không có vị trí nào trong thư mục này.</strong></p></td>--}}
+                                                <td>{{ $list-> ten }}</td>
+                                                <td>{{ $list-> phone }}</td>
+                                                <td>{{ $list-> email }}</td>
+                                                <td>{{ date('d-m-Y', strtotime($list-> created_at)) }}</td>
                                                 <td>
-                                                    <div class="checkbox">
-                                                        <input type="checkbox" name="listresumes[]" value="35BE0717">
-                                                    </div>
+                                                    @if($list -> fileCV != null)
+                                                        <a target="_blank" href="{{ asset('public/CV/'. $list -> fileCV)}}">{{$list -> fileCV}}</a>
+                                                    @else
+                                                        <a target="_blank" href="{{ asset('public/CV/' .$list -> fileCVdatailen)}}">{{$list -> fileCVdatailen}}</a>
+                                                    @endif
                                                 </td>
-                                                <td>{{ $list-> tencongviec }}</td>
-                                                <td>{{ date('d-m-Y', strtotime($list-> ngaydang)) }}</td>
-                                                <td>{{ date('d-m-Y', strtotime($list-> hannhanhoso)) }}</td>
-                                                <td>@if($list-> trangthai == 3)
-                                                        <span class="badge bg-secondary">Chờ duyệt</span>
-                                                    @elseif($list-> trangthai == 1)
-                                                        <span class="badge bg-success">Đang đăng</span>
-                                                    @endif</td>
-                                                <td>{{ $list-> views }}</td>
-                                                <td>{{ $list-> danop }}</td>
+                                                <td>{{ $list -> tencongviec }}</td>
+                                                {{--                                                <td>{{ $list-> views }}</td>--}}
                                                 <td>
                                                     <ul class="list-manipulation">
                                                         <li>
@@ -174,7 +154,7 @@
                                         @endforeach
                                         </tbody>
                                     </table>
-                                    {!! $listJobs->links() !!}
+                                    {!! $listUV->links() !!}
                                 </div>
                             </div>
                         </div>

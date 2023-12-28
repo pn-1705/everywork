@@ -50,6 +50,33 @@
 
                 <li class="nav-item">
                     <a href="" class="nav-link">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Quản lí việc làm
+                            <i class="fas fa-angle-left right"></i>
+                            <span class="badge badge-danger right">
+                                3
+                                </span>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: none;">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.posts.newPost') }}"
+                               class="nav-link {{ Route::is('admin.posts.newPost') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Chờ duyệt</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.photo-video.slideshow') }}"
+                               class="nav-link {{ Route::is('admin.photo-video.slideshow') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Tất cả</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li><li class="nav-item">
+                    <a href="" class="nav-link">
                         <i class="nav-icon fas fa-person-booth"></i>
                         <p>
                             Nhà tuyển dụng
@@ -75,7 +102,6 @@
                             </a>
                         </li>
                     </ul>
-
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.news') }}"
