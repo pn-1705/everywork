@@ -444,8 +444,8 @@ class UserController extends Controller
             ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
             ->leftJoin('table_district', 'table_jobs.noilamviec', '=', 'table_district.id')
             ->where('table_jobs.trangthai', 1)
-            ->where('table_jobs.id_nhatuyendung', $id)
-            ->select('table_jobs.*', 'table_employers.ten', 'table_city.tendaydu', 'table_employers.avt')
+            ->where('table_employers.tenkhongdau', $id)
+            ->select('table_jobs.*', 'table_employers.ten', 'table_district.tendaydu', 'table_employers.avt')
             ->paginate(5)->withQueryString();;
 //                dd($jobOfEmployer);
         $data['employer'] = $employer;

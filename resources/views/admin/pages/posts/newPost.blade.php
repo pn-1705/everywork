@@ -97,7 +97,7 @@
                                 <td>
                                     <p>{{ $list -> tencongviec }}</p>
                                     <div class="tool-action mt-2 w-clear">
-                                        <a class="text-primary mr-3" href="{{ route('user.pages.viewDetailJob',$list -> id) }}"
+                                        <a class="text-primary mr-3" href="{{ route('admin.posts.viewDetailJob',$list -> id) }}"
                                            target="_blank" title="Xem chi tiết"><i class="far fa-eye mr-1"></i>View</a>
                                     </div>
                                 </td>

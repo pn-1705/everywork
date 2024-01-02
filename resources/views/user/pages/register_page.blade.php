@@ -103,19 +103,6 @@
                                     {{--                                        }--}}
                                     {{--                                        ?>--}}
                                     {{--                                    </div>--}}
-                                    <div class="form-group">
-                                        <p class="">Đăng kí với tư cách</p>
-                                    </div>
-                                    <div class="d-flex flex-row justify-content-sm-around">
-                                        <div class="form-radio form-group">
-                                            <input type="radio" id="role-uv" value="0" name="id_nhomquyen" checked>
-                                            <label style="padding-left: 30px" for="role-uv">Ứng viên</label>
-                                        </div>
-                                        <div class="form-radio form-group">
-                                            <input type="radio" id="role-ntd" value="1" name="id_nhomquyen">
-                                            <label style="padding-left: 30px" for="role-ntd">Nhà tuyển dụng</label>
-                                        </div>
-                                    </div>
                                     <div class="form-group form-text">
 
                                         <input type="text" id="name" name="ten" value=""

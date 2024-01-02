@@ -4,11 +4,13 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Models\JobSeeker;
 use App\Models\Social;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
@@ -76,9 +78,24 @@ class LoginController extends Controller
 
     public function post_login(LoginRequest $request)
     {
+        $users = DB::table('table_user')->where('id_nhomquyen', '=', 0)->get();
+        $accountStatus = 0;
+        $count = 0;
+        foreach ($users as $user) {
+            if (Hash::check($request->password, $user->password) && $request->email == $user->email) {
+                $count++;
+                $accountStatus = $user->status;
+            }
+        }
         $data = $request->only('email', 'password');
-        if (Auth::attempt($data)) {
-            return redirect()->intended('/home');
+        if ($count == 1) {
+            if ($accountStatus == 1) {
+                if (Auth::attempt($data)) {
+                    return redirect()->intended('/home');
+                }
+            } else {
+                return back()->with('error', 'Tài khoản hoặc mật khẩu không đúng !');
+            }
         }
         return back()->with('error', 'Tài khoản hoặc mật khẩu không đúng !');
     }
@@ -93,29 +110,33 @@ class LoginController extends Controller
 
     public function post_register(RegisterRequest $request)
     {
-        $data = $request->only('email', 'id_nhomquyen');
+        $data = $request->only('email');
 
         $id = DB::table('table_user')->max('id');
         $data['id'] = $id + 1;
+        $data['id_user'] = $id + 1;
+        $data['ten'] = $request -> ten;
 
         $token = strtoupper(Str::random(10));
         $data['token'] = $token;
+        $data['id_nhomquyen'] = 0;
 
         $password = $request->password;
         $password_h = bcrypt($request->password);
         $data['password'] = $password_h;
 
         if ($customer = User::create($data)) {
-            Mail::send('user.pages.emails.createAccount', compact('customer','password'), function ($email) use ($customer, $password) {
-                $email->subject('Thông báo tạo tài khoản thành công');
+            JobSeeker::create($data);
+            Mail::send('user.pages.emails.active_account', compact('customer','password'), function ($email) use ($customer, $password) {
+                $email->subject('Xác thực tài khoản');
                 $email->to($customer->email, $customer->id_nhomquyen, $customer->id, $customer->token, $customer->ten, $password);
             });
-
-            $singIn = ['email' => $request->email, 'password' => $password];
-            Auth::attempt($singIn);
-            return redirect()->route('profile')->with('yes', 'Đăng kí thành công! Chào mừng bạn đến với EveryWork!');
+            Auth::logout();
+            /*$singIn = ['email' => $request->email, 'password' => $password];
+            Auth::attempt($singIn);*/
+            return redirect()->route('user.pages.login_page')->with('yes', 'Đăng kí thành công! Kiểm tra email và xác thực tài khoản.');
         }
-        return view('user.pages.login');
+        return view('user.pages.register_page');
     }
 
     public function active_acount($token)

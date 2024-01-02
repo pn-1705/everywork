@@ -105,14 +105,12 @@
                                 <td>
                                     <p>{{ $list -> tieude }}</p>
                                     <div class="tool-action mt-2 w-clear">
-                                        <a class="text-primary mr-3" href="http://localhost/source_home1/ten-tin-tuc-1"
-                                           target="_blank" title="Tên tin tức 1"><i class="far fa-eye mr-1"></i>View</a>
+                                        <a class="text-primary mr-3" href=""
+                                           target="_blank" title="{{ $list -> tieude }}"><i class="far fa-eye mr-1"></i>View</a>
                                         <a class="text-info mr-3"
-                                           href="index.php?com=news&amp;act=edit&amp;type=tin-tuc&amp;p=1&amp;id=5"
-                                           title="Tên tin tức 1"><i class="far fa-edit mr-1"></i>Edit</a>
-                                        <a class="text-danger" id="delete-item"
-                                           data-url="index.php?com=news&amp;act=delete&amp;type=tin-tuc&amp;p=1&amp;id=5"
-                                           title="Tên tin tức 1"><i class="far fa-trash-alt mr-1"></i>Delete</a>
+                                           href="{{ route('admin.news.edit', $list -> id) }}"
+                                           title="{{ $list -> tieude }}"><i class="far fa-edit mr-1"></i>Edit</a>
+                                        <a class="text-danger" href="{{ route('admin.news.del', $list -> id) }}" id="delete-item"  title="{{ $list -> tieude }}"><i class="far fa-trash-alt mr-1"></i>Delete</a>
                                     </div>
                                 </td>
 

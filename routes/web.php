@@ -27,7 +27,7 @@ Route::post('/post_login', 'User\LoginController@post_login')->name('user.post_l
 Route::get('/logout', 'User\LoginController@logout')->name('logout');
 
 Route::post('/post_register', 'User\LoginController@post_register')->name('user.post_register');
-Route::get('/active/{token}', 'User\LoginController@active_acount')->name('user.active_acount');
+Route::get('user/active/{token}', 'User\LoginController@active_acount')->name('user.active_account');
 Route::get('/testMail', 'User\LoginController@sendMail')/*->name('user.post_register')*/;
 Route::get('auth/google', 'User\LoginController@redirectToGoogle')->name('login-by-google');
 Route::get('auth/google/callback', 'User\LoginController@handleGoogleCallback');
@@ -138,12 +138,17 @@ Route::group(['middleware' => 'checklogin', 'prefix' => 'admin'], function () {
     Route::get('/news', ['as' => 'admin.news', 'uses' => 'Admin\NewsController@index']);
     Route::get('/news/create', ['as' => 'admin.news.add', 'uses' => 'Admin\NewsController@add']);
     Route::post('/news/post', ['as' => 'admin.news.post', 'uses' => 'Admin\NewsController@postNews']);
+    Route::get('/news/edit/{id}', ['as' => 'admin.news.edit', 'uses' => 'Admin\NewsController@edit']);
+    Route::post('/news/update/{id}', ['as' => 'admin.news.update', 'uses' => 'Admin\NewsController@update']);
+    Route::get('/news/del/{id}', ['as' => 'admin.news.del', 'uses' => 'Admin\NewsController@del']);
+
     //Quản lí nhà tuyển dụng
     Route::get('/employers/new-employer', ['as' => 'admin.employers.newRegister', 'uses' => 'Admin\EmployerManagerController@indexNewRegister']);
     Route::get('/employers/grantPermissions/{id}', ['as' => 'admin.employers.grantPermissions', 'uses' => 'Admin\EmployerManagerController@grantPermissions']);
     //Quản lí tin tuyển dụng
     Route::get('/jobs/new-job', ['as' => 'admin.posts.newPost', 'uses' => 'Admin\PostManagerController@viewNewPost']);
     Route::get('/jobs/accept/{id}', ['as' => 'admin.posts.acceptJob', 'uses' => 'Admin\PostManagerController@acceptJob']);
+    Route::get('/jobs/view/{id}', ['as' => 'admin.posts.viewDetailJob', 'uses' => 'Admin\PostManagerController@viewDetailJob']);
 
 });
 

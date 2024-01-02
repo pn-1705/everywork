@@ -25,36 +25,51 @@ class NewsController extends Controller
 
     public function postNews(Request $request)
     {
-        if ($request->file('hinhanh') != null){
+        if ($request->file('hinhanh') != null) {
             $image = $request->file('hinhanh');
             $ram = strtoupper(Str::random(5));
-            $input['imagename'] = $ram.time().'.'.$image->extension();
+            $input['imagename'] = $ram . time() . '.' . $image->extension();
             $img = Image::make($image->path());
 
             $filePath = public_path('imgs/news');
-            $img->save($filePath.'/'.$input['imagename']);
-        }else{
+            $img->save($filePath . '/' . $input['imagename']);
+        } else {
             $input['imagename'] = null;
         }
 
 
         $hienthi = 0;
         $noibat = 0;
-        if ($request -> hienthi == 'on'){
+        if ($request->hienthi == 'on') {
             $hienthi = 1;
-        }if ($request -> noibat == 'on'){
+        }
+        if ($request->noibat == 'on') {
             $noibat = 1;
         }
         DB::table('table_news')->insert([
-            'tieude' => $request -> tieude,
-            'noidung' => $request -> noidung,
+            'tieude' => $request->tieude,
+            'noidung' => $request->noidung,
             'idDanhMuc' => 1,
             'hienthi' => $hienthi,
             'noibat' => $noibat,
             'hinhanh' => $input['imagename'],
             'ngaytao' => Carbon::now('Asia/Ho_Chi_Minh')
         ]);
-        return redirect() -> route('admin.news');
+        return redirect()->route('admin.news');
     }
 
+    public function edit($id)
+    {
+        $new = DB::table('table_news')->where('id', $id)->first();
+        $data['new'] = $new;
+
+        return view('admin.pages.news.edit', $data);
+    }
+
+    public function del($id)
+    {
+        DB::table('table_news')->where('id', $id)->delete();
+
+        return redirect()->back();
+    }
 }
