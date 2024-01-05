@@ -32,7 +32,8 @@ class UserController extends Controller
             ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
             ->leftJoin('table_district', 'table_jobs.noilamviec', '=', 'table_district.id')
             ->where('table_jobs.trangthai', 1)
-            ->select('table_jobs.*', 'table_employers.ten', 'table_district.tendaydu', 'table_employers.avt', 'table_employers.tenkhongdau as employer_tenkhongdau');
+            ->where('table_employers.trangthai', 2)
+            ->select('table_jobs.*', 'table_employers.ten', 'table_district.tendaydu', 'table_employers.avt', 'table_employers.tenkhongdau as employer_tenkhongdau', 'table_employers.trangthai');
 
         $totalJobs = $jobs->count();
         $jobs = $jobs->paginate(20)->withQueryString();

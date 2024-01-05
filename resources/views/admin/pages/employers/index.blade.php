@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Nhà tuyển dụng đăng kí mới</h1>
+                    <h1>Nhà tuyển dụng</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -84,7 +84,7 @@
                             Website
                         </th>
                         <th class="text-right">
-                            Yêu cầu
+                            Thao tác
                         </th>
                     </tr>
                     </thead>
@@ -124,21 +124,15 @@
                                     {{$list -> website}}
                                 </td>
                                 <td class="project-actions text-right">
-                                    @if ($list -> trangthai == 0)
-                                        <a title="Từ chối" class="btn btn-danger btn-xs"
+                                        <a title="Hủy quyền đăng tuyển" class="btn btn-danger btn-xs"
                                            href="{{ route("admin.employers.refusePermissions",  $list -> id ) }}">
-                                            Từ chối
+                                            Hủy quyền
                                         </a>
-                                    @elseif($list -> trangthai == 4)
-                                        <a title="Đã từ chối" class="btn btn-secondary btn-xs"
-                                           href="#">
-                                            Đã từ chối
-                                        </a>
-                                    @endif
-                                    <a href="{{ route('admin.employers.grantPermissions', $list -> id) }}"
+
+                                    {{--<a href="{{ route('admin.employers.grantPermissions', $list -> id) }}"
                                        title="Cấp quyền đăng tuyển" class="btn btn-info btn-xs">
                                         Cấp quyền
-                                    </a>
+                                    </a>--}}
                                 </td>
                             </tr>
                         </form>

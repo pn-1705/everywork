@@ -95,10 +95,10 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.photo-video.slideshow') }}"
-                               class="nav-link {{ Route::is('admin.photo-video.slideshow') ? 'active' : '' }}">
+                            <a href="{{ route('admin.employers.index') }}"
+                               class="nav-link {{ Route::is('admin.employers.index') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Slideshow</p>
+                                <p>Đang hoạt động</p>
                             </a>
                         </li>
                     </ul>

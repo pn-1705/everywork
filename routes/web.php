@@ -98,6 +98,8 @@ Route::group(['middleware' => 'checkEmployerRole', 'prefix' => 'employer'], func
     Route::post('/changepassword', 'User\EmployerController@post_changepassword')->name('employer.post_changepassword');
     Route::get('/manageresume', 'Employer\ManagerController@viewManageResume')->name('employer.manageresume');
     Route::get('/manageresume/CV/{filename}', 'Employer\ManagerController@viewCV')->name('employer.viewCV');
+    Route::get('/manageresume/job', 'Employer\ManagerController@locUngVien')->name('employer.locUngVien');
+    Route::get('/manageresume/exportFileJobSeeker', 'Employer\ManagerController@exportFileJobSeeker')->name('employer.exportFileJobSeeker');
 
     Route::get('/logout', 'User\EmployerController@logout')->name('employer.logout');
 
@@ -143,8 +145,10 @@ Route::group(['middleware' => 'checklogin', 'prefix' => 'admin'], function () {
     Route::get('/news/del/{id}', ['as' => 'admin.news.del', 'uses' => 'Admin\NewsController@del']);
 
     //Quản lí nhà tuyển dụng
+    Route::get('/employers/employer', ['as' => 'admin.employers.index', 'uses' => 'Admin\EmployerManagerController@index']);
     Route::get('/employers/new-employer', ['as' => 'admin.employers.newRegister', 'uses' => 'Admin\EmployerManagerController@indexNewRegister']);
     Route::get('/employers/grantPermissions/{id}', ['as' => 'admin.employers.grantPermissions', 'uses' => 'Admin\EmployerManagerController@grantPermissions']);
+    Route::get('/employers/refusePermissions/{id}', ['as' => 'admin.employers.refusePermissions', 'uses' => 'Admin\EmployerManagerController@refusePermissions']);
     //Quản lí tin tuyển dụng
     Route::get('/jobs/new-job', ['as' => 'admin.posts.newPost', 'uses' => 'Admin\PostManagerController@viewNewPost']);
     Route::get('/jobs/accept/{id}', ['as' => 'admin.posts.acceptJob', 'uses' => 'Admin\PostManagerController@acceptJob']);

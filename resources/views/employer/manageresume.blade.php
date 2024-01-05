@@ -14,88 +14,85 @@
                                                   class="support">Hướng dẫn</a></div>
                 </div>
                 <div class="main-form-posting">
-                    <form name="frmSearchJob" id="frmSearchJob" action="" method="post"
-                          onsubmit="return validateSearch();">
+                    <form name="frmSearchJob" id="frmSearchJob" action="{{ route('employer.locUngVien') }}" method="get">
+
                         <div class="form-wrap">
-                            <div class="form-group form-text">
-                                <label>Từ khóa</label>
-                                <input type="text" name="keyword" id="keyword" placeholder="Nhập từ khóa" value="">
-                            </div>
-                            <div class="form-group ">
-                                <label>Tìm theo ngày</label>
-                                <select class="fl_left mar_left46" name="date_type" id="date_type">
-                                    <option value="0">Ngày đăng</option>
-                                    <option value="1">Ngày hết hạn</option>
+
+                            <div class="form-group form-date end-date">
+                                <label>Công việc</label>
+                                <select name="idJob">
+                                    <option value="0">Tất cả</option>
+                                    @foreach($listJob as $list)
+                                        <option value="{{ $list -> id }}"
+                                                @if(isset($request))
+                                                @if( $request == $list -> id) selected @endif
+                                            @endif>
+                                            {{ $list-> tencongviec }}
+                                        </option>
+                                    @endforeach
                                 </select>
-                            </div>
-                            <div class="form-group form-date start-date">
-                                <label>Từ</label>
-                                <input type="date" name="date_from" id="date_from" placeholder="Chọn" class="" value="">
-                                <div id="start-date" class="dtpicker-overlay dtpicker-mobile">
-                                    <div class="dtpicker-bg">
-                                        <div class="dtpicker-cont">
-                                            <div class="dtpicker-content">
-                                                <div class="dtpicker-subcontent"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
                             <div class="form-group form-date end-date">
-                                <label>Đến</label>
-                                <input type="text" readonly="" name="date_to" id="date_to" placeholder="Chọn"
-                                       class="dates_cus_select" value="">
-                                <div class="icon"><em class="material-icons">event</em></div>
-                                <div id="end-date" class="dtpicker-overlay dtpicker-mobile">
-                                    <div class="dtpicker-bg">
-                                        <div class="dtpicker-cont">
-                                            <div class="dtpicker-content">
-                                                <div class="dtpicker-subcontent"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <label>Trạng thái</label>
+                                <select name="status">
+                                    <option value="5" @if(isset($requestStatus))
+                                    @if( $requestStatus == 5) selected @endif
+                                        @endif>Tất cả
+                                    </option>
+                                    <option value="0" @if(isset($requestStatus))
+                                    @if( $requestStatus == 0) selected @endif
+                                        @endif>Chưa xem
+                                    </option>
+                                    <option value="1" @if(isset($requestStatus))
+                                    @if( $requestStatus == 1) selected @endif
+                                        @endif>Đã xem
+                                    </option>
+                                    <option value="2" @if(isset($requestStatus))
+                                    @if( $requestStatus == 2) selected @endif
+                                        @endif>Mời phỏng vấn
+                                    </option>
+                                    <option value="3" @if(isset($requestStatus))
+                                    @if( $requestStatus == 3) selected @endif
+                                        @endif>Đạt
+                                    </option>
+                                    <option value="4" @if(isset($requestStatus))
+                                    @if( $requestStatus == 4) selected @endif
+                                        @endif>Không đạt
+                                    </option>
+                                </select>
                             </div>
                             <div class="form-group form-submit">
                                 <button class="btn-submit btn-gradient" type="submit"><em
                                         class="material-icons">search</em>Tìm
                                 </button>
                             </div>
+
                         </div>
                     </form>
+
                 </div>
-                <div class="filter-emp-user-create">
-                    <label>Ứng tuyển theo công việc</label>
-                    <select name="user_id" onchange="SetUserId(this.value, 'posting');">&gt;
-                        <option value="0">Tất cả</option>
-                        @foreach($listUV as $list)
-                        <option value="{{ $list -> id }}">
-                            {{ $list-> tencongviec }}
-                        </option>
-                        @endforeach
-                    </select>
-                </div>
+
                 <div class="main-tabslet">
 
-                    <div class="tabslet-content active" id="tab-dd">
+                    <div class="">
                         <div class="main-jobs-posting">
                             <div class="heading-jobs-posting">
                                 <div class="right-heading">
-                                    <div class="export-file"><a href="javascript:void(0);" onclick="exportJobs();"> <em
-                                                class="material-icons">get_app</em>Xuất file</a></div>
-                                    <div class="to-display">
-                                        <p class="name">Hiển thị </p>
-                                        <div class="form-display">
-                                            <select name="limit" id="limit">
-                                                <option value="20" selected="">20</option>
-                                                <option value="30">30</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </select>
-                                        </div>
-                                        <p class="name-display"></p>
+                                    <div class="export-file">
+                                        <form action="{{ route('employer.exportFileJobSeeker') }}" method="get">
+                                            @csrf
+                                            <input class="d-none" name="id" value="{{ $request }}">
+                                            <input class="d-none" name="status" value="{{ $requestStatus }}">
+                                            <div class="form-group form-submit">
+                                                <button class="btn-submit btn-gradient btn-sm" type="submit"><em
+                                                        class="material-icons">get_app</em>Xuất file
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
+
                             </div>
                             <div class="boding-jobs-posting">
                                 <div class="table table-jobs-posting active">
@@ -103,15 +100,15 @@
                                         <thead style="background: #e6e6e6;">
                                         <tr>
                                             <th>Ứng viên</th>
-                                            <th>Số điện thoại</th>
                                             <th>Email</th>
                                             <th>Ngày nộp<em
                                                     class="material-icons">arrow_drop_down</em></th>
                                             <th>FileCV<em
                                                     class="material-icons">sort</em></th>
                                             <th>Công việc</th>
-
+                                            <th>Trạng thái</th>
                                             <th>Thao tác</th>
+                                            {{--                                            <th>Thao tác</th>--}}
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -119,37 +116,24 @@
                                             <tr>
                                                 {{--                                            <td colspan="9" class="cb-text-center"><p><strong> Không có vị trí nào trong thư mục này.</strong></p></td>--}}
                                                 <td>{{ $list-> ten }}</td>
-                                                <td>{{ $list-> phone }}</td>
                                                 <td>{{ $list-> email }}</td>
                                                 <td>{{ date('d-m-Y', strtotime($list-> created_at)) }}</td>
                                                 <td>
                                                     @if($list -> fileCV != null)
-                                                        <a target="_blank" href="{{ asset('public/CV/'. $list -> fileCV)}}">{{$list -> fileCV}}</a>
+                                                        <a target="_blank"
+                                                           href="{{ asset('public/CV/'. $list -> fileCV)}}">{{$list -> fileCV}}</a>
                                                     @else
-                                                        <a target="_blank" href="{{ asset('public/CV/' .$list -> fileCVdatailen)}}">{{$list -> fileCVdatailen}}</a>
+                                                        <a target="_blank"
+                                                           href="{{ asset('public/CV/' .$list -> fileCVdatailen)}}">{{$list -> fileCVdatailen}}</a>
                                                     @endif
                                                 </td>
-                                                <td>{{ $list -> tencongviec }}</td>
-                                                {{--                                                <td>{{ $list-> views }}</td>--}}
+                                                <td style="text-align: left">{{ $list -> tencongviec }}</td>
+                                                <td>@if($list -> status == 0) Đã nộp @endif</td>
                                                 <td>
-                                                    <ul class="list-manipulation">
-                                                        <li>
-                                                            <a href="{{ route('employer.view_detailJob', $list ->id) }}"
-                                                               title="Chi tiết"><em
-                                                                    class="material-icons">visibility </em></a></li>
-                                                        <li>
-                                                            <a href="{{ route('employer.view_updateJob', $list->id) }}"
-                                                               title="Sửa"><em
-                                                                    class="material-icons">created</em></a>
-                                                        </li>
-                                                        <li class="end">
-                                                            <a href="javascript:void(0);"
-                                                               onclick="deleteItem_job('35BE100A');return false;"
-                                                               title="Xóa"><em
-                                                                    class="material-icons">cancel </em></a></li>
-                                                    </ul>
-                                                </td>
 
+                                                    <a href=""
+                                                       title="Chi tiết">Mời phỏng vấn</a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                         </tbody>
