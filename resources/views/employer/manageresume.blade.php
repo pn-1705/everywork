@@ -10,11 +10,11 @@
                     <div class="left-heading">
                         <h1 class="title-manage">Quản Lý Ứng Viên</h1>
                     </div>
-                    <div class="right-heading"><a href="https://careerbuilder.vn/vi/employers/faq" target="_blank"
-                                                  class="support">Hướng dẫn</a></div>
+
                 </div>
                 <div class="main-form-posting">
-                    <form name="frmSearchJob" id="frmSearchJob" action="{{ route('employer.locUngVien') }}" method="get">
+                    <form name="frmSearchJob" id="frmSearchJob" action="{{ route('employer.locUngVien') }}"
+                          method="get">
 
                         <div class="form-wrap">
 
@@ -50,16 +50,16 @@
                                     </option>
                                     <option value="2" @if(isset($requestStatus))
                                     @if( $requestStatus == 2) selected @endif
-                                        @endif>Mời phỏng vấn
+                                        @endif>Đã gửi mail
                                     </option>
-                                    <option value="3" @if(isset($requestStatus))
-                                    @if( $requestStatus == 3) selected @endif
-                                        @endif>Đạt
-                                    </option>
-                                    <option value="4" @if(isset($requestStatus))
-                                    @if( $requestStatus == 4) selected @endif
-                                        @endif>Không đạt
-                                    </option>
+                                    {{--      <option value="3" @if(isset($requestStatus))
+                                          @if( $requestStatus == 3) selected @endif
+                                              @endif>Đạt
+                                          </option>
+                                          <option value="4" @if(isset($requestStatus))
+                                          @if( $requestStatus == 4) selected @endif
+                                              @endif>Không đạt
+                                          </option>--}}
                                 </select>
                             </div>
                             <div class="form-group form-submit">
@@ -121,18 +121,26 @@
                                                 <td>
                                                     @if($list -> fileCV != null)
                                                         <a target="_blank"
-                                                           href="{{ asset('public/CV/'. $list -> fileCV)}}">{{$list -> fileCV}}</a>
+                                                           href="{{ route('employer.viewCV', $list -> idApply)}}">{{$list -> fileCV}}</a>
+                                                        {{--                                                        <a target="_blank"--}}
+                                                        {{--                                                           href="{{ asset('public/CV/'. $list -> fileCV)}}">{{$list -> fileCV}}</a>--}}
                                                     @else
                                                         <a target="_blank"
-                                                           href="{{ asset('public/CV/' .$list -> fileCVdatailen)}}">{{$list -> fileCVdatailen}}</a>
+                                                           href="{{ route('employer.viewCV' ,$list -> idApply)}}">{{$list -> nameCV}}</a>
                                                     @endif
                                                 </td>
                                                 <td style="text-align: left">{{ $list -> tencongviec }}</td>
-                                                <td>@if($list -> status == 0) Đã nộp @endif</td>
+                                                <td>@if($list -> status == 0) <span
+                                                        class="badge bg-secondary">Chưa xem</span>  @endif
+                                                    @if($list -> status == 1) <span
+                                                        class="badge bg-success">Đã xem</span>  @endif
+                                                    @if($list -> status == 2) <span
+                                                        class="badge bg-primary">Đã gửi mail</span>  @endif
+                                                </td>
                                                 <td>
 
-                                                    <a href=""
-                                                       title="Chi tiết">Mời phỏng vấn</a>
+                                                    <a href="#" onclick="openFormInvite({{$list -> idAccount}}, {{$list ->idApply}})"
+                                                       title="Chi tiết">Gửi email</a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -146,34 +154,87 @@
                 </div>
             </div>
         </div>
+        <div id="react-turbolinks-modals" data-turbolinks-permanent>
+            <div id="inviteModal" tabindex="-1" class="modal fade show" aria-labelledby="applyModalLabel"
+                 data-keyboard="true"
+                 style="display: none;padding-right: 15px; background-color: rgba(0,0,0,.5);" aria-modal="true"
+                 role="dialog">
+                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header d-flex align-items-center px-lg-4 bg-light">
+                            <div class="modal-title text-truncate h5" id="applyModalLabel"><span
+                                    class="font-weight-normal mr-2">GỬI EMAIL THÔNG BÁO ĐẾN ỨNG VIÊN</span>
+                                <strong class="font-weight-bold"></strong>
+                            </div>
+                            <button onclick="hideFormInvite()" type="button" class="close p-0 m-0" data-dismiss="modal"
+                                    aria-label="Close"><i
+                                    aria-hidden="true" class="bi bi-x-square"></i></button>
+                        </div>
+                        <div class="modal-body p-lg-4">
+                            <form action="{{ route('employer.sendLetter') }}" method="post">
+                                @csrf
+                                <div class="">
+                                    <input hidden id="idApply" name="idApply" type="text" value="">
+                                    <input hidden id="idUngVien" name="idUngVien" type="text" value="">
+                                    <div class="mb-3"><h6 style="font-weight: bold" class="apply-title">Chọn Email đã
+                                            được tạo sẵn:</h6>
+                                    </div>
+
+                                    <div class="px-4 py-3 rounded" style="background-color: rgba(0, 105, 219, 0.08);">
+                                        <p class="text-center m-1">Chọn</p>
+                                        <div class="w-100">
+                                            <select name="idLetter" style="appearance: none;"
+                                                    class="btn border rounded-pill font-weight-bold w-100 position-relative border-primary">
+                                                <?php
+                                                use Illuminate\Support\Facades\Auth;
+                                                use Illuminate\Support\Facades\DB;
+                                                $listLetters = DB::table('table_letters')->where('idEmployer', Auth::id())->get()
+                                                ?>
+                                                @if(isset($listLetters))
+                                                    @if(count($listLetters) != 0)
+                                                        @foreach($listLetters as $list)
+                                                            <option
+                                                                value="{{$list -> idLetter}}">{{ $list -> title }}</option>
+                                                        @endforeach
+                                                    @else
+                                                        <option value="0">Chưa tạo sẵn email</option>
+                                                    @endif
+                                                @endif
+                                            </select>
+
+                                        </div>
+                                        <span id="al_fileCV" class="text-danger">
+                                    </span>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit"
+                                            class="btn btn-primary mt-4" @if(count($listLetters) == 0) disabled @endif >GỬI EMAIL
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </section>
-    {{--    <script>--}}
-    {{--        var tabLinks = document.querySelectorAll(".tablinks");--}}
-    {{--        var tabContent = document.querySelectorAll(".tabslet-content");--}}
+    <script>
+        function openFormInvite($idAccount, $idApply) {
 
-    {{--        tabLinks.forEach(function (el) {--}}
-    {{--            el.addEventListener("click", openTabs);--}}
-    {{--        });--}}
+            $('#idUngVien').val($idAccount);
+            $('#idApply').val($idApply);
+            $('#inviteModal').addClass('d-block');
+            $('body').addClass('overflow-hidden');
+        }
 
-    {{--        function openTabs(el) {--}}
-    {{--            var btn = el.currentTarget; // lắng nghe sự kiện và hiển thị các element--}}
-    {{--            var electronic = btn.dataset.electronic; // lấy giá trị trong data-electronic--}}
-
-    {{--            tabContent.forEach(function (el) {--}}
-    {{--                el.classList.remove("active");--}}
-    {{--            }); //lặp qua các tab content để remove class active--}}
-
-    {{--            tabLinks.forEach(function (el) {--}}
-    {{--                el.classList.remove("active");--}}
-    {{--            }); //lặp qua các tab links để remove class active--}}
-
-    {{--            document.querySelector("#" + electronic).classList.add("active");--}}
-    {{--            // trả về phần tử đầu tiên có id="" được add class active--}}
-
-    {{--            btn.classList.add("active");--}}
-    {{--            // các button mà chúng ta click vào sẽ được add class active--}}
-    {{--        }--}}
-    {{--    </script>--}}
+        function hideFormInvite() {
+            $('#inviteModal').removeClass('d-block');
+            $('body').removeClass('overflow-hidden');
+        }
+    </script>
     <style>
         .pagination {
             display: flex;

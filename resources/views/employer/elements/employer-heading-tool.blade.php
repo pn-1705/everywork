@@ -25,21 +25,12 @@
                         <a href="{{ route('employer.view_account') }}"
                            title="Đơn Hàng ">Thông Tin Tài Khoản</a>
                     </li>
-                    <li>
-                        <a href="https://careerbuilder.vn/vi/employers/hrcentral/emailcontentmanagement"
+                    <li class="{{ Route::is('employer.viewEmailConfig') ? 'active' : ''}} ">
+                        <a href="{{ route('employer.viewEmailConfig') }}"
                            title="Cấu Hình Email"> Cấu Hình Email </a></li>
-                    <li><a href="https://careerbuilder.vn/vi/employers/careerbuilder-rewards" target="_blank"
-                           title="CBRewards">CBRewards</a></li>
                 </ul>
             </div>
-            <div class="right-wrap">
-                <ul class="list-menu">
-                    <li><a href="https://careerbuilder.vn/vi/tim-ung-vien.html"> <em
-                                class="material-icons">find_in_page</em> Tìm Hồ Sơ </a></li>
-                    <li><a class="but-createjob" href="https://careerbuilder.vn/vi/employers/postjobs"> <em
-                                class="material-icons">assignment_ind</em> Đăng Tuyển Dụng </a></li>
-                </ul>
-            </div>
+
         </div>
     </div>
 </section>
@@ -1791,7 +1782,7 @@
 
     .box-manage-job-posting .main-jobs-posting .table {
         width: 100%;
-        min-height: 250px;
+        /*min-height: 250px;*/
         overflow-x: auto;
     }
 

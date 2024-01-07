@@ -91,6 +91,9 @@ Route::group(['middleware' => 'checkEmployerRole', 'prefix' => 'employer'], func
 
 
     Route::get('/company_info', 'User\EmployerController@view_company_info')->name('employer.view_company_info');
+    Route::get('/emailsetting', 'Employer\ManagerController@viewEmailConfig')->name('employer.viewEmailConfig');
+    Route::post('/emailsetting', 'Employer\ManagerController@postEmailConfig')->name('employer.postEmailConfig');
+    Route::post('/sendLetter', 'Employer\ManagerController@sendLetter')->name('employer.sendLetter');
     Route::post('/', 'User\EmployerController@post_company_info')->name('employer.post_company_info');
     Route::get('/account', 'User\EmployerController@view_account')->name('employer.view_account');
     Route::post('/account', 'User\EmployerController@post_account')->name('employer.post_account');
@@ -99,6 +102,7 @@ Route::group(['middleware' => 'checkEmployerRole', 'prefix' => 'employer'], func
     Route::get('/manageresume', 'Employer\ManagerController@viewManageResume')->name('employer.manageresume');
     Route::get('/manageresume/CV/{filename}', 'Employer\ManagerController@viewCV')->name('employer.viewCV');
     Route::get('/manageresume/job', 'Employer\ManagerController@locUngVien')->name('employer.locUngVien');
+    Route::get('/manageresume/viewCV/{id}', 'Employer\ManagerController@viewCV')->name('employer.viewCV');
     Route::get('/manageresume/exportFileJobSeeker', 'Employer\ManagerController@exportFileJobSeeker')->name('employer.exportFileJobSeeker');
 
     Route::get('/logout', 'User\EmployerController@logout')->name('employer.logout');
