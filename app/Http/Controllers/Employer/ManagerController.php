@@ -18,7 +18,52 @@ class ManagerController extends Controller
     {
         $employer = DB::table('table_employers')->where('id', '=', Auth::id())->first();
         $data['employer'] = $employer;
-//        dd($employer);
+
+        $countJobPost = DB::table('table_jobs')
+            ->where('id_nhatuyendung', '=', Auth::id())
+            ->where('trangthai', 1)
+            ->where('hannhanhoso', '>=', Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d'))
+            ->count();
+        $countJobWait = DB::table('table_jobs')
+            ->where('id_nhatuyendung', '=', Auth::id())
+            ->where('trangthai', 0)
+            ->count();
+        $countJobWaitAccept = DB::table('table_jobs')
+            ->where('id_nhatuyendung', '=', Auth::id())
+            ->where('trangthai', 3)
+            ->count();
+        $countJobExp = DB::table('table_jobs')
+            ->where('id_nhatuyendung', '=', Auth::id())
+            ->where('hannhanhoso', '<', Carbon::now('Asia/Ho_Chi_Minh'))
+            ->count();
+
+        $data['countJobPost'] = $countJobPost;
+        $data['countJobWait'] = $countJobWait;
+        $data['countJobWaitAccept'] = $countJobWaitAccept;
+        $data['countJobExp'] = $countJobExp;
+
+        $listJobPosting = DB::table('table_applyforjobs')
+        ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
+        ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai')
+        ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
+        ->where('table_jobs.id_nhatuyendung', Auth::id())
+        ->where('hannhanhoso', '>=', Carbon::now('Asia/Ho_Chi_Minh'))
+        ->where('trangthai', '!=', 0)
+        ->where('trangthai', '!=', 2)
+        ->orderBy('ngaydang', 'desc')->take(4)->get();
+
+        $listUV = DB::table('table_applyforjobs')
+            ->select('table_applyforjobs.idApply', 'table_jobseeker.ten', 'table_jobseeker.phone', 'table_jobseeker.email', 'table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_applyforjobs.created_at', 'table_applyforjobs.idAccount', 'table_applyforjobs.fileCV', 'table_applyforjobs.status', 'table_cv.fileCV as fileCVdatailen', 'table_cv.nameCV', DB::raw('count(table_applyforjobs.idJob) as danop'))
+            ->groupBy('table_applyforjobs.idApply', 'table_jobseeker.ten', 'table_jobseeker.phone', 'table_jobseeker.email', 'table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_applyforjobs.created_at', 'table_applyforjobs.idAccount', 'table_applyforjobs.fileCV', 'table_applyforjobs.status', 'table_cv.fileCV', 'table_cv.nameCV')
+            ->join('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
+            ->join('table_jobseeker', 'table_jobseeker.id', '=', 'table_applyforjobs.idAccount')
+            ->leftjoin('table_cv', 'table_cv.idCV', '=', 'table_applyforjobs.idCV')
+            ->where('table_jobs.id_nhatuyendung', Auth::id())
+            ->orderBy('created_at', 'desc')->take(4)->get();
+
+        $data['listJobPosting'] = $listJobPosting;
+        $data['listUV'] = $listUV;
+
         return view('employer.pages.dashboard', $data);
     }
 
@@ -114,7 +159,7 @@ class ManagerController extends Controller
     public function viewCV($idApply)
     {
 //        dd($idApply);
-        DB::table('table_applyforjobs')->where('idApply', $idApply)->update([
+        DB::table('table_applyforjobs')->where('idApply', $idApply)->where('status', 0)->update([
             'status' => 1
         ]);
         $filename = DB::table('table_applyforjobs')->where('idApply', $idApply)->first()->fileCV;
@@ -242,14 +287,14 @@ class ManagerController extends Controller
     public function sendLetter(Request $request)
     {
 //        dd($request->all());
-        DB::table('table_applyforjobs')->where('idApply', $request -> idApply)->update([
+        DB::table('table_applyforjobs')->where('idApply', $request->idApply)->update([
             'status' => 2
         ]);
         $emailUngVien = User::find($request->idUngVien)->email;
         $letter = DB::table('table_letters')->where('idLetter', $request->idLetter)->first();
 
         Mail::send('employer.emails.inviteLetter', compact('letter', 'emailUngVien'), function ($email) use ($letter, $emailUngVien) {
-            $email->subject(''. $letter -> title);
+            $email->subject('' . $letter->title);
             $email->to($emailUngVien);
         });
 

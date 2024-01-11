@@ -1,11 +1,14 @@
 @extends('user.layout')
 
-@section('pageTitle', 'Đăng nhập')
+@section('pageTitle', 'Quên mật khẩu?')
 
 @section('content')
 
     <section class="signin-form cb-section">
         <div class="container">
+            <div class="cb-title cb-title-center">
+                <h2>Quên mật khẩu?</h2>
+            </div>
             <div class="box-shadown">
                 <div class="row">
                     <div class="col-md-6">
@@ -65,19 +68,9 @@
                                 {{session('no')}}
                             </div>
                         @endif
-                            @if(session('resetPassWordFail'))
-                            <div style="margin: 0px; padding: 0.5rem 1.25rem" class="alert alert-danger">
-                                {{session('resetPassWordFail')}}
-                            </div>
-                        @endif
                         @if(session('yes'))
                             <div style="margin: 0px; padding: 0.5rem 1.25rem" class="alert alert-success">
                                 {{session('yes')}}
-                            </div>
-                        @endif
-                            @if(session('resetPassWord'))
-                            <div style="margin: 0px; padding: 0.5rem 1.25rem" class="alert alert-success">
-                                {{session('resetPassWord')}}
                             </div>
                         @endif
                         <div class="main-form">
@@ -86,69 +79,32 @@
                                         nhập</a></li>
                                 <li><a href="{{ route('user.pages.register_page') }}" title="Đăng ký">Đăng ký</a></li>
                             </ul>
-                            <div class="choose-follow">
-                                <p>Đăng nhập bằng</p>
-                                <ul class="list-follow">
-                                    <li><a class="fb" href="{{ route('login-by-facebook') }}"
-                                           onclick="popupapi('facebook','aHR0cHM6Ly9jYXJlZXJidWlsZGVyLnZuL3ZpL2pvYnNlZWtlcnMvbG9naW5mYWNlYm9vaw==');"><em
-                                                class="bi bi-facebook"></em>Facebook</a></li>
-                                    <li><a class="gg" href="{{ route('login-by-google') }}"><em
-                                                class="bi bi-google"></em>Google</a></li>
-                                </ul>
+                            <div class="notification" style="margin-bottom: 40px">
+                                <p>Quên mật khẩu?</p>
+                                <p>Vui lòng nhập email của bạn và click Gửi.</p>
                             </div>
-                            <div class="or-line"><span>hoặc </span></div>
-                            <div class="form-login">
-                                <form name="frmLogin" method="POST" action="{{ route('user.post_login') }}">
+                            <div class="form-reset-password">
+                                <form id="frmForgotpw" method="post" action="{{ route('user.sendforgotpassword') }}">
                                     @csrf
-                                    {{--                                    <div class="">--}}
-
-                                    {{--                                        <?php--}}
-                                    {{--                                        $message = session()->get('error');--}}
-                                    {{--                                        if ($message) {--}}
-                                    {{--                                            echo '<span class="text-danger">' . $message . '</span>';--}}
-                                    {{--                                            Session::put('error', null);--}}
-                                    {{--                                        }--}}
-                                    {{--                                        ?>--}}
-                                    {{--                                    </div>--}}
-                                    @if(session('error'))
-                                        <div style="margin: 0px; padding: 0.5rem 1.25rem" class="alert alert-danger">
-                                            {{session('error')}}
-                                        </div>
-                                    @endif
                                     <div class="form-group form-text">
-                                        <input type="text" id="email" name="email" value=""
-                                               onkeyup="this.setAttribute('value', this.value);">
-                                        <label for="">Vui lòng nhập email</label>
-                                    </div>
-                                    <div class="form-group form-text toggle-password">
-                                        <input type="password" name="password" id="password" value=""
-                                               onkeyup="this.setAttribute('value', this.value);">
-                                        <label for="">Vui lòng nhập mật khẩu</label>
-                                        <div class="showhide-password eyess" onclick="showhide()"></div>
-                                        <script>
-                                            function showhide() {
-                                                var input = document.getElementById("password");
-                                                if (input.type === "password") {
-                                                    input.type = "text";
-                                                    document.getElementsByClassName("eyess")[0].classList.add("show");
-                                                } else {
-                                                    input.type = "password";
-                                                    document.getElementsByClassName("eyess")[0].classList.remove("show");
-                                                }
-                                            }
-                                        </script>
-                                    </div>
-                                    <div class="form-group form-checkbox">
-                                        <input type="checkbox" name="chkSave" value="1" id="chkSave">
-                                        <label for="chkSave">Tự động đăng nhập</label>
+                                        <input type="text" onkeyup="this.setAttribute('value', this.value);"
+                                               name="email" id="member_email" value="">
+                                        <label for="">Vui lòng nhập email của bạn</label>
+                                        <span class="error_member_email">
+                                            @if(session('error'))
+                                                {{session('error')}}
+                                            @endif
+                                        </span>
+                                        @if(session('succes'))
+                                            <div style="margin: 0px; padding: 0.5rem 1.25rem" class="alert alert-success">
+                                                {{session('succes')}}
+                                            </div>
+                                        @endif
                                     </div>
                                     <div class="form-group form-submit">
-                                        <button type="submit" id="submit_login" class="btn-gradient">Đăng nhập</button>
+                                        <button type="submit" class="btn-gradient">Gửi</button>
                                     </div>
                                 </form>
-                            </div>
-                            <div class="forgot-password"><a
-                                    href="{{ route('user.forgotpassword') }}">Quên mật khẩu?</a>
                             </div>
                         </div>
                     </div>

@@ -5,9 +5,8 @@ namespace App\Http\Controllers\User;
 use App\Http\Requests\ApplyJobRequest;
 use App\Models\City;
 use App\Models\DanhMucNganhNghe;
-use App\Models\Employer;
 use App\Models\Job;
-
+use App\Models\News;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,17 +20,17 @@ class UserController extends Controller
 {
     public function vieclam_page()
     {
-
 /*        DB::table('table_jobs')
-            ->where('noilamviec', '=', 20)
-            ->update(['noilamviec' => 2]);*/
-//        dd(Auth::check());
+            ->where('trangthai', '=', 1)
+            ->update(['hannhanhoso' => '2024-02-01']);*/
+
         $jobs = DB::table('table_jobs')
             ->leftJoin('table_careers', 'table_jobs.id_nganhnghe', '=', 'table_careers.id')
             ->leftJoin('table_ranks', 'table_jobs.capbac', '=', 'table_ranks.id')
             ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
             ->leftJoin('table_district', 'table_jobs.noilamviec', '=', 'table_district.id')
             ->where('table_jobs.trangthai', 1)
+            ->where('table_jobs.hannhanhoso', '>=', Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d'))
             ->where('table_employers.trangthai', 2)
             ->select('table_jobs.*', 'table_employers.ten', 'table_district.tendaydu', 'table_employers.avt', 'table_employers.tenkhongdau as employer_tenkhongdau', 'table_employers.trangthai');
 
@@ -60,12 +59,14 @@ class UserController extends Controller
             ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
             ->leftJoin('table_district', 'table_jobs.noilamviec', '=', 'table_district.id')
             ->where('table_jobs.trangthai', 1)
+            ->where('table_jobs.hannhanhoso', '>=', Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d'))
+            ->where('table_employers.trangthai', 2)
             ->select('table_jobs.*', 'table_employers.ten', 'table_district.tendaydu', 'table_district.tenkhongdau', 'table_employers.avt',
                 'table_careers.tenkhongdau as employer_tenkhongdau');
 
         if ($request->keySearch != null) {
             $jobs->where('table_jobs.tencongviec', 'like', '%' . $request->keySearch . '%')
-            ->orWhere('table_employers.ten', 'like', '%'. $request->keySearch. '%');
+                ->orWhere('table_employers.ten', 'like', '%' . $request->keySearch . '%');
         }
         if ($request->career != 0) {
             $jobs->where('table_careers.tenkhongdau', $request->career);
@@ -465,5 +466,33 @@ class UserController extends Controller
         $data['news4'] = $news;
 //        dd(htmlspecialchars_decode($newsBig[0]->noidung));
         return view('user.pages.news.index', $data);
+    }
+
+    public function viewNewsCate($ten)
+    {
+        $nameCate = DB::table('table_news_cate')
+            ->where('table_news_cate.tenkhongdau', $ten)
+            ->select('tendaydu')
+            ->first()->tendaydu;
+//        dd($nameCate);
+        $listNews = DB::table('table_news')
+            ->join('table_news_cate', 'table_news.idDanhMuc', '=', 'table_news_cate.id')
+            ->where('table_news_cate.tenkhongdau', $ten)
+            ->inRandomOrder()
+            ->paginate(15)->withQueryString();
+//dd($listNews);
+        return view('user.pages.news.newsCategory', compact('listNews', 'nameCate'));
+    }
+    public function viewNewDetail($ten)
+    {
+        $news = DB::table('table_news')
+            ->where('table_news.tieudekhongdau', $ten)
+            ->first();
+
+        $view = News::where('tieudekhongdau', $ten)->first()->luotxem;
+        $view++;
+        News::where('tieudekhongdau', $ten)->update(['luotxem'=> $view]);
+
+        return view('user.pages.news.newsDetail', compact('news'));
     }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Models\JobSeeker;
 use App\Models\Social;
 use Carbon\Carbon;
@@ -115,7 +117,7 @@ class LoginController extends Controller
         $id = DB::table('table_user')->max('id');
         $data['id'] = $id + 1;
         $data['id_user'] = $id + 1;
-        $data['ten'] = $request -> ten;
+        $data['ten'] = $request->ten;
 
         $token = strtoupper(Str::random(10));
         $data['token'] = $token;
@@ -127,7 +129,7 @@ class LoginController extends Controller
 
         if ($customer = User::create($data)) {
             JobSeeker::create($data);
-            Mail::send('user.pages.emails.active_account', compact('customer','password'), function ($email) use ($customer, $password) {
+            Mail::send('user.pages.emails.active_account', compact('customer', 'password'), function ($email) use ($customer, $password) {
                 $email->subject('Xác thực tài khoản');
                 $email->to($customer->email, $customer->id_nhomquyen, $customer->id, $customer->token, $customer->ten, $password);
             });
@@ -167,6 +169,7 @@ class LoginController extends Controller
         Session::flush();
         return redirect()->intended('/login');
     }
+
     public function employer_logout()
     {
         Auth::logout();
@@ -190,8 +193,8 @@ class LoginController extends Controller
         }
 
         $existingUser = User::where('email', $user->getEmail())->first();
-        if(isset($existingUser -> id_nhomquyen)){
-            if($existingUser -> id_nhomquyen == 1){
+        if (isset($existingUser->id_nhomquyen)) {
+            if ($existingUser->id_nhomquyen == 1) {
                 return redirect()->route('user.pages.login_page')->with('yes', 'Email đã được nhà tuyển dụng đăng kí !');
             }
         }
@@ -200,7 +203,7 @@ class LoginController extends Controller
 
         if ($existingUser) {
             auth()->login($existingUser, true);
-            return redirect()-> route('user.pages.home');
+            return redirect()->route('user.pages.home');
         } else {
             $newUser = new User;
             $newUser->id = $id + 1;
@@ -222,12 +225,55 @@ class LoginController extends Controller
             Auth::attempt($data);
 
             $customer = $newUser;
-            Mail::send('user.pages.emails.createAccount', compact('customer','password'), function ($email) use ($customer, $password) {
+            Mail::send('user.pages.emails.createAccount', compact('customer', 'password'), function ($email) use ($customer, $password) {
                 $email->subject('Thông báo tạo tài khoản thành công');
                 $email->to($customer->email, $customer->id_nhomquyen, $customer->id, $customer->token, $customer->ten, $password);
             });
         }
 
-        return redirect()-> route('profile');
+        return redirect()->route('profile');
+    }
+
+    public function viewForgotPassword()
+    {
+        return view('user.pages.user.forgotPassword');
+    }
+
+    public function sendForgotPassword(Request $request)
+    {
+        $user = User::where('email', $request->email)->where('id_nhomquyen', 0)->where('status', 1)->first();
+        if (!$user) {
+            return redirect()->back()->with('error', 'Email này chưa đăng ký tài khoản !');
+        }
+        $token = strtoupper(Str::random(15));
+        $user->token = $token;
+        $user->save();
+
+        Mail::send('user.pages.emails.forgotPassword', compact('user'), function ($email) use ($user) {
+            $email->subject('Cấp lại Mật khẩu');
+            $email->to($user->email);
+        });
+
+        return redirect()->back()->with('succes', 'Chúng tôi vừa gửi email cho bạn để xác nhận việc cung cấp mật khẩu mới.
+        Vui lòng kiểm tra hộp thư và làm theo hướng dẫn để nhận được mật khẩu mới !');
+    }
+
+    public function clickMailForgotPassword($code)
+    {
+        return view('user.pages.user.changePassword_forgotPassword', compact('code'));
+    }
+
+    public function forgotpassword_change(ResetPasswordRequest $request)
+    {
+        $check = User::where('token', $request->code)->first();
+        User::where('token', $request->code)->update([
+            'token' => null,
+            'password' => bcrypt($request->new_password)
+        ]);
+
+        if ($check){
+            return redirect()->route('user.pages.login_page')->with('resetPassWord', 'Tài khoản của bạn đã được cập nhật mật khẩu mới!');
+        }
+        return redirect()->route('user.pages.login_page')->with('resetPassWordFail', 'Đổi mật khẩu không thành công !');
     }
 }

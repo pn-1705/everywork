@@ -12,15 +12,10 @@
                     <div class="left-heading">
                         <h1 class="title-manage"> Thông Tin Tài Khoản</h1>
                     </div>
-
-                    <div class="right-heading"><a class="support" href="https://careerbuilder.vn/vi/employers/faq"
-                                                  target="_blank">Hướng dẫn </a></div>
                 </div>
                 <div class="main-tabslet" data-toggle="tabslet">
 
                     <ul class="tabslet-tab">
-                        <li><a href="https://careerbuilder.vn/vi/employers/hrcentral/accounts/1"
-                               alt="Quản lý user"><span>Quản lý user</span></a></li>
                         <li class="{{ Route::is('employer.view_account') ? 'active' : ''}}"><a
                                 href="{{ route('employer.view_account') }}" alt="Thông tin liên hệ"><span>Thông tin liên hệ</span></a>
                         </li>

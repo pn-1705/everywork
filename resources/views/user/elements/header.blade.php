@@ -27,7 +27,7 @@
                            href="{{ route('user.tin-tuc') }}"><span class="bi bi-newspaper">&nbsp; Cẩm nang - Tin tức</span></a></li>
                     <li><a class="nav-link scrollto {{ Route::is('pages.nha-tuyen-dung') ? 'active' : '' }}"
                            href="{{ route('pages.nha-tuyen-dung') }}"><span class="bi bi-person-bounding-box">&nbsp; Nhà tuyển dụng</span></a></li>
-                    <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+                  {{--  <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="#">Drop Down 1</a></li>
                             <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i
@@ -40,7 +40,7 @@
                             </li>
                             <li><a href="#">Drop Down 2</a></li>
                         </ul>
-                    </li>
+                    </li>--}}
                     <li class="mobile-li-toggle"><a href="#" title="Thông Báo Việc Làm"><span class="mdi mdi-bell">&nbsp;Thông báo</span></a>
                     </li>
                     <li class="mobile-li-toggle"
@@ -93,7 +93,7 @@
                                 class="">Đăng ký</span></a>
                     </li>
                     <li class="mobile-li-toggle">
-                        <a class="nav-link scrollto" href="{{ route('employer.home') }}"
+                        <a class="nav-link scrollto" href="{{ route('employer.login') }}"
                            title="Đăng tuyển, Tìm ứng viên">
                             <span class="mdi mdi-chevron-right">Dành cho nhà tuyển dụng</span>
 
@@ -117,11 +117,11 @@
                 <div class="dropdown-menu">
                     <div class="noti">
                         <p></p>
-                        <p>Chào mừng bạn đến CareerBuilder.vn</p>
+                        <p>Chào mừng bạn đến EveryWork</p>
                         <p>Tạo thông báo việc làm để xem việc làm phù hợp với bạn, nhà tuyển dụng đã xem hồ sơ của bạn
                             và cập nhật nhiều hơn nữa ...<br><br></p>
                         <p></p>
-                        <a class="email" href="https://careerbuilder.vn/thong-bao-viec-lam" title="Tạo Ngay">
+                        <a class="email" href="" title="Tạo Ngay">
                             Tạo Ngay
                         </a>
                     </div>
@@ -193,28 +193,28 @@
                     </ul>
                 </div>
             </div>
-            <div id="employer" class="main-employer dropdown"><a href="{{ route('employer.home') }}"
+            <div id="employer" class="main-employer dropdown"><a href="{{ route('employer.login') }}"
                                                                  title="Đăng tuyển, Tìm ứng viên">
                     <div class="dropdown-toggle">
                         <h4>Nhà tuyển dụng<em class="mdi mdi-chevron-down"></em></h4>
                         <p>Đăng tuyển, Tìm ứng viên</p>
                     </div>
                 </a>
-                <div class="dropdown-menu">
-                    <ul>
-                        <li><a href="https://careerbuilder.vn/vi/employers/login" title="Đăng nhập">Đăng nhập</a>
-                        </li>
-                        <li><a href="https://careerbuilder.vn/vi/employers/postjobs" title="Đăng Tuyển Dụng">Đăng Tuyển
-                                Dụng</a>
-                        </li>
-                        <li><a href="https://careerbuilder.vn/vi/resume-search.html" title="Tìm Ứng Viên">Tìm Ứng
-                                Viên</a>
-                        </li>
-                        <li><a href="https://careerbuilder.vn/vi/employers/products-and-services"
-                               title="Sản phẩm và Dịch vụ">Sản phẩm và Dịch vụ</a>
-                        </li>
-                    </ul>
-                </div>
+{{--                <div class="dropdown-menu">--}}
+{{--                    <ul>--}}
+{{--                        <li><a href="" title="Đăng nhập">Đăng nhập</a>--}}
+{{--                        </li>--}}
+{{--                        <li><a href="https://careerbuilder.vn/vi/employers/postjobs" title="Đăng Tuyển Dụng">Đăng Tuyển--}}
+{{--                                Dụng</a>--}}
+{{--                        </li>--}}
+{{--                        <li><a href="https://careerbuilder.vn/vi/resume-search.html" title="Tìm Ứng Viên">Tìm Ứng--}}
+{{--                                Viên</a>--}}
+{{--                        </li>--}}
+{{--                        <li><a href="https://careerbuilder.vn/vi/employers/products-and-services"--}}
+{{--                               title="Sản phẩm và Dịch vụ">Sản phẩm và Dịch vụ</a>--}}
+{{--                        </li>--}}
+{{--                    </ul>--}}
+{{--                </div>--}}
             </div>
         </div>
     </div>

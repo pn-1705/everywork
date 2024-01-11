@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="#" class="brand-link">
         <img src="{{ asset('public/logo/logo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
              style="opacity: .8">
         <span class="brand-text font-weight-light">Admin EveryWork.</span>
@@ -12,10 +12,10 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{ asset('public/logo/logo.png') }}" class="img-circle elevation-2" alt="User Image">
+{{--                <img src="{{ asset('public/logo/logo.png') }}" class="img-circle elevation-2" alt="User Image">--}}
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <a href="#" class="d-block">{{ Auth::user()->ten }}</a>
             </div>
         </div>
 
@@ -54,9 +54,9 @@
                         <p>
                             Quản lí việc làm
                             <i class="fas fa-angle-left right"></i>
-                            <span class="badge badge-danger right">
+                            {{--<span class="badge badge-danger right">
                                 3
-                                </span>
+                                </span>--}}
                         </p>
                     </a>
                     <ul class="nav nav-treeview" style="display: none;">
@@ -67,13 +67,13 @@
                                 <p>Chờ duyệt</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{--<li class="nav-item">
                             <a href="{{ route('admin.photo-video.slideshow') }}"
                                class="nav-link {{ Route::is('admin.photo-video.slideshow') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Tất cả</p>
                             </a>
-                        </li>
+                        </li>--}}
                     </ul>
                 </li><li class="nav-item">
                     <a href="" class="nav-link">
@@ -81,9 +81,9 @@
                         <p>
                             Nhà tuyển dụng
                             <i class="fas fa-angle-left right"></i>
-                            <span class="badge badge-danger right">
+                            {{--<span class="badge badge-danger right">
                                 3
-                                </span>
+                                </span>--}}
                         </p>
                     </a>
                     <ul class="nav nav-treeview" style="display: none;">

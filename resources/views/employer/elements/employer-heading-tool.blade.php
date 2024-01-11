@@ -8,7 +8,7 @@
                 <ul class="list-menu">
                     <li class="{{ Route::is('employer.viewDashboard') ? 'active' : ''}} ">
                         <a href="{{ route('employer.viewDashboard') }}"
-                           title="Quản Lý Đăng Tuyển">Dashboard</a>
+                           title="Dashboard">Dashboard</a>
                     <li class="{{ Route::is('employer.view_hrcentral') ? 'active' : ''}} ">
                         <a href="{{ route('employer.view_hrcentral') }}"
                            title="Quản Lý Đăng Tuyển">Quản Lý Đăng Tuyển</a>
@@ -19,11 +19,11 @@
                     </li>
                     <li class="{{ Route::is('employer.view_company_info') ? 'active' : ''}} ">
                         <a href="{{ route('employer.view_company_info') }}"
-                           title="Lịch Sử Tìm Kiếm">Thông Tin Công Ty</a>
+                           title="Thông Tin Công Ty">Thông Tin Công Ty</a>
                     </li>
                     <li class="{{ Route::is('employer.view_account') ? 'active' : ''}} ">
                         <a href="{{ route('employer.view_account') }}"
-                           title="Đơn Hàng ">Thông Tin Tài Khoản</a>
+                           title="Thông Tin Tài Khoản">Thông Tin Tài Khoản</a>
                     </li>
                     <li class="{{ Route::is('employer.viewEmailConfig') ? 'active' : ''}} ">
                         <a href="{{ route('employer.viewEmailConfig') }}"

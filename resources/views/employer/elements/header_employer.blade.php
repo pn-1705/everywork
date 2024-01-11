@@ -15,101 +15,101 @@
 
             <nav id="navbar" class="navbar">
 
-                <ul>
-                    <li><a class="nav-link scrollto {{ Route::is('user.pages.home') ? 'active' : '' }}"
-                           href="{{ route('user.pages.home') }}">Home</a></li>
-                    <li><a class="nav-link scrollto {{ Route::is('user.pages.viec-lam') ? 'active' : '' }}"
-                           href="{{ route('user.pages.viec-lam') }}">Tìm việc làm</a></li>
-                    <li><a class="nav-link scrollto {{ Route::is('pages.nha-tuyen-dung') ? 'active' : '' }}"
-                           href="{{ route('pages.nha-tuyen-dung') }}">Nhà tuyển dụng</a></li>
-                    <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
-                        <ul>
-                            <li><a href="#">Drop Down 1</a></li>
-                            <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i
-                                        class="bi bi-chevron-right"></i></a>
-                                <ul>
-                                    <li><a href="#">Deep Drop Down 1</a></li>
-                                    <li><a href="#">Deep Drop Down 2</a></li>
+{{--                <ul>--}}
+{{--                    <li><a class="nav-link scrollto {{ Route::is('user.pages.home') ? 'active' : '' }}"--}}
+{{--                           href="{{ route('user.pages.home') }}">Home</a></li>--}}
+{{--                    <li><a class="nav-link scrollto {{ Route::is('user.pages.viec-lam') ? 'active' : '' }}"--}}
+{{--                           href="{{ route('user.pages.viec-lam') }}">Tìm việc làm</a></li>--}}
+{{--                    <li><a class="nav-link scrollto {{ Route::is('pages.nha-tuyen-dung') ? 'active' : '' }}"--}}
+{{--                           href="{{ route('pages.nha-tuyen-dung') }}">Nhà tuyển dụng</a></li>--}}
+{{--                    <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>--}}
+{{--                        <ul>--}}
+{{--                            <li><a href="#">Drop Down 1</a></li>--}}
+{{--                            <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i--}}
+{{--                                        class="bi bi-chevron-right"></i></a>--}}
+{{--                                <ul>--}}
+{{--                                    <li><a href="#">Deep Drop Down 1</a></li>--}}
+{{--                                    <li><a href="#">Deep Drop Down 2</a></li>--}}
 
-                                </ul>
-                            </li>
-                            <li><a href="#">Drop Down 2</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="nav-link scrollto" href="#contact">Contact</a></li>
-                    <li class="mobile-li-toggle"><a href="#" title="Thông Báo Việc Làm"><span class="mdi mdi-bell">&nbsp;Thông báo</span></a>
-                    </li>
-                    <li class="mobile-li-toggle"
-                    <?php
-                        if (isset(Auth::user()->id_nhomquyen)) {
-                            if (Auth::check() == true && Auth::user()->id_nhomquyen == 1) {
-                                echo 'hidden';
-                            }
-                        }
-                        ?>><a class="nav-link scrollto" href="{{route('employer.login')}}"><span
-                                class="mdi mdi-account-circle">&nbsp;Đăng nhập</span></a>
-                    </li>
-                    <li class="dropdown mobile-li-toggle" <?php
-                            if (Auth::check() == false || Auth::user()->id_nhomquyen == 0) {
-                                echo 'hidden';
-                            }
+{{--                                </ul>--}}
+{{--                            </li>--}}
+{{--                            <li><a href="#">Drop Down 2</a></li>--}}
+{{--                        </ul>--}}
+{{--                    </li>--}}
+{{--                    <li>--}}
+{{--                        <a class="nav-link scrollto" href="#contact">Contact</a></li>--}}
+{{--                    <li class="mobile-li-toggle"><a href="#" title="Thông Báo Việc Làm"><span class="mdi mdi-bell">&nbsp;Thông báo</span></a>--}}
+{{--                    </li>--}}
+{{--                    <li class="mobile-li-toggle"--}}
+{{--                    <?php--}}
+{{--                        if (isset(Auth::user()->id_nhomquyen)) {--}}
+{{--                            if (Auth::check() == true && Auth::user()->id_nhomquyen == 1) {--}}
+{{--                                echo 'hidden';--}}
+{{--                            }--}}
+{{--                        }--}}
+{{--                        ?>><a class="nav-link scrollto" href="{{route('employer.login')}}"><span--}}
+{{--                                class="mdi mdi-account-circle">&nbsp;Đăng nhập</span></a>--}}
+{{--                    </li>--}}
+{{--                    <li class="dropdown mobile-li-toggle" <?php--}}
+{{--                            if (Auth::check() == false || Auth::user()->id_nhomquyen == 0) {--}}
+{{--                                echo 'hidden';--}}
+{{--                            }--}}
 
-                        ?>>
-                        <a  href="/" class="{{ Route::is('information') ? 'active' : '' }} nav-link scrollto">
-                            <?php
-                            if (Auth::check() == true && Auth::user()->id_nhomquyen == 1) {
-                                echo '<span class="mdi mdi-account-circle">&nbsp;' . Auth::user()->ten . '</span>';
-//                            echo Auth::user()->ten;
-                                echo '<i class="bi bi-chevron-down"></i>';
-                            }
-                            ?>
-                        </a>
-                        <ul <?php
-                            if (isset(Auth::user()->id_nhomquyen)) {
-                                if (Auth::check() == false || Auth::user()->id_nhomquyen == 0) {
-                                    echo 'hidden';
-                                }
-                            }
-                            ?>>
-                            @if(isset(Auth::user()->id_nhomquyen))
-                                @if(Auth::user()->id_nhomquyen == 1)
-                                    <li><a style="font-weight: 700;" href="{{ route('employer.viewDashboard') }}">
-                                            &nbsp; Dashboard</a></li>
-                                    <li><a style="font-weight: 700;" href="{{ route('employer.view_hrcentral') }}">
-                                            &nbsp; Quản lí đăng tuyển</a></li>
-                                    <li><a style="font-weight: 700;" href="{{ route('employer.view_hrcentral') }}">
-                                            &nbsp; Quản lí ứng viên</a></li>
-                                    <li><a style="font-weight: 700;" href="{{ route('employer.view_company_info') }}">
-                                            &nbsp; Thông tin công ty</a></li>
-                                    <li><a style="font-weight: 700;" href="{{ route('employer.view_account') }}"> &nbsp;
-                                            Tài khoản</a></li>
-                                    <li><a style="font-weight: 700;" href="{{ route('employer.logout') }}"> &nbsp; Đăng xuất</a>
-                                    </li>
+{{--                        ?>>--}}
+{{--                        <a  href="/" class="{{ Route::is('information') ? 'active' : '' }} nav-link scrollto">--}}
+{{--                            <?php--}}
+{{--                            if (Auth::check() == true && Auth::user()->id_nhomquyen == 1) {--}}
+{{--                                echo '<span class="mdi mdi-account-circle">&nbsp;' . Auth::user()->ten . '</span>';--}}
+{{--//                            echo Auth::user()->ten;--}}
+{{--                                echo '<i class="bi bi-chevron-down"></i>';--}}
+{{--                            }--}}
+{{--                            ?>--}}
+{{--                        </a>--}}
+{{--                        <ul <?php--}}
+{{--                            if (isset(Auth::user()->id_nhomquyen)) {--}}
+{{--                                if (Auth::check() == false || Auth::user()->id_nhomquyen == 0) {--}}
+{{--                                    echo 'hidden';--}}
+{{--                                }--}}
+{{--                            }--}}
+{{--                            ?>>--}}
+{{--                            @if(isset(Auth::user()->id_nhomquyen))--}}
+{{--                                @if(Auth::user()->id_nhomquyen == 1)--}}
+{{--                                    <li><a style="font-weight: 700;" href="{{ route('employer.viewDashboard') }}">--}}
+{{--                                            &nbsp; Dashboard</a></li>--}}
+{{--                                    <li><a style="font-weight: 700;" href="{{ route('employer.view_hrcentral') }}">--}}
+{{--                                            &nbsp; Quản lí đăng tuyển</a></li>--}}
+{{--                                    <li><a style="font-weight: 700;" href="{{ route('employer.view_hrcentral') }}">--}}
+{{--                                            &nbsp; Quản lí ứng viên</a></li>--}}
+{{--                                    <li><a style="font-weight: 700;" href="{{ route('employer.view_company_info') }}">--}}
+{{--                                            &nbsp; Thông tin công ty</a></li>--}}
+{{--                                    <li><a style="font-weight: 700;" href="{{ route('employer.view_account') }}"> &nbsp;--}}
+{{--                                            Tài khoản</a></li>--}}
+{{--                                    <li><a style="font-weight: 700;" href="{{ route('employer.logout') }}"> &nbsp; Đăng xuất</a>--}}
+{{--                                    </li>--}}
 
-                                @endif
-                            @endif
-                        </ul>
-                    </li>
+{{--                                @endif--}}
+{{--                            @endif--}}
+{{--                        </ul>--}}
+{{--                    </li>--}}
 
-                    <li class="mobile-li-toggle" <?php
-                        if (isset(Auth::user()->id_nhomquyen)) {
+{{--                    <li class="mobile-li-toggle" <?php--}}
+{{--                        if (isset(Auth::user()->id_nhomquyen)) {--}}
 
-                            if (Auth::check() == true && Auth::user()->id_nhomquyen == 1) {
-                                echo 'hidden';
-                            }
-                        }
-                        ?> ><a class="nav-link scrollto" href="{{route('employer.register')}}"><span
-                                class="">Đăng ký</span></a>
-                    </li>
-                    <li class="mobile-li-toggle">
-                        <a class="nav-link scrollto" href="{{ route('user.pages.home') }}"
-                           title="Đăng tuyển, Tìm ứng viên">
-                            <span class="mdi mdi-chevron-right">Dành cho ứng viên</span>
+{{--                            if (Auth::check() == true && Auth::user()->id_nhomquyen == 1) {--}}
+{{--                                echo 'hidden';--}}
+{{--                            }--}}
+{{--                        }--}}
+{{--                        ?> ><a class="nav-link scrollto" href="{{route('employer.register')}}"><span--}}
+{{--                                class="">Đăng ký</span></a>--}}
+{{--                    </li>--}}
+{{--                    <li class="mobile-li-toggle">--}}
+{{--                        <a class="nav-link scrollto" href="{{ route('user.pages.home') }}"--}}
+{{--                           title="Đăng tuyển, Tìm ứng viên">--}}
+{{--                            <span class="mdi mdi-chevron-right">Dành cho ứng viên</span>--}}
 
-                        </a>
-                    </li>
-                </ul>
+{{--                        </a>--}}
+{{--                    </li>--}}
+{{--                </ul>--}}
 
                 <div class="button-hambuger">
                     <i class="bi bi-list mobile-nav-toggle"></i>
@@ -122,10 +122,10 @@
 
         <div class="right-wrap">
             <div class="main-noti dropdown">
-                <a href="https://careerbuilder.vn/thong-bao-viec-lam" title="Thông Báo Việc Làm">
+                <a href="{{--https://careerbuilder.vn/thong-bao-viec-lam--}}" title="Thông Báo Việc Làm">
                     <span class="mdi mdi-bell"></span>
                 </a>
-                <div class="dropdown-menu">
+                {{--<div class="dropdown-menu">
                     <div class="noti">
                         <p></p>
                         <p>Chào mừng bạn đến CareerBuilder.vn</p>
@@ -136,7 +136,7 @@
                             Tạo Ngay
                         </a>
                     </div>
-                </div>
+                </div>--}}
             </div>
             <div class="main-login"
             <?php

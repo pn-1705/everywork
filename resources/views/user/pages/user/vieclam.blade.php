@@ -202,27 +202,27 @@
                                 </li><li>
                                     <a href="#"
                                        title="Supervisor">
-                                        Kế toán
+                                        Lập trình viên
                                     </a>
                                 </li><li>
                                     <a href="#"
                                        title="Supervisor">
-                                        Kế toán
+                                        Nhân viên bán hàng
                                     </a>
                                 </li><li>
                                     <a href="#"
                                        title="Supervisor">
-                                        Kế toán
+                                        Nhân viên maketing
                                     </a>
                                 </li><li>
                                     <a href="#"
                                        title="Supervisor">
-                                        Kế toán
+                                        Nhân viên kinh doanh
                                     </a>
                                 </li><li>
                                     <a href="#"
                                        title="Supervisor">
-                                        Kế toán
+                                        Kỹ sư cơ khí
                                     </a>
                                 </li>
                             </ul>

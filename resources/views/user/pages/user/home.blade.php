@@ -3827,7 +3827,7 @@
                     <div class="col-lg-6">
                         <div class="item">
                             <div class="image adsTopBanner" id="846"><a
-                                    href="https://ads.careerbuilder.vn/www/delivery/ck.php?oaparams=2__bannerid=5711__zoneid=846__cb=ca1fd954e2__oadest=https%3A%2F%2Fcareerbuilder.vn%2Fvi%2Ftalentcommunity%2Fnam-moi-lam-moi-thuong-hieu-ca-nhan.35A51DB1.html%3Futm_source%3DCBbanner%26utm_medium%3DShareProfile%26utm_campaign%3DShareProfile"
+                                    href=""
                                     target="_blank"><img
                                         src="https://ads.careerbuilder.vn/www/images/8038e22595ece70fbfe0a75e7020f355.jpg"
                                         width="690" height="250" alt="Share CV tuyendung" title="Share CV tuyendung"
@@ -3842,7 +3842,7 @@
                     <div class="col-lg-6">
                         <div class="item">
                             <div class="image adsTopBanner" id="847"><a
-                                    href="https://ads.careerbuilder.vn/www/delivery/ck.php?oaparams=2__bannerid=6355__zoneid=847__cb=feab21e6a1__oadest=https%3A%2F%2Fcareerstart.vn%2F"
+                                    href=""
                                     target="_blank"><img
                                         src="https://ads.careerbuilder.vn/www/images/ac13f304e45d13c6666de7d799fd9bfd.jpg"
                                         width="690" height="250" alt="Careerstart tuyendung"
@@ -3867,7 +3867,8 @@
                 </div>
             </div>
             <div class="career-key-slide">
-                <div class="swiper-container swiper-container-career swiper-container-initialized swiper-container-horizontal">
+                <div
+                    class="swiper-container swiper-container-career swiper-container-initialized swiper-container-horizontal">
                     <div class="swiper-wrapper">
                         @foreach($jobHot as $list)
                             <div class="swiper-slide">
@@ -3889,11 +3890,13 @@
                     </div>
                     <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
                 <div class="swiper-navigation">
-                    <div class="swiper-btn swiper-prev hotJob-swiper-prev" tabindex="0" role="button" aria-label="Previous slide"
+                    <div class="swiper-btn swiper-prev hotJob-swiper-prev" tabindex="0" role="button"
+                         aria-label="Previous slide"
                          aria-disabled="false">
                         <em class="lnr lnr-chevron-left"></em>
                     </div>
-                    <div class="swiper-btn swiper-next hotJob-swiper-next" tabindex="0" role="button" aria-label="Next slide"
+                    <div class="swiper-btn swiper-next hotJob-swiper-next" tabindex="0" role="button"
+                         aria-label="Next slide"
                          aria-disabled="false">
                         <em class="lnr lnr-chevron-right"></em>
                     </div>
@@ -3902,7 +3905,7 @@
 
                 </div>
             </div>
-            <div class="view-more"><a target="_blank" href="https://careerbuilder.vn/vi/talentcommunity">Xem thêm<span
+            <div class="view-more"><a target="_blank" href="">Xem thêm<span
                         class="mdi mdi-arrow-right"></span></a></div>
         </div>
     </div>
@@ -3913,28 +3916,28 @@
                 <h2><span>Cẩm nang nghề nghiệp</span></h2>
             </div>
             <div class="career-development-slide">
-                <div class="swiper-container-news swiper-container swiper-container-initialized swiper-container-horizontal">
+                <div
+                    class="swiper-container-news swiper-container swiper-container-initialized swiper-container-horizontal">
                     <div class="swiper-wrapper">
                         @foreach($news as $list)
-                        <div class="swiper-slide" style="width: 330px; margin-right: 30px;">
-                            <div class="item bg-trends">
+                            <div class="swiper-slide" style="width: 330px; margin-right: 30px;">
+                                <div class="item bg-trends">
 
-                                <div class="img"><a target="_blank"
-                                                    href="https://careerbuilder.vn/vi/talentcommunity/evp-la-gi-huong-dan-6-buoc-xay-dung-evp-chuan-cho-doanh-nghiep.35A52469.html"
-                                                    title="EVP là gì? Hướng dẫn 6 bước xây dựng EVP chuẩn cho doanh nghiệp"><img
-                                            class="swiper-lazy swiper-lazy-loaded"
-                                            src="{{ asset('public/imgs/news/'. $list -> hinhanh) }}"
-                                            alt="{{$list -> tieude}}">
-                                    </a></div>
-                                <div class="caption">
-                                    <p class="category-title">
-                                        Phát triển bản thân</p>
-                                    <a target="_blank" class="title"
-                                       href=""
-                                       title="EVP là gì? Hướng dẫn 6 bước xây dựng EVP chuẩn cho doanh nghiệp">{{$list -> tieude}}</a>
+                                    <div class="img"><a href="{{ route('user.viewNewDetail', $list -> tieudekhongdau) }}"
+                                                        title="{{$list -> tieude}}"><img
+                                                class="swiper-lazy swiper-lazy-loaded"
+                                                src="{{ asset('public/imgs/news/'. $list -> hinhanh) }}"
+                                                alt="{{$list -> tieude}}">
+                                        </a></div>
+                                    <div class="caption">
+                                        <p class="category-title">
+                                            Phát triển bản thân</p>
+                                        <a class="title"
+                                           href="{{ route('user.viewNewDetail', $list -> tieudekhongdau) }}"
+                                           title="{{$list -> tieude}}">{{$list -> tieude}}</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         @endforeach
 
                     </div>
@@ -3944,7 +3947,7 @@
                 <div class="news-swiper-next swiper-next" tabindex="0" role="button" aria-label="Next slide"><span
                         class="lnr lnr-chevron-right"></span></div>
             </div>
-            <div class="view-more"><a target="_blank" href="https://careerbuilder.vn/vi/talentcommunity">Xem thêm<span
+            <div class="view-more"><a href="{{ route('user.tin-tuc') }}">Xem thêm<span
                         class="mdi mdi-arrow-right"></span></a></div>
         </div>
     </section>

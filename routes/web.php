@@ -35,16 +35,24 @@ Route::get('auth/google/callback', 'User\LoginController@handleGoogleCallback');
 Route::get('/register', 'User\LoginController@get_register')->name('user.pages.register_page');
 Route::post('/register', 'User\LoginController@post_register')->name('user.post_register');
 
+Route::get('/forgotpassword', 'User\LoginController@viewForgotPassword')->name('user.forgotpassword');
+Route::post('/forgotpassword/notice', 'User\LoginController@sendForgotPassword')->name('user.sendforgotpassword');
+Route::get('/forgotpassword/code={code}', 'User\LoginController@clickMailForgotPassword')->name('user.clickMailForgotPassword');
+Route::post('/forgotpassword/change', 'User\LoginController@forgotpassword_change')->name('user.forgotpassword.change');
 
 Route::get('/viec-lam', 'User\UserController@vieclam_page')->name('user.pages.viec-lam');
 Route::get('/viec-lam/search', 'User\UserController@filterJobs')->name('filterJobs');
 Route::get('/viec-lam/{id}', 'User\UserController@viewDetailJob')->name('user.pages.viewDetailJob');
 
+//Bài viết -Tin tức
+Route::get('/tin-tuc', 'User\UserController@viewNews')->name('user.tin-tuc');
+Route::get('/tin-tuc/{id}', 'User\UserController@viewNewsCate')->name('user.pages.viewNewsCate');
+Route::get('/tin-tuc-chi-tiet/{ten}', 'User\UserController@viewNewDetail')->name('user.viewNewDetail');
+
 //Nhà tuyển dụng hàng đầu
 Route::get('/nha-tuyen-dung-hang-dau', 'User\UserController@nhatuyendung_page')->name('pages.nha-tuyen-dung');
 Route::get('/nha-tuyen-dung/{ten}', 'User\UserController@nhatuyendung_view')->name('pages.nha-tuyen-dung.detail');
 
-Route::get('/tin-tuc', 'User\UserController@viewNews')->name('user.tin-tuc');
 
 
 //Typeahead
@@ -68,7 +76,7 @@ Route::get('/saveJob/{id}/{type}', 'User\UserController@saveJob');
 Route::post('/applyJob/{id}', 'User\UserController@applyJob')->name('nop-don-ung-tuyen');
 
 //Trang dành cho nhà tuyển dụng
-Route::get('/employer', 'User\EmployerController@home')->name('employer.home');
+//Route::get('/employer', 'User\EmployerController@home')->name('employer.login');
 Route::get('/employer/login', 'User\EmployerController@login')->name('employer.login');
 Route::post('/employer/post_login', 'User\EmployerController@post_login')->name('employer.post_login');
 Route::get('/employer/register', 'User\EmployerController@register')->name('employer.register');

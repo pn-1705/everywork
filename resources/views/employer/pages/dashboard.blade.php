@@ -28,7 +28,7 @@
                                             <p><span>Email: {{ $employer -> email }}</span>
                                             <p><span>Phone: {{ $employer -> phone }}</span>
                                             <p><span>Website: <a target="_blank"
-                                                        href="https://www.{{ $employer -> website }}"> {{ $employer -> website }}</a></span>
+                                                                 href="https://www.{{ $employer -> website }}"> {{ $employer -> website }}</a></span>
                                             <p><span>Mã số thuế: {{ $employer -> masothue }}</span>
                                             <p><span>Loại hình hoạt động: @if($employer -> loaihinhhoatdong == 2) Cổ
                                                     phần @endif
@@ -74,35 +74,30 @@
                             <div class="body">
                                 <ul class="list-post-management">
                                     <li>
-                                        <a href="https://careerbuilder.vn/vi/employers/hrcentral/posting/user_id/nhavophong3.1697429348">
-                                            <span class="number green">0</span>
+                                        <a href="">
+                                            <span class="number green">{{ $countJobPost }}</span>
                                             <span class="title">Việc làm đang đăng</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="https://careerbuilder.vn/vi/employers/hrcentral/waitposting/user_id/nhavophong3.1697429348">
-                                            <span class="number blue">7</span>
+                                        <a href="">
+                                            <span class="number blue">{{ $countJobWait }}</span>
                                             <span class="title">Việc làm chờ đăng</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="https://careerbuilder.vn/vi/employers/hrcentral/unposting/user_id/nhavophong3.1697429348">
-                                            <span class="number ">0</span>
-                                            <span class="title">Việc làm tạm dừng đăng</span>
+                                        <a href="">
+                                            <span class="number ">{{ $countJobWaitAccept }}</span>
+                                            <span class="title">Việc làm chờ duyệt</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="https://careerbuilder.vn/vi/employers/hrcentral/expireposting/user_id/nhavophong3.1697429348">
-                                            <span class="number ">0</span>
+                                        <a href="">
+                                            <span class="number ">{{ $countJobExp }}</span>
                                             <span class="title">Việc làm hết hạn</span>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="https://careerbuilder.vn/vi/employers/hrcentral/manageresume/followers">
-                                            <span class="number ">0</span>
-                                            <span class="title">Followers</span>
-                                        </a>
-                                    </li>
+
                                 </ul>
                             </div>
                         </div>
@@ -127,12 +122,7 @@
                                         <p class="title">ID#: 1648394 - Code: 22 - Title: TTS PHP<br>Post from: CB.VN
                                         </p>
                                     </li>
-                                    <li>
-                                        <p class="time">
-                                            <time>18/10/2023</time>
-                                        </p>
-                                        <p class="title">ID#: 1647798 - Code: 22 - Title: PHP programmer (Step 1)</p>
-                                    </li>
+
                                 </ul>
                                 <div class="view-more"><a class="btn-view-more"
                                                           href="https://careerbuilder.vn/vi/employers/hrcentral/accounts/report_task_log">Xem
@@ -148,44 +138,53 @@
                         <div class="box-candidates-resume-applied">
                             <div class="heading-manage d-flex justify-content-between" style="padding-bottom: 10px">
                                 <div class="left-heading">
-                                    <h1 class="title-manage">Việc làm đang đăng tuyển</h1>
+                                    <h1 class="title-manage">Việc làm đang tuyển</h1>
                                 </div>
                                 <div class="right-heading"><a class="support"
-                                                              href="https://careerbuilder.vn/vi/employers/faq"
-                                                              target="_blank">Xem tất cả </a></div>
+                                                              href="{{ route('employer.view_hrcentral') }}">Xem tất
+                                        cả </a></div>
                             </div>
                             <div class="main-tabslet" data-toggle="tabslet">
-
-                                <form method="post" id="frm-filter-reports"
-                                      action="https://careerbuilder.vn/vi/employers/hrcentral/reports/orders_available">
-                                    <div class="main-resume-applied">
-                                        <div class="boding-resume-applied">
-                                            <div class="table table-resume-applied">
-                                                <table>
-                                                    <thead>
-                                                    <tr>
-                                                        <th width="15%">Số đơn hàng</th>
-                                                        <th width="24%">Gói dịch vụ</th>
-                                                        <th width="10%">Số lượng</th>
-                                                        <th width="10%">Còn lại</th>
-                                                        <th width="13%">Ngày bắt đầu kích hoạt</th>
-                                                        <th width="13%">Ngày hết hạn kích hoạt</th>
-                                                        <th width="15%">Tình trạng</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-
-                                                    <tr>
-                                                        <td colspan="7" class="cb-text-center">
-                                                            Không có dữ liệu!
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                <div class="main-resume-applied">
+                                    <div class="boding-resume-applied">
+                                        <div class="table table-resume-applied">
+                                            <table>
+                                                <thead style="background: #e6e6e6;">
+                                                <tr>
+                                                    <th class="text-left">Chức danh</th>
+                                                    <th style="text-align: center">Ngày đăng</th>
+                                                    <th>Hết hạn</th>
+                                                    <th>Trạng thái</th>
+                                                    <th>Lượt Xem</th>
+                                                    <th>Lượt Nộp</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @if(count($listJobPosting) == 0)
+                                                    <td colspan="6" class="text-center">
+                                                        Không có dữ liệu!
+                                                    </td>
+                                                @else
+                                                    @foreach($listJobPosting as $list)
+                                                        <tr>
+                                                            <td>{{ $list-> tencongviec }}</td>
+                                                            <td style="text-align: center">{{ date('d-m-Y', strtotime($list-> ngaydang)) }}</td>
+                                                            <td>{{ date('d-m-Y', strtotime($list-> hannhanhoso)) }}</td>
+                                                            <td>@if($list-> trangthai == 3)
+                                                                    <span class="badge bg-secondary">Chờ duyệt</span>
+                                                                @elseif($list-> trangthai == 1)
+                                                                    <span class="badge bg-success">Đang đăng</span>
+                                                                @endif</td>
+                                                            <td>{{ $list-> views }}</td>
+                                                            <td>{{ $list-> danop }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endif
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -199,42 +198,62 @@
                                 <div class="left-heading">
                                     <h1 class="title-manage">Đơn ứng tuyển gần đây</h1>
                                 </div>
-                                <div class="right-heading"><a class="support"
-                                                              href="https://careerbuilder.vn/vi/employers/faq"
-                                                              target="_blank">Xem tất cả </a></div>
+                                <div class="right-heading">
+                                    <a class="support" href="{{ route('employer.manageresume') }}">Xem tất cả </a></div>
                             </div>
                             <div class="main-tabslet" data-toggle="tabslet">
-
-                                <form method="post" id="frm-filter-reports"
-                                      action="https://careerbuilder.vn/vi/employers/hrcentral/reports/orders_available">
-                                    <div class="main-resume-applied">
-                                        <div class="boding-resume-applied">
-                                            <div class="table table-resume-applied">
-                                                <table>
-                                                    <thead>
-                                                    <tr>
-                                                        <th width="15%">Số đơn hàng</th>
-                                                        <th width="24%">Gói dịch vụ</th>
-                                                        <th width="10%">Số lượng</th>
-                                                        <th width="10%">Còn lại</th>
-                                                        <th width="13%">Ngày bắt đầu kích hoạt</th>
-                                                        <th width="13%">Ngày hết hạn kích hoạt</th>
-                                                        <th width="15%">Tình trạng</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-
-                                                    <tr>
-                                                        <td colspan="7" class="cb-text-center">
-                                                            Không có dữ liệu!
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                <div class="main-resume-applied">
+                                    <div class="boding-resume-applied">
+                                        <div class="table table-resume-applied">
+                                            <table>
+                                                <thead style="background: #e6e6e6;">
+                                                <tr>
+                                                    <th>Ứng viên</th>
+                                                    <th>Email</th>
+                                                    <th>Ngày nộp</th>
+                                                    <th>FileCV</th>
+                                                    <th>Công việc</th>
+                                                    <th>Trạng thái</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @if(count($listUV) == 0)
+                                                    <td colspan="6" class="text-center">
+                                                        Không có dữ liệu!
+                                                    </td>
+                                                @else
+                                                    @foreach($listUV as $list)
+                                                        <tr>
+                                                            <td>{{ $list-> ten }}</td>
+                                                            <td>{{ $list-> email }}</td>
+                                                            <td>{{ date('d-m-Y', strtotime($list-> created_at)) }}</td>
+                                                            <td class="text-left">
+                                                                @if($list -> fileCV != null)
+                                                                    <a target="_blank"
+                                                                       href="{{ route('employer.viewCV', $list -> idApply)}}">{{$list -> fileCV}}</a>
+                                                                    {{--                                                        <a target="_blank"--}}
+                                                                    {{--                                                           href="{{ asset('public/CV/'. $list -> fileCV)}}">{{$list -> fileCV}}</a>--}}
+                                                                @else
+                                                                    <a target="_blank"
+                                                                       href="{{ route('employer.viewCV' ,$list -> idApply)}}">{{$list -> nameCV}}</a>
+                                                                @endif
+                                                            </td>
+                                                            <td style="text-align: left">{{ $list -> tencongviec }}</td>
+                                                            <td class="text-right">@if($list -> status == 0) <span
+                                                                    class="badge bg-secondary">Chưa xem</span>  @endif
+                                                                @if($list -> status == 1) <span
+                                                                    class="badge bg-success">Đã xem</span>  @endif
+                                                                @if($list -> status == 2) <span
+                                                                    class="badge bg-primary">Đã gửi mail</span>  @endif
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endif
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -243,7 +262,6 @@
         </div>
     </section>
     <style>/*my-orders-order-in-use.css*/
-        @charset "UTF-8";
         .is-browser-IE header .main-menu .menu li:nth-child(2).dropdown .dropdown-menu {
             min-width: calc(100% + 110px);
         }
@@ -6861,7 +6879,7 @@
         }
 
         .employer-dasboard .main-dasboard-top .box-dasboard-top .body {
-            min-height: 310px;
+            min-height: 250px;
         }
 
         .employer-dasboard .main-dasboard-top .box-dasboard-top .body .image {

@@ -23,17 +23,17 @@ use Intervention\Image\Facades\Image;
 
 class EmployerController extends Controller
 {
-    public function home()
-    {
-        return view('employer.home');
-    }
+//    public function home()
+//    {
+//        return view('employer.home');
+//    }
 
     public function login()
     {
         if (Auth::check() == false || Auth::user()->id_nhomquyen == 0 || Auth::user()->id_nhomquyen == 2) {
             return view('employer.login');
         }
-        return redirect()->route('employer.home');
+        return redirect()->route('employer.viewDashboard');
 
     }
 

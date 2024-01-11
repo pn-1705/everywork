@@ -5,258 +5,118 @@
 @include('user.elements.news-heading-tool')
 
 @section('content')
-    <section class="cb-career-advice-news-top cb-section" style="padding: 20px 0;">
-        <div class="container">
-            <div class="row  main-news">
-                @foreach($newsB1 as $list)
-                    <div class="col-sm-6 col-lg-6 item item-big">
-                        <div class="figure"><a
-                                href="{{ route('user.viewNewDetail', $list -> tieudekhongdau) }}"
-                                title="{{ $list -> tieude }}">
-                                <div class="image"><img class="lazy-bg"
-                                                        src="{{ asset('public/imgs/news/'. $list -> hinhanh) }}"
-                                                        alt="{{ $list -> tieude }}"
-                                                        style=""></div>
-                            </a>
-                            <div class="figcaption">
-                                <div class="category-name"><a
-                                        href="{{ route('user.viewNewDetail', $list -> tieudekhongdau) }}"
-                                        title="Báo cáo - Khảo sát">Báo cáo - Khảo sát</a>
-                                </div>
-                                <div class="title"><a
-                                        href="{{ route('user.viewNewDetail', $list -> tieudekhongdau) }}"
-                                        title="{{ $list -> tieude }}">
-                                        <h3>{{ $list -> tieude }}</h3>
-                                    </a>
-                                </div>
-                                <div class="content">
-                                    <p>
-                                        {!! $list -> noidung !!}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-                @foreach($newsB2 as $list)
-                    <div class="col-sm-6 col-md-6 col-lg-6 item item-big item-800">
-                        <div class="figure">
-                            <a href="{{ route('user.viewNewDetail', $list -> tieudekhongdau) }}"
-                               title="{{ $list -> tieude }}">
-                                <div class="image">
-                                    <img class="lazy-bg"
-                                         src="{{ asset('public/imgs/news/'. $list -> hinhanh) }}"
-                                         alt="{{ $list -> tieude }}">
-                                </div>
-                            </a>
-                            <div class="figcaption">
-                                <div class="category-name"><a
-                                        href="{{ route('user.viewNewDetail', $list -> tieudekhongdau) }}"
-                                        title="Con đường sự nghiệp">Con đường sự nghiệp</a>
-                                </div>
-                                <div class="title"><a
-                                        href="{{ route('user.viewNewDetail', $list -> tieudekhongdau) }}"
-                                        title="{{ $list -> tieude }}">
-                                        <h3>{{ $list -> tieude }}</h3>
-                                    </a></div>
-                                <div class="content">
-                                    <p>
-                                        {!! $list -> noidung !!}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-                <div class="col-lg-6">
-                    <div class="row justify-content-center">
-                        @foreach($news4 as $list)
 
-                            <div class="col-sm-4 col-lg-6 item item-small">
-                                <div class="figure"><a
-                                        href="{{ route('user.viewNewDetail', $list -> tieudekhongdau) }}"
-                                        title="{{ $list->tieude }}">
-                                        <div class="image"><img class="lazy-bg"
-                                                                src="{{ asset('public/imgs/news/'. $list -> hinhanh) }}"
-                                                                alt="{{ $list->tieude }}"
-                                                                style=""></div>
-                                    </a>
-                                    <div class="figcaption">
-                                        <div class="category-name"><a
-                                                href="{{ route('user.viewNewDetail', $list -> tieudekhongdau) }}"
-                                                title="Con đường sự nghiệp">Con đường sự nghiệp</a>
-                                        </div>
-                                        <div class="title"><a
-                                                href="{{ route('user.viewNewDetail', $list -> tieudekhongdau) }}"
-                                                title="{{ $list->tieude }}">
-                                                <h3>{{ $list->tieude }}</h3>
-                                            </a></div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="cb-career-advice-2 cb-section">
-        <div class="container">
+    <section class="cb-career-advice-detail" id="uni_container">
+
+        <div class="container" id="infinite" style="margin-bottom:20px;">
             <div class="row">
-                <div class="col-cus-md-6">
-                    <div class="box-content">
+                <div class="col-lg-9-custom">
+                    <div class="box-news">
                         <div class="cb-title">
-                            <h1>Đón lấy thành công cùng EveryWork. Nhanh tay nộp đơn ứng tuyển ngay !</h1>
+                            <h1>{{ $news -> tieude }}</h1>
                         </div>
-                        <div class="figure">
-                            <div class="quote">{{--<img class="lazy-bg" src="./img/career/quote.png"
-                                                    alt="Đón lấy thành công cùng +200 triệu ứng viên CareerBuilder toàn cầu!"
-                                                    style="">--}}</div>
-                            <div class="figcaption">
-                                <div class="content">
-                                    <p>Thường xuyên cập nhật CV những thành tựu cá nhân, chủ động tìm thông tin qua mối
-                                        quan hệ với các nhà tuyển dụng... Chính là con đường dẫn bạn đến với những cơ
-                                        hội giá trị </p>
-                                </div>
-                                <div class="athor">
-                                    <p>Phạm Phú Công (Mr.) – Giám đốc Nguồn nhân lực – TECHCOMBANK</p>
-                                </div>
-                            </div>
+                        <div class="view-number">
+                            <p>Lượt xem:
+                                <span>{{ $news -> luotxem }}</span>
+                            </p>
+                        </div>
+                        <div class="career-advice-detail-share-social">
+                            <ul>
+                                <li class="facebook"><a tabindex="0" role="button" onclick="shareHandler('facebook');"
+                                                        target="_blank" title="Facebook"><em
+                                            class="mdi mdi-facebook"></em></a></li>
+                                <li class="linkedin"><a tabindex="0" role="button" onclick="shareHandler('linkedin');"
+                                                        target="_blank" title="Linkedin"><em
+                                            class="mdi mdi-linkedin"></em></a></li>
+                                <li class="email"><a tabindex="0" role="button" onclick="shareHandler('mail');"
+                                                     target="_blank" title="Email"><em class="mdi mdi-email"></em></a>
+                                </li>
+                                <li class="gmail"><a tabindex="0" role="button" onclick="shareHandler('gmail');"
+                                                     target="_blank" title="Gmail"><em class="mdi mdi-gmail"></em></a>
+                                </li>
+                                <li class="zalo">
+                                    <div class="zalo-share-button" data-href="" data-oaid="579745863508352884"
+                                         data-layout="2" data-color="white" data-customize="true"></div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="full-content">
+{!! $news -> noidung !!}
                         </div>
                     </div>
-                </div>
-                <div class="col-cus-md-6 d-flex-center">
-                    <div class="image"><img class="lazy-bg"
-                                            src="https://images.careerbuilder.vn/content/Event/CareerAdvice.jpg"
-                                            alt="Đón lấy thành công cùng +200 triệu ứng viên CareerBuilder toàn cầu!"
-                                            style=""></div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="cb-career-advice-4 cb-section">
-        <div class="container">
-            <div class="row">
-                <div class="">
-                    <?php use Illuminate\Support\Facades\DB;
-                    $listNewsCate = DB::table('table_news_cate')->get() ?>
-                    @foreach($listNewsCate as $list)
-                            <script>
-                                var mySwiper = new Swiper('.swiper-container-news-{{$list->id}}', {
-                                    // Các Parameters
-                                    direction: 'horizontal',
-                                    loop: true,
-                                    slidesPerView: 4,
 
-                                    autoplay: {
-                                        delay: 5000,
-                                    },
-                                    breakpoints: {
-                                        '1200': {
-                                            slidesPerView: 4,
-                                            spaceBetween: 20,
-                                        },
-                                        '768': {
-                                            slidesPerView: 4,
-                                            spaceBetween: 10,
-                                        },
-                                        '576': {
-                                            slidesPerView: 4,
-                                            spaceBetween: 10,
-                                        },
-                                        '480': {
-                                            slidesPerView: 3,
-                                            spaceBetween: 10,
-                                        },
-                                        '320': {
-                                            slidesPerView: 2,
-                                            spaceBetween: 10,
-                                        },
-                                    },
-
-                                    navigation: {
-                                        nextEl: '.swiper-next-{{$list->id}}',
-                                        prevEl: '.swiper-prev-{{$list->id}}',
-                                    },
-
-                                    // Nếu cần scrollbar
-                                    // scrollbar: {
-                                    //     el: '.swiper-scrollbar',
-                                    // },
-
-                                })
-                            </script>
-                        <div class="box-news box-news-slide box-news-{{$list->id}}">
-                            <div class="head-box">
-                                <div class="cb-title">
-                                    <h2><a href="" title="{{ $list -> tendaydu }}">{{ $list -> tendaydu }}</a></h2>
-                                </div>
-                                <div class="view-all"><a
-                                        href="{{ route('user.pages.viewNewsCate', $list -> tenkhongdau) }}"
-                                        title="{{ $list -> tendaydu }}">Xem thêm <em class="mdi mdi-arrow-right"></em></a>
-                                </div>
-                            </div>
-                            <div class="swiper-container-news-{{$list->id}} swiper-container swiper-container-initialized swiper-container-horizontal">
-                                <div class="swiper-wrapper" style="height: auto">
-                                    <?php $listNews = DB::table('table_news')->where('idDanhMuc', $list->id)->get() ?>
-                                    @foreach($listNews as $news)
-                                        <div class="swiper-slide"
-                                             style="width: 330px; margin-right: 30px;">
-                                            <div class="figure">
-                                                <div class="image"><a
-                                                        href="{{ route('user.viewNewDetail', $news -> tieudekhongdau) }}"
-                                                        title="{{ $news -> tieude }}"><img
-                                                            class="swiper-lazy swiper-lazy-loaded"
-                                                            src="{{ asset('public/imgs/news/'. $news -> hinhanh) }}"
-                                                            alt="{{ $news -> tieude }}">
-
-                                                    </a></div>
-                                                <div class="figcaption">
-                                                    <div class="title"><a
-                                                            href="{{ route('user.viewNewDetail', $news -> tieudekhongdau) }}"
-                                                            title="{{ $news -> tieude }}">
-                                                            <h5>{{ $news -> tieude }}</h5>
-                                                        </a></div>
-                                                    <div class="content">
-                                                        <p>{!! $news -> noidung !!}</p>
-                                                    </div>
-                                                    <div class="view-more"><a
-                                                            href="{{ route('user.viewNewDetail', $news -> tieudekhongdau) }}"
-                                                            title="{{ $news -> tieude }}">Xem
-                                                            thêm<em class="mdi mdi-arrow-right"></em></a></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                                <div class="main-button">
-                                    <div class="button-prev swiper-prev-{{$list->id}}" tabindex="0" role="button" aria-label="Previous slide"><em
-                                            class="mdi mdi-chevron-left"></em></div>
-                                    <div class="button-next swiper-next-{{$list->id}}" tabindex="0" role="button" aria-label="Next slide"><em
-                                            class="mdi mdi-chevron-right"></em></div>
-                                </div>
-                                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
-                            </div>
+                    <div class="share-this-news">
+                        <span>Chia sẻ bài viết:</span>
+                        <a tabindex="0" role="button" onclick="shareHandler('facebook');" target="_blank"
+                           title="Facebook"><span class="fa fa-facebook"></span></a>
+                        <a tabindex="0" role="button" onclick="shareHandler('linkedin');" target="_blank"
+                           title="Linkedin"><span class="fa fa-linkedin"></span></a>
+                        <a tabindex="0" role="button" onclick="shareHandler('gmail');" target="_blank"
+                           title="Gmail"><span class="fa fa-envelope"></span></a>
+                        <div class="zalo-share-button" data-href="" data-oaid="579745863508352884" data-layout="2"
+                             data-color="white" data-customize="false"
+                             style="position: relative; display: inline-block; width: 20px; height: 20px;">
+                            <iframe id="96224051-4e8f-46cb-971f-5ab2237826e6"
+                                    name="96224051-4e8f-46cb-971f-5ab2237826e6" frameborder="0" allowfullscreen=""
+                                    scrolling="no" width="20px" height="20px"
+                                    src="https://button-share.zalo.me/share_inline?id=96224051-4e8f-46cb-971f-5ab2237826e6&amp;layout=2&amp;color=white&amp;customize=false&amp;width=20&amp;height=20&amp;isDesktop=true&amp;url=https%3A%2F%2Fcareerbuilder.vn%2Fvi%2Ftalentcommunity%2Ftai-mau-cv-xin-viec-file-pdf-word-don-gian-mien-phi.35A52399.html&amp;d=eyJ1cmwiOiJodHRwczovL2NhcmVlcmJ1aWxkZXIudm4vdmkvdGFsZW50Y29tbXVuaXR5L3RhaS1tYXUtY3YteGluLXZpZWMtZmlsZS1wZGYtd29yZC1kb24tZ2lhbi1taWVuLXBoaS4zNUE1MjM5OS5odG1sIn0%253D&amp;shareType=0"
+                                    style="position: absolute; z-index: 99; top: 0px; left: 0px;"></iframe>
                         </div>
-                    @endforeach
-
-
-                </div>
-                <div class="col-xl-12">
-                    <div class="box-news box-banner">
-                        <script type="text/javascript">
-                            <!--// <![CDATA[
-                            /* [id853] CB_JSK_SearchResult_Banner_1410x140_01 */
-                            OA_show(853);
-                            // ]]>
-                            -->
-                        </script>
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <style>
+        .pagination li.active span, .pagination li:hover a {
+            border-color: #106eea;
+            background: #106eea;
+            color: #fff;
+        }
+
+        .pagination li.page-item {
+
+            margin-left: 10px;
+        }
+
+        .pagination li.page-item span {
+
+        }
+
+        .pagination li a, .pagination li span {
+            /* -webkit-box-align: center; */
+            -ms-flex-align: center;
+            /* -webkit-box-pack: center; */
+            -ms-flex-pack: center;
+            /* display: -webkit-box; */
+            display: -ms-flexbox;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border: 1px solid #e5e5e5;
+            border-radius: 50%;
+            background: #fff;
+            color: #5d677a;
+            font-size: 14.5px;
+            line-height: 1;
+            text-decoration: none;
+            opacity: 1;
+        }
+
+        .page-item:first-child .page-link {
+            border-radius: 50%;
+        }
+
+        .page-item:last-child .page-link {
+            border-radius: 50%;
+        }
+
+        .pagination li a {
+            color: #565454;
+        }
+
         /*swiper.css*/
         .swiper-container {
             margin-left: auto;

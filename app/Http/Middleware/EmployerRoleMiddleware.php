@@ -16,9 +16,9 @@ class EmployerRoleMiddleware
             {
                 return $next($request);
             }else {
-                return redirect()->route("employer.pages.home");
+                return redirect()->route("employer.home");
             }
         }
-        return redirect()->route("employer.pages.home");
+        return redirect()->route("employer.home");
     }
 }
