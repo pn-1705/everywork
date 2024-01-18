@@ -154,4 +154,5 @@
         xml.open("GET", url, "false");
         xml.send();
     }
+
 </script>

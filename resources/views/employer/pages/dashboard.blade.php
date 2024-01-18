@@ -23,7 +23,7 @@
                                         </div>
                                         <div class="topresume-info">
                                             <p>
-                                                <a href=""
+                                                <a href="{{ route('pages.nha-tuyen-dung.detail', $employer -> tenkhongdau) }}"
                                                    class="tuv" target="_blank"> {{ $employer -> ten }} </a></p>
                                             <p><span>Email: {{ $employer -> email }}</span>
                                             <p><span>Phone: {{ $employer -> phone }}</span>

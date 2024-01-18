@@ -83,7 +83,7 @@
                     <div class="tabslet-content active" id="tab-dd">
                         <div class="main-jobs-posting">
                             <div class="heading-jobs-posting">
-                                <div class="left-heading">
+                            {{--    <div class="left-heading">
                                     <p class="name">Hiển thị </p>
                                     <ul class="list-check">
                                         <li class="view-posting-detail active"><a href="javascript:void(0);" id="dtail">Chi
@@ -111,14 +111,13 @@
                                         </div>
                                         <p class="name-display"></p>
                                     </div>
-                                </div>
+                                </div>--}}
                             </div>
                             <div class="boding-jobs-posting">
                                 <div class="table table-jobs-posting active">
                                     <table>
                                         <thead style="background: #e6e6e6;">
                                         <tr>
-                                            <th width="1%"></th>
                                             <th width="32%">Chức danh</th>
                                             <th width="12%" onclick="setTypeSort('posting', 'asc', 3)">Ngày đăng<em
                                                     class="material-icons">arrow_drop_down</em></th>
@@ -135,13 +134,7 @@
                                         <tbody>
                                         @foreach($listJobs as $list)
                                             <tr>
-                                                {{--                                            <td colspan="9" class="cb-text-center"><p><strong> Không có vị trí nào trong thư mục này.</strong></p></td>--}}
-                                                <td>
-                                                    <div class="checkbox">
-                                                        <input type="checkbox" name="listresumes[]" value="35BE0717">
-                                                    </div>
-                                                </td>
-                                                <td>{{ $list-> tencongviec }}</td>
+                                                <td style="text-align: left">{{ $list-> tencongviec }}</td>
                                                 <td>{{ date('d-m-Y', strtotime($list-> ngaydang)) }}</td>
                                                 <td>{{ date('d-m-Y', strtotime($list-> hannhanhoso)) }}</td>
                                                 <td>@if($list-> trangthai == 3)
@@ -156,17 +149,22 @@
                                                         <li>
                                                             <a href="{{ route('employer.view_detailJob', $list ->id) }}"
                                                                title="Chi tiết"><em
-                                                                    class="material-icons">visibility </em></a></li>
-                                                        <li>
-                                                            <a href="{{ route('employer.view_updateJob', $list->id) }}"
-                                                               title="Sửa"><em
-                                                                    class="material-icons">created</em></a>
+                                                                    class="material-icons">visibility </em></a>
                                                         </li>
-                                                        <li class="end">
-                                                            <a href="javascript:void(0);"
-                                                               onclick="deleteItem_job('35BE100A');return false;"
-                                                               title="Xóa"><em
-                                                                    class="material-icons">cancel </em></a></li>
+                                                        @if($list-> trangthai == 3)
+                                                            <li>
+                                                                <a href="{{ route('employer.view_updateJob', $list->id) }}"
+                                                                   title="Sửa"><em
+                                                                        class="material-icons">created</em></a>
+                                                            </li>
+                                                        @endif
+                                                        @if($list-> trangthai == 1)
+                                                            <li>
+                                                                <a href="{{ route('employer.stopPosting', $list->id) }}"
+                                                                   title="Dừng đăng"><em
+                                                                        class="material-icons">do_not_disturb_on</em></a>
+                                                            </li>
+                                                        @endif
                                                     </ul>
                                                 </td>
 

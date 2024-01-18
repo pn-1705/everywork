@@ -6,12 +6,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Tạo bài viết</h1>
+                    <h1>Chỉnh sửa bài viết</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Tạo bài viết</li>
+                        <li class="breadcrumb-item active">Chỉnh sửa bài viết</li>
                     </ol>
                 </div>
             </div>
@@ -35,6 +35,15 @@
                                 <label for="exampleInputEmail1">Tiêu đề</label>
                                 <input name="tieude" value="{{ $new -> tieude }}" type="text" class="form-control" id=""
                                        placeholder="Tiêu đề bài viết">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Danh mục</label>
+                                <select name="danhmuc" type="text" class="form-control">
+                                    @foreach($cate as $list)
+                                        <option @if($list -> id == $new -> idDanhMuc) selected @endif
+                                        value="{{ $list -> id }}">{{ $list -> tendaydu }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="noidung">Nội dung</label>

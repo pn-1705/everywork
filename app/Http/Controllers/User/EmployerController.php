@@ -243,6 +243,13 @@ class EmployerController extends Controller
         return redirect()->route('employer.view_waitPostJob')->with($this->getDataJob());
     }
 
+    public function stopPosting($id){
+        Job::find($id)->update([
+           'trangthai' => 4
+        ]);
+        return redirect()->back();
+    }
+
     public function view_updateJob($id)
     {
         $job = Job::all()
@@ -324,14 +331,6 @@ class EmployerController extends Controller
     public function getDataJob()
     {
         //Việc làm đang đăng
-        $listJobs = DB::table('table_jobs')
-            ->leftJoin('table_benefits', 'table_jobs.phucloi', '=', 'table_benefits.id')
-            ->select('table_benefits.*', 'table_jobs.*')
-            ->where('id_nhatuyendung', Auth::id())
-            ->where('hannhanhoso', '>=', Carbon::now()->toDateString())
-            ->where('trangthai', 1)
-            ->orderBy('tencongviec')->paginate(10)->withQueryString();
-
         $listJobs = DB::table('table_applyforjobs')
             ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
             ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai')
@@ -340,7 +339,8 @@ class EmployerController extends Controller
             ->where('hannhanhoso', '>=', Carbon::now()->toDateString())
             ->where('trangthai', '!=', 0)
             ->where('trangthai', '!=', 2)
-            ->orderBy('ngaydang', 'desc')->paginate(10)->withQueryString();
+            ->where('trangthai', '!=', 4)
+            ->orderBy('ngaydang', 'desc')->paginate(5)->withQueryString();
 
         //Việc làm chở chờ đăng (nháp)
         $listJobsWait = DB::table('table_applyforjobs')
@@ -349,6 +349,7 @@ class EmployerController extends Controller
             ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
             ->where('table_jobs.id_nhatuyendung', Auth::id())
             ->where('table_jobs.trangthai', 0)
+            ->orWhere('table_jobs.trangthai', 4)
             ->orderBy('created_at', 'desc')->paginate(5)->withQueryString();
 
         //Việc làm hết hạn
@@ -358,7 +359,7 @@ class EmployerController extends Controller
             ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
             ->where('table_jobs.id_nhatuyendung', Auth::id())
             ->where('table_jobs.hannhanhoso', '<', Carbon::now()->toDateString())
-            ->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+            ->orderBy('created_at', 'desc')->paginate(5)->withQueryString();
 //        dd($jobHot);
 
         $data['listJobs'] = $listJobs;

@@ -43,14 +43,14 @@ class ManagerController extends Controller
         $data['countJobExp'] = $countJobExp;
 
         $listJobPosting = DB::table('table_applyforjobs')
-        ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
-        ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai')
-        ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
-        ->where('table_jobs.id_nhatuyendung', Auth::id())
-        ->where('hannhanhoso', '>=', Carbon::now('Asia/Ho_Chi_Minh'))
-        ->where('trangthai', '!=', 0)
-        ->where('trangthai', '!=', 2)
-        ->orderBy('ngaydang', 'desc')->take(4)->get();
+            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
+            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai')
+            ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
+            ->where('table_jobs.id_nhatuyendung', Auth::id())
+            ->where('hannhanhoso', '>=', Carbon::now('Asia/Ho_Chi_Minh'))
+            ->where('trangthai', '!=', 0)
+            ->where('trangthai', '!=', 2)
+            ->orderBy('ngaydang', 'desc')->take(4)->get();
 
         $listUV = DB::table('table_applyforjobs')
             ->select('table_applyforjobs.idApply', 'table_jobseeker.ten', 'table_jobseeker.phone', 'table_jobseeker.email', 'table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_applyforjobs.created_at', 'table_applyforjobs.idAccount', 'table_applyforjobs.fileCV', 'table_applyforjobs.status', 'table_cv.fileCV as fileCVdatailen', 'table_cv.nameCV', DB::raw('count(table_applyforjobs.idJob) as danop'))
@@ -78,6 +78,12 @@ class ManagerController extends Controller
 
     public function postJob($id)
     {
+        $check = DB::table('table_jobs')
+            ->where('id', '=', $id)
+            ->select('hannhanhoso')->first()->hannhanhoso;
+        if ($check < Carbon::now('Asia/Ho_Chi_Minh')) {
+            return redirect()->route('employer.view_waitPostJob')->with('norole', 'Vui lòng cập nhật hạn nhận hồ sơ');
+        }
         if (Employer::where('id', Auth::id())->first()->trangthai == 2) {
             DB::table('table_jobs')->where('id', '=', $id)->update(
                 ['trangthai' => 3,

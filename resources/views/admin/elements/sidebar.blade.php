@@ -104,13 +104,29 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.news') }}"
-                       class="nav-link {{ Route::is('admin.news') ? 'active' : '' }}">
+                    <a href="" class="nav-link">
                         <i class="nav-icon fas fa-newspaper"></i>
                         <p>
                             Quản lí bài viết
+                            <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview" style="display: none;">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.news') }}"
+                               class="nav-link {{ Route::is('admin.news') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Bài viết</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.newsCategory') }}"
+                               class="nav-link {{ Route::is('admin.newsCategory') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh mục bài viết</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">

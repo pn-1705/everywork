@@ -212,6 +212,9 @@
                                                        min="{{ \Carbon\Carbon::now()->toDateString() }}"
                                                        class="dates_cus_select_postjob required"
                                                        value="{{ $job -> hannhanhoso }}">
+                                                @if(session('norole'))
+                                                    <span class="form-error"> {{session('norole')}}</span>
+                                                @endif
                                                 @error('hannhanhoso')
                                                 <span class="form-error">{{ $message }}</span>
                                                 @enderror                                            </div>
@@ -586,8 +589,8 @@
                                         <div class="list-image" id="list-image">
                                             <div class="image-item">
                                                 <img id="banner"
-                                                    src="{{ asset('public/banner_job/'. $job -> img_banner) }}"
-                                                    alt="Banner">
+                                                     src="{{ asset('public/banner_job/'. $job -> img_banner) }}"
+                                                     alt="Banner">
                                             </div>
                                         </div>
                                         <div class="upload-img">

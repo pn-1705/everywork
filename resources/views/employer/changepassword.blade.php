@@ -1,6 +1,6 @@
 @extends('employer.layout')
 
-@section('title', 'Việc làm')
+@section('pageTitle', 'Đổi mật khẩu')
 
 
 @section('content')

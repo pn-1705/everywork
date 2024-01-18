@@ -95,6 +95,7 @@ Route::group(['middleware' => 'checkEmployerRole', 'prefix' => 'employer'], func
     Route::get('/hrcentral/update/{id}', 'User\EmployerController@view_updateJob')->name('employer.view_updateJob');
     Route::post('/hrcentral/update/{id}', 'User\EmployerController@updateJob')->name('employer.updateJob');
     Route::get('/hrcentral/viewjob/{id}', 'User\EmployerController@viewDetailJob')->name('employer.view_detailJob');
+    Route::get('/hrcentral/stopPosting/{id}', 'User\EmployerController@stopPosting')->name('employer.stopPosting');
     Route::get('/hrcentral/duplicatedJob/{id}', 'User\EmployerController@duplicatedJob')->name('employer.duplicatedJob');
 
 
@@ -149,6 +150,9 @@ Route::group(['middleware' => 'checklogin', 'prefix' => 'admin'], function () {
     Route::post('/photo-video/slideshow-ungvien/update/{id}', ['as' => 'admin.photo-video.slideshow-ungvien.update', 'uses' => 'Admin\PhotoVideoController@updateSlideshowUngvien']);
     Route::get('/photo-video/slideshow-ungvien/del/{id}', ['as' => 'admin.photo-video.slideshow-ungvien.del', 'uses' => 'Admin\PhotoVideoController@delSlideshowUngvien']);
     //Quản lí bài viết
+    Route::get('/news-category', ['as' => 'admin.newsCategory', 'uses' => 'Admin\NewsController@viewNewsCategory']);
+    Route::post('/news-category/create', ['as' => 'admin.newsCategory.create', 'uses' => 'Admin\NewsController@createNewsCategory']);
+    Route::get('/news-category/del/{id}', ['as' => 'admin.newsCategory.del', 'uses' => 'Admin\NewsController@delNewsCategory']);
     Route::get('/news', ['as' => 'admin.news', 'uses' => 'Admin\NewsController@index']);
     Route::get('/news/create', ['as' => 'admin.news.add', 'uses' => 'Admin\NewsController@add']);
     Route::post('/news/post', ['as' => 'admin.news.post', 'uses' => 'Admin\NewsController@postNews']);

@@ -1,7 +1,6 @@
 @extends('employer.layout')
 
-@section('title', 'Việc làm')
-
+@section('pageTitle', $job -> tencongviec )
 
 @section('content')
     @include("employer.elements.employer-heading-tool")
@@ -31,11 +30,14 @@
                                         <li>
                                             <p class="name">Trạng thái</p>
                                             <p>
+                                                @if($job -> trangthai == 0)
+                                                    Chờ đăng
+                                                @endif
                                                 @if($job -> trangthai == 1)
                                                     Đang đăng
                                                 @endif
-                                                @if($job -> trangthai == 0)
-                                                    Chờ đăng
+                                                @if($job -> trangthai == 3)
+                                                    Chờ duyệt
                                                 @endif
                                                 @if($job -> hannhanhoso < \Carbon\Carbon::now()->toDateString() )
                                                     Hết hạn
@@ -61,8 +63,21 @@
                                                                 </li>
                                                                 <li>
                                                                     <p class="name">Mức lương</p>
-                                                                    <p style="text-transform: uppercase;">
-                                                                        {{ $job -> minluong . ' - ' .$job -> minluong . ' ' . $job ->donvitien}}
+                                                                    <p>
+                                                                        @if($job -> minluong == null and $job -> maxluong == null)
+                                                                            Thỏa thuận
+                                                                        @else
+                                                                            @if($job -> minluong)
+                                                                                {{$job -> minluong . ' Tr'}}
+                                                                            @endif
+
+                                                                            @if($job -> maxluong && $job -> minluong == null)
+                                                                                {{'Lên đến '.$job -> maxluong. ' Tr'}}
+                                                                            @elseif($job -> maxluong)
+                                                                                {{' - '.$job -> maxluong. ' Tr'}}
+                                                                            @endif
+                                                                            {{strtoupper($job -> donvitien)}}
+                                                                        @endif
                                                                     </p>
                                                                 </li>
                                                                 <li>
@@ -80,12 +95,19 @@
                                                                 <li>
                                                                     <p class="name">Kinh nghiệm</p>
                                                                     <p>
-                                                                        @if($job -> kinhnghiem == 0)
+                                                                        @if($job->kinhnghiem == 0 )
                                                                             Không yêu cầu kinh nghiệm
-
                                                                         @endif
-                                                                        @if($job -> kinhnghiem == 1)
-                                                                            {{ $job -> kn_tunam . ' - ' .  $job -> kn_tunam . ' năm'}}
+                                                                        @if(($job->kinhnghiem == 1 && $job -> kn_tunam == null && $job -> kn_dennam == null))
+                                                                            Có kinh nghiệm
+                                                                        @elseif($job->kinhnghiem == 1)
+                                                                            @if($job -> kn_tunam != null)
+                                                                                {{'Từ '.$job -> kn_tunam}}
+                                                                            @endif
+                                                                            @if($job -> kn_dennam!= null)
+                                                                                {{' Đến '.$job -> kn_dennam}}
+                                                                            @endif
+                                                                            năm
                                                                         @endif
                                                                     </p>
                                                                 </li>
@@ -155,7 +177,7 @@
                                             <h4 class="detail-title">Phúc lợi</h4>
                                             <div class="full-content">
                                                 <ul>
-                                                    <?php $list_benefits = \App\Models\Benefit::all()->where('id_phucloi', $job->phucloi)->first() ?>
+                                                    <?php $list_benefits = \App\Models\Benefit::all()->where('id', $job->phucloi)->first() ?>
                                                     @if($list_benefits != null)
                                                         @if($list_benefits -> chedobaohiem == 1)
                                                             <li>Chế độ bảo hiểm</li>
@@ -207,15 +229,15 @@
                                             </div>
                                             <h4 class="detail-title">Mô tả công việc</h4>
                                             <div class="full-content">
-                                                <textarea readonly style="width: 100%; border: none;" rows="10">
-                                                    {{ $job -> mota }}
-                                                </textarea>
+                                                <p>
+                                                    {!! $job -> mota !!}
+                                                </p>
                                             </div>
                                             <h4 class="detail-title">Yêu cầu công việc</h4>
                                             <div class="full-content">
-                                                <textarea readonly style="width: 100%;border: none;" rows="10">
-                                                    {{ $job -> yeucau }}
-                                                </textarea>
+                                                <p>
+                                                    {!! $job -> yeucau !!}
+                                                </p>
                                             </div>
                                             <h4 class="detail-title">Thông tin khác</h4>
                                             <div class="full-content">

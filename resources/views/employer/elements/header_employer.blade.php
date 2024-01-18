@@ -175,7 +175,7 @@
                 {
                     echo 'hidden';
                 }
-                   ?> href="{{ route('profile') }}" rel="nofollow">
+                   ?> href="#" rel="nofollow">
                     <span class="mdi mdi-account-circle"></span>
                     Chào
                     <span class="name">

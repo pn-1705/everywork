@@ -37,6 +37,14 @@
                                        placeholder="Tiêu đề bài viết">
                             </div>
                             <div class="form-group">
+                                <label for="exampleInputEmail1">Danh mục</label>
+                                <select name="danhmuc" type="text" class="form-control">
+                                    @foreach($cate as $list)
+                                        <option value="{{$list -> id}}">{{ $list -> tendaydu }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="noidung">Nội dung</label>
                                 <textarea name="noidung" class="form-control" id="ckeditor_noidung_news"
                                           placeholder="Nội dung bài viết"></textarea>

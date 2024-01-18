@@ -97,60 +97,61 @@
                     <div class="tabslet-content active" id="tab-cd">
                         <div class="main-jobs-posting">
                             <div class="heading-jobs-posting">
-                                <div class="left-heading">
-                                    <p class="name">Hiển thị </p>
-                                    <ul class="list-check">
-                                        <li class="view-posting-detail active"><a href="javascript:void(0);" id="dtail">Chi
-                                                tiết</a></li>
-                                        <li class="view-posting-summary"><a href="javascript:void(0)">Xem tóm tắt </a>
-                                        </li>
+{{--                                <div class="left-heading">--}}
+{{--                                    <p class="name">Hiển thị </p>--}}
+{{--                                    <ul class="list-check">--}}
+{{--                                        <li class="view-posting-detail active"><a href="javascript:void(0);" id="dtail">Chi--}}
+{{--                                                tiết</a></li>--}}
+{{--                                        <li class="view-posting-summary"><a href="javascript:void(0)">Xem tóm tắt </a>--}}
+{{--                                        </li>--}}
 
-                                        <li><a href="javascript:void(0);" id="copy_multi_job">Nhân bản</a></li>
-                                        <li><a href="javascript:void(0);" id="unposting_multi_job">Tạm Dừng Đăng</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="right-heading">
-                                    <div class="export-file"><a href="javascript:void(0);" onclick="exportJobs();"> <em
-                                                class="material-icons">get_app</em>Xuất file job</a></div>
-                                    <div class="to-display">
-                                        <p class="name">Hiển thị </p>
-                                        <div class="form-display">
-                                            <select name="limit" id="limit">
-                                                <option value="20" selected="">20</option>
-                                                <option value="30">30</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </select>
-                                        </div>
-                                        <p class="name-display"></p>
-                                    </div>
-                                </div>
+{{--                                        <li><a href="javascript:void(0);" id="copy_multi_job">Nhân bản</a></li>--}}
+{{--                                        <li><a href="javascript:void(0);" id="unposting_multi_job">Tạm Dừng Đăng</a>--}}
+{{--                                        </li>--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                                <div class="right-heading">--}}
+{{--                                    <div class="export-file"><a href="javascript:void(0);" onclick="exportJobs();"> <em--}}
+{{--                                                class="material-icons">get_app</em>Xuất file job</a></div>--}}
+{{--                                    <div class="to-display">--}}
+{{--                                        <p class="name">Hiển thị </p>--}}
+{{--                                        <div class="form-display">--}}
+{{--                                            <select name="limit" id="limit">--}}
+{{--                                                <option value="20" selected="">20</option>--}}
+{{--                                                <option value="30">30</option>--}}
+{{--                                                <option value="50">50</option>--}}
+{{--                                                <option value="100">100</option>--}}
+{{--                                            </select>--}}
+{{--                                        </div>--}}
+{{--                                        <p class="name-display"></p>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
                             </div>
                             <div class="boding-jobs-posting">
                                 <div class="table table-jobs-posting active">
                                     <table>
                                         <thead style="background: #e6e6e6;">
                                         <tr>
-                                            <th width="1%"></th>
-                                            <th width="32%">Chức danh</th>
-                                            <th width="12%" onclick="setTypeSort('posting', 'asc', 3)">Ngày tạo<em
-                                                    class="material-icons">arrow_drop_down</em></th>
-                                            <th width="10%" onclick="setTypeSort('posting', 'asc', 1)">Đăng tuyển</th>
-                                            <th width="15%">Thao tác</th>
+                                            <th>Chức danh</th>
+                                            <th>Ngày tạo</th>
+                                            <th>Trạng thái</th>
+                                            <th>Đăng tuyển</th>
+                                            <th>Thao tác</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @foreach($listJobsWait as $list)
                                             <tr>
-                                                {{--                                            <td colspan="9" class="cb-text-center"><p><strong> Không có vị trí nào trong thư mục này.</strong></p></td>--}}
-                                                <td>
-                                                    <div class="checkbox">
-                                                        <input type="checkbox" name="listresumes[]" value="35BE0717">
-                                                    </div>
-                                                </td>
-                                                <td>{{ $list-> tencongviec }}</td>
+                                                <td style="text-align: left">{{ $list-> tencongviec }}</td>
                                                 <td>{{ date('d-m-Y', strtotime($list-> created_at)) }}</td>
+                                                <td>
+                                                    @if($list->trangthai == 0)
+                                                        <span class="badge bg-secondary">Chờ đăng</span>
+                                                    @endif
+                                                        @if($list->trangthai == 4)
+                                                        <span class="badge bg-warning">Dừng đăng</span>
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     <a href="{{ route('employer.postJob', $list -> id) }}" title="Đăng tuyển">
                                                         <em class="material-icons">vertical_align_top
@@ -174,7 +175,6 @@
                                                         </li>
                                                         <li class="end">
                                                             <a href="javascript:void(0);"
-                                                               onclick="deleteItem_job('35BE100A');return false;"
                                                                title="Xóa"><em
                                                                     class="material-icons">cancel </em></a></li>
                                                     </ul>
