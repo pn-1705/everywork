@@ -20,16 +20,16 @@ class UserController extends Controller
 {
     public function vieclam_page()
     {
-/*        DB::table('table_jobs')
-            ->where('trangthai', '=', 1)
-            ->update(['hannhanhoso' => '2024-02-01']);*/
+        /*        DB::table('table_jobs')
+                    ->where('trangthai', '=', 1)
+                    ->update(['hannhanhoso' => '2024-02-01']);*/
 
         $jobs = DB::table('table_jobs')
             ->leftJoin('table_careers', 'table_jobs.id_nganhnghe', '=', 'table_careers.id')
             ->leftJoin('table_ranks', 'table_jobs.capbac', '=', 'table_ranks.id')
             ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
             ->leftJoin('table_district', 'table_jobs.noilamviec', '=', 'table_district.id')
-            ->where('table_jobs.trangthai', 1)
+            ->where('table_jobs.trangthai', '=', 1)
             ->where('table_jobs.hannhanhoso', '>=', Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d'))
             ->where('table_employers.trangthai', 2)
             ->select('table_jobs.*', 'table_employers.ten', 'table_district.tendaydu', 'table_employers.avt', 'table_employers.tenkhongdau as employer_tenkhongdau', 'table_employers.trangthai');
@@ -58,15 +58,14 @@ class UserController extends Controller
             ->leftJoin('table_ranks', 'table_jobs.capbac', '=', 'table_ranks.id')
             ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
             ->leftJoin('table_district', 'table_jobs.noilamviec', '=', 'table_district.id')
-            ->where('table_jobs.trangthai', 1)
+            ->where('table_jobs.trangthai', '=', 1)
             ->where('table_jobs.hannhanhoso', '>=', Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d'))
             ->where('table_employers.trangthai', 2)
             ->select('table_jobs.*', 'table_employers.ten', 'table_district.tendaydu', 'table_district.tenkhongdau', 'table_employers.avt',
                 'table_careers.tenkhongdau as employer_tenkhongdau');
 
         if ($request->keySearch != null) {
-            $jobs->where('table_jobs.tencongviec', 'like', '%' . $request->keySearch . '%')
-                ->orWhere('table_employers.ten', 'like', '%' . $request->keySearch . '%');
+            $jobs->where('table_jobs.tencongviec', 'like', '%' . $request->keySearch . '%');
         }
         if ($request->career != 0) {
             $jobs->where('table_careers.tenkhongdau', $request->career);
@@ -96,6 +95,12 @@ class UserController extends Controller
         if ($request->job_type != 0) {
             $jobs->where('table_jobs.hinhthuc', '=', $request->job_type);
         }
+        if (isset($request->wfh)) {
+            if ($request->wfh == 'on') {
+                $jobs->where('table_jobs.workforhome', '=', 1);
+            }
+        }
+
 
         $totalJobs = $jobs->count();
 
@@ -112,6 +117,7 @@ class UserController extends Controller
         $level = $request->level;
         $days = $request->days;
         $job_type = $request->job_type;
+        $wfh = $request->wfh;
         $data['keySearch'] = $keySearch;
         $data['career'] = $career;
         $data['career_mobile'] = $career_mobile;
@@ -121,6 +127,7 @@ class UserController extends Controller
         $data['level'] = $level;
         $data['days'] = $days;
         $data['job_type'] = $job_type;
+        $data['wfh'] = $wfh;
 
         if (isset(Auth::user()->id)) {
             $idAccount = Auth::user()->id;
@@ -412,8 +419,15 @@ class UserController extends Controller
             ->take(6)
             ->get();
 //        dd($topEmployer);
-
         $data['topEmployer'] = $topEmployer;
+
+        $countjobs = DB::table('table_jobs')
+            ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
+            ->where('table_jobs.trangthai', 1)
+            ->where('table_jobs.hannhanhoso', '>=', Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d'))
+            ->where('table_employers.trangthai', 2)->count();
+        $data['countjobs'] = $countjobs;
+
 
         $news = DB::table('table_news')
             ->where('noibat', '=', 1)
@@ -427,6 +441,7 @@ class UserController extends Controller
     public function autocompleteSearch(Request $request)
     {
         $data = Job::select('tencongviec')
+            ->where('trangthai', 1)
             ->where('tencongviec', 'like', '%' . $request->get('q') . '%')
             ->get();
 //        dd($data);
@@ -435,7 +450,25 @@ class UserController extends Controller
 
     public function nhatuyendung_page()
     {
-        return view('user.pages.employer.index');
+        $employers = DB::table('table_employers')
+            ->select('table_employers.ten', 'table_employers.avt', 'table_employers.tenkhongdau', 'table_employers.city', DB::raw('count(table_jobs.id) as dangtuyen'))
+            ->rightJoin('table_jobs', 'table_employers.id', '=', 'table_jobs.id_nhatuyendung')
+            ->where('table_jobs.trangthai', 1)
+            ->groupBy('table_employers.ten', 'table_employers.avt', 'table_employers.tenkhongdau', 'table_employers.city')->get();
+        return view('user.pages.employer.index', compact('employers'));
+    }
+
+    public function searchNhatuyendung(Request $request)
+    {
+        $employers = DB::table('table_employers')
+            ->select('table_employers.ten', 'table_employers.avt', 'table_employers.tenkhongdau', 'table_employers.city', DB::raw('count(table_jobs.id) as dangtuyen'))
+            ->rightJoin('table_jobs', 'table_employers.id', '=', 'table_jobs.id_nhatuyendung')
+            ->where('table_jobs.trangthai', 1)
+            ->where('table_employers.ten', 'like', '%' . $request->keyword . '%')
+            ->groupBy('table_employers.ten', 'table_employers.avt', 'table_employers.tenkhongdau', 'table_employers.city')->get();
+
+        $key = $request->keyword;
+        return view('user.pages.employer.index', compact('employers', 'key'));
     }
 
     public function nhatuyendung_view($id)
@@ -483,6 +516,7 @@ class UserController extends Controller
 //dd($listNews);
         return view('user.pages.news.newsCategory', compact('listNews', 'nameCate'));
     }
+
     public function viewNewDetail($ten)
     {
         $news = DB::table('table_news')
@@ -491,7 +525,7 @@ class UserController extends Controller
 
         $view = News::where('tieudekhongdau', $ten)->first()->luotxem;
         $view++;
-        News::where('tieudekhongdau', $ten)->update(['luotxem'=> $view]);
+        News::where('tieudekhongdau', $ten)->update(['luotxem' => $view]);
 
         return view('user.pages.news.newsDetail', compact('news'));
     }

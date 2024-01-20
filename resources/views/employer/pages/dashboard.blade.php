@@ -46,11 +46,13 @@
                                             <p><span>Trạng thái: <strong>
                                                         @if($employer -> trangthai == 0 || $employer -> trangthai == 1)
                                                             <span class="text-danger">Chưa được phép đăng tuyển</span>
+                                                        @elseif( $employer -> trangthai == 4)
+                                                            <span class="text-danger">Từ chối cấp quyền đăng tuyển</span>
                                                         @else
                                                             <span class="text-success">Được phép đăng tuyển</span>
                                                         @endif
                                                     </strong></span></p>
-                                            @if($employer -> trangthai == 0)
+                                            @if($employer -> trangthai == 0 || $employer -> trangthai == 4)
                                                 <a class="text-primary py-1"
                                                    href="{{ route('employer.sendRequestRole') }}">Yêu cầu cấp quyền
                                                 </a>

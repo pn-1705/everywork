@@ -190,40 +190,63 @@
                 <div class="col-lg-4 col-custom-xxl-3">
                     <div class="box-most-find">
                         <div class="box-title">
-                            <h4>Việc làm được tìm kiếm nhiều nhất</h4>
+                            <h4>Từ khóa được tìm kiếm phổ biến</h4>
                         </div>
                         <div class="box-content">
                             <ul>
                                 <li>
-                                    <a href="#"
-                                       title="Supervisor">
-                                        Kế toán
-                                    </a>
-                                </li><li>
-                                    <a href="#"
-                                       title="Supervisor">
-                                        Lập trình viên
-                                    </a>
-                                </li><li>
-                                    <a href="#"
-                                       title="Supervisor">
-                                        Nhân viên bán hàng
-                                    </a>
-                                </li><li>
-                                    <a href="#"
-                                       title="Supervisor">
-                                        Nhân viên maketing
-                                    </a>
-                                </li><li>
-                                    <a href="#"
-                                       title="Supervisor">
-                                        Nhân viên kinh doanh
-                                    </a>
-                                </li><li>
-                                    <a href="#"
-                                       title="Supervisor">
-                                        Kỹ sư cơ khí
-                                    </a>
+                                    <form id="myForm" method="get" action="{{ route('filterJobs') }}">
+                                        <input hidden name="keySearch" value="Kế toán">
+                                        <button class="btn" type="submit" href="{{ route('filterJobs') }}"
+                                                title="Supervisor">
+                                            Kế toán
+                                        </button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form id="myForm" method="get" action="{{ route('filterJobs') }}">
+                                        <input hidden name="keySearch" value="Lập trình viên">
+                                        <button class="btn" type="submit" href="{{ route('filterJobs') }}"
+                                                title="Supervisor">
+                                            Lập trình viên
+                                        </button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form id="myForm" method="get" action="{{ route('filterJobs') }}">
+                                        <input hidden name="keySearch" value="Marketing">
+                                        <button class="btn" type="submit" href="{{ route('filterJobs') }}"
+                                                title="Supervisor">
+                                            Marketing
+                                        </button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form id="myForm" method="get" action="{{ route('filterJobs') }}">
+                                        <input hidden name="keySearch" value="Kỹ sư cơ khí">
+                                        <button class="btn" type="submit" href="{{ route('filterJobs') }}"
+                                                title="Supervisor">
+                                            Kỹ sư cơ khí
+                                        </button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form id="myForm" method="get" action="{{ route('filterJobs') }}">
+                                        <input hidden name="keySearch" value="Giáo viên mần non">
+                                        <button class="btn" type="submit" href="{{ route('filterJobs') }}"
+                                                title="Supervisor">
+                                            Giáo viên mần non
+                                        </button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form id="myForm" method="get" action="{{ route('filterJobs') }}">
+                                        <input hidden name="keySearch" value="Java">
+                                        <button class="btn" type="submit" href="{{ route('filterJobs') }}"
+                                                title="Supervisor">
+                                            Java
+                                        </button>
+                                    </form>
                                 </li>
                             </ul>
                         </div>
@@ -242,50 +265,66 @@
         </div>
     </section>
     <div id="loginRequiredForm" class="fancybox-stage d-none" style="position: fixed">
-        <div class="fancybox-slide fancybox-slide--html fancybox-slide--current fancybox-slide--complete" style="background-color: rgba(0,0,0,.4);">
-        <div class="login-modal fancybox-content" id="login-modal" style="display: inline-block;">
-  <div class="modal-title">
-    <p>Vui lòng đăng nhập để thực hiện chức năng này</p>
-  </div>
-  <div class="modal-body">
-  <p class="notes"></p>
-    <form method="POST" id="popup_login_form" action="https://careerbuilder.vn/vi/jobseekers/member/login" autocomplete="off">
-      <div class="row">
-        <div class="form-group col-12">
-          <input type="text" id="username" name="username" placeholder="Username / Email" autocomplete="off">
+        <div class="fancybox-slide fancybox-slide--html fancybox-slide--current fancybox-slide--complete"
+             style="background-color: rgba(0,0,0,.4);">
+            <div class="login-modal fancybox-content" id="login-modal" style="display: inline-block;">
+                <div class="modal-title">
+                    <p>Vui lòng đăng nhập để thực hiện chức năng này</p>
+                </div>
+                <div class="modal-body">
+                    <p class="notes"></p>
+                    <form method="POST" action="{{ route('user.post_login') }}">
+                        @csrf
+                        <div class="row">
+                            <div class="form-group col-12">
+                                <input hidden name="control" type="text" value="2">
+                                <input type="text" id="username" name="email" placeholder="Email"
+                                       autocomplete="off">
+                            </div>
+                            <div class="form-group col-8 toggle-password">
+                                <input type="password" name="password" id="password" placeholder="Mật khẩu"
+                                       autocomplete="off">
+                                {{--                                <div class="showhide-password eyess"></div>--}}
+                            </div>
+                            <div class="form-group col-4">
+                                <button type="submit">Đăng nhập</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="sign-in-by"><span>Đăng nhập bằng:</span>
+                        <ul class="list-follow">
+                            <li><a tabindex="0" role="button" class="fb" href="{{ route('login-by-facebook') }}"
+                                   onclick="popupapi('facebook','aHR0cHM6Ly9jYXJlZXJidWlsZGVyLnZuL3ZpL2pvYnNlZWtlcnMvbG9naW5mYWNlYm9vaw==');"><em
+                                        class="fa fa-facebook"></em>Facebook</a></li>
+                            <li><a tabindex="0" role="button" class="gg" href="{{ route('login-by-google') }}"
+                                   onclick="popupapi('google','aHR0cHM6Ly9jYXJlZXJidWlsZGVyLnZuL3ZpL2pvYnNlZWtlcnMvbG9naW5nb29nbGU=');"><em
+                                        class="fa fa-google"></em>Google</a></li>
+                        </ul>
+                    </div>
+                    <a class="register" href="{{ route('user.pages.register_page') }}" title="Đăng ký">Đăng
+                        ký </a><a class="forget-password" href="{{ route('user.forgotpassword') }}"
+                                  title="Quên mật khẩu?" rel="nofollow">Quên mật khẩu?</a>
+                </div>
+                <button onclick="closeLoginRequiredForm()" type="button" data-fancybox-close=""
+                        class="fancybox-button fancybox-close-small" title="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1" viewBox="0 0 24 24">
+                        <path d="M13 12l5-5-1-1-5 5-5-5-1 1 5 5-5 5 1 1 5-5 5 5 1-1z"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
-        <div class="form-group col-8 toggle-password">
-          <input type="password" name="password" id="password" placeholder="Mật khẩu" autocomplete="off">
-          <div class="showhide-password eyess"></div>
-        </div>
-        <div class="form-group col-4">
-          <input type="hidden" name="csrf_token" value="e90745c2738bde172eeab3b66cadfd7d48df301a9e24824d169be77d8222c078">
-          <input type="hidden" name="apply_url" value="">
-          <button type="submit">Đăng nhập</button>
-        </div>
-      </div>
-
-    </form>
-    <div class="sign-in-by"><span>Đăng nhập bằng:</span>
-      <ul class="list-follow">
-        <li><a tabindex="0" role="button" class="fb" onclick="popupapi('facebook','aHR0cHM6Ly9jYXJlZXJidWlsZGVyLnZuL3ZpL2pvYnNlZWtlcnMvbG9naW5mYWNlYm9vaw==');"><em class="fa fa-facebook"></em>Facebook</a></li>
-        <li><a tabindex="0" role="button" class="gg" onclick="popupapi('google','aHR0cHM6Ly9jYXJlZXJidWlsZGVyLnZuL3ZpL2pvYnNlZWtlcnMvbG9naW5nb29nbGU=');"><em class="fa fa-google"></em>Google</a></li>
-      </ul>
     </div>
-    <a class="register" href="https://careerbuilder.vn/vi/jobseekers/register" title="Đăng ký">Đăng ký </a><a class="forget-password" href="https://careerbuilder.vn/vi/jobseekers/forgotpassword" title="Quên mật khẩu?" rel="nofollow">Quên mật khẩu?</a>
-  </div>
-<button onclick="closeLoginRequiredForm()" type="button" data-fancybox-close="" class="fancybox-button fancybox-close-small" title="Close"><svg xmlns="http://www.w3.org/2000/svg" version="1" viewBox="0 0 24 24"><path d="M13 12l5-5-1-1-5 5-5-5-1 1 5 5-5 5 1 1 5-5 5 5 1-1z"></path></svg></button></div></div></div>
     </body>
     <script>
-        function closeLoginRequiredForm(){
+        function closeLoginRequiredForm() {
             $('#loginRequiredForm').addClass('d-none');
             $('body').removeClass('overflow-hidden');
         }
     </script>
     <style>
-        @media (max-width: 576px){
+        @media (max-width: 576px) {
             .c-bottom-right-icon {
-                 position: relative;
+                position: relative;
                 right: 0;
                 bottom: 0;
                 display: flex;
@@ -293,6 +332,7 @@
                 align-items: flex-start;
             }
         }
+
         a.saved {
             color: #7e7a7a;
         }
@@ -366,6 +406,7 @@
         .job_link .c-location, .job_link .c-expire-date, .c-time {
             color: #3f4144;
         }
+
         @media (min-width: 576px) {
             .c-bottom-right-icon {
                 position: absolute;

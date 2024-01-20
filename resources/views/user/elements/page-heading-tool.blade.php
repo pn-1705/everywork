@@ -77,10 +77,10 @@
                                 <?php $danhmucnganhnghe = \App\Models\DanhMucNganhNghe::all()->where('trangthai', 1) ?>
                                 @foreach($danhmucnganhnghe as $dm)
                                     <option value="{{$dm->tenkhongdau}}"
-                                        @if(isset($career))
+                                            @if(isset($career))
                                             @if($career == $dm->tenkhongdau)
                                             selected
-                                            @endif
+                                        @endif
                                         @endif
                                     >{{$dm->tendaydu}}</option>
                                 @endforeach
@@ -94,10 +94,10 @@
                                 <?php $citys = DB::table('table_district')->where('trangthai', 1)->get() ?>
                                 @foreach($citys as $city)
                                     <option value="{{$city->tenkhongdau}}"
-                                        @if(isset($location))
+                                            @if(isset($location))
                                             @if($location == $city->tenkhongdau)
                                             selected
-                                            @endif
+                                        @endif
                                         @endif
                                     >{{$city->tendaydu}}</option>
                                 @endforeach
@@ -130,16 +130,11 @@
                     <div class="switch-group toollips switch-group-sp">
                         <div class="form-group">
                             <label style="color: #0a0e14" for="work-home-fli">Work from home
-                                <input id="work-home-fli" type="checkbox" onclick="WFH()">
+                                <input id="work-home-fli" name="wfh" type="checkbox"
+                                       @if(isset($wfh))
+                                       @if($wfh != null) checked @endif
+                                    @endif>
                                 <span class="slider"></span> </label>
-                            <script>
-                                function WFH() {
-                                    if ($('#work-home-fli').is(':checked')) {
-                                        window.location = 'http://localhost:8000/everywork/viec-lam/search?keySearch=123&career=0&location=0&salary=0&level=0&days=0&job_type=0';
-                                    }
-                                }
-
-                            </script>
                         </div>
                     </div>
                     {{--                <div class="change-display">--}}
@@ -172,10 +167,10 @@
                                         <option value="0">Tất cả ngành nghề</option>
                                         @foreach($danhmucnganhnghe as $dm)
                                             <option value="{{$dm->tenkhongdau}}"
-                                                @if(isset($career))
+                                                    @if(isset($career))
                                                     @if($career_mobile == $city->tenkhongdau)
                                                     selected
-                                                    @endif
+                                                @endif
                                                 @endif
                                             >{{$dm->tendaydu}}
                                             </option>
@@ -510,7 +505,7 @@
                     '<div class="list-group search-results-dropdown"><div class="list-group-item">Không có kết quả phù hợp.</div></div>'
                 ],
                 header: [
-                    '<div class="list-group search-results-dropdown">'
+                    '<div class="list-group search-results-dropdown">VIỆC LÀM</div>'
                 ],
                 suggestion: function (data) {
                     return '<div style="" class="search-results-dropdown" value="' + data.tencongviec + '">' + data.tencongviec + '</div>'
@@ -1721,6 +1716,7 @@
         .page-heading-tool .tool-wrapper .search-job .form-group.tool-form-select {
             display: none !important;
         }
+
         .filters-wrapper .filter-extend .list-filter-extend {
             display: flex;
             flex-wrap: wrap;
@@ -1729,6 +1725,7 @@
             max-width: calc(100% + 15px) !important;
             padding-right: 0;
         }
+
         .filters-wrapper .filter-extend .list-filter-extend .item {
             flex: 0 0 50%;
             max-width: 50%;

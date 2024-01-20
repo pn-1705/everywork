@@ -93,6 +93,12 @@ class LoginController extends Controller
         if ($count == 1) {
             if ($accountStatus == 1) {
                 if (Auth::attempt($data)) {
+                    if (isset($request -> control))
+                    {
+                        if($request -> control == 2){
+                            return redirect()->back();
+                        }
+                    }
                     return redirect()->intended('/home');
                 }
             } else {

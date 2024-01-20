@@ -127,6 +127,7 @@ class EmployerController extends Controller
     {
         return view('employer.hrcentral', $this->getDataJob());
     }
+
     public function view_waitPostJob()
     {
         return view('employer.waitPostJob', $this->getDataJob());
@@ -136,6 +137,7 @@ class EmployerController extends Controller
     {
         return view('employer.expJob', $this->getDataJob());
     }
+
     public function view_addJob()
     {
         return view('employer.addJob');
@@ -243,9 +245,10 @@ class EmployerController extends Controller
         return redirect()->route('employer.view_waitPostJob')->with($this->getDataJob());
     }
 
-    public function stopPosting($id){
+    public function stopPosting($id)
+    {
         Job::find($id)->update([
-           'trangthai' => 4
+            'trangthai' => 4
         ]);
         return redirect()->back();
     }
@@ -343,15 +346,22 @@ class EmployerController extends Controller
             ->orderBy('ngaydang', 'desc')->paginate(5)->withQueryString();
 
         //Việc làm chở chờ đăng (nháp)
+        $listJobsWait2 = DB::table('table_applyforjobs')
+            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
+            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai')
+            ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
+            ->where('table_jobs.id_nhatuyendung', Auth::id())
+            ->where('table_jobs.trangthai', 4)
+            ->orderBy('created_at', 'desc');
         $listJobsWait = DB::table('table_applyforjobs')
             ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
             ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai')
             ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
             ->where('table_jobs.id_nhatuyendung', Auth::id())
             ->where('table_jobs.trangthai', 0)
-            ->orWhere('table_jobs.trangthai', 4)
-            ->orderBy('created_at', 'desc')->paginate(5)->withQueryString();
-
+            ->orderBy('created_at', 'desc')
+            ->union($listJobsWait2)->paginate(5)->withQueryString();
+//dd(Auth::id());
         //Việc làm hết hạn
         $listJobsExp = DB::table('table_applyforjobs')
             ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', DB::raw('count(table_applyforjobs.idJob) as danop'))

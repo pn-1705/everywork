@@ -124,7 +124,7 @@
                                     {{$list -> website}}
                                 </td>
                                 <td class="project-actions text-right">
-                                    @if ($list -> trangthai == 0)
+                                    @if ($list -> trangthai == 1)
                                         <a title="Từ chối" class="btn btn-danger btn-xs"
                                            href="{{ route("admin.employers.refusePermissions",  $list -> id ) }}">
                                             Từ chối

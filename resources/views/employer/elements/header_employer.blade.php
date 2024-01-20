@@ -7,7 +7,7 @@
             @foreach($footer_setting as $footer_setting)
 
                 <div id="logo">
-                    <h1 style="inline-size: max-content" class="logo"><a href="index.html">{{$footer_setting->name}}<span>.</span></a></h1>
+                    <h1 style="inline-size: max-content" class="logo"><a href="{{ route('employer.login') }}">{{$footer_setting->name}}<span>.</span></a></h1>
                 </div>
                 <!-- Uncomment below if you prefer to use an image logo -->
                 <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt=""></a>-->

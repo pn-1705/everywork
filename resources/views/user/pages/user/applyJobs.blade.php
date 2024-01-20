@@ -17391,10 +17391,8 @@
                         </div>
                         <div class="widget-body">
                             <div class="content">
-                                <p>Bạn đã ứng tuyển vào các vị trí tuyển dụng trong 6 tháng gần nhất</p>
-                                <div class="list-hidden"><a
-                                        href="https://careerbuilder.vn/vi/jobseekers/mykiemviec/jobappliedhidden">Danh
-                                        Sách Việc Làm Đã Ẩn</a></div>
+{{--                                <p>Bạn đã ứng tuyển vào các vị trí tuyển dụng trong 6 tháng gần nhất</p>--}}
+
                             </div>
                             <div class="table">
                                 <form name="frmJobapplied" id="frmJobapplied" method="post" action="">
@@ -17407,7 +17405,6 @@
                                             <th>Trạng thái</th>
                                             <th>Ngày nộp</th>
                                             <th>Hồ sơ ứng tuyển</th>
-                                            <th>&nbsp;</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -17459,14 +17456,6 @@
                                                                 {{$list -> nameCV}}
                                                             @endif
                                                         </p>
-                                                    </td>
-                                                    <td class="action">
-                                                        <ul class="list-action">
-                                                            <li class="button-hidden"><a href="javascript:void(0);"
-                                                                                         onclick="checkHiddenJobapplied('360D3296_36ED7583_35BE1017',1);return false;">
-                                                                    <em class="material-icons">visibility_off</em><span>Ẩn
-                        </span></a></li>
-                                                        </ul>
                                                     </td>
                                                 </tr>
                                             @endforeach

@@ -51,9 +51,8 @@ Route::get('/tin-tuc-chi-tiet/{ten}', 'User\UserController@viewNewDetail')->name
 
 //Nhà tuyển dụng hàng đầu
 Route::get('/nha-tuyen-dung-hang-dau', 'User\UserController@nhatuyendung_page')->name('pages.nha-tuyen-dung');
+Route::get('/nha-tuyen-dung-hang-dau/search', 'User\UserController@searchNhatuyendung')->name('user.searchNTD');
 Route::get('/nha-tuyen-dung/{ten}', 'User\UserController@nhatuyendung_view')->name('pages.nha-tuyen-dung.detail');
-
-
 
 //Typeahead
 Route::get('autocomplete', 'User\UserController@autocompleteSearch')->name('autocompleteSearch');

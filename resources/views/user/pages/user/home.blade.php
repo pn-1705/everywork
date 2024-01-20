@@ -3754,7 +3754,7 @@
                 <div class="main-box">
                     <div class="box-body">
                         <div class="title">
-                            <h1>Đón lấy thành công với <span> 19,920  cơ hội nghề nghiệp </span></h1>
+                            <h1>Đón lấy thành công với <span> {{ $countjobs }} cơ hội nghề nghiệp </span></h1>
                         </div>
                         <form id="myForm" method="get" action="{{ route('filterJobs') }}">
                             @csrf
@@ -3776,12 +3776,12 @@
                                     document.getElementById("myForm").reset();
                                 }
                             </script>
-                            <div class="toggle-search">
+                            {{--<div class="toggle-search">
                                 <div class="advanced-search-btn"><a tabindex="0" role="button"><span
                                             class="mdi mdi-magnify-plus-outline"></span>Tìm kiếm nâng cao</a></div>
                                 <div class="expend-less-btn"><a tabindex="0" role="button"><span
                                             class="mdi mdi-chevron-up"></span>Thu gọn</a></div>
-                            </div>
+                            </div>--}}
                             <div class="find-jobs">
                                 <button class="btn-gradient" type="submit">TÌM VIỆC NGAY
                                 </button>
@@ -3790,12 +3790,15 @@
                     </div>
                     <div class="box-footer">
                         <div class="content">
-                            <p>Đăng hồ sơ nghề nghiệp để dễ dàng ứng tuyển nhanh</p>
+                            <p>Tìm kiếm công việc phù hợp để ứng tuyển ngay</p>
                         </div>
                         <div class="upload-resume">
-                            <button class="btn-gradient">
-                                ĐĂNG NGAY
+                            <form style="width: 100%" method="get" action="{{ route('filterJobs') }}">
+                                @csrf
+                            <button  class="btn-gradient">
+                                ỨNG TUYỂN
                             </button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -3822,40 +3825,40 @@
                     </div>
                 @endforeach
             </div>
-            <div class="top-employers-banner">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="item">
-                            <div class="image adsTopBanner" id="846"><a
-                                    href=""
-                                    target="_blank"><img
-                                        src="https://ads.careerbuilder.vn/www/images/8038e22595ece70fbfe0a75e7020f355.jpg"
-                                        width="690" height="250" alt="Share CV tuyendung" title="Share CV tuyendung"
-                                        border="0"></a>
-                                <div id="beacon_ca1fd954e2"
-                                     style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img
-                                        src="https://ads.careerbuilder.vn/www/delivery/lg.php?bannerid=5711&amp;campaignid=1671&amp;zoneid=846&amp;loc=https%3A%2F%2Fcareerbuilder.vn%2F&amp;cb=ca1fd954e2"
-                                        width="0" height="0" alt="" style="width: 0px; height: 0px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="item">
-                            <div class="image adsTopBanner" id="847"><a
-                                    href=""
-                                    target="_blank"><img
-                                        src="https://ads.careerbuilder.vn/www/images/ac13f304e45d13c6666de7d799fd9bfd.jpg"
-                                        width="690" height="250" alt="Careerstart tuyendung"
-                                        title="Careerstart tuyendung" border="0"></a>
-                                <div id="beacon_feab21e6a1"
-                                     style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img
-                                        src="https://ads.careerbuilder.vn/www/delivery/lg.php?bannerid=6355&amp;campaignid=1749&amp;zoneid=847&amp;loc=https%3A%2F%2Fcareerbuilder.vn%2F&amp;cb=feab21e6a1"
-                                        width="0" height="0" alt="" style="width: 0px; height: 0px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+{{--            <div class="top-employers-banner">--}}
+{{--                <div class="row">--}}
+{{--                    <div class="col-lg-6">--}}
+{{--                        <div class="item">--}}
+{{--                            <div class="image adsTopBanner" id="846"><a--}}
+{{--                                    href=""--}}
+{{--                                    target="_blank"><img--}}
+{{--                                        src="{{ asset('public/imgs/photo/1705074538.jpg') }}"  alt="Share CV tuyendung" title="Share CV tuyendung"--}}
+{{--                                        border="0"></a>--}}
+{{--                                <div id="beacon_ca1fd954e2"--}}
+{{--                                     style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img--}}
+{{--                                        src="https://ads.careerbuilder.vn/www/delivery/lg.php?bannerid=5711&amp;campaignid=1671&amp;zoneid=846&amp;loc=https%3A%2F%2Fcareerbuilder.vn%2F&amp;cb=ca1fd954e2"--}}
+{{--                                        width="0" height="0" alt="" style="width: 0px; height: 0px;"></div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+
+{{--                    </div>--}}
+{{--                    <div class="col-lg-6">--}}
+{{--                        <div class="item">--}}
+{{--                            <div class="image adsTopBanner" id="847"><a--}}
+{{--                                    href=""--}}
+{{--                                    target="_blank"><img--}}
+{{--                                        src="https://ads.careerbuilder.vn/www/images/ac13f304e45d13c6666de7d799fd9bfd.jpg"--}}
+{{--                                        width="690" height="250" alt="Careerstart tuyendung"--}}
+{{--                                        title="Careerstart tuyendung" border="0"></a>--}}
+{{--                                <div id="beacon_feab21e6a1"--}}
+{{--                                     style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img--}}
+{{--                                        src="https://ads.careerbuilder.vn/www/delivery/lg.php?bannerid=6355&amp;campaignid=1749&amp;zoneid=847&amp;loc=https%3A%2F%2Fcareerbuilder.vn%2F&amp;cb=feab21e6a1"--}}
+{{--                                        width="0" height="0" alt="" style="width: 0px; height: 0px;"></div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
         </div>
     </section>
 

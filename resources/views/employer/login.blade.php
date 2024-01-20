@@ -17,9 +17,9 @@
                             <div class="main-step-title">
                                 <h3>THÔNG TIN ĐĂNG NHẬP</h3>
                             </div>
-                            <div class="text-sup">
-                                <a href="https://careerbuilder.vn/vi/employers/faq" target="_blank" class="support">Hướng dẫn</a>
-                            </div>
+{{--                            <div class="text-sup">--}}
+{{--                                <a href="https://careerbuilder.vn/vi/employers/faq" target="_blank" class="support">Hướng dẫn</a>--}}
+{{--                            </div>--}}
                         </div>
                         @if(session('error'))
                             <div style="padding: 0.5rem 1.25rem; margin: 0 0 10px 0" class="alert alert-danger">

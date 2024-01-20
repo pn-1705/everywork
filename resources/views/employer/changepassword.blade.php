@@ -12,8 +12,8 @@
                     <div class="left-heading">
                         <h1 class="title-manage"> Thông Tin Tài Khoản</h1>
                     </div>
-                    <div class="right-heading"><a class="support" href="https://careerbuilder.vn/vi/employers/faq"
-                                                  target="_blank">Hướng dẫn </a></div>
+                   {{-- <div class="right-heading"><a class="support" href="https://careerbuilder.vn/vi/employers/faq"
+                                                  target="_blank">Hướng dẫn </a></div>--}}
                 </div>
                 <div class="main-tabslet" data-toggle="tabslet">
 
