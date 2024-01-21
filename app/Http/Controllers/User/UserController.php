@@ -288,6 +288,7 @@ class UserController extends Controller
                 ->join('table_jobs', 'table_jobs.id', '=', 'table_savejobs.idJob')
                 ->join('table_employers', 'table_employers.id', '=', 'table_jobs.id_nhatuyendung')
                 ->join('table_district', 'table_district.id', '=', 'table_jobs.noilamviec')
+                ->select('table_jobs.*', 'table_district.tendaydu', 'table_savejobs.idJob', 'table_employers.ten', 'table_employers.tenkhongdau')
                 ->get();
 //            dd($jobs);
             $data['jobs'] = $jobs;

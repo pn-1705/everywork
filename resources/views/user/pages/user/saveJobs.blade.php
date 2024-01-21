@@ -17412,7 +17412,7 @@
                                                                                                    alt="{{$job->tencongviec}}" title="{{$job->tencongviec}}">  </a></div>
                                                             <div class="figcaption">
                                                                 <h3><a href="{{ route('user.pages.viewDetailJob', $job -> idJob) }}">{{ $job -> tencongviec }}</a></h3>
-                                                                <p class="company-name"><a href="{{ route('pages.nha-tuyen-dung.detail', $job -> id_nhatuyendung) }}" title="{{ $job -> ten }}">{{ $job -> ten }}</a></p>
+                                                                <p class="company-name"><a href="{{ route('pages.nha-tuyen-dung.detail', $job -> tenkhongdau) }}" title="{{ $job -> ten }}">{{ $job -> ten }}</a></p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -17422,7 +17422,7 @@
                                                 </td>
                                                 <td class="action">
                                                     <ul class="list-action">
-                                                        <li class="apply-now-btn"><a class="btn-gradient" href="https://careerbuilder.vn/vi/tim-viec-lam/nhan-vien-chuyen-vien-khach-hang-doanh-nghiep-vi-mo-quang-tri.35BEF2DA.html">Ứng Tuyển</a></li>
+                                                        <li class="apply-now-btn"><a class="btn-gradient" href="{{ route('user.pages.viewDetailJob', $job -> idJob) }}">Ứng Tuyển</a></li>
                                                         <li class="delete"><a href="{{ route('xoa-viec-lam-da-luu', $job -> idJob) }}"> <em class="material-icons">highlight_off</em><span>Xóa</span></a></li>
                                                     </ul>
                                                 </td>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Employer;
 
 use App\Models\Employer;
+use App\Models\Job;
 use App\Models\User;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Carbon\Carbon;
@@ -93,6 +94,12 @@ class ManagerController extends Controller
         } else {
             return redirect()->back()->with('norole', 'Tài khoản của bạn chưa được phép đăng tuyển! Hãy cập nhật đầy đủ thông tin doanh nghiệp để được cấp quyền.');
         }
+    }
+
+    public function deleteJob($id)
+    {
+        Job::find($id)->delete();
+        return redirect()->back();
     }
 
     public function viewManageResume()
@@ -278,15 +285,43 @@ class ManagerController extends Controller
         return view('employer.pages.emailConfig.index', compact('listLetter'));
     }
 
+    public function viewUpdateEmail($id)
+    {
+        $listLetter = DB::table('table_letters')->get();
+        $letterUpdate = DB::table('table_letters')->where('idLetter', $id)->first();
+        return view('employer.pages.emailConfig.edit', compact('listLetter', 'letterUpdate'));
+    }
+
+    public function updateEmail($id, Request $request)
+    {
+        $listLetter = DB::table('table_letters')->get();
+
+        $letterUpdate = DB::table('table_letters')->where('idLetter', $id)->update([
+            'title' => $request->letter_title,
+            'content' => $request->letter_content_update,
+            'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')
+        ]);
+        return redirect()->route('employer.viewEmailConfig', compact('listLetter', 'letterUpdate'));
+    }
+
     public function postEmailConfig(Request $request)
     {
         DB::table('table_letters')->insert([
             'idEmployer' => Auth::id(),
             'title' => $request->letter_title,
             'content' => $request->letter_content,
-            'created_at' => Carbon::now('Asia/Ho_Chi_Minh')
+            'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
+            'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')
         ]);
-        return redirect()->back();
+        $listLetter = DB::table('table_letters')->get();
+
+        return redirect()->route('employer.viewEmailConfig', compact('listLetter'));
+    }
+
+    public function delEmail($id)
+    {
+        DB::table('table_letters')->where('idLetter', $id)->delete();
+        return redirect()->route('employer.viewEmailConfig');
     }
 
     //Gửi email thông báo đến ứng viên

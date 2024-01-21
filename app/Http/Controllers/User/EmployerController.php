@@ -253,6 +253,50 @@ class EmployerController extends Controller
         return redirect()->back();
     }
 
+    public function searchJob(Request $request)
+    {
+        $listJobs = DB::table('table_applyforjobs')
+            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
+            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai')
+            ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
+            ->where('table_jobs.id_nhatuyendung', Auth::id())
+            ->where('hannhanhoso', '>=', Carbon::now()->toDateString())
+            ->where('trangthai', '!=', 0)
+            ->where('trangthai', '!=', 2)
+            ->where('trangthai', '!=', 4);
+
+        if ($request->keyword != null) {
+            $listJobs->where('table_jobs.tencongviec', 'like', '%' . $request->keyword . '%');
+        }
+
+        if ($request->date_type == 0) {
+            if ($request->date_from != null) {
+                $listJobs->where('table_jobs.ngaydang', '>=', $request->date_from);
+            }
+            if ($request->date_to != null) {
+                $listJobs->where('table_jobs.ngaydang', '<=', $request->date_to);
+            }
+        }
+        if ($request->date_type == 1) {
+            if ($request->date_from != null) {
+                $listJobs->where('table_jobs.hannhanhoso', '>=', $request->date_from);
+            }
+            if ($request->date_to != null) {
+                $listJobs->where('table_jobs.hannhanhoso', '<=', $request->date_to);
+            }
+        }
+
+        $data['keyword'] = $request->keyword;
+        $data['date_type'] = $request->date_type;
+        $data['date_from'] = $request->date_from;
+        $data['date_to'] = $request->date_to;
+
+//        dd($data);
+
+        $listJobs = $listJobs->orderBy('ngaydang', 'desc')->paginate(5)->withQueryString();
+        return view('employer.hrcentral', compact('listJobs'), $data);
+    }
+
     public function view_updateJob($id)
     {
         $job = Job::all()

@@ -69,24 +69,24 @@
                                                     <tbody>
                                                     <?php $stt = 1 ?>
                                                     @foreach($listLetter as $letter)
-                                                    <tr>
-                                                        <td>{{ $stt++ }}</td>
-                                                        <td>{{ $letter -> updated_at }}</td>
-                                                        <td>{{ $letter -> title }}</td>
-                                                        <td>
-                                                            <ul class="list-manipulation">
-                                                                <li>
-                                                                    <a href="{{ route('employer.viewUpdateEmail', $letter -> idLetter) }}"
-                                                                       title="Sửa"><em
-                                                                            class="material-icons">created</em></a>
-                                                                </li>
-                                                                <li class="end">
-                                                                    <a style="cursor: pointer" onclick="confirmDelete({{ $letter -> idLetter }})"
-                                                                       title="Xóa"><em
-                                                                            class="material-icons">cancel </em></a></li>
-                                                            </ul>
-                                                        </td>
-                                                    </tr>
+                                                        <tr>
+                                                            <td>{{ $stt++ }}</td>
+                                                            <td>{{ $letter -> updated_at }}</td>
+                                                            <td>{{ $letter -> title }}</td>
+                                                            <td>
+                                                                <ul class="list-manipulation">
+                                                                    <li>
+                                                                        <a href="{{ route('employer.viewUpdateEmail', $letter -> idLetter) }}"
+                                                                           title="Sửa"><em
+                                                                                class="material-icons">created</em></a>
+                                                                    </li>
+                                                                    <li class="end">
+                                                                        <a style="cursor: pointer" onclick="confirmDelete({{ $letter -> idLetter }})"
+                                                                           title="Xóa"><em
+                                                                                class="material-icons">cancel </em></a></li>
+                                                                </ul>
+                                                            </td>
+                                                        </tr>
                                                     @endforeach
                                                     </tbody>
                                                 </table>
@@ -122,7 +122,6 @@
                 </div>
             </div>
         </div>
-
         <div id="emailConfig" class="fancybox-stage d-none" style="position: fixed">
             <div class="fancybox-slide fancybox-slide--html fancybox-slide--current fancybox-slide--complete"
                  style="background-color: rgba(0,0,0,.4);">
@@ -180,16 +179,17 @@
 
             </div>
         </div>
-        <div id="editEmailConfig" class="fancybox-stage d-none" style="position: fixed">
+
+        <div id="editEmailConfig" class="fancybox-stage" style="position: fixed">
             <div class="fancybox-slide fancybox-slide--html fancybox-slide--current fancybox-slide--complete"
                  style="background-color: rgba(0,0,0,.4);">
                 <div class="jobs-posting-modal jobs-posting-25-modal fancybox-content" id="MailReply"
                      style="margin-bottom: 6px; max-width: 1024px">
                     <div class="modal-head" style="padding: 15px">
-                        <p class="title">Tạo thư thông báo cho ứng viên</p>
+                        <p class="title">Chỉnh sửa</p>
                     </div>
                     <div class="modal-body">
-                        <form action="{{route('employer.postEmailConfig')}}" method="post">
+                        <form action="{{route('employer.updateEmailConfig', $letterUpdate -> idLetter)}}" method="post">
                             @csrf
                             <div class="form-wrap">
                                 <div class="row">
@@ -197,7 +197,7 @@
                                         <div class="form-group form-text">
                                             <label>Tiêu đề thư <font style="color: red">*</font></label>
                                             <input name="letter_title" id="letter_title" placeholder="Nhập nội dung"
-                                                   type="text" value="" maxlength="150">
+                                                   type="text" value="{{ $letterUpdate -> title }}" maxlength="150">
                                             <span class="error error_letter_title"> </span>
                                         </div>
                                     </div>
@@ -207,10 +207,10 @@
                                         <div class="form-group form-textarea">
                                             <label>Nội dung </label>
 
-                                            <textarea placeholder="Nhập nội dung" name="letter_content"
-                                                      id="letter_content"></textarea>
+                                            <textarea placeholder="Nhập nội dung" name="letter_content_update"
+                                                      id="letter_content">{{$letterUpdate -> content}}</textarea>
                                             <script type="text/javascript">
-                                                CKEDITOR.replace('letter_content');
+                                                CKEDITOR.replace('letter_content_update');
                                             </script>
                                             <span class="error error_letter_content"> </span>
                                             <span class="noted">Ít nhất 10 ký tự, Nhiều nhất 3.000 ký tự</span>
@@ -227,7 +227,7 @@
                             </div>
                         </form>
                     </div>
-                    <button type="button" onclick="closeLoginRequiredForm()" data-fancybox-close=""
+                    <button type="button" onclick="closeUpdate()" data-fancybox-close=""
                             class="fancybox-button fancybox-close-small" title="Close">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path d="M13 12l5-5-1-1-5 5-5-5-1 1 5 5-5 5 1 1 5-5 5 5 1-1z"></path>
@@ -246,13 +246,18 @@
         $('body').removeClass('overflow-hidden');
     }
 
+    function closeUpdate() {
+        $('#editEmailConfig').addClass('d-none');
+        $('body').removeClass('overflow-hidden');
+    }
+
     function addEmail() {
         $('#emailConfig').removeClass('d-none');
         $('body').addClass('overflow-hidden');
     }
 
     function updateEmail() {
-        $('#emailConfig').removeClass('d-none');
+        $('#editEmailConfig').removeClass('d-none');
         $('body').addClass('overflow-hidden');
     }
 </script>

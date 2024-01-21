@@ -14,8 +14,8 @@
                                 Tạo tin tuyển dụng</a></div>
 
                     </div>
-                    <div class="right-heading"><a href="https://careerbuilder.vn/vi/employers/faq" target="_blank"
-                                                  class="support">Hướng dẫn</a></div>
+{{--                    <div class="right-heading"><a href="https://careerbuilder.vn/vi/employers/faq" target="_blank"--}}
+{{--                                                  class="support">Hướng dẫn</a></div>--}}
                 </div>
                 <div class="main-form-posting">
                     <form name="frmSearchJob" id="frmSearchJob" action="" method="post"
@@ -68,15 +68,15 @@
                         </div>
                     </form>
                 </div>
-                <div class="filter-emp-user-create">
-                    <label>Việc làm đăng bởi</label>
-                    <select name="user_id" onchange="SetUserId(this.value, 'posting');">&gt;
-                        <option value="0">Tất cả</option>
-                        <option value="nhavophong3.1697429348" selected="selected">
-                            Viet Nam
-                        </option>
-                    </select>
-                </div>
+{{--                <div class="filter-emp-user-create">--}}
+{{--                    <label>Việc làm đăng bởi</label>--}}
+{{--                    <select name="user_id" onchange="SetUserId(this.value, 'posting');">&gt;--}}
+{{--                        <option value="0">Tất cả</option>--}}
+{{--                        <option value="nhavophong3.1697429348" selected="selected">--}}
+{{--                            Viet Nam--}}
+{{--                        </option>--}}
+{{--                    </select>--}}
+{{--                </div>--}}
                 @if(session('norole'))
                     <div style="margin: 0px; padding: 0.5rem 1.25rem" class="alert alert-danger">
                         {{session('norole')}}
@@ -174,17 +174,38 @@
                                                                     class="material-icons">created</em></a>
                                                         </li>
                                                         <li class="end">
-                                                            <a href="javascript:void(0);"
-                                                               title="Xóa"><em
+                                                            <a style="cursor: pointer" title="Xóa"
+                                                            onclick="delJob({{ $list->id }})"><em
                                                                     class="material-icons">cancel </em></a></li>
                                                     </ul>
+                                                    <script>
+                                                        function delJob(itemId) {
+                                                            Swal.fire({
+                                                                title: 'Bạn có chắc chắn muốn xóa?',
+                                                                text: 'Hành động này không thể hoàn tác!',
+                                                                // icon: 'warning',
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: '#d33',
+                                                                cancelButtonColor: '#3085d6',
+                                                                confirmButtonText: 'Xóa'
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    // Sử dụng hàm route để tạo URL từ tên route
+                                                                    var deleteUrl = "{{ route('employer.deleteJob', ':id') }}";
+                                                                    deleteUrl = deleteUrl.replace(':id', itemId);
+
+                                                                    // Chuyển hướng đến URL đã tạo
+                                                                    window.location.href = deleteUrl;
+                                                                }
+                                                            });
+                                                        }
+                                                    </script>
                                                 </td>
                                             </tr>
                                         @endforeach
                                         </tbody>
                                     </table>
                                     {!! $listJobsWait->links() !!}
-
                                 </div>
                             </div>
                         </div>

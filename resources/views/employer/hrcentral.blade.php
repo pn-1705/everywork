@@ -14,27 +14,38 @@
                                 Tạo tin tuyển dụng</a></div>
 
                     </div>
-                    <div class="right-heading"><a href="https://careerbuilder.vn/vi/employers/faq" target="_blank"
-                                                  class="support">Hướng dẫn</a></div>
+                    {{--                    <div class="right-heading"><a href="https://careerbuilder.vn/vi/employers/faq" target="_blank"--}}
+                    {{--                                                  class="support">Hướng dẫn</a></div>--}}
                 </div>
                 <div class="main-form-posting">
-                    <form name="frmSearchJob" id="frmSearchJob" action="" method="post"
-                          onsubmit="return validateSearch();">
+                    <form name="frmSearchJob" id="frmSearchJob" action="{{ route('employer.searchJob') }}" method="get">
+                        {{--                        @csrf--}}
                         <div class="form-wrap">
                             <div class="form-group form-text">
                                 <label>Từ khóa</label>
-                                <input type="text" name="keyword" id="keyword" placeholder="Nhập từ khóa" value="">
+                                <input type="text" name="keyword" id="keyword" placeholder="Nhập từ khóa"
+                                       @if(isset($keyword))
+                                       value="{{ $keyword }}"
+                                    @endif>
+
                             </div>
-                            <div class="form-group ">
+                            <div class="form-group">
                                 <label>Tìm theo ngày</label>
                                 <select class="fl_left mar_left46" name="date_type" id="date_type">
-                                    <option value="0">Ngày đăng</option>
-                                    <option value="1">Ngày hết hạn</option>
+                                    <option @if(isset($date_type)) @if($date_type == 0) selected
+                                            @endif @endif value="0">Ngày đăng
+                                    </option>
+                                    <option @if(isset($date_type)) @if($date_type == 1) selected
+                                            @endif @endif value="1">Ngày hết hạn
+                                    </option>
                                 </select>
                             </div>
                             <div class="form-group form-date start-date">
                                 <label>Từ</label>
-                                <input type="date" name="date_from" id="date_from" placeholder="Chọn" class="" value="">
+                                <input type="date" name="date_from" id="date_from" placeholder="Chọn" class=""
+                                       @if(isset($date_from))
+                                       value="{{ $date_from }}"
+                                    @endif>
                                 <div id="start-date" class="dtpicker-overlay dtpicker-mobile">
                                     <div class="dtpicker-bg">
                                         <div class="dtpicker-cont">
@@ -47,9 +58,10 @@
                             </div>
                             <div class="form-group form-date end-date">
                                 <label>Đến</label>
-                                <input type="text" readonly="" name="date_to" id="date_to" placeholder="Chọn"
-                                       class="dates_cus_select" value="">
-                                <div class="icon"><em class="material-icons">event</em></div>
+                                <input type="date" name="date_to" id="date_to" placeholder="Chọn" class=""
+                                       @if(isset($date_to))
+                                       value="{{ $date_to }}"
+                                    @endif>
                                 <div id="end-date" class="dtpicker-overlay dtpicker-mobile">
                                     <div class="dtpicker-bg">
                                         <div class="dtpicker-cont">
@@ -83,52 +95,48 @@
                     <div class="tabslet-content active" id="tab-dd">
                         <div class="main-jobs-posting">
                             <div class="heading-jobs-posting">
-                            {{--    <div class="left-heading">
-                                    <p class="name">Hiển thị </p>
-                                    <ul class="list-check">
-                                        <li class="view-posting-detail active"><a href="javascript:void(0);" id="dtail">Chi
-                                                tiết</a></li>
-                                        <li class="view-posting-summary"><a href="javascript:void(0)">Xem tóm tắt </a>
-                                        </li>
-
-                                        <li><a href="javascript:void(0);" id="copy_multi_job">Nhân bản</a></li>
-                                        <li><a href="javascript:void(0);" id="unposting_multi_job">Tạm Dừng Đăng</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="right-heading">
-                                    <div class="export-file"><a href="javascript:void(0);" onclick="exportJobs();"> <em
-                                                class="material-icons">get_app</em>Xuất file job</a></div>
-                                    <div class="to-display">
+                                {{--    <div class="left-heading">
                                         <p class="name">Hiển thị </p>
-                                        <div class="form-display">
-                                            <select name="limit" id="limit">
-                                                <option value="20" selected="">20</option>
-                                                <option value="30">30</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </select>
-                                        </div>
-                                        <p class="name-display"></p>
+                                        <ul class="list-check">
+                                            <li class="view-posting-detail active"><a href="javascript:void(0);" id="dtail">Chi
+                                                    tiết</a></li>
+                                            <li class="view-posting-summary"><a href="javascript:void(0)">Xem tóm tắt </a>
+                                            </li>
+
+                                            <li><a href="javascript:void(0);" id="copy_multi_job">Nhân bản</a></li>
+                                            <li><a href="javascript:void(0);" id="unposting_multi_job">Tạm Dừng Đăng</a>
+                                            </li>
+                                        </ul>
                                     </div>
-                                </div>--}}
+                                    <div class="right-heading">
+                                        <div class="export-file"><a href="javascript:void(0);" onclick="exportJobs();"> <em
+                                                    class="material-icons">get_app</em>Xuất file job</a></div>
+                                        <div class="to-display">
+                                            <p class="name">Hiển thị </p>
+                                            <div class="form-display">
+                                                <select name="limit" id="limit">
+                                                    <option value="20" selected="">20</option>
+                                                    <option value="30">30</option>
+                                                    <option value="50">50</option>
+                                                    <option value="100">100</option>
+                                                </select>
+                                            </div>
+                                            <p class="name-display"></p>
+                                        </div>
+                                    </div>--}}
                             </div>
                             <div class="boding-jobs-posting">
                                 <div class="table table-jobs-posting active">
                                     <table>
                                         <thead style="background: #e6e6e6;">
                                         <tr>
-                                            <th width="32%">Chức danh</th>
-                                            <th width="12%" onclick="setTypeSort('posting', 'asc', 3)">Ngày đăng<em
-                                                    class="material-icons">arrow_drop_down</em></th>
-                                            <th width="10%" onclick="setTypeSort('posting', 'asc', 4)">Hết hạn<em
-                                                    class="material-icons">sort</em></th>
-                                            <th width="10%" onclick="setTypeSort('posting', 'asc', 4)">Trạng thái</th>
-                                            <th width="10%" onclick="setTypeSort('posting', 'asc', 0)">Lượt Xem<em
-                                                    class="material-icons">sort</em></th>
-                                            <th width="10%" onclick="setTypeSort('posting', 'asc', 1)">Lượt Nộp<em
-                                                    class="material-icons">sort</em></th>
-                                            <th width="15%">Thao tác</th>
+                                            <th>Chức danh</th>
+                                            <th>Ngày đăng</th>
+                                            <th>Hết hạn</th>
+                                            <th>Trạng thái</th>
+                                            <th>Lượt Xem</th>
+                                            <th>Lượt Nộp</th>
+                                            <th>Thao tác</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -160,14 +168,36 @@
                                                         @endif
                                                         @if($list-> trangthai == 1)
                                                             <li>
-                                                                <a href="{{ route('employer.stopPosting', $list->id) }}"
+                                                                <a style="cursor: pointer"
+                                                                   onclick="stopPost({{$list->id}})"
                                                                    title="Dừng đăng"><em
                                                                         class="material-icons">do_not_disturb_on</em></a>
                                                             </li>
                                                         @endif
+                                                        <script>
+                                                            function stopPost(itemId) {
+                                                                Swal.fire({
+                                                                    title: 'Bạn có chắc chắn muốn dừng đăng tuyển?',
+                                                                    text: 'Bạn có thể đăng tuyển lại bất cứ khi nào!',
+                                                                    // icon: 'warning',
+                                                                    showCancelButton: true,
+                                                                    confirmButtonColor: '#d33',
+                                                                    cancelButtonColor: '#3085d6',
+                                                                    confirmButtonText: 'Dừng'
+                                                                }).then((result) => {
+                                                                    if (result.isConfirmed) {
+                                                                        // Sử dụng hàm route để tạo URL từ tên route
+                                                                        var deleteUrl = "{{ route('employer.stopPosting', ':id') }}";
+                                                                        deleteUrl = deleteUrl.replace(':id', itemId);
+
+                                                                        // Chuyển hướng đến URL đã tạo
+                                                                        window.location.href = deleteUrl;
+                                                                    }
+                                                                });
+                                                            }
+                                                        </script>
                                                     </ul>
                                                 </td>
-
                                             </tr>
                                         @endforeach
                                         </tbody>

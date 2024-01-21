@@ -87,10 +87,12 @@ Route::group(['middleware' => 'checkEmployerRole', 'prefix' => 'employer'], func
     Route::get('/hrcentral', 'User\EmployerController@view_hrcentral')->name('employer.view_hrcentral');
     Route::get('/hrcentral/waitPostJob', 'User\EmployerController@view_waitPostJob')->name('employer.view_waitPostJob');
     Route::get('/hrcentral/expJob', 'User\EmployerController@view_expJob')->name('employer.view_expJob');
+    Route::get('/hrcentral/search', 'User\EmployerController@searchJob')->name('employer.searchJob');
 
     Route::get('/addJob', 'User\EmployerController@view_addJob')->name('employer.view_addJob');
     Route::post('/addJob', 'User\EmployerController@addJob')->name('employer.addJob');
     Route::get('/postJob/{id}', 'Employer\ManagerController@postJob')->name('employer.postJob');
+    Route::get('/delJob/{id}', 'Employer\ManagerController@deleteJob')->name('employer.deleteJob');
     Route::get('/hrcentral/update/{id}', 'User\EmployerController@view_updateJob')->name('employer.view_updateJob');
     Route::post('/hrcentral/update/{id}', 'User\EmployerController@updateJob')->name('employer.updateJob');
     Route::get('/hrcentral/viewjob/{id}', 'User\EmployerController@viewDetailJob')->name('employer.view_detailJob');
@@ -100,7 +102,10 @@ Route::group(['middleware' => 'checkEmployerRole', 'prefix' => 'employer'], func
 
     Route::get('/company_info', 'User\EmployerController@view_company_info')->name('employer.view_company_info');
     Route::get('/emailsetting', 'Employer\ManagerController@viewEmailConfig')->name('employer.viewEmailConfig');
+    Route::get('/emailsetting/update/{id}', 'Employer\ManagerController@viewUpdateEmail')->name('employer.viewUpdateEmail');
+    Route::get('/emailsetting/delete/{id}', 'Employer\ManagerController@delEmail')->name('employer.delEmail');
     Route::post('/emailsetting', 'Employer\ManagerController@postEmailConfig')->name('employer.postEmailConfig');
+    Route::post('/emailsetting/update/{id}', 'Employer\ManagerController@updateEmail')->name('employer.updateEmailConfig');
     Route::post('/sendLetter', 'Employer\ManagerController@sendLetter')->name('employer.sendLetter');
     Route::post('/', 'User\EmployerController@post_company_info')->name('employer.post_company_info');
     Route::get('/account', 'User\EmployerController@view_account')->name('employer.view_account');
