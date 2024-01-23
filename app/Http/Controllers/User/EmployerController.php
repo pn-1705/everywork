@@ -100,6 +100,7 @@ class EmployerController extends Controller
         $dataEmployer['loaihinhhoatdong'] = $request->company_type;
         $dataEmployer['city'] = $request->location_id;
         $dataEmployer['id_user'] = $id + 1;
+        dd($dataEmployer);
 
 
         if ($customer = User::create($data)) {
