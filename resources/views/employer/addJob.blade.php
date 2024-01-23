@@ -80,7 +80,7 @@
                                                         <select name="noilamviec" class="">
                                                             <?php
                                                             use App\Models\City;
-                                                            $listCitys = City::all()->where('trangthai', 1)
+                                                            $listCitys = DB::table('table_district')->where('trangthai', 1)->get()
                                                             ?>
                                                             @foreach($listCitys as $jobs)
                                                                 <option

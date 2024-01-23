@@ -92,7 +92,7 @@ class EmployerController extends Controller
         $newID = $id + 1;
         $dataEmployer['id'] = $id + 1;
         $dataEmployer['ten'] = $request->company_name;
-        $dataEmployer['tenkhongdau'] = $this->un_unicode($request->company_name). $newID;
+        $dataEmployer['tenkhongdau'] = $this->un_unicode($request->company_name) . '.' . $newID;
         $dataEmployer['masothue'] = $request->taxid;
         $dataEmployer['diachi'] = $request->company_address;
         $dataEmployer['phone'] = $request->phone;
@@ -100,8 +100,7 @@ class EmployerController extends Controller
         $dataEmployer['loaihinhhoatdong'] = $request->company_type;
         $dataEmployer['city'] = $request->location_id;
         $dataEmployer['id_user'] = $id + 1;
-        dd($dataEmployer);
-
+//        dd($dataEmployer);
 
         if ($customer = User::create($data)) {
             Employer::create($dataEmployer);
