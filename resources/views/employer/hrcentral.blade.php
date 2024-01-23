@@ -134,7 +134,7 @@
                                             <th>Ngày đăng</th>
                                             <th>Hết hạn</th>
                                             <th>Trạng thái</th>
-                                            <th>Lượt Xem</th>
+                                            <th>Số Lượng tuyển</th>
                                             <th>Lượt Nộp</th>
                                             <th>Thao tác</th>
                                         </tr>
@@ -150,7 +150,7 @@
                                                     @elseif($list-> trangthai == 1)
                                                         <span class="badge bg-success">Đang đăng</span>
                                                     @endif</td>
-                                                <td>{{ $list-> views }}</td>
+                                                <td>{{ $list-> soLuong }}</td>
                                                 <td>{{ $list-> danop }}</td>
                                                 <td>
                                                     <ul class="list-manipulation">

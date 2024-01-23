@@ -44,13 +44,14 @@ class ManagerController extends Controller
         $data['countJobExp'] = $countJobExp;
 
         $listJobPosting = DB::table('table_applyforjobs')
-            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
-            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai')
+            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso','table_jobs.soLuong', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
+            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso','table_jobs.soLuong', 'table_jobs.views', 'table_jobs.trangthai')
             ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
             ->where('table_jobs.id_nhatuyendung', Auth::id())
             ->where('hannhanhoso', '>=', Carbon::now('Asia/Ho_Chi_Minh'))
             ->where('trangthai', '!=', 0)
             ->where('trangthai', '!=', 2)
+            ->where('trangthai', '!=', 4)
             ->orderBy('ngaydang', 'desc')->take(4)->get();
 
         $listUV = DB::table('table_applyforjobs')

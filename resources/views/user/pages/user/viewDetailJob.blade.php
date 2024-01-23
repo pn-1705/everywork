@@ -157,6 +157,11 @@
                                                             value="4">Thực tập
                                                         </p>
                                                     </li>
+                                                    <li><strong> <em class="fa"></em>Số lượng</strong>
+                                                        <p>
+                                                            {{ $job -> soLuong }}
+                                                        </p>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -185,20 +190,20 @@
                                                     <li>
                                                         <strong><i class="fa fa-briefcase"></i>Kinh nghiệm</strong>
                                                         <p>
-                                                            @if($job->kinhnghiem == 0 )
-                                                                Không yêu cầu kinh nghiệm
-                                                            @endif
-                                                            @if(($job->kinhnghiem == 1 && $job -> kn_tunam == null && $job -> kn_dennam == null))
-                                                                Có kinh nghiệm
-                                                            @elseif($job->kinhnghiem == 1)
-                                                                @if($job -> kn_tunam != null)
-                                                                    {{'Từ '.$job -> kn_tunam}}
+                                                                @if($job->kinhnghiem == 0 )
+                                                                    Không yêu cầu kinh nghiệm
                                                                 @endif
-                                                                @if($job -> kn_dennam!= null)
-                                                                    {{' Đến '.$job -> kn_dennam}}
+                                                                @if(($job->kinhnghiem == 1 && $job -> kn_tunam == null && $job -> kn_dennam == null))
+                                                                    Có kinh nghiệm
+                                                                @elseif($job->kinhnghiem == 1)
+                                                                    @if($job -> kn_tunam != null)
+                                                                        {{'Từ '.$job -> kn_tunam}}
+                                                                    @endif
+                                                                    @if($job -> kn_dennam!= null)
+                                                                        {{' Đến '.$job -> kn_dennam}}
+                                                                    @endif
+                                                                    năm
                                                                 @endif
-                                                                năm
-                                                            @endif
                                                         </p>
                                                     </li>
                                                     <li><strong><i class="mdi mdi-account"></i>Cấp bậc</strong>

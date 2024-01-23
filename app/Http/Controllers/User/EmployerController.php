@@ -97,6 +97,7 @@ class EmployerController extends Controller
         $dataEmployer['phone'] = $request->phone;
         $dataEmployer['email'] = $request->email;
         $dataEmployer['loaihinhhoatdong'] = $request->company_type;
+        $dataEmployer['city'] = $request->location_id;
         $dataEmployer['id_user'] = $id + 1;
 
 
@@ -379,8 +380,8 @@ class EmployerController extends Controller
     {
         //Việc làm đang đăng
         $listJobs = DB::table('table_applyforjobs')
-            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
-            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai')
+            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.soLuong', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
+            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.soLuong', 'table_jobs.views', 'table_jobs.trangthai')
             ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
             ->where('table_jobs.id_nhatuyendung', Auth::id())
             ->where('hannhanhoso', '>=', Carbon::now()->toDateString())
@@ -391,15 +392,15 @@ class EmployerController extends Controller
 
         //Việc làm chở chờ đăng (nháp)
         $listJobsWait2 = DB::table('table_applyforjobs')
-            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
-            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai')
+            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.soLuong', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
+            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.soLuong', 'table_jobs.views', 'table_jobs.trangthai')
             ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
             ->where('table_jobs.id_nhatuyendung', Auth::id())
             ->where('table_jobs.trangthai', 4)
             ->orderBy('created_at', 'desc');
         $listJobsWait = DB::table('table_applyforjobs')
-            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
-            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai')
+            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.soLuong', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
+            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.soLuong', 'table_jobs.trangthai')
             ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
             ->where('table_jobs.id_nhatuyendung', Auth::id())
             ->where('table_jobs.trangthai', 0)
@@ -408,8 +409,8 @@ class EmployerController extends Controller
 //dd(Auth::id());
         //Việc làm hết hạn
         $listJobsExp = DB::table('table_applyforjobs')
-            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', DB::raw('count(table_applyforjobs.idJob) as danop'))
-            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views')
+            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.soLuong', 'table_jobs.views', DB::raw('count(table_applyforjobs.idJob) as danop'))
+            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.soLuong', 'table_jobs.views')
             ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
             ->where('table_jobs.id_nhatuyendung', Auth::id())
             ->where('table_jobs.hannhanhoso', '<', Carbon::now()->toDateString())

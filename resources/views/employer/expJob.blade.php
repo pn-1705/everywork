@@ -131,7 +131,7 @@
                                             <th>Chức danh</th>
                                             <th>Ngày đăng</th>
                                             <th>Hết hạn</th>
-                                            <th>Lượt Xem</th>
+                                            <th>Số lượng tuyển</th>
                                             <th>Lượt Nộp</th>
                                             <th>Thao tác</th>
                                         </tr>
@@ -143,7 +143,7 @@
                                                 <td style="text-align: left">{{ $list-> tencongviec }}</td>
                                                 <td>{{ date('d-m-Y', strtotime($list-> created_at)) }}</td>
                                                 <td>{{ date('d-m-Y', strtotime($list-> hannhanhoso)) }}</td>
-                                                <td>{{ $list-> views }}</td>
+                                                <td>{{ $list-> soLuong }}</td>
                                                 <td>{{ $list-> danop }}</td>
                                                 <td>
                                                     <ul class="list-manipulation">
