@@ -139,9 +139,9 @@
                                                 use App\Models\City;
                                                 $listCitys = City::all()->where('trangthai', 1)
                                                 ?>
-                                                @foreach($listCitys as $jobs)
+                                                @foreach($listCitys as $list)
                                                     <option
-                                                        value="{{$jobs->id}}">{{$jobs->tendaydu}}
+                                                        value="{{$list->id}}">{{$list->tendaydu}}
                                                     </option>
                                                 @endforeach
                                             </select>

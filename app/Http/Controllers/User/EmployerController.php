@@ -89,9 +89,10 @@ class EmployerController extends Controller
         $password_h = bcrypt($request->password);
         $data['password'] = $password_h;
 //dd($data);
-
+        $newID = $id + 1;
         $dataEmployer['id'] = $id + 1;
         $dataEmployer['ten'] = $request->company_name;
+        $dataEmployer['tenkhongdau'] = $this->un_unicode($request->company_name). $newID;
         $dataEmployer['masothue'] = $request->taxid;
         $dataEmployer['diachi'] = $request->company_address;
         $dataEmployer['phone'] = $request->phone;
