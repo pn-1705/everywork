@@ -29,6 +29,21 @@
                             </div>
                             <div class="apply-type">
                                 <div class="apply-now-btn ">
+                                    <?php
+                                    if (Auth::check()) {
+                                        $check = DB::table('table_applyforjobs')->where('idAccount', Auth::id())->where('idJob', $job -> idJob)->count();
+//                                        dd($check);
+                                    }
+                                    ?>
+                                    <input hidden id="checkApply"
+                                           value="
+                                           @if(isset($check))
+                                            @if($check > 0) 1 @endif
+                                           @if($check <= 0) 0 @endif
+                                           @else
+                                               0
+                                               @endif">
+
                                     <a tabindex="0" role="button" onclick="openFormApply()"
                                        class="btn-gradient btnApplyClick"> Nộp Đơn Ứng Tuyển </a>
                                 </div>
@@ -190,20 +205,20 @@
                                                     <li>
                                                         <strong><i class="fa fa-briefcase"></i>Kinh nghiệm</strong>
                                                         <p>
-                                                                @if($job->kinhnghiem == 0 )
-                                                                    Không yêu cầu kinh nghiệm
+                                                            @if($job->kinhnghiem == 0 )
+                                                                Không yêu cầu kinh nghiệm
+                                                            @endif
+                                                            @if(($job->kinhnghiem == 1 && $job -> kn_tunam == null && $job -> kn_dennam == null))
+                                                                Có kinh nghiệm
+                                                            @elseif($job->kinhnghiem == 1)
+                                                                @if($job -> kn_tunam != null)
+                                                                    {{'Từ '.$job -> kn_tunam}}
                                                                 @endif
-                                                                @if(($job->kinhnghiem == 1 && $job -> kn_tunam == null && $job -> kn_dennam == null))
-                                                                    Có kinh nghiệm
-                                                                @elseif($job->kinhnghiem == 1)
-                                                                    @if($job -> kn_tunam != null)
-                                                                        {{'Từ '.$job -> kn_tunam}}
-                                                                    @endif
-                                                                    @if($job -> kn_dennam!= null)
-                                                                        {{' Đến '.$job -> kn_dennam}}
-                                                                    @endif
-                                                                    năm
+                                                                @if($job -> kn_dennam!= null)
+                                                                    {{' Đến '.$job -> kn_dennam}}
                                                                 @endif
+                                                                năm
+                                                            @endif
                                                         </p>
                                                     </li>
                                                     <li><strong><i class="mdi mdi-account"></i>Cấp bậc</strong>
@@ -403,17 +418,17 @@
 
                                 </div>
 
-                               {{-- <div class="job-tags ">
-                                    <h2>Job tags / skills</h2>
-                                    <ul>
-                                        <li>
-                                            <a href="https://careerbuilder.vn/vi/tag/tro-ly-tieng-hoa-phong-bao-hanh.html"
-                                               title="TRỢ LÝ TIẾNG HOA PHÒNG BẢO HÀNH">TRỢ LÝ TIẾNG HOA PHÒNG BẢO
-                                                HÀNH</a></li>
-                                        <li><a href="https://careerbuilder.vn/vi/tag/assistant.html" title=" Assistant">
-                                                Assistant</a></li>
-                                    </ul>
-                                </div>--}}
+                                {{-- <div class="job-tags ">
+                                     <h2>Job tags / skills</h2>
+                                     <ul>
+                                         <li>
+                                             <a href="https://careerbuilder.vn/vi/tag/tro-ly-tieng-hoa-phong-bao-hanh.html"
+                                                title="TRỢ LÝ TIẾNG HOA PHÒNG BẢO HÀNH">TRỢ LÝ TIẾNG HOA PHÒNG BẢO
+                                                 HÀNH</a></li>
+                                         <li><a href="https://careerbuilder.vn/vi/tag/assistant.html" title=" Assistant">
+                                                 Assistant</a></li>
+                                     </ul>
+                                 </div>--}}
 
                                 <input type="hidden" id="salary_taskbar" name="salary_taskbar" value="0">
                                 <input type="hidden" id="industry_taskbar" name="industry_taskbar" value="38,71,48">
@@ -454,7 +469,7 @@
                                     ->leftJoin('table_district', 'table_jobs.noilamviec', '=', 'table_district.id')
                                     ->where('id_nganhnghe', '=', $job->idJob_Cate)
                                     ->where('table_jobs.trangthai', 1)
-                                    ->select('table_jobs.id as idJob','table_jobs.tencongviec as tencongviec','table_jobs.minluong','table_jobs.maxluong','table_jobs.donvitien',
+                                    ->select('table_jobs.id as idJob', 'table_jobs.tencongviec as tencongviec', 'table_jobs.minluong', 'table_jobs.maxluong', 'table_jobs.donvitien',
                                         'table_jobs.img_banner as img', 'table_employers.id as idEmployer',
                                         'table_employers.ten as tenEmployer', 'table_employers.avt as avt', 'table_district.tendaydu as city')
                                     ->inRandomOrder()->take(10)->get(); ?>
@@ -465,7 +480,8 @@
                                                     href="{{ route("user.pages.viewDetailJob",  $item->idJob ) }}"
                                                     target="_blank" title="{{ $item -> tenEmployer }}"> <img
                                                         class="lazy-bg" title="{{ $item -> tenEmployer }}"
-                                                        src="@if($item -> img == null){{ asset('public/avatar/'. $item -> avt) }}@else{{ asset('public/banner_job/'. $item -> img) }}@endif" > </a>
+                                                        src="@if($item -> img == null){{ asset('public/avatar/'. $item -> avt) }}@else{{ asset('public/banner_job/'. $item -> img) }}@endif">
+                                                </a>
                                             </div>
                                             <div class="figcaption">
                                                 <div class="timeago"></div>
@@ -477,7 +493,8 @@
                                                 <div class="caption">
                                                     <a class="company-name"
                                                        href="{{ route("user.pages.viewDetailJob",  $item->idJob ) }}"
-                                                       target="_blank" title="{{ $item -> tenEmployer }}">{{ $item -> tenEmployer }}</a>
+                                                       target="_blank"
+                                                       title="{{ $item -> tenEmployer }}">{{ $item -> tenEmployer }}</a>
                                                     <p class="salary"><em class="fa fa-usd"></em>Lương:
                                                         @if($item -> minluong == null and $item -> maxluong == null)
                                                             Thỏa thuận
@@ -635,7 +652,8 @@
                                 aria-hidden="true" class="bi bi-x-square"></i></button>
                     </div>
                     <div class="modal-body p-lg-4">
-                        <form action="{{ route('nop-don-ung-tuyen', $job -> idJob) }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('nop-don-ung-tuyen', $job -> idJob) }}" method="post"
+                              enctype="multipart/form-data">
                             @csrf
                             <div><p style="font-weight: bold">
                                 <?php if (isset(Auth::user()->id)) {
@@ -781,6 +799,56 @@
                         </form>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div id="loginRequiredForm" class="fancybox-stage d-none" style="position: fixed">
+        <div class="fancybox-slide fancybox-slide--html fancybox-slide--current fancybox-slide--complete"
+             style="background-color: rgba(0,0,0,.4);">
+            <div class="login-modal fancybox-content" id="login-modal" style="display: inline-block;">
+                <div class="modal-title">
+                    <p>Vui lòng đăng nhập để thực hiện chức năng này</p>
+                </div>
+                <div class="modal-body">
+                    <p class="notes"></p>
+                    <form method="POST" action="{{ route('user.post_login') }}">
+                        @csrf
+                        <div class="row">
+                            <div class="form-group col-12">
+                                <input hidden name="control" type="text" value="2">
+                                <input type="text" id="username" name="email" placeholder="Email"
+                                       autocomplete="off">
+                            </div>
+                            <div class="form-group col-8 toggle-password">
+                                <input type="password" name="password" id="password" placeholder="Mật khẩu"
+                                       autocomplete="off">
+                                {{--                                <div class="showhide-password eyess"></div>--}}
+                            </div>
+                            <div class="form-group col-4">
+                                <button type="submit">Đăng nhập</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="sign-in-by"><span>Đăng nhập bằng:</span>
+                        <ul class="list-follow">
+                            <li><a tabindex="0" role="button" class="fb" href="{{ route('login-by-facebook') }}"
+                                   onclick="popupapi('facebook','aHR0cHM6Ly9jYXJlZXJidWlsZGVyLnZuL3ZpL2pvYnNlZWtlcnMvbG9naW5mYWNlYm9vaw==');"><em
+                                        class="fa fa-facebook"></em>Facebook</a></li>
+                            <li><a tabindex="0" role="button" class="gg" href="{{ route('login-by-google') }}"
+                                   onclick="popupapi('google','aHR0cHM6Ly9jYXJlZXJidWlsZGVyLnZuL3ZpL2pvYnNlZWtlcnMvbG9naW5nb29nbGU=');"><em
+                                        class="fa fa-google"></em>Google</a></li>
+                        </ul>
+                    </div>
+                    <a class="register" href="{{ route('user.pages.register_page') }}" title="Đăng ký">Đăng
+                        ký </a><a class="forget-password" href="{{ route('user.forgotpassword') }}"
+                                  title="Quên mật khẩu?" rel="nofollow">Quên mật khẩu?</a>
+                </div>
+                <button onclick="closeLoginRequiredForm()" type="button" data-fancybox-close=""
+                        class="fancybox-button fancybox-close-small" title="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1" viewBox="0 0 24 24">
+                        <path d="M13 12l5-5-1-1-5 5-5-5-1 1 5 5-5 5 1 1 5-5 5 5 1-1z"></path>
+                    </svg>
+                </button>
             </div>
         </div>
     </div>
@@ -13804,6 +13872,10 @@
             $(".saved").find('.toolip p').html(language.job_chk_save_jobs_saved);
         }
     });
+    function closeLoginRequiredForm() {
+        $('#loginRequiredForm').addClass('d-none');
+        $('body').removeClass('overflow-hidden');
+    }
 
     function savejob1(job_id) {
         var loginCheck = document.getElementById('loginCheck').value;
@@ -13840,11 +13912,19 @@
 
     function openFormApply() {
 
+
         if ($('#loginCheck').val() == 1) {
-            $('#applyModal').addClass('d-block');
-            $('body').addClass('overflow-hidden');
+            if($('#checkApply').val() == 1){
+                {
+                    swal("Bạn chỉ có thể ứng tuyển 1 lần");
+                }
+            }else{
+                $('#applyModal').addClass('d-block');
+                $('body').addClass('overflow-hidden');
+            }
         } else {
-            swal("Vui lòng đăng nhập để thực hiện chức năng này!");
+            $('#loginRequiredForm').removeClass('d-none');
+            $('body').addClass('overflow-hidden');
         }
         ;
 

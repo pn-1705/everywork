@@ -17391,7 +17391,7 @@
                         </div>
                         <div class="widget-body">
                             <div class="content">
-{{--                                <p>Bạn đã ứng tuyển vào các vị trí tuyển dụng trong 6 tháng gần nhất</p>--}}
+                                {{--                                <p>Bạn đã ứng tuyển vào các vị trí tuyển dụng trong 6 tháng gần nhất</p>--}}
 
                             </div>
                             <div class="table">
@@ -17419,7 +17419,7 @@
                                                         <div class="name">
                                                             <div class="figure">
                                                                 <div class="image"><a
-                                                                        href="{{ route('pages.nha-tuyen-dung.detail',$list -> idEmployer) }}"><img
+                                                                        href="{{ route('pages.nha-tuyen-dung.detail',$list -> tenkhongdauNTD) }}"><img
                                                                             src="{{ asset('public/avatar/'. $list -> avt) }}"
                                                                             alt="{{ $list -> ten }}"
                                                                             title="{{ $list -> ten }}">
@@ -17431,7 +17431,7 @@
                                                                         </a>
                                                                     </h3>
                                                                     <p class="company-name">
-                                                                        <a href="{{ route('pages.nha-tuyen-dung.detail',$list -> idEmployer) }}"
+                                                                        <a href="{{ route('pages.nha-tuyen-dung.detail',$list -> tenkhongdauNTD) }}"
                                                                            title="{{ $list -> ten }}">{{ $list -> ten }}</a>
                                                                     </p>
                                                                 </div>
@@ -17439,10 +17439,14 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        @if($list -> status == 0)<strong class="text-secondary">Đã nộp</strong>@endif
-                                                        @if($list -> status == 1)<strong class="text-success">Đã xem</strong>@endif
-                                                        @if($list -> status == 2)<strong class="text-primary">Mời phỏng vấn</strong>@endif
-                                                        @if($list -> status == 3)<strong class="text-danger">Không đạt</strong>@endif
+                                                        @if($list -> status == 0)<strong class="text-secondary">Đã
+                                                            nộp</strong>@endif
+                                                        @if($list -> status == 1)<strong class="text-success">Đã
+                                                            xem</strong>@endif
+                                                        @if($list -> status == 2)<strong class="text-primary">Mời phỏng
+                                                            vấn</strong>@endif
+                                                        @if($list -> status == 3)<strong class="text-danger">Không
+                                                            đạt</strong>@endif
                                                     </td>
                                                     <td class="date">
                                                         <p class="mb-show">Ngày nộp: </p>

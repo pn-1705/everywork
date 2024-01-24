@@ -56,6 +56,7 @@ Route::get('/nha-tuyen-dung/{ten}', 'User\UserController@nhatuyendung_view')->na
 
 //Typeahead
 Route::get('autocomplete', 'User\UserController@autocompleteSearch')->name('autocompleteSearch');
+Route::get('autocomplete2', 'User\UserController@autocompleteSearch2')->name('autocompleteSearch2');
 
 
 //Ứng viên tìm việc làm

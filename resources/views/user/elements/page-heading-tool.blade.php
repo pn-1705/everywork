@@ -492,26 +492,49 @@
             datumTokenizer: Bloodhound.tokenizers.whitespace('q'),
             queryTokenizer: Bloodhound.tokenizers.whitespace
         });
+        var engine1 = new Bloodhound({
+            remote: {
+                url: 'autocomplete2?q=%QUERY%',
+                wildcard: '%QUERY%'
+            },
+            datumTokenizer: Bloodhound.tokenizers.whitespace('q'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace
+        });
 
         $("#abc").typeahead({
-            hint: true,
-            highlight: true,
-            minLength: 1
-        }, {
-            source: engine.ttAdapter(),
-            name: 'usersList',
-            templates: {
-                empty: [
-                    '<div class="list-group search-results-dropdown"><div class="list-group-item">Không có kết quả phù hợp.</div></div>'
-                ],
-                header: [
-                    '<div class="list-group search-results-dropdown">VIỆC LÀM</div>'
-                ],
-                suggestion: function (data) {
-                    return '<div style="" class="search-results-dropdown" value="' + data.tencongviec + '">' + data.tencongviec + '</div>'
+                hint: true,
+                highlight: true,
+                minLength: 1
+            }, {
+                source: engine.ttAdapter(),
+                name: 'usersList',
+                templates: {
+                    empty: [
+                        '<div class="list-group search-results-dropdown"><div class="list-group-item">Không có kết quả phù hợp.</div></div>'
+                    ],
+                    header: [
+                        '<div style="margin-left: 5px; font-weight: bold" class="list-group search-results-dropdown">VIỆC LÀM</div>'
+                    ],
+                    suggestion: function (data) {
+                        return '<div style="" class="search-results-dropdown" value="' + data.tencongviec + '">' + data.tencongviec + '</div>'
+                    }
+                }
+            }, {
+                source: engine1.ttAdapter(),
+                name: 'list',
+                templates: {
+                    empty: [
+                        '<div class="list-group search-results-dropdown"><div class="list-group-item">Không có kết quả phù hợp.</div></div>'
+                    ],
+                    header: [
+                        '<div style="margin-left: 5px; font-weight: bold" class="list-group search-results-dropdown">CÔNG TY</div>'
+                    ],
+                    suggestion: function (data) {
+                        return '<div style="" class="search-results-dropdown" value="' + data.ten + '">' + data.ten + '</div>'
+                    }
                 }
             }
-        });
+        );
     });
 </script>
 

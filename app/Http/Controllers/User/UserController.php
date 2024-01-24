@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Requests\ApplyJobRequest;
 use App\Models\City;
 use App\Models\DanhMucNganhNghe;
+use App\Models\Employer;
 use App\Models\Job;
 use App\Models\News;
 use Carbon\Carbon;
@@ -52,6 +53,7 @@ class UserController extends Controller
 
     public function filterJobs(Request $request)
     {
+//        DB::table('table_jobs')-> where('ngaydang', '=', null)-> update(['ngaydang' => '2024-01-10']);
 //        dd($request -> all());
         $jobs = DB::table('table_jobs')
             ->leftJoin('table_careers', 'table_jobs.id_nganhnghe', '=', 'table_careers.id')
@@ -61,8 +63,9 @@ class UserController extends Controller
             ->where('table_jobs.trangthai', '=', 1)
             ->where('table_jobs.hannhanhoso', '>=', Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d'))
             ->where('table_employers.trangthai', 2)
-            ->select('table_jobs.*', 'table_employers.ten', 'table_district.tendaydu', 'table_district.tenkhongdau', 'table_employers.avt',
-                'table_careers.tenkhongdau as employer_tenkhongdau');
+            ->select('table_jobs.*', 'table_employers.ten', 'table_district.tendaydu', 'table_district.tenkhongdau as tenkhongdauDistrict', 'table_employers.avt',
+                'table_careers.tenkhongdau as employer_tenkhongdau')
+            ->orderBy('table_jobs.ngaydang', 'desc');
 
         if ($request->keySearch != null) {
             $jobs->where('table_jobs.tencongviec', 'like', '%' . $request->keySearch . '%');
@@ -89,8 +92,9 @@ class UserController extends Controller
 
         $days = strtotime('-' . $request->days . ' day', strtotime(Carbon::now('Asia/Ho_Chi_Minh')));
         $days = date('Y-m-j', $days);
+//        dd($days);
         if ($request->days != 0) {
-            $jobs->where('table_jobs.created_at', '<=', $days);
+            $jobs->where('table_jobs.ngaydang', '>=', $days);
         }
         if ($request->job_type != 0) {
             $jobs->where('table_jobs.hinhthuc', '=', $request->job_type);
@@ -101,11 +105,30 @@ class UserController extends Controller
             }
         }
 
+        if ($request->keySearch != null) {
+            $employer = DB::table('table_jobs')
+                ->leftJoin('table_careers', 'table_jobs.id_nganhnghe', '=', 'table_careers.id')
+                ->leftJoin('table_ranks', 'table_jobs.capbac', '=', 'table_ranks.id')
+                ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
+                ->leftJoin('table_district', 'table_jobs.noilamviec', '=', 'table_district.id')
+                ->where('table_jobs.trangthai', '=', 1)
+                ->where('table_jobs.hannhanhoso', '>=', Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d'))
+                ->where('table_employers.trangthai', 2)
+                ->where('table_employers.ten', 'like', '%' . $request->keySearch . '%')
+                ->select('table_jobs.*', 'table_employers.ten', 'table_district.tendaydu', 'table_district.tenkhongdau as tenkhongdauDistrict', 'table_employers.avt',
+                    'table_careers.tenkhongdau as employer_tenkhongdau')
+                ->orderBy('table_jobs.ngaydang', 'desc');
+        }
+//        dd($employer->get());
 
-        $totalJobs = $jobs->count();
+
+        if (isset($employer)) {
+            $jobs->union($employer);
+        }
 
         $jobs = $jobs->paginate(20)->withQueryString();
         $data['jobs'] = $jobs;
+        $totalJobs = $jobs->count();
         $data['totalJobs'] = $totalJobs;
 
         $keySearch = $request->keySearch;
@@ -256,22 +279,36 @@ class UserController extends Controller
         $idAccount = Auth::id();
         $idJob = $id;
         $idCV = $request->fileCV_select;
+        $letter = $request->letter;
+        $created_at = Carbon::now('Asia/Ho_Chi_Minh');
+        $updated_at = Carbon::now('Asia/Ho_Chi_Minh');
 //        $fileCV = $request->fileCV;
         if ($request->has('fileCV')) {
             $file = $request->fileCV;
             $extension = $request->fileCV->extension();
             $filename = time() . '-CV-' . $idAccount . '.' . $extension;
             $file->move(public_path('CV'), $filename);
+
+            DB::table('table_applyforjobs')->insert(
+                ['idAccount' => $idAccount,
+                    'idJob' => $idJob,
+//                    'idCV' => $idCV,
+                    'fileCV' => $filename,
+                    'letter' => $letter,
+                    'created_at' => $created_at,
+                    'updated_at' => $updated_at
+                ]
+            );
+            return redirect()->back()->with('alert', 'Hoàn tất');
         }
-        $letter = $request->letter;
-        $created_at = Carbon::now('Asia/Ho_Chi_Minh');
-        $updated_at = Carbon::now('Asia/Ho_Chi_Minh');
+//        dd($request-> fileCV);
+
 
         DB::table('table_applyforjobs')->insert(
             ['idAccount' => $idAccount,
                 'idJob' => $idJob,
                 'idCV' => $idCV,
-                'fileCV' => $filename,
+//                'fileCV' => $filename,
                 'letter' => $letter,
                 'created_at' => $created_at,
                 'updated_at' => $updated_at
@@ -315,10 +352,10 @@ class UserController extends Controller
         if (isset(Auth::user()->id)) {
             $jobsApplied = DB::table('table_applyforjobs')
                 ->where('table_applyforjobs.idAccount', Auth::id())
-                ->join('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
+                ->leftJoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
                 ->leftJoin('table_cv', 'table_cv.idCV', '=', 'table_applyforjobs.idCV')
                 ->join('table_employers', 'table_employers.id', '=', 'table_jobs.id_nhatuyendung')
-                ->select('table_applyforjobs.*', 'table_employers.id as idEmployer', 'table_employers.ten', 'table_employers.avt', 'table_jobs.tencongviec', 'table_cv.nameCV')
+                ->select('table_applyforjobs.*', 'table_employers.id as idEmployer', 'table_employers.ten', 'table_employers.tenkhongdau as tenkhongdauNTD', 'table_employers.avt', 'table_jobs.tencongviec', 'table_cv.nameCV')
                 ->get();
 //            dd($jobsApplied);
             return view('user.pages.user.applyJobs')->with('jobsApplied', $jobsApplied);
@@ -444,6 +481,16 @@ class UserController extends Controller
         $data = Job::select('tencongviec')
             ->where('trangthai', 1)
             ->where('tencongviec', 'like', '%' . $request->get('q') . '%')
+            ->get();
+//        dd($data);
+        return response()->json($data);
+    }
+
+    public function autocompleteSearch2(Request $request)
+    {
+        $data = Employer::select('ten')
+            ->where('trangthai', 2)
+            ->where('ten', 'like', '%' . $request->get('q') . '%')
             ->get();
 //        dd($data);
         return response()->json($data);
