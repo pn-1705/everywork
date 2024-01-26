@@ -31,14 +31,15 @@
                                 <div class="apply-now-btn ">
                                     <?php
                                     if (Auth::check()) {
-                                        $check = DB::table('table_applyforjobs')->where('idAccount', Auth::id())->where('idJob', $job -> idJob)->count();
+                                        $check = DB::table('table_applyforjobs')->where('idAccount', Auth::id())->where('idJob', $job->idJob)->count();
 //                                        dd($check);
                                     }
+//                                                                        dd(url()->current());
                                     ?>
                                     <input hidden id="checkApply"
                                            value="
                                            @if(isset($check))
-                                            @if($check > 0) 1 @endif
+                                           @if($check > 0) 1 @endif
                                            @if($check <= 0) 0 @endif
                                            @else
                                                0
@@ -170,11 +171,6 @@
                                                             style="display: none;"
                                                             @endif
                                                             value="4">Thực tập
-                                                        </p>
-                                                    </li>
-                                                    <li><strong> <em class="fa"></em>Số lượng</strong>
-                                                        <p>
-                                                            {{ $job -> soLuong }}
                                                         </p>
                                                     </li>
                                                 </ul>
@@ -351,52 +347,47 @@
                                     <!-----
                               <div class="content_fck ">
                                 ------>
-                                    <div class="content_fck ">
+                                    <div class="content_fck">
                                         <ul>
                                             <li> Bằng cấp:
-                                                Đại học
+                                                <?php $levels = DB::table('table_levels')->get()   ?>
+                                                @foreach($levels as $l)
+                                                    @if($l->id == $job -> bangcap)
+                                                        {{$l->ten}}
+                                                    @endif
+                                                @endforeach
                                             </li>
                                             <li> Giới tính:
-                                                Nữ
+                                                @if($job -> gioitinh ==0)
+                                                    Nam/Nữ
+                                                @endif
+                                                @if($job -> gioitinh ==1)
+                                                    Nam
+                                                @endif
+                                                @if($job -> gioitinh ==2)
+                                                    Nữ
+                                                @endif
                                             </li>
-                                            <li> Phụ cấp khác: <p>- Hỗ trợ điện thoại<br>
-                                                    - Hỗ trợ gửi xe</p>
-                                            </li>
-                                            <li> Thời gian thử việc: 60 ngày</li>
-                                            <li> Cơ hội huấn luyện: Theo yêu cầu công việc</li>
                                             <li> Độ tuổi:
-                                                25 - 30
-
+                                                @if($job->minold == null | $job -> maxold == null)
+                                                    Không giới hạn tuổi tác
+                                                @else
+                                                    {{ $job->minold. ' - '. $job -> maxold }}
+                                                @endif
                                             </li>
-                                            <li> Thời gian làm việc: 8 giờ/ngày, 5 ngày/tuần</li>
-                                            <li> Đồng nghiệp: Thân thiện, nhiệt tình</li>
-                                            <li> Phúc lợi: <p>- Thử việc hưởng 100% lương<br>
-                                                    - Đóng BHXH full lương<br>
-                                                    - Bảo hiểm sức khỏe</p>
-                                            </li>
-                                            <li> Ngày nghỉ: Theo quy định luật lao động</li>
-                                            <li>Lương:
-                                                Cạnh tranh
+                                            <li>Số lượng tuyển:
+                                                {{ $job -> soLuong }}
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
-
-
-                                <div class="detail-row request">
-                                    <h3 class="detail-title">Gợi ý hồ sơ</h3>
-                                    <div class="list-item">
-                                        <div class="item item-1">
-                                            <a tabindex="0" role="button">
-                                                <span>
-                    </span></a><a href="#" target="_blank">Thiết kế CV Ứng Tuyển</a>
-
-
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="share-this-job">
                                     <span>Chia sẻ việc làm này:</span>
+                                    <?php $url = url()->current(); ?>
+                                    <div class="fb-share-button" data-href="{{$url}}"
+                                         data-layout="" data-size=""><a target="_blank"
+                                                                        href="https://www.facebook.com/sharer/sharer.php?u={{$url}}&amp;src=sdkpreparse"
+                                                                        class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
                                     <a target="_blank"
                                        href="">
                                         <i class="fa fa-facebook"></i> </a>
@@ -13872,6 +13863,7 @@
             $(".saved").find('.toolip p').html(language.job_chk_save_jobs_saved);
         }
     });
+
     function closeLoginRequiredForm() {
         $('#loginRequiredForm').addClass('d-none');
         $('body').removeClass('overflow-hidden');
@@ -13914,11 +13906,11 @@
 
 
         if ($('#loginCheck').val() == 1) {
-            if($('#checkApply').val() == 1){
+            if ($('#checkApply').val() == 1) {
                 {
                     swal("Bạn chỉ có thể ứng tuyển 1 lần");
                 }
-            }else{
+            } else {
                 $('#applyModal').addClass('d-block');
                 $('body').addClass('overflow-hidden');
             }
@@ -13934,7 +13926,12 @@
         $('#applyModal').removeClass('d-block');
         $('body').removeClass('overflow-hidden');
     }
+
 </script>
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous"
+        src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v19.0&appId=1072081483968625"
+        nonce="tGhg3jDb"></script>
 {{--    href="{{ route('nop-don-ung-tuyen', $job ->idJob) }}"--}}
 
 

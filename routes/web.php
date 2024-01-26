@@ -77,6 +77,7 @@ Route::post('/applyJob/{id}', 'User\UserController@applyJob')->name('nop-don-ung
 
 //Trang dành cho nhà tuyển dụng
 //Route::get('/employer', 'User\EmployerController@home')->name('employer.login');
+Route::get('/employer', 'User\EmployerController@login')->name('employer.login');
 Route::get('/employer/login', 'User\EmployerController@login')->name('employer.login');
 Route::post('/employer/post_login', 'User\EmployerController@post_login')->name('employer.post_login');
 Route::get('/employer/register', 'User\EmployerController@register')->name('employer.register');
@@ -133,7 +134,7 @@ Route::get('/admin/login', 'Admin\LoginController@index')->name('admin.login');
 Route::post('/admin/login', 'Admin\LoginController@login')->name('admin.login');
 
 Route::group(['middleware' => 'checklogin', 'prefix' => 'admin'], function () {
-    Route::get('/dashboard', 'Admin\HomeController@dashboard')->name('admin.dashboard');
+//    Route::get('/dashboard', 'Admin\HomeController@dashboard')->name('admin.dashboard');
     Route::get('/logout', 'Admin\LoginController@logout')->name('admin.logout');
 
 //

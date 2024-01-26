@@ -478,11 +478,11 @@ class UserController extends Controller
 
     public function autocompleteSearch(Request $request)
     {
-        $data = Job::select('tencongviec')
+        $data = DB::table('table_jobs')->select('tencongviec')
             ->where('trangthai', 1)
             ->where('tencongviec', 'like', '%' . $request->get('q') . '%')
             ->get();
-//        dd($data);
+//        dd(json($data);
         return response()->json($data);
     }
 

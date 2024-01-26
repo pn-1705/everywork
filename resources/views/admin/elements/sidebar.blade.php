@@ -12,7 +12,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-{{--                <img src="{{ asset('public/logo/logo.png') }}" class="img-circle elevation-2" alt="User Image">--}}
+                {{--                <img src="{{ asset('public/logo/logo.png') }}" class="img-circle elevation-2" alt="User Image">--}}
             </div>
             <div class="info">
                 <a href="#" class="d-block">{{ Auth::user()->ten }}</a>
@@ -38,17 +38,8 @@
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
-                <li class="nav-item">
-                    <a href="{{ route('admin.dashboard')}}"
-                       class="nav-link {{ Route::is('admin.dashboard') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Dashboard
-                        </p>
-                    </a>
-                </li>
 
-                <li class="nav-item">
+                <li class="nav-item  {{ Route::is('admin.posts.newPost') ? 'menu-is-opening menu-open' : '' }}">
                     <a href="" class="nav-link">
                         <i class="nav-icon fas fa-book"></i>
                         <p>
@@ -59,12 +50,28 @@
                                 </span>--}}
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="display: none;">
+                    <ul class="nav nav-treeview {{ Route::is('admin.posts.newPost') ? 'd-block' : '' }}"
+                        style="display: none;">
                         <li class="nav-item">
                             <a href="{{ route('admin.posts.newPost') }}"
                                class="nav-link {{ Route::is('admin.posts.newPost') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Chờ duyệt</p>
+                                <p>Chờ duyệt
+                                    <span class="badge badge-danger right">
+                                            <?php
+                                        use Illuminate\Support\Facades\DB;
+                                        $countJobs = DB::table('table_jobs')
+            ->join('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
+            ->join('table_careers', 'table_jobs.id_nganhnghe', '=', 'table_careers.id')
+            ->where('table_jobs.trangthai', '=', 3)
+            ->count();
+                                        $countNewEmployers = DB::table('table_user')
+                                            ->leftJoin('table_employers', 'table_employers.id', '=', 'table_user.id')
+                                            ->where('id_nhomquyen', 1)
+                                            ->where('table_employers.trangthai', 1)
+                                            ->count();
+                                        echo $countJobs ?>
+                                        </span></p>
                             </a>
                         </li>
                         {{--<li class="nav-item">
@@ -75,23 +82,26 @@
                             </a>
                         </li>--}}
                     </ul>
-                </li><li class="nav-item">
+                </li>
+                <li class="nav-item {{ Route::is('admin.employers.newRegister') ? 'menu-is-opening menu-open' : '' }}{{ Route::is('admin.employers.index') ? 'menu-is-opening menu-open' : '' }}">
                     <a href="" class="nav-link">
                         <i class="nav-icon fas fa-person-booth"></i>
                         <p>
                             Nhà tuyển dụng
                             <i class="fas fa-angle-left right"></i>
-                            {{--<span class="badge badge-danger right">
-                                3
-                                </span>--}}
+
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="display: none;">
+                    <ul class="nav nav-treeview {{ Route::is('admin.employers.index') ? 'd-block' : '' }}{{ Route::is('admin.employers.newRegister') ? 'd-block' : '' }}" style="display: none;">
                         <li class="nav-item">
                             <a href="{{ route('admin.employers.newRegister') }}"
                                class="nav-link {{ Route::is('admin.employers.newRegister') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Đăng ký mới</p>
+                                <p>Đăng ký mới
+                                    <span class="badge badge-danger right">
+                                                                    {{ $countNewEmployers }}
+                                                                    </span>
+                                </p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -103,7 +113,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ Route::is('admin.newsCategory') ? 'menu-is-opening menu-open' : '' }}{{ Route::is('admin.news') ? 'menu-is-opening menu-open' : '' }}">
                     <a href="" class="nav-link">
                         <i class="nav-icon fas fa-newspaper"></i>
                         <p>
@@ -111,7 +121,7 @@
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="display: none;">
+                    <ul class="nav nav-treeview {{ Route::is('admin.news') ? 'd-block' : '' }}{{ Route::is('admin.newsCategory') ? 'd-block' : '' }}" style="display: none;">
                         <li class="nav-item">
                             <a href="{{ route('admin.news') }}"
                                class="nav-link {{ Route::is('admin.news') ? 'active' : '' }}">
@@ -128,7 +138,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{ Route::is('admin.photo-video.social') ? 'menu-is-opening menu-open' : '' }}{{ Route::is('admin.photo-video.slideshow') ? 'menu-is-opening menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-photo-video"></i>
                         <p>
@@ -136,7 +146,7 @@
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview" style="display: none;">
+                    <ul class="nav nav-treeview {{ Route::is('admin.photo-video.social') ? 'd-block' : '' }}{{ Route::is('admin.photo-video.slideshow') ? 'd-block' : '' }}" style="display: none;">
                         <li class="nav-item">
                             <a href="{{ route('admin.photo-video.social') }}"
                                class="nav-link {{ Route::is('admin.photo-video.social') ? 'active' : '' }}">

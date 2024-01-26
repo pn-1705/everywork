@@ -89,6 +89,7 @@
                     </tr>
                     </thead>
                     <tbody>
+
                     <?php $stt = 1; ?>
                     @foreach($newEmployers as $list)
                         <form action="" method="post">

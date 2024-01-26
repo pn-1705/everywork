@@ -18,6 +18,7 @@
 <script src="//cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
 <script type="text/javascript">
     CKEDITOR.replace('ckeditor_noidung_news');
+
 </script>
 
 <!-- AdminLTE for demo purposes -->

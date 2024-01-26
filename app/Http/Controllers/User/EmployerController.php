@@ -158,6 +158,7 @@ class EmployerController extends Controller
         $newJob->donvitien = $request->donvitien;
         $newJob->minluong = $request->minluong;
         $newJob->maxluong = $request->maxluong;
+        $newJob->soLuong = $request->soLuong;
         $newJob->hinhthuc = $request->hinhthuc;
         $newJob->hannhanhoso = $request->hannhanhoso;
         $phucloi = time();

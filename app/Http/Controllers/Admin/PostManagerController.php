@@ -24,8 +24,9 @@ class PostManagerController extends Controller
             ->select('table_employers.id as idEmployer', 'table_employers.ten as tenNTD', 'table_employers.avt', 'table_employers.email', 'table_jobs.*', 'table_careers.tendaydu as tenNganhNghe')
             ->get();
 //        dd($newJobs);
-        $data['newJobs'] = $newJobs;
-        return view('admin.pages.posts.newPost', $data);
+        $total = $newJobs -> count();
+//        dd($total);
+        return view('admin.pages.posts.newPost', compact('newJobs', 'total'));
     }
 
     public function acceptJob($id)

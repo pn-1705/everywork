@@ -4,7 +4,7 @@
 
 @section('content')
     @include("employer.elements.employer-heading-tool")
-    <section class="manage-job-posting-post-jobs cb-section bg-manage">
+    <section class="manage-job-posting-post-jobs cb-section bg-manage" style="margin-top: -20px">
         <div class="container">
             <div class="box-manage-job-posting">
                 <div class="heading-manage">
@@ -149,6 +149,19 @@
                                                 <div class="form-group form-text">
                                                     <input type="text" name="maxluong" id="salary_to" maxlength="12"
                                                            value="" onblur="checkAlertSalary();" placeholder="Tối Đa *">
+                                                </div>
+                                                <span class="form-error" id="error_salary"
+                                                      style="width: 100%;max-width: none;flex: 1;"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label for="">Số lượng tuyển</label>
+                                            <div class="form-salary d-flex align-center">
+                                                <div class="form-group form-text">
+                                                    <input type="text" name="soLuong" id="salary_to" maxlength="12"
+                                                           placeholder="">
                                                 </div>
                                                 <span class="form-error" id="error_salary"
                                                       style="width: 100%;max-width: none;flex: 1;"></span>

@@ -23,7 +23,7 @@ class LoginController extends Controller
 //        dd($credentials);
         if (Auth::attempt($credentials)) {
             if (Auth::user()->id_nhomquyen == 2){
-                return redirect()->route('admin.dashboard');
+                return redirect()->route('admin.posts.newPost');
             }
         } else {
             Session::put('message','Mật khẩu hoặc email không đúng!');

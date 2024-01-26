@@ -17415,11 +17415,14 @@
                                         @else
                                             @foreach($jobsApplied as $list)
                                                 <tr>
+                                                <t>
                                                     <td class="job">
                                                         <div class="name">
                                                             <div class="figure">
                                                                 <div class="image"><a
-                                                                        href="{{ route('pages.nha-tuyen-dung.detail',$list -> tenkhongdauNTD) }}"><img
+                                                                        href="{{ route('pages.nha-tuyen-dung.detail',$list -> tenkhongdauNTD) }}">
+                                                                        <img
+{{--                                                                            onerror="{{ asset('public/avatar/'. $list -> avt) }}"--}}
                                                                             src="{{ asset('public/avatar/'. $list -> avt) }}"
                                                                             alt="{{ $list -> ten }}"
                                                                             title="{{ $list -> ten }}">
@@ -17461,7 +17464,7 @@
                                                             @endif
                                                         </p>
                                                     </td>
-                                                </tr>
+                                                </t>
                                             @endforeach
                                         @endif
 

@@ -89,10 +89,17 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @if(count($newEmployers) == 0)
+                        <tr>
+                            <td class="text-center" colspan="8">Hiện chưa có dữ liệu đăng ký</td>
+
+                        </tr>
+                    @endif
                     <?php $stt = 1; ?>
                     @foreach($newEmployers as $list)
                         <form action="" method="post">
                             @csrf
+
                             <tr>
                                 <td>
                                     {{ $stt++ }}

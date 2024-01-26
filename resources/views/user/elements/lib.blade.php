@@ -41,6 +41,9 @@ $footer_setting = \App\Models\FooterSetting::all();
 
 <!-- JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="//cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
     var language_psearchlist = {
         job_chk_save_jobs_saved: "Việc làm đã lưu",
@@ -106,10 +109,6 @@ $footer_setting = \App\Models\FooterSetting::all();
         });
     }
 </script>
-
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script src="//cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 
 

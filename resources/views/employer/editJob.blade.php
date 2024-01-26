@@ -1,10 +1,10 @@
 @extends('employer.layout')
 
-@section('title', 'Việc làm')
+@section('pageTitle', 'Chỉnh Sửa Tin Tuyển Dụng')
 
 
 @section('content')
-    @include("employer.elements.employer-heading-tool")
+    @include("employer.elements.employer-heading-tool" )
     <section class="manage-job-posting-post-jobs cb-section bg-manage">
         <div class="container">
             <div class="box-manage-job-posting">
@@ -119,7 +119,7 @@
 
                                     <div class="form-group">
                                         <label>Mô Tả Công Việc <font style="color: red">*</font></label>
-                                        <textarea cols="80" rows="5" name="mota"
+                                        <textarea cols="80" rows="5" name="mota" id="editjob_mota"
                                                   class="">{{ $job -> mota }}</textarea>
                                         @error('mota')
                                         <span class="form-error">{{ $message }}</span>
@@ -130,7 +130,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Yêu cầu công việc <font style="color: red">*</font></label>
-                                        <textarea cols="80" rows="5" name="yeucau"
+                                        <textarea cols="80" rows="5" name="yeucau" id="editjob_yeucau"
                                                   class="">{{ $job -> yeucau }}</textarea>
                                         @error('yeucau')
                                         <span class="form-error">{{ $message }}</span>
@@ -753,6 +753,8 @@
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
         }
+        CKEDITOR.replace('editjob_mota');
+        CKEDITOR.replace('editjob_yeucau');
     </script>
 
 @endsection
