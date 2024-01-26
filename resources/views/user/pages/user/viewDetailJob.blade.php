@@ -79,25 +79,15 @@
                                         <div class="dropdown"><i class="mdi mdi-share-variant"></i>
                                             <div class="dropdown-menu">
                                                 <div class="social-list">
-                                                    <a rel="nofollow" target="_blank"
-                                                       href="{{--https://www.facebook.com/sharer/sharer.php?u=https://careerbuilder.vn/vi/tim-viec-lam/tro-ly-tieng-hoa-phong-bao-hanh.35BE05CA.html&amp;t=TRỢ LÝ TIẾNG HOA (PHÒNG BẢO HÀNH)--}}"><i
-                                                            class="fa fa-facebook"></i></a>
-                                                    <a rel="nofollow" target="_blank"
-                                                       href=""><i
-                                                            class="fa fa-linkedin"></i></a>
-                                                    <a rel="nofollow" target="_blank"
-                                                       href=""><i
-                                                            class="fa fa-google"></i></a>
-                                                    <div class="zalo-share-button" data-href=""
-                                                         data-oaid="579745863508352884" data-layout="2"
-                                                         data-color="white" data-customize="false"
-                                                         style="position: relative; display: inline-block; width: 20px; height: 20px;">
-                                                        <iframe id="763247ab-1c59-42b1-9025-46fd03800fb5"
-                                                                name="763247ab-1c59-42b1-9025-46fd03800fb5"
-                                                                frameborder="0" allowfullscreen="" scrolling="no"
-                                                                width="20px" height="20px"
-                                                                src="https://button-share.zalo.me/share_inline?id=763247ab-1c59-42b1-9025-46fd03800fb5&amp;layout=2&amp;color=white&amp;customize=false&amp;width=20&amp;height=20&amp;isDesktop=true&amp;url=https%3A%2F%2Fcareerbuilder.vn%2Fvi%2Ftim-viec-lam%2Ftro-ly-tieng-hoa-phong-bao-hanh.35BE05CA.html&amp;d=eyJ1cmwiOiJodHRwczovL2NhcmVlcmJ1aWxkZXIudm4vdmkvdGltLXZpZWMtbGFtL3Ryby1seS10aWVuZy1ob2EtcGhvbmctYmFvLWhhbmguMzVCRTA1Q0EuaHRtbCJ9&amp;shareType=0"
-                                                                style="position: absolute; z-index: 99; top: 0px; left: 0px;"></iframe>
+                                                    <?php $url = url()->current(); ?>
+                                                    <a data-href="{{$url}}" target="_blank"
+                                                       href="https://www.facebook.com/sharer/sharer.php?u={{$url}}&amp;src=sdkpreparse">
+                                                        <i class="fa fa-facebook"></i>
+                                                    </a>
+                                                    <div style="margin-bottom: 4px" class="zalo-share-button"
+                                                         data-href="{{$url}}" data-oaid="1638913094081617987"
+                                                         data-layout="2" data-color="white"
+                                                         data-customize="false">
                                                     </div>
                                                 </div>
                                             </div>
@@ -391,13 +381,15 @@
                                        href="https://www.facebook.com/sharer/sharer.php?u={{$url}}&amp;src=sdkpreparse">
                                         <i class="fa fa-facebook"></i>
                                     </a>
-                                    <div style="margin-bottom: 4px" class="zalo-share-button" data-href="{{$url}}" data-oaid="1638913094081617987" data-layout="2" data-color="white" data-customize="false"></div>
-{{--                                    <a target="_blank"--}}
-{{--                                       href="">--}}
-{{--                                        <i class="fa fa-linkedin"></i></a>--}}
-{{--                                    <a target="_blank"--}}
-{{--                                       href="">--}}
-{{--                                        <i class="fa fa-google"></i></a>--}}
+                                    <div style="margin-bottom: 4px" class="zalo-share-button" data-href="{{$url}}"
+                                         data-oaid="1638913094081617987" data-layout="2" data-color="white"
+                                         data-customize="false"></div>
+                                    {{--                                    <a target="_blank"--}}
+                                    {{--                                       href="">--}}
+                                    {{--                                        <i class="fa fa-linkedin"></i></a>--}}
+                                    {{--                                    <a target="_blank"--}}
+                                    {{--                                       href="">--}}
+                                    {{--                                        <i class="fa fa-google"></i></a>--}}
 
                                 </div>
 
