@@ -67,8 +67,15 @@
                             <div class="job-detail-tool">
                                 <ol class="tabs-saved">
                                     <li>
-                                        <a tabindex="0" role="button" class="toollips save-job chk_save_35BE05CA "
-                                           data-id="35BE05CA" onclick="popuplogin()">
+                                        <a tabindex="0" role="button" class="toollips save-job chk_save_{{$job ->idJob}}
+                                        @if(isset(Auth::user()->id))
+                                        @foreach ($jobSaved as $list)
+                                        @if($list -> idJob == $job ->idJob)
+                                            saved
+@endif
+                                        @endforeach
+                                        @endif "
+                                              data-id="{{ $job -> idJob }}" onclick="savejob1({{$job -> idJob}})">
                                             <i class="mdi mdi-heart-outline"></i>
                                             <div class="toolip">
                                                 <p>Lưu việc làm</p>
@@ -78,7 +85,7 @@
                                     <li>
                                         <div class="dropdown"><i class="mdi mdi-share-variant"></i>
                                             <div class="dropdown-menu">
-                                                <div class="social-list">
+                                                <div style="justify-content: space-around" class="social-list">
                                                     <?php $url = url()->current(); ?>
                                                     <a data-href="{{$url}}" target="_blank"
                                                        href="https://www.facebook.com/sharer/sharer.php?u={{$url}}&amp;src=sdkpreparse">
@@ -13881,7 +13888,8 @@
                 }
             });
         } else {
-            swal("Vui lòng đăng nhập để thực hiện chức năng này!");
+            $('#loginRequiredForm').removeClass('d-none');
+            $('body').addClass('overflow-hidden');
         }
 
     }
