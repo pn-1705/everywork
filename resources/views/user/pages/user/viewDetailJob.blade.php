@@ -34,7 +34,7 @@
                                         $check = DB::table('table_applyforjobs')->where('idAccount', Auth::id())->where('idJob', $job->idJob)->count();
 //                                        dd($check);
                                     }
-//                                                                        dd(url()->current());
+                                    //                                                                        dd(url()->current());
                                     ?>
                                     <input hidden id="checkApply"
                                            value="
@@ -384,13 +384,16 @@
                                 <div class="share-this-job">
                                     <span>Chia sẻ việc làm này:</span>
                                     <?php $url = url()->current(); ?>
-                                    <div class="fb-share-button" data-href="{{$url}}"
-                                         data-layout="" data-size=""><a target="_blank"
-                                                                        href="https://www.facebook.com/sharer/sharer.php?u={{$url}}&amp;src=sdkpreparse"
-                                                                        class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
-                                    <a target="_blank"
-                                       href="">
-                                        <i class="fa fa-facebook"></i> </a>
+                                    <div data-href="{{$url}}">
+                                        <a target="_blank"
+                                           href="https://www.facebook.com/sharer/sharer.php?u={{$url}}&amp;src=sdkpreparse"></a>
+                                    </div>
+{{--                                    <div >--}}
+                                        <a data-href="{{$url}}" target="_blank"
+                                           href="https://www.facebook.com/sharer/sharer.php?u={{$url}}&amp;src=sdkpreparse">
+                                            <i class="fa fa-facebook"></i> </a>
+{{--                                    </div>--}}
+
                                     <a target="_blank"
                                        href="">
                                         <i class="fa fa-linkedin"></i></a>
