@@ -17450,19 +17450,19 @@
                             </form>
                         </div>
 
-                        <div class="col-6 update-email">
+                        {{--<div class="col-6 update-email">
                             <div class="title-form">
                                 <h3>Xóa tài khoản</h3>
                             </div>
                             <div>
-                                Nếu bạn muốn xóa tài khoản của mình khỏi CareerBuilder, hãy ấn <a tabindex="0"
+                                Nếu bạn muốn xóa tài khoản của mình khỏi EveryWork, hãy ấn <a tabindex="0"
                                                                                                   role="button"
                                                                                                   style="cursor: pointer;color:red"
                                                                                                   class="btn-delete"
                                                                                                   id="btn-delete">vào
                                     đây</a>
                             </div>
-                        </div>
+                        </div>--}}
                     </div>
                 </div>
             </div>

@@ -375,40 +375,29 @@
                                                     {{ $job->minold. ' - '. $job -> maxold }}
                                                 @endif
                                             </li>
-                                            <li>Số lượng tuyển:
-                                                {{ $job -> soLuong }}
-                                            </li>
+                                            @if($job -> soLuong != null)
+                                                <li>Số lượng tuyển:
+                                                    {{ $job -> soLuong }}
+                                                </li>
+                                            @endif
+
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="share-this-job">
                                     <span>Chia sẻ việc làm này:</span>
                                     <?php $url = url()->current(); ?>
-                                    <div data-href="{{$url}}">
-                                        <a target="_blank"
-                                           href="https://www.facebook.com/sharer/sharer.php?u={{$url}}&amp;src=sdkpreparse"></a>
-                                    </div>
-{{--                                    <div >--}}
-                                        <a data-href="{{$url}}" target="_blank"
-                                           href="https://www.facebook.com/sharer/sharer.php?u={{$url}}&amp;src=sdkpreparse">
-                                            <i class="fa fa-facebook"></i> </a>
-{{--                                    </div>--}}
-
-                                    <a target="_blank"
-                                       href="">
-                                        <i class="fa fa-linkedin"></i></a>
-                                    <a target="_blank"
-                                       href="">
-                                        <i class="fa fa-google"></i></a>
-                                    <div class="zalo-share-button" data-href="" data-oaid="579745863508352884"
-                                         data-layout="2" data-color="white" data-customize="false"
-                                         style="position: relative; display: inline-block; width: 20px; height: 20px;">
-                                        <iframe id="d10a5333-6f35-481f-a3fd-7ef601aa43ba"
-                                                name="d10a5333-6f35-481f-a3fd-7ef601aa43ba" frameborder="0"
-                                                allowfullscreen="" scrolling="no" width="20px" height="20px"
-                                                src=""
-                                                style="position: absolute; z-index: 99; top: 0px; left: 0px;"></iframe>
-                                    </div>
+                                    <a data-href="{{$url}}" target="_blank"
+                                       href="https://www.facebook.com/sharer/sharer.php?u={{$url}}&amp;src=sdkpreparse">
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
+                                    <div style="margin-bottom: 4px" class="zalo-share-button" data-href="{{$url}}" data-oaid="1638913094081617987" data-layout="2" data-color="white" data-customize="false"></div>
+{{--                                    <a target="_blank"--}}
+{{--                                       href="">--}}
+{{--                                        <i class="fa fa-linkedin"></i></a>--}}
+{{--                                    <a target="_blank"--}}
+{{--                                       href="">--}}
+{{--                                        <i class="fa fa-google"></i></a>--}}
 
                                 </div>
 
@@ -13935,6 +13924,7 @@
 <script async defer crossorigin="anonymous"
         src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v19.0&appId=1072081483968625"
         nonce="tGhg3jDb"></script>
+<script src="https://sp.zalo.me/plugins/sdk.js"></script>
 {{--    href="{{ route('nop-don-ung-tuyen', $job ->idJob) }}"--}}
 
 

@@ -45,8 +45,14 @@
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                     <tbody>
                                     <tr>
-                                        <td style="font-family:arial;font-size:16px;font-weight:bold;color:rgb(51,51,51);padding-bottom:10px;text-align:justify">
-                                            Thông báo việc làm "{{$job -> tencongviec}}" đã được duyệt
+                                        <td style="text-transform: uppercase; font-size:18px;font-weight:bold;color:rgb(51,51,51);padding-bottom:20px;text-align:justify">
+                                            Thông báo việc làm "{{$job -> tencongviec}}" đã được phê duyệt.
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size:16px;font-weight:bold;color:rgb(51,51,51);padding-bottom:10px;text-align:justify">
+                                            Hãy nhấn <a href="{{ route('user.pages.viewDetailJob', $job -> id) }}">vào đây</a>  để xem chi tiết việc làm của bạn được hiển thị trên EveryWork.
                                         </td>
                                     </tr>
                                     <tr>
@@ -87,7 +93,7 @@
                                     <tr>
                                         <td width="74%" style="font-size:11px;color:#666666;font-family:arial">
                                             © 2023 <strong>EveryWork</strong> <br>
-                                            Hotline: 03390354.373<br>
+                                            Hotline: 0339.354.373<br>
                                         </td>
                                     </tr>
                                     </tbody>

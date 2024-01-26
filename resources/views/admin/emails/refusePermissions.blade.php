@@ -48,7 +48,8 @@
                                         <td style="font-family:arial;font-size:16px;font-weight:bold;color:rgb(51,51,51);padding-bottom:10px;text-align:justify">
                                             Xin chào! Tài khoản của bạn bị từ chối cấp quyền đăng tuyển.
                                         </td>
-                                    </tr><tr>
+                                    </tr>
+                                    <tr>
                                         <td>
                                             Hãy cập nhật đầy đủ thông tin đầy đủ và chuyên nghiệp sau đó gửi yêu cầu để được cấp quyền đăng tuyển.
                                         </td>

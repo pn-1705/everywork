@@ -45,7 +45,7 @@ class EmployerManagerController extends Controller
         $employer = DB::table('table_employers')->where('id', '=', $id)->first();
         if ($employer) {
             Mail::send('admin.emails.grantPermissions', compact('employer'), function ($email) use ($employer) {
-                $email->subject('EveryWork - Email tự động');
+                $email->subject('[EveryWork]_Email tự động.');
                 $email->to($employer->email);
             });
         }
@@ -61,7 +61,7 @@ class EmployerManagerController extends Controller
         $employer = DB::table('table_employers')->where('id', '=', $id)->first();
         if ($employer) {
             Mail::send('admin.emails.refusePermissions', compact('employer'), function ($email) use ($employer) {
-                $email->subject('EveryWork - Email tự động');
+                $email->subject('[EveryWork]_Email tự động.');
                 $email->to($employer->email);
             });
         }

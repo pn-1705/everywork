@@ -160,7 +160,7 @@
                                             <label for="">Số lượng tuyển</label>
                                             <div class="form-salary d-flex align-center">
                                                 <div class="form-group form-text">
-                                                    <input type="text" name="soLuong" id="salary_to" maxlength="12"
+                                                    <input min="1" type="number" name="soLuong" maxlength="5"
                                                            placeholder="">
                                                 </div>
                                                 <span class="form-error" id="error_salary"

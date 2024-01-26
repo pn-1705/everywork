@@ -46,7 +46,7 @@ class PostManagerController extends Controller
             ->first();
         if ($job) {
             Mail::send('admin.emails.acceptJob', compact('job'), function ($email) use ($job) {
-                $email->subject('EveryWork - Email tự động');
+                $email->subject('[EveryWork]_Email tự động.');
                 $email->to($job->email, $job->tencongviec, $job->id);
             });
         }

@@ -45,7 +45,7 @@
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                     <tbody>
                                     <tr>
-                                        <td style="font-family:arial;font-size:16px;font-weight:bold;color:rgb(51,51,51);padding-bottom:10px;text-align:justify">
+                                        <td style="font-size:16px;font-weight:bold;color:rgb(51,51,51);padding-bottom:10px;text-align:justify">
                                             Xin chức mừng! Tài khoản của bạn đã được cấp quyền đăng tuyển.
                                         </td>
                                     </tr><tr>
@@ -73,11 +73,11 @@
                                 <table width="100%" cellspacing="0" cellpadding="0" border="0">
                                     <tbody>
                                     <tr>
-                                        <td style="font-family:arial;font-size:12px;color:#333">Trân trọng,</td>
+                                        <td style="font-family:arial;font-size:12px;color:#333">Trân trọng!</td>
                                     </tr>
                                     <tr>
                                         <td style="font-family:arial;font-size:12px;color:#333">Phòng Dịch vụ Khách
-                                            hàng
+                                            hàng.
                                         </td>
                                     </tr>
                                     </tbody>
@@ -91,7 +91,7 @@
                                     <tr>
                                         <td width="74%" style="font-size:11px;color:#666666;font-family:arial">
                                             © 2023 <strong>EveryWork</strong> <br>
-                                            Hotline: 03390354.373<br>
+                                            Hotline: 0339.354.373<br>
                                         </td>
                                     </tr>
                                     </tbody>
