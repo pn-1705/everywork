@@ -17,7 +17,9 @@
                                     <div class="topresume-item">
                                         <div class="topresume-left">
                                             <div class="topresume-image"><img
-                                                    src="{{ asset('public/avatar/'. $employer -> avt) }}"
+                                                    src="@if($employer -> avt == null)
+                                                    {{ asset('public/imgs/noimage.png') }}
+                                                    @else  {{ asset('public/avatar/'. $employer -> avt) }}@endif"
                                                     alt="avatar ung vien">
                                             </div>
                                         </div>
@@ -110,25 +112,25 @@
                                 <h2 class="title-dashboard">Lịch Sử Hoạt Động</h2>
                             </div>
                             <div class="body">
-                                <ul class="list-operation-management">
-                                    <li>
-                                        <p class="time">
-                                            <time>23/11/2023</time>
-                                        </p>
-                                        <p class="title">ID#: 1648394 - Code: 22 - Title: TTS PHP (Step 1)</p>
-                                    </li>
-                                    <li>
-                                        <p class="time">
-                                            <time>23/11/2023</time>
-                                        </p>
-                                        <p class="title">ID#: 1648394 - Code: 22 - Title: TTS PHP<br>Post from: CB.VN
-                                        </p>
-                                    </li>
+{{--                                <ul class="list-operation-management">--}}
+{{--                                    <li>--}}
+{{--                                        <p class="time">--}}
+{{--                                            <time>23/11/2023</time>--}}
+{{--                                        </p>--}}
+{{--                                        <p class="title">ID#: 1648394 - Code: 22 - Title: TTS PHP (Step 1)</p>--}}
+{{--                                    </li>--}}
+{{--                                    <li>--}}
+{{--                                        <p class="time">--}}
+{{--                                            <time>23/11/2023</time>--}}
+{{--                                        </p>--}}
+{{--                                        <p class="title">ID#: 1648394 - Code: 22 - Title: TTS PHP<br>Post from: CB.VN--}}
+{{--                                        </p>--}}
+{{--                                    </li>--}}
 
-                                </ul>
-                                <div class="view-more"><a class="btn-view-more"
-                                                          href="https://careerbuilder.vn/vi/employers/hrcentral/accounts/report_task_log">Xem
-                                        thêm</a></div>
+{{--                                </ul>--}}
+{{--                                <div class="view-more"><a class="btn-view-more"--}}
+{{--                                                          href="https://careerbuilder.vn/vi/employers/hrcentral/accounts/report_task_log">Xem--}}
+{{--                                        thêm</a></div>--}}
                             </div>
                         </div>
                     </div>

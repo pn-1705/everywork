@@ -98,9 +98,11 @@
                                class="nav-link {{ Route::is('admin.employers.newRegister') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Đăng ký mới
+                                    @if($countNewEmployers != 0)
                                     <span class="badge badge-danger right">
                                                                     {{ $countNewEmployers }}
                                                                     </span>
+                                    @endif
                                 </p>
                             </a>
                         </li>

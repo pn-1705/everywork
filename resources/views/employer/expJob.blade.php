@@ -18,23 +18,34 @@
 {{--                                                  class="support">Hướng dẫn</a></div>--}}
                 </div>
                 <div class="main-form-posting">
-                    <form name="frmSearchJob" id="frmSearchJob" action="" method="post"
-                          onsubmit="return validateSearch();">
+                    <form name="frmSearchJob" id="frmSearchJob" action="{{ route('employer.searchJobExp') }}" method="get">
+                        {{--                        @csrf--}}
                         <div class="form-wrap">
                             <div class="form-group form-text">
                                 <label>Từ khóa</label>
-                                <input type="text" name="keyword" id="keyword" placeholder="Nhập từ khóa" value="">
+                                <input type="text" name="keyword" id="keyword" placeholder="Nhập từ khóa"
+                                       @if(isset($keyword))
+                                       value="{{ $keyword }}"
+                                    @endif>
+
                             </div>
-                            <div class="form-group ">
+                            <div class="form-group">
                                 <label>Tìm theo ngày</label>
                                 <select class="fl_left mar_left46" name="date_type" id="date_type">
-                                    <option value="0">Ngày đăng</option>
-                                    <option value="1">Ngày hết hạn</option>
+                                    <option @if(isset($date_type)) @if($date_type == 0) selected
+                                            @endif @endif value="0">Ngày đăng
+                                    </option>
+                                    <option @if(isset($date_type)) @if($date_type == 1) selected
+                                            @endif @endif value="1">Ngày hết hạn
+                                    </option>
                                 </select>
                             </div>
                             <div class="form-group form-date start-date">
                                 <label>Từ</label>
-                                <input type="date" name="date_from" id="date_from" placeholder="Chọn" class="" value="">
+                                <input type="date" name="date_from" id="date_from" placeholder="Chọn" class=""
+                                       @if(isset($date_from))
+                                       value="{{ $date_from }}"
+                                    @endif>
                                 <div id="start-date" class="dtpicker-overlay dtpicker-mobile">
                                     <div class="dtpicker-bg">
                                         <div class="dtpicker-cont">
@@ -47,9 +58,10 @@
                             </div>
                             <div class="form-group form-date end-date">
                                 <label>Đến</label>
-                                <input type="text" readonly="" name="date_to" id="date_to" placeholder="Chọn"
-                                       class="dates_cus_select" value="">
-                                <div class="icon"><em class="material-icons">event</em></div>
+                                <input type="date" name="date_to" id="date_to" placeholder="Chọn" class=""
+                                       @if(isset($date_to))
+                                       value="{{ $date_to }}"
+                                    @endif>
                                 <div id="end-date" class="dtpicker-overlay dtpicker-mobile">
                                     <div class="dtpicker-bg">
                                         <div class="dtpicker-cont">

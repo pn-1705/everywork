@@ -23,15 +23,16 @@
         <div class="card-footer text-sm sticky-top">
             <div class="form-inline form-search d-inline-block">
                 <div class="input-group input-group-sm">
-                    <input class="form-control form-control-navbar text-sm" type="search" id="keyword"
-                           placeholder="Tìm kiếm" aria-label="Tìm kiếm" value=""
-                           onkeypress="doEnter(event,'keyword','index.php?com=news&amp;act=man&amp;type=tin-tuc&amp;p=1')">
-                    <div class="input-group-append bg-primary rounded-right">
-                        <button class="btn btn-navbar text-white" type="button"
-                                onclick="onSearch('keyword','index.php?com=news&amp;act=man&amp;type=tin-tuc&amp;p=1')">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
+                    <form style="display: flex" action="{{ route('admin.employers.search') }}" method="post">
+                        @csrf
+                        <input class="form-control form-control-navbar text-sm" type="search" name="keyword"id="keyword"
+                               placeholder="Tìm kiếm" aria-label="Tìm kiếm" value="">
+                        <div class="input-group-append bg-primary rounded-right">
+                            <button class="btn btn-navbar text-white" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -61,6 +62,7 @@
             <div class="card-body p-0">
                 <table class="table table-striped projects">
                     <thead>
+
                     <tr>
                         <th style="">
                             STT
@@ -83,13 +85,20 @@
                         <th class="">
                             Website
                         </th>
+                        <th class="">
+                            Trạng thái
+                        </th>
                         <th class="text-right">
                             Thao tác
                         </th>
                     </tr>
                     </thead>
                     <tbody>
-
+                    @if(count($newEmployers) == 0)
+                        <tr>
+                            <td class="text-center" colspan="9">Không tìm thấy dữ liệu</td>
+                        </tr>
+                    @endif
                     <?php $stt = 1; ?>
                     @foreach($newEmployers as $list)
                         <form action="" method="post">
@@ -124,16 +133,31 @@
                                 <td class="">
                                     {{$list -> website}}
                                 </td>
+                                <td class="">
+                                    @if($list -> trangthai == 2)
+                                        <span class="badge badge-success"> Đang hoạt động</span>
+                                    @endif
+                                    @if($list -> trangthai == 5)
+                                        <span class="badge badge-warning"> Bị hủy quyền</span>
+                                    @endif
+                                </td>
                                 <td class="project-actions text-right">
-                                        <a title="Hủy quyền đăng tuyển" class="btn btn-danger btn-xs"
-                                           href="{{ route("admin.employers.refusePermissions",  $list -> id ) }}">
+                                    @if($list -> trangthai == 2)
+                                        <a title="Hủy quyền đăng tuyển" class="btn btn-secondary btn-xs"
+                                           href="{{ route("admin.employers.huyPermissions",  $list -> id ) }}">
                                             Hủy quyền
                                         </a>
-
-                                    {{--<a href="{{ route('admin.employers.grantPermissions', $list -> id) }}"
-                                       title="Cấp quyền đăng tuyển" class="btn btn-info btn-xs">
-                                        Cấp quyền
-                                    </a>--}}
+                                    @endif
+                                    @if($list -> trangthai == 5)
+                                        <a title="Cấp lại quyền đăng tuyển" class="btn btn-primary btn-xs"
+                                           href="{{ route("admin.employers.caplaiPermissions",  $list -> id ) }}">
+                                            Cấp quyền
+                                        </a>
+                                    @endif
+                                    {{--                                    <a href="{{ route('admin.employers.grantPermissions', $list -> id) }}"--}}
+                                    {{--                                       title="Cấp quyền đăng tuyển" class="btn btn-danger btn-xs">--}}
+                                    {{--                                        Khóa--}}
+                                    {{--                                    </a>--}}
                                 </td>
                             </tr>
                         </form>

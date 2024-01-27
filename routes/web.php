@@ -90,6 +90,8 @@ Route::group(['middleware' => 'checkEmployerRole', 'prefix' => 'employer'], func
     Route::get('/hrcentral/waitPostJob', 'User\EmployerController@view_waitPostJob')->name('employer.view_waitPostJob');
     Route::get('/hrcentral/expJob', 'User\EmployerController@view_expJob')->name('employer.view_expJob');
     Route::get('/hrcentral/search', 'User\EmployerController@searchJob')->name('employer.searchJob');
+    Route::get('/hrcentral/searchJobWait', 'User\EmployerController@searchJobWait')->name('employer.searchJobWait');
+    Route::get('/hrcentral/searchJobExp', 'User\EmployerController@searchJobExp')->name('employer.searchJobExp');
 
     Route::get('/addJob', 'User\EmployerController@view_addJob')->name('employer.view_addJob');
     Route::post('/addJob', 'User\EmployerController@addJob')->name('employer.addJob');
@@ -167,7 +169,10 @@ Route::group(['middleware' => 'checklogin', 'prefix' => 'admin'], function () {
     Route::get('/news/del/{id}', ['as' => 'admin.news.del', 'uses' => 'Admin\NewsController@del']);
 
     //Quản lí nhà tuyển dụng
-    Route::get('/employers/employer', ['as' => 'admin.employers.index', 'uses' => 'Admin\EmployerManagerController@index']);
+    Route::get('/employers', ['as' => 'admin.employers.index', 'uses' => 'Admin\EmployerManagerController@index']);
+    Route::post('/employers', ['as' => 'admin.employers.search', 'uses' => 'Admin\EmployerManagerController@search']);
+    Route::get('/employers/huyPermissions/{id}', ['as' => 'admin.employers.huyPermissions', 'uses' => 'Admin\EmployerManagerController@huyPermissions']);
+    Route::get('/employers/caplaiPermissions/{id}', ['as' => 'admin.employers.caplaiPermissions', 'uses' => 'Admin\EmployerManagerController@caplaiPermissions']);
     Route::get('/employers/new-employer', ['as' => 'admin.employers.newRegister', 'uses' => 'Admin\EmployerManagerController@indexNewRegister']);
     Route::get('/employers/grantPermissions/{id}', ['as' => 'admin.employers.grantPermissions', 'uses' => 'Admin\EmployerManagerController@grantPermissions']);
     Route::get('/employers/refusePermissions/{id}', ['as' => 'admin.employers.refusePermissions', 'uses' => 'Admin\EmployerManagerController@refusePermissions']);

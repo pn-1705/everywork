@@ -44,8 +44,8 @@ class ManagerController extends Controller
         $data['countJobExp'] = $countJobExp;
 
         $listJobPosting = DB::table('table_applyforjobs')
-            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso','table_jobs.soLuong', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
-            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso','table_jobs.soLuong', 'table_jobs.views', 'table_jobs.trangthai')
+            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.soLuong', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
+            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.soLuong', 'table_jobs.views', 'table_jobs.trangthai')
             ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
             ->where('table_jobs.id_nhatuyendung', Auth::id())
             ->where('hannhanhoso', '>=', Carbon::now('Asia/Ho_Chi_Minh'))
@@ -282,13 +282,13 @@ class ManagerController extends Controller
 
     public function viewEmailConfig()
     {
-        $listLetter = DB::table('table_letters')->get();
+        $listLetter = DB::table('table_letters')->where('idEmployer', Auth::id())->get();
         return view('employer.pages.emailConfig.index', compact('listLetter'));
     }
 
     public function viewUpdateEmail($id)
     {
-        $listLetter = DB::table('table_letters')->get();
+        $listLetter = DB::table('table_letters')->where('idEmployer', Auth::id())->get();
         $letterUpdate = DB::table('table_letters')->where('idLetter', $id)->first();
         return view('employer.pages.emailConfig.edit', compact('listLetter', 'letterUpdate'));
     }

@@ -109,6 +109,11 @@ $footer_setting = \App\Models\FooterSetting::all();
         });
     }
 </script>
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous"
+        src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v19.0&appId=1072081483968625"
+        nonce="tGhg3jDb"></script>
+<script src="https://sp.zalo.me/plugins/sdk.js"></script>
 
 
 

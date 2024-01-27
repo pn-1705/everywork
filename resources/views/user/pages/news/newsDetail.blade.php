@@ -19,11 +19,14 @@
                                 <span>{{ $news -> luotxem }}</span>
                             </p>
                         </div>
-{{--                        <div class="career-advice-detail-share-social">--}}
-{{--                            <ul>--}}
-{{--                                <li class="facebook"><a tabindex="0" role="button" onclick="shareHandler('facebook');"--}}
-{{--                                                        target="_blank" title="Facebook"><em--}}
-{{--                                            class="mdi mdi-facebook"></em></a></li>--}}
+                        <div class="career-advice-detail-share-social">
+                            <ul>
+                                <?php $url = url()->current(); ?>
+
+                                <li class="facebook"><a data-href="{{$url}}"
+                                                        href="https://www.facebook.com/sharer/sharer.php?u={{$url}}&amp;src=sdkpreparse"
+                                                        target="_blank" title="Facebook"><em
+                                            class="mdi mdi-facebook"></em></a></li>
 {{--                                <li class="linkedin"><a tabindex="0" role="button" onclick="shareHandler('linkedin');"--}}
 {{--                                                        target="_blank" title="Linkedin"><em--}}
 {{--                                            class="mdi mdi-linkedin"></em></a></li>--}}
@@ -33,35 +36,42 @@
 {{--                                <li class="gmail"><a tabindex="0" role="button" onclick="shareHandler('gmail');"--}}
 {{--                                                     target="_blank" title="Gmail"><em class="mdi mdi-gmail"></em></a>--}}
 {{--                                </li>--}}
-{{--                                <li class="zalo">--}}
-{{--                                    <div class="zalo-share-button" data-href="" data-oaid="579745863508352884"--}}
-{{--                                         data-layout="2" data-color="white" data-customize="true"></div>--}}
-{{--                                </li>--}}
-{{--                            </ul>--}}
-{{--                        </div>--}}
+{{--                                    <div style="margin-bottom: 4px" class="zalo-share-button"--}}
+{{--                                         data-href="{{$url}}" data-oaid="1638913094081617987"--}}
+{{--                                         data-layout="2" data-color="white"--}}
+{{--                                         data-customize="false">--}}
+{{--                                    </div>--}}
+                                <li class="zalo">
+                                    <div style="cursor: pointer" class="zalo-share-button" data-href="{{$url}}" data-oaid="1638913094081617987"
+                                         data-layout="2" data-color="white" data-customize="false"></div>
+                                </li>
+                            </ul>
+                        </div>
                         <div class="full-content">
                             {!! $news -> noidung !!}
                         </div>
                     </div>
 
-{{--                    <div class="share-this-news">--}}
-{{--                        <span>Chia sẻ bài viết:</span>--}}
-{{--                        <a tabindex="0" role="button" onclick="shareHandler('facebook');" target="_blank"--}}
-{{--                           title="Facebook"><span class="fa fa-facebook"></span></a>--}}
+                    <div class="share-this-news">
+                        <span>Chia sẻ bài viết:</span>
+                        <a data-href="{{$url}}" target="_blank"
+                           href="https://www.facebook.com/sharer/sharer.php?u={{$url}}&amp;src=sdkpreparse">
+                            <i class="fa fa-facebook"></i>
+                        </a>
 {{--                        <a tabindex="0" role="button" onclick="shareHandler('linkedin');" target="_blank"--}}
 {{--                           title="Linkedin"><span class="fa fa-linkedin"></span></a>--}}
 {{--                        <a tabindex="0" role="button" onclick="shareHandler('gmail');" target="_blank"--}}
 {{--                           title="Gmail"><span class="fa fa-envelope"></span></a>--}}
-{{--                        <div class="zalo-share-button" data-href="" data-oaid="579745863508352884" data-layout="2"--}}
-{{--                             data-color="white" data-customize="false"--}}
-{{--                             style="position: relative; display: inline-block; width: 20px; height: 20px;">--}}
-{{--                            <iframe id="96224051-4e8f-46cb-971f-5ab2237826e6"--}}
-{{--                                    name="96224051-4e8f-46cb-971f-5ab2237826e6" frameborder="0" allowfullscreen=""--}}
-{{--                                    scrolling="no" width="20px" height="20px"--}}
-{{--                                    src="https://button-share.zalo.me/share_inline?id=96224051-4e8f-46cb-971f-5ab2237826e6&amp;layout=2&amp;color=white&amp;customize=false&amp;width=20&amp;height=20&amp;isDesktop=true&amp;url=https%3A%2F%2Fcareerbuilder.vn%2Fvi%2Ftalentcommunity%2Ftai-mau-cv-xin-viec-file-pdf-word-don-gian-mien-phi.35A52399.html&amp;d=eyJ1cmwiOiJodHRwczovL2NhcmVlcmJ1aWxkZXIudm4vdmkvdGFsZW50Y29tbXVuaXR5L3RhaS1tYXUtY3YteGluLXZpZWMtZmlsZS1wZGYtd29yZC1kb24tZ2lhbi1taWVuLXBoaS4zNUE1MjM5OS5odG1sIn0%253D&amp;shareType=0"--}}
-{{--                                    style="position: absolute; z-index: 99; top: 0px; left: 0px;"></iframe>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
+                        <div  class="zalo-share-button" data-href="{{ $url }}" data-oaid="1638913094081617987" data-layout="2"
+                             data-color="white" data-customize="false"
+                             style="position: relative; display: inline-block; width: 20px; height: 20px; margin-bottom: 4px">
+                            <iframe id="96224051-4e8f-46cb-971f-5ab2237826e6"
+                                    name="96224051-4e8f-46cb-971f-5ab2237826e6" frameborder="0" allowfullscreen=""
+                                    scrolling="no" width="20px" height="20px"
+                                    src="https://button-share.zalo.me/share_inline?id=96224051-4e8f-46cb-971f-5ab2237826e6&amp;layout=2&amp;color=white&amp;customize=false&amp;width=20&amp;height=20&amp;isDesktop=true&amp;url=https%3A%2F%2Fcareerbuilder.vn%2Fvi%2Ftalentcommunity%2Ftai-mau-cv-xin-viec-file-pdf-word-don-gian-mien-phi.35A52399.html&amp;d=eyJ1cmwiOiJodHRwczovL2NhcmVlcmJ1aWxkZXIudm4vdmkvdGFsZW50Y29tbXVuaXR5L3RhaS1tYXUtY3YteGluLXZpZWMtZmlsZS1wZGYtd29yZC1kb24tZ2lhbi1taWVuLXBoaS4zNUE1MjM5OS5odG1sIn0%253D&amp;shareType=0"
+                                    style="position: absolute; z-index: 99; top: 0px; left: 0px;"></iframe>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

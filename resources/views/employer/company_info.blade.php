@@ -177,9 +177,9 @@
                             </div>
 
                             <div class="form-group form-submit form-continue">
-                                <a class="btn-cancel btn-preview-account-user" href="javascript:;"
-                                   onclick="window.open('https://careerbuilder.vn/vi/nha-tuyen-dung/kutech.35A99252.html', '_blank'); return false;  ">
-                                    Xem lại</a>
+{{--                                <a class="btn-cancel btn-preview-account-user" href="javascript:;"--}}
+{{--                                   onclick="window.open('https://careerbuilder.vn/vi/nha-tuyen-dung/kutech.35A99252.html', '_blank'); return false;  ">--}}
+{{--                                    Xem lại</a>--}}
                                 <button class="btn-gradient btn-submit" type="submit" id="update_info_company_form">Cập
                                     nhật
                                 </button>

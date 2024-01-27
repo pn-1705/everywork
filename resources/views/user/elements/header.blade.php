@@ -19,7 +19,7 @@
 
             <nav id="navbar" class="navbar">
 
-                <ul style="left: 600px">
+                <ul>
                     <li><a class="nav-link scrollto {{ Route::is('user.pages.home') ? 'active' : '' }}"
                            href="{{ route('user.pages.home') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -71,15 +71,15 @@
                            href="{{ route('pages.nha-tuyen-dung') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                  aria-hidden="true" role="img" tag="i"
-                                 class="v-icon notranslate v-theme--light me-2 iconify iconify--tabler" width="1em"
-                                 height="1em" viewBox="0 0 24 24" style="font-size: 22px; height: 22px; width: 22px;">
+                                 class="v-icon notranslate v-theme--light me-2 iconify iconify--tabler" width="20"
+                                 height="20" viewBox="0 0 24 24">
                                 <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                    stroke-width="1.5">
                                     <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0-8 0"></path>
                                     <path
                                         d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0-18 0m12 3l3.35 3.35M9 15l-3.35 3.35m0-12.7L9 9m9.35-3.35L15 9"></path>
                                 </g>
-                            </svg>&nbsp;Nhà tuyển dụng</a>
+                            </svg>Nhà tuyển dụng</a>
                     </li>
                     {{--  <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
                           <ul>
@@ -95,15 +95,22 @@
                               <li><a href="#">Drop Down 2</a></li>
                           </ul>
                       </li>--}}
-                    <li class="mobile-li-toggle"><a href="#" title="Thông Báo Việc Làm"><span class="mdi mdi-bell">&nbsp;Thông báo</span></a>
+                    <li class="mobile-li-toggle"><a href="#" title="Thông Báo Việc Làm">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                 aria-hidden="true" role="img" tag="i"
+                                 class="v-icon notranslate v-theme--light iconify iconify--tabler" width="20"
+                                 height="20" viewBox="0 0 24 24">
+                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="1.5"
+                                      d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6M9 17v1a3 3 0 0 0 6 0v-1"></path>
+                            </svg>&nbsp;Thông báo</a>
                     </li>
                     <li class="mobile-li-toggle"
                     <?php
                         if (Auth::check() == true && Auth::user()->id_nhomquyen == 0) {
                             echo 'hidden';
                         }
-                        ?>><a class="nav-link scrollto" href="{{ route('user.pages.login_page') }}"><span
-                                class="mdi mdi-account-circle">&nbsp;Đăng nhập</span></a>
+                        ?>><a class="nav-link scrollto" href="{{ route('user.pages.login_page') }}">&nbsp;Đăng nhập</a>
                     </li>
                     <li class="dropdown mobile-li-toggle" <?php
                         if (Auth::check() == false || Auth::user()->id_nhomquyen == 1 || Auth::user()->id_nhomquyen == 2) {
@@ -144,7 +151,7 @@
                             echo 'hidden';
                         }
                         ?> ><a class="nav-link scrollto" href="{{route('user.pages.register_page')}}"><span
-                                class="">Đăng ký</span></a>
+                                class=""> &nbsp;Đăng ký</span></a>
                     </li>
                     <li class="mobile-li-toggle">
                         <a class="nav-link scrollto" href="{{ route('employer.login') }}"
@@ -165,8 +172,15 @@
         </div>
         <div class="right-wrap">
             <div class="main-noti dropdown">
-                <a href="https://careerbuilder.vn/thong-bao-viec-lam" title="Thông Báo Việc Làm">
-                    <span class="mdi mdi-bell"></span>
+                <a style="display: flex; align-items: center;" href="https://careerbuilder.vn/thong-bao-viec-lam" title="Thông Báo Việc Làm">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                         aria-hidden="true" role="img" tag="i"
+                         class="v-icon notranslate v-theme--light iconify iconify--tabler" width="22" height="22"
+                         viewBox="0 0 24 24">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="1.5"
+                              d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3H4a4 4 0 0 0 2-3v-3a7 7 0 0 1 4-6M9 17v1a3 3 0 0 0 6 0v-1"></path>
+                    </svg>
                 </a>
                 <div class="dropdown-menu">
                     <div class="noti">
@@ -287,6 +301,21 @@
             left: 50%;
             padding-left: 0;
             transform: translate(-50%, -50%);
+        }
+
+        #navbar ul {
+            top: 14px;
+            left: 0;
+            bottom: 0;
+            right: auto;
+            padding: 10px 0;
+            background-color: #fff;
+        }
+
+        .navbar-mobile .mobile-nav-toggle {
+            position: absolute;
+            right: 18%;
+            top: 50%;
         }
 
         #logo img {

@@ -17407,7 +17407,10 @@
                                                      @if(Auth::user()->provider_name == 'google' || Auth::user()->provider_name == 'facebook')
                                                         src="{{Auth::user()->avatar}}"
                                                      @else
-                                                     src="{{ asset('public/avatar/'. Auth::user() ->avatar) }}"
+                                                     src="
+                                                     @if(Auth::user() ->avatar == null)
+                                                     {{ asset('public/imgs/noimage.png') }}
+                                                     @else  {{ asset('public/avatar/'. Auth::user() ->avatar) }}@endif"
 
                                                      @endif
                                                          width="95" height="50">

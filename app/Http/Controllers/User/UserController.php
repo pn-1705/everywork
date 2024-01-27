@@ -25,6 +25,16 @@ class UserController extends Controller
                     ->where('trangthai', '=', 1)
                     ->update(['hannhanhoso' => '2024-02-01']);*/
 
+//        $jobs = DB::table('table_jobs')
+//            ->leftJoin('table_careers', 'table_jobs.id_nganhnghe', '=', 'table_careers.id')
+//            ->leftJoin('table_ranks', 'table_jobs.capbac', '=', 'table_ranks.id')
+//            ->leftJoin('table_employers', 'table_jobs.id_nhatuyendung', '=', 'table_employers.id')
+//            ->leftJoin('table_district', 'table_jobs.noilamviec', '=', 'table_district.id')
+//            ->where('table_jobs.trangthai', '=', 1)
+//            ->where('table_jobs.hannhanhoso', '>=', Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d'))
+//            ->where('table_employers.trangthai', 2)
+//            ->select('table_jobs.*', 'table_employers.ten', 'table_district.tendaydu', 'table_employers.avt', 'table_employers.tenkhongdau as employer_tenkhongdau', 'table_employers.trangthai');
+
         $jobs = DB::table('table_jobs')
             ->leftJoin('table_careers', 'table_jobs.id_nganhnghe', '=', 'table_careers.id')
             ->leftJoin('table_ranks', 'table_jobs.capbac', '=', 'table_ranks.id')
@@ -33,7 +43,9 @@ class UserController extends Controller
             ->where('table_jobs.trangthai', '=', 1)
             ->where('table_jobs.hannhanhoso', '>=', Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d'))
             ->where('table_employers.trangthai', 2)
-            ->select('table_jobs.*', 'table_employers.ten', 'table_district.tendaydu', 'table_employers.avt', 'table_employers.tenkhongdau as employer_tenkhongdau', 'table_employers.trangthai');
+            ->select('table_jobs.*', 'table_employers.ten', 'table_district.tendaydu', 'table_district.tenkhongdau as tenkhongdauDistrict', 'table_employers.avt',
+                'table_careers.tenkhongdau as employer_tenkhongdau')
+            ->orderBy('table_jobs.ngaydang', 'desc');
 
         $totalJobs = $jobs->count();
         $jobs = $jobs->paginate(20)->withQueryString();
@@ -125,10 +137,9 @@ class UserController extends Controller
         if (isset($employer)) {
             $jobs->union($employer);
         }
-
+        $totalJobs = $jobs->count();
         $jobs = $jobs->paginate(20)->withQueryString();
         $data['jobs'] = $jobs;
-        $totalJobs = $jobs->count();
         $data['totalJobs'] = $totalJobs;
 
         $keySearch = $request->keySearch;
@@ -158,8 +169,6 @@ class UserController extends Controller
             $data['jobSaved'] = $jobSaved;
 //            dd($jobSaved);
         }
-
-
         return view('user.pages.user.vieclam', $data);
     }
 

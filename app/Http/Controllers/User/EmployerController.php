@@ -147,6 +147,29 @@ class EmployerController extends Controller
 
     public function addJob(JobRequest $request)
     {
+        $phucloi = time();
+
+        $newBenefit = new Benefit();
+        $newBenefit->id = $phucloi;
+        $newBenefit->chedobaohiem = $request->benefit1;
+        $newBenefit->dulich = $request->benefit2;
+        $newBenefit->chedothuong = $request->benefit3;
+        $newBenefit->chamsocsuckhoe = $request->benefit4;
+        $newBenefit->daotao = $request->benefit5;
+        $newBenefit->tangluong = $request->benefit6;
+        $newBenefit->laptop = $request->benefit7;
+        $newBenefit->phucap = $request->benefit8;
+        $newBenefit->xeduadon = $request->benefit9;
+        $newBenefit->dulichnuocngoai = $request->benefit10;
+        $newBenefit->dongphuc = $request->benefit11;
+        $newBenefit->congtacphi = $request->benefit12;
+        $newBenefit->phucapthuongnien = $request->benefit13;
+        $newBenefit->nghiphepnam = $request->benefit14;
+        $newBenefit->clbthethao = $request->benefit15;
+        $newBenefit->created_at = Carbon::now('Asia/Ho_Chi_Minh');
+        $newBenefit->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
+
+        $newBenefit->save();
         $newJob = new Job();
 
         $newJob->tencongviec = $request->tencongviec;
@@ -161,7 +184,6 @@ class EmployerController extends Controller
         $newJob->soLuong = $request->soLuong;
         $newJob->hinhthuc = $request->hinhthuc;
         $newJob->hannhanhoso = $request->hannhanhoso;
-        $phucloi = time();
         $newJob->phucloi = $phucloi;
         $newJob->gioitinh = $request->gioitinh;
         $newJob->minold = $request->minold;
@@ -188,29 +210,6 @@ class EmployerController extends Controller
         $newJob->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
 
         $newJob->save();
-
-        $newBenefit = new Benefit();
-        $newBenefit->id = $phucloi;
-        $newBenefit->chedobaohiem = $request->benefit1;
-        $newBenefit->dulich = $request->benefit2;
-        $newBenefit->chedothuong = $request->benefit3;
-        $newBenefit->chamsocsuckhoe = $request->benefit4;
-        $newBenefit->daotao = $request->benefit5;
-        $newBenefit->tangluong = $request->benefit6;
-        $newBenefit->laptop = $request->benefit7;
-        $newBenefit->phucap = $request->benefit8;
-        $newBenefit->xeduadon = $request->benefit9;
-        $newBenefit->dulichnuocngoai = $request->benefit10;
-        $newBenefit->dongphuc = $request->benefit11;
-        $newBenefit->congtacphi = $request->benefit12;
-        $newBenefit->phucapthuongnien = $request->benefit13;
-        $newBenefit->nghiphepnam = $request->benefit14;
-        $newBenefit->clbthethao = $request->benefit15;
-        $newJob->created_at = Carbon::now('Asia/Ho_Chi_Minh');
-        $newJob->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
-
-        $newBenefit->save();
-
 
         return redirect()->route('employer.view_waitPostJob')->with($this->getDataJob());
     }
@@ -259,8 +258,8 @@ class EmployerController extends Controller
     public function searchJob(Request $request)
     {
         $listJobs = DB::table('table_applyforjobs')
-            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
-            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai')
+            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai', 'table_jobs.soLuong', DB::raw('count(table_applyforjobs.idJob) as danop'))
+            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai', 'table_jobs.soLuong')
             ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
             ->where('table_jobs.id_nhatuyendung', Auth::id())
             ->where('hannhanhoso', '>=', Carbon::now()->toDateString())
@@ -298,6 +297,100 @@ class EmployerController extends Controller
 
         $listJobs = $listJobs->orderBy('ngaydang', 'desc')->paginate(5)->withQueryString();
         return view('employer.hrcentral', compact('listJobs'), $data);
+    }
+
+    public function searchJobExp(Request $request)
+    {
+        $listJobs = DB::table('table_applyforjobs')
+            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai', 'table_jobs.soLuong', DB::raw('count(table_applyforjobs.idJob) as danop'))
+            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.ngaydang', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.trangthai', 'table_jobs.soLuong')
+            ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
+            ->where('table_jobs.id_nhatuyendung', Auth::id())
+            ->where('hannhanhoso', '<', Carbon::now()->toDateString());
+
+        if ($request->keyword != null) {
+            $listJobs->where('table_jobs.tencongviec', 'like', '%' . $request->keyword . '%');
+        }
+
+        if ($request->date_type == 0) {
+            if ($request->date_from != null) {
+                $listJobs->where('table_jobs.ngaydang', '>=', $request->date_from);
+            }
+            if ($request->date_to != null) {
+                $listJobs->where('table_jobs.ngaydang', '<=', $request->date_to);
+            }
+        }
+        if ($request->date_type == 1) {
+            if ($request->date_from != null) {
+                $listJobs->where('table_jobs.hannhanhoso', '>=', $request->date_from);
+            }
+            if ($request->date_to != null) {
+                $listJobs->where('table_jobs.hannhanhoso', '<=', $request->date_to);
+            }
+        }
+
+        $data['keyword'] = $request->keyword;
+        $data['date_type'] = $request->date_type;
+        $data['date_from'] = $request->date_from;
+        $data['date_to'] = $request->date_to;
+
+//        dd($data);
+
+        $listJobsExp = $listJobs->orderBy('ngaydang', 'desc')->paginate(5)->withQueryString();
+        return view('employer.expJob', compact('listJobsExp'), $data);
+    }
+
+    public function searchJobWait(Request $request)
+    {
+        $listJobsWait2 = DB::table('table_applyforjobs')
+            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.soLuong', 'table_jobs.views', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
+            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.soLuong', 'table_jobs.views', 'table_jobs.trangthai')
+            ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
+            ->where('table_jobs.id_nhatuyendung', Auth::id())
+            ->where('table_jobs.trangthai', 4);
+        $listJobs = DB::table('table_applyforjobs')
+            ->select('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.soLuong', 'table_jobs.trangthai', DB::raw('count(table_applyforjobs.idJob) as danop'))
+            ->groupBy('table_jobs.id', 'table_jobs.tencongviec', 'table_jobs.id_nhatuyendung', 'table_jobs.created_at', 'table_jobs.hannhanhoso', 'table_jobs.views', 'table_jobs.soLuong', 'table_jobs.trangthai')
+            ->rightjoin('table_jobs', 'table_jobs.id', '=', 'table_applyforjobs.idJob')
+            ->where('table_jobs.id_nhatuyendung', Auth::id())
+            ->where('table_jobs.trangthai', 0);
+//        dd($listJobs->get());
+
+        if ($request->keyword != null) {
+            $listJobs->where('table_jobs.tencongviec', 'like', '%' . $request->keyword . '%');
+            $listJobsWait2->where('table_jobs.tencongviec', 'like', '%' . $request->keyword . '%');
+        }
+
+        if ($request->date_type == 0) {
+            if ($request->date_from != null) {
+                $listJobs->where('table_jobs.ngaydang', '>=', $request->date_from);
+                $listJobsWait2->where('table_jobs.ngaydang', '>=', $request->date_from);
+            }
+            if ($request->date_to != null) {
+                $listJobs->where('table_jobs.ngaydang', '<=', $request->date_to);
+                $listJobsWait2->where('table_jobs.ngaydang', '<=', $request->date_to);
+            }
+        }
+        if ($request->date_type == 1) {
+            if ($request->date_from != null) {
+                $listJobs->where('table_jobs.hannhanhoso', '>=', $request->date_from);
+                $listJobsWait2->where('table_jobs.hannhanhoso', '>=', $request->date_from);
+            }
+            if ($request->date_to != null) {
+                $listJobs->where('table_jobs.hannhanhoso', '<=', $request->date_to);
+                $listJobsWait2->where('table_jobs.hannhanhoso', '<=', $request->date_to);
+            }
+        }
+
+        $data['keyword'] = $request->keyword;
+        $data['date_type'] = $request->date_type;
+        $data['date_from'] = $request->date_from;
+        $data['date_to'] = $request->date_to;
+
+//        dd($data);
+
+        $listJobsWait = $listJobs->union($listJobsWait2)->orderBy('created_at', 'desc')->paginate(5)->withQueryString();
+        return view('employer.waitPostJob', compact('listJobsWait'), $data);
     }
 
     public function view_updateJob($id)
